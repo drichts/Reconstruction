@@ -482,11 +482,11 @@ ax1.set_xticks([])
 ax1.set_yticks([])
 
 # Window and Level
-min_HU, max_HU = -800, 2000
+min_HU, max_HU = -600, 2000
 
 # 16-50 keV, Cu 0.5
-img0 = np.load(directory + folders[4] + '/Slices/Bin0_Slice9.npy')
-ax[0].imshow(img0, cmap='gray', vmin=min_HU, vmax=max_HU)
+img0 = np.load(directory + folders[4] + '/Slices/Bin0_Slice10.npy')
+img00 = ax[0].imshow(img0, cmap='gray', vmin=min_HU, vmax=max_HU)
 ax[0].grid(False)
 ax[0].set_xticks([4, 57.5, 111])
 ax[0].set_xticklabels([-1.5, 0, 1.5])
@@ -494,16 +494,16 @@ ax[0].set_yticks([6, 59.5, 113])
 ax[0].set_yticklabels([-1.5, 0, 1.5])
 ax[0].tick_params(labelsize=15)
 ax[0].set_title('0.5 mm Cu\n16-50 keV', fontsize=18)
-ax[0].annotate('Au', (118, 232), xycoords='figure points', fontsize=15, color=colors[0])
-ax[0].annotate('Dy', (117, 186), xycoords='figure points', fontsize=15, color=colors[2])
-ax[0].annotate('Lu', (156, 163), xycoords='figure points', fontsize=15, color=colors[1])
-ax[0].annotate('Gd', (193, 184), xycoords='figure points', fontsize=15, color=colors[3])
-ax[0].annotate('I', (203, 230), xycoords='figure points', fontsize=15, color=colors[4])
-ax[0].annotate(r'$H_2 O$', (155, 208), xycoords='figure points', fontsize=11, color='white')
-ax[0].annotate(r'$H_2 O$', (155, 253), xycoords='figure points', fontsize=11, color='white')
+ax[0].annotate('Au', (114, 231), xycoords='figure points', fontsize=14, color='black')
+ax[0].annotate('Dy', (113, 190), xycoords='figure points', fontsize=14, color='black')
+ax[0].annotate('Lu', (149, 168), xycoords='figure points', fontsize=14, color='black')
+ax[0].annotate('Gd', (181, 188), xycoords='figure points', fontsize=14, color='black')
+ax[0].annotate('I', (190, 229), xycoords='figure points', fontsize=14, color='black')
+ax[0].annotate(r'$H_2 O$', (148, 210), xycoords='figure points', fontsize=10, color='white')
+ax[0].annotate(r'$H_2 O$', (148, 250), xycoords='figure points', fontsize=10, color='white')
 
-img1 = np.load(directory + folders[4] + '/Slices/Bin4_Slice9.npy')
-ax[1].imshow(img1, cmap='gray', vmin=min_HU, vmax=max_HU)
+img1 = np.load(directory + folders[4] + '/Slices/Bin4_Slice10.npy')
+img01 = ax[1].imshow(img1, cmap='gray', vmin=min_HU, vmax=max_HU)
 ax[1].grid(False)
 ax[1].set_xticks([4, 57.5, 111])
 ax[1].set_xticklabels([-1.5, 0, 1.5])
@@ -512,8 +512,8 @@ ax[1].set_yticklabels([-1.5, 0, 1.5])
 ax[1].tick_params(labelsize=15)
 ax[1].set_title('0.5 mm Cu\n81-120 keV', fontsize=18)
 
-img2 = np.load(directory + folders[1] + '/Slices/Bin0_Slice9.npy')
-ax[2].imshow(img2, cmap='gray', vmin=min_HU, vmax=max_HU)
+img2 = np.load(directory + folders[1] + '/Slices/Bin0_Slice19.npy')
+img02 = ax[2].imshow(img2, cmap='gray', vmin=min_HU, vmax=max_HU)
 ax[2].grid(False)
 ax[2].set_xticks([4, 57.5, 111])
 ax[2].set_xticklabels([-1.5, 0, 1.5])
@@ -522,8 +522,8 @@ ax[2].set_yticklabels([-1.5, 0, 1.5])
 ax[2].tick_params(labelsize=15)
 ax[2].set_title('2.0 mm Al\n16-50 keV', fontsize=18)
 
-img3 = np.load(directory + folders[7] + '/Slices/Bin0_Slice9.npy')
-ax[3].imshow(img3, cmap='gray', vmin=min_HU, vmax=max_HU)
+img3 = np.load(directory + folders[7] + '/Slices/Bin0_Slice14.npy')
+img03 = ax[3].imshow(img3, cmap='gray', vmin=min_HU, vmax=max_HU)
 ax[3].grid(False)
 ax[3].set_xticks([4, 57.5, 111])
 ax[3].set_xticklabels([-1.5, 0, 1.5])
@@ -532,9 +532,17 @@ ax[3].set_yticklabels([-1.5, 0, 1.5])
 ax[3].tick_params(labelsize=15)
 ax[3].set_title('1.0 mm Cu \n 16-50 keV', fontsize=18)
 
-ax1.set_xlabel('x (cm)', fontsize=18, labelpad=-50)
+plt.subplots_adjust(wspace=0.32, left=0.09, right=0.85)
+
+cbar_ax = fig.add_axes([0.87, 0.328, 0.02, 0.335])
+cbar_ax.tick_params(labelsize=12)
+fig.colorbar(img03, cax=cbar_ax)
+h1 = cbar_ax.set_ylabel('HU', fontsize=18, labelpad=20)
+h1.set_rotation(-90)
+
+ax1.set_xlabel('x (cm)', fontsize=18, labelpad=-60)
 ax1.set_ylabel('y (cm)', fontsize=18, labelpad=30)
-plt.subplots_adjust(wspace=0.30, left=0.09, right=0.93)
+
 plt.show()
 #plt.savefig(directory + 'Paper 1 Figures/Figure1_Images.png', dpi=500)
 
@@ -544,12 +552,28 @@ folder = 'D:/Research/Bin Optimization/'
 colors = ['orange', 'crimson', 'mediumseagreen', 'darkorchid', 'dodgerblue']  # Au, Dy, Lu, Gd, I
 
 energies = np.load(folder + 'corrected-spectrum_120kV.npy')
-au = np.load(folder + 'Au.npy')
-dy = np.load(folder + 'Dy.npy')
-lu = np.load(folder + 'Lu.npy')
-gd = np.load(folder + 'Gd.npy')
-iod = np.load(folder + 'I.npy')
+au = np.load(folder + 'Au5P.npy')
+dy = np.load(folder + 'Dy5P.npy')
+lu = np.load(folder + 'Lu5P.npy')
+gd = np.load(folder + 'Gd5P.npy')
+iod = np.load(folder + 'I5P.npy')
 h2o = np.load(folder + 'H2O.npy')
+
+# Densities of the various contrast agents (for 5% solutions)
+d_Au = 1.91
+d_Lu = 1.44
+d_Dy = 1.38
+d_Gd = 1.34
+d_iod = 1.19
+d_h2o = 0.997
+
+# Get the linear attenuation coefficients
+au = np.multiply(au, d_Au)
+lu = np.multiply(lu, d_Lu)
+dy = np.multiply(dy, d_Dy)
+gd = np.multiply(gd, d_Gd)
+iod = np.multiply(iod, d_iod)
+h2o = np.multiply(h2o, d_h2o)
 
 # Get only the energy values
 energies = energies[:, 0]
@@ -597,11 +621,11 @@ blackpatch = mpatches.Patch(color='black', label='H2O')
 ax[0].legend(handles=[bluepatch, purplepatch, redpatch, greenpatch, orangepatch, blackpatch], fancybox=True, shadow=False,
            fontsize=15)
 ax[0].set_xlabel('Energy (keV)', fontsize=18, labelpad=5)
-ax[0].set_ylabel(r"$\mu / \rho$ $(cm^2 / g)$", fontsize=18)
+ax[0].set_ylabel(r"$\mu$ $(cm^{-1})$", fontsize=18)
 ax[0].set_xlim([15, 120])
-ax[0].set_ylim([1E-1, 1E3])
+ax[0].set_ylim([1E-1, 5E1])
 ax[0].tick_params(labelsize=15)
-ax[0].set_title('a) Mass Attenuation', fontsize=20)
+ax[0].set_title('a) Linear Attenuation', fontsize=20)
 
 # All Spectra with Filtration
 
