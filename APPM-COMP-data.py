@@ -67,7 +67,7 @@ cmap4 = colors.LinearSegmentedColormap.from_list('Redd8', c4_rng, N=nbins)
 #%% Calculate the average CNR in K-edge images for filter and time
 
 # Select the folder from the folders list
-folder_num = 10
+folder_num = 1
 folder = folders[folder_num]
 #folder = folder3
 low_z, high_z = good_slices[folder_num][0], good_slices[folder_num][1]
@@ -91,7 +91,7 @@ for i, k in enumerate(k_edges):
 
     # Go through all the of the good slices
     for j in np.arange(low_z, high_z+1):
-        image = np.load(directory + folder + '/K-Edge/Bin' + k + '_Slice' + str(j) + '.npy')
+        image = np.load(directory + folder + '/Normed K-Edge/Bin' + k + '_Slice' + str(j) + '.npy')
         mean_conc[j - low_z], std_conc[j - low_z] = sct.cnr(image, vial, air)
 
     print(k, np.mean(mean_conc), np.mean(std_conc))
@@ -135,9 +135,9 @@ print(k_edges[1], np.mean(mean_conc), np.mean(std_conc))
 #%% Calculate the average concentration in K-edge images for bin width
 
 # Select the folder from the folders list
-folder_num = 12
+folder_num = 1
 folder = folders[folder_num]
-#folder = folder3
+folder = folder3
 low_z, high_z = good_slices[folder_num][0], good_slices[folder_num][1]
 #low_z, high_z = gs2[0], gs2[1]
 

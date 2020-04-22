@@ -3,15 +3,23 @@ import scipy.optimize as optimize
 import matplotlib.pyplot as plt
 import scipy.interpolate as interpolate
 
-# Z eff value of water
+# Follows the algorithm from Bazalova et al, Dual-energy CT-based material extraction for tissue segmentation in Monte
+# Carlo dose calculations
+
+# This section populates the data matrices
+
+# Effective Z (atomic number) value of water
 Zw = 8.11
 Zw4 = Zw*Zw*Zw*Zw
+
+# Folders where the attenuation data and x-ray spectra data resides
 atten_folder = 'D:/Research/Attenuation Data/NPY Attenuation/'
 spectra_folder = 'D:/Research/Attenuation Data/NPY Spectra/'
 
+# Avogadro's number
 NA = 6.022E23
 
-# Matrices for the scattering data based on Z (rows) and E (columns)
+# Data for the size of the matrices for the scattering data based on Z (rows) and energy (columns)
 example_file = np.load(atten_folder + 'Z04.npy')
 Z_values = np.arange(4, 31, 1)
 num_rows = len(Z_values)
@@ -26,21 +34,26 @@ spectra_energies = example_file[:, 0]
 wts_low = np.load(spectra_folder + '40kVp_weights.npy')
 wts_high = np.load(spectra_folder + '80kVp_weights.npy')
 
+# The number of energies in the energies matrix
 num_energies = len(spectra_energies)
 
 # Populate the matrices with the correct data
 for z in Z_values:
 
     # Load the file of a specific set of Z attenuation data
+    # Columns in data file matrix is 0. energies, 1-2. scattering data, 3. photoelectric data
     if z < 10:
         data = np.load(atten_folder+'Z0' + str(z) + '.npy')
     else:
         data = np.load(atten_folder+'Z' + str(z) + '.npy')
 
+    # Populate the data into the matrices
     scatter_matrix[z-4] = np.add(data[:, 1], data[:, 2])
     PE_matrix[z-4] = data[:, 3]
 
 # Normalize the scatter and PE values to F and G
+
+# Atomic mass of elements from 4-30
 atomic_mass = np.array([9.01218, 10.81, 12.011, 14.0067, 15.9994, 18.998403, 20.179, 22.98977, 24.305, 26.98154,
                         28.0855, 30.97376, 32.06, 35.453, 39.948, 39.0983, 40.08, 44.9559, 47.90, 50.9415, 51.996,
                         54.9380, 55.847, 58.9332, 58.70, 63.546, 65.38])
@@ -49,23 +62,27 @@ atomic_mass = np.array([9.01218, 10.81, 12.011, 14.0067, 15.9994, 18.998403, 20.
 scatter_corr = np.divide(atomic_mass, Z_values)
 PE_corr = np.divide(atomic_mass, np.power(Z_values, 5))
 
+# Normalize the data
 for i in np.arange(len(scatter_matrix[0])):
     scatter_matrix[:, i] = np.multiply(scatter_corr, scatter_matrix[:, i])
     PE_matrix[:, i] = np.multiply(PE_corr, PE_matrix[:, i])
 
-#%%
+#%% This section interpolates based on the data
 
+# Calculate F
 F = interpolate.interp2d(spectra_energies, Z_values, PE_matrix, kind='cubic')
 
+# Calculate G
 G = interpolate.interp2d(spectra_energies, Z_values, scatter_matrix, kind='cubic')
 
+# F and G for water (the variable names follow the paper)
 Fw = F(spectra_energies, Zw)
-Gw= G(spectra_energies, Zw)
+Gw = G(spectra_energies, Zw)
 
 Fw = np.multiply(Fw, Zw4)
+FGw = np.add(Fw, Gw)
 
-FGw= np.add(Fw, Gw)
-
+# Mu refers to the greek letter
 muw_low = np.dot(wts_low, FGw)
 muw_high = np.dot(wts_high, FGw)
 

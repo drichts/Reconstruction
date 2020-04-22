@@ -124,7 +124,14 @@ def noise_ROIs(image, radius=4):
 
 
 def entire_phantom(image, radii=13):
-
+    """
+    This function will take an initial mask of the entire phantom based on the user selecting the center and the outer
+    edge, in that order. Each of the vial centers will then be selected to subtract them from the greater circle.
+    The final mask will only encompass the phantom body
+    :param image: The image to draw on
+    :param radii: The radii of the inner
+    :return:
+    """
     ## OUTER PHANTOM
     coords1 = click_image(image, message_num=5)
 
@@ -175,6 +182,49 @@ def entire_phantom(image, radii=13):
     return outer_mask
 
 
+def air_mask(image):
+    """
+    This function takes an image of the circular phantom and creates a mask for only the air outside of the phantom
+    body
+    :param image: The image to draw on
+    :return: The air mask
+    """
+
+    coords1 = click_image(image, message_num=5)
+
+    # Size of the image
+    num_rows, num_cols = np.shape(image)
+
+    # Plot to verify the ROI's
+    fig = plt.figure(figsize=(7, 7))
+    ax = fig.add_subplot(111)
+    ax.imshow(image, cmap='gray')
+
+    # Get the center point and the point on the edge of the desired ROI
+    center = coords1[0]
+    point = coords1[1]
+    x1 = center[0]
+    y1 = center[1]
+    x2 = point[0]
+    y2 = point[1]
+    radius = np.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2)
+
+    mask = circular_mask(center, radius, (num_rows, num_cols))
+    circ = plt.Circle(center, radius=radius, fill=False, edgecolor='red')
+    ax.add_artist(circ)
+
+    plt.show()
+    plt.pause(1)
+    plt.close()
+
+    # Switch the mask to return the air outside of the phantom
+    switch = np.zeros([num_cols, num_rows])
+    switch[mask != 1.0] = 1
+    switch[mask == 1.0] = np.nan
+
+    return switch
+
+
 def click_image(image, message_num=0):
     """
 
@@ -195,7 +245,7 @@ def click_image(image, message_num=0):
                     '\n Left-click: add point, Right-click: remove point, Enter: stop collecting',
                     5: 'Click the center of the phantom and the edge of the phantom'}
 
-    fig = plt.figure(figsize=(12, 12))
+    fig = plt.figure(figsize=(7, 7))
     ax = fig.add_subplot(111)
     ax.imshow(image)
     ax.set_title(instructions[message_num])

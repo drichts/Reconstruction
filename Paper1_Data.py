@@ -15,6 +15,12 @@ folders = ['Al_2.0_8-14-19', 'Al_2.0_10-17-19_3P', 'Al_2.0_10-17-19_1P',
            'Cu_1.0_8-14-19', 'Cu_1.0_9-13-19', 'Cu_1.0_10-17-19',
            'Cu_0.5_Time_0.5_11-11-19', 'Cu_0.5_Time_0.1_11-4-19',
            'AuGd_width_5_12-2-19', 'AuGd_width_10_12-2-19', 'AuGd_width_14_12-2-19', 'AuGd_width_20_12-9-19']
+folder2 = 'Cu_0.5_Time_1.0_02-20-20'
+folder3 = 'Cu_0.5_Time1.0_Uniformity_02-25-20'
+
+time_folders = ['Cu_0.5_Time_0.1_11-4-19', 'Cu_0.5_Time_0.1_0.5s_11-4-19', 'Cu_0.5_Time_0.1_1s_11-4-19']
+gs = [10, 18]
+gs2 = [12, 18]
 
 good_slices = [[5, 19], [10, 18], [11, 18],
                [4, 15], [7, 15], [12, 19],
@@ -59,25 +65,31 @@ h2o = np.multiply(h2o, d_h2o)
 energies = energies[:, 0]
 energies = 1000*energies  # Convert from MeV to keV
 
-spectrum = np.load(folder + 'Cu0.5_spectrum.npy')
+spectrumCu05 = np.load(folder + 'Cu0.5_spectrum.npy')
+spectrumAl2 = np.load(folder + 'Al2.0_spectrum.npy')
+spectrumCu1 = np.load(folder + 'Cu1.0_spectrum.npy')
 
 # Sum over a certain energy range
-#au = np.multiply(au, spectrum)
-#lu = np.multiply(lu, spectrum)
-#dy = np.multiply(dy, spectrum)
-#gd = np.multiply(gd, spectrum)
-#iod = np.multiply(iod, spectrum)
-#h2o = np.multiply(h2o, spectrum)
+#au = np.multiply(au, spectrumCu05)
+#lu = np.multiply(lu, spectrumCu05)
+#dy = np.multiply(dy, spectrumCu05)
+#gd = np.multiply(gd, spectrumCu05)
+#iod = np.multiply(iod, spectrumCu05)
+#h2o = np.multiply(h2o, spectrumCu05)
+
+au05 = np.multiply(au, spectrumCu05)
+au1 = np.multiply(au, spectrumCu1)
+au2 = np.multiply(au, spectrumAl2)
 
 fig = plt.figure(figsize=(8, 8))
 
 # Plot the elements
-plt.semilogy(energies, au, color=colors[0])
-plt.semilogy(energies, dy, color=colors[1])
-plt.semilogy(energies, lu, color=colors[2])
-plt.semilogy(energies, gd, color=colors[3])
-plt.semilogy(energies, iod, color=colors[4])
-plt.semilogy(energies, h2o, color='black')
+plt.plot(energies, 2.25*au05, color=colors[0])
+plt.plot(energies, 4.75*au1, color=colors[1])
+#plt.plot(energies, lu, color=colors[2])
+#plt.plot(energies, gd, color=colors[3])
+#plt.plot(energies, iod, color=colors[4])
+plt.plot(energies, au2, color='black')
 
 # Plot vertical lines at the energy thresholds
 ones = np.ones(50)
@@ -85,16 +97,20 @@ y_vals = np.linspace(-5, 1E4, 50)
 
 bluepatch = mpatches.Patch(color='dodgerblue', label='I')
 purplepatch = mpatches.Patch(color='darkorchid', label='Gd')
-redpatch = mpatches.Patch(color='crimson', label='Dy')
+redpatch = mpatches.Patch(color='crimson', label='1.0 mm Cu')
 greenpatch = mpatches.Patch(color='mediumseagreen', label='Lu')
-orangepatch = mpatches.Patch(color='orange', label='Au')
-blackpatch = mpatches.Patch(color='black', label='H2O')
+orangepatch = mpatches.Patch(color='orange', label='0.5 mm Cu')
+blackpatch = mpatches.Patch(color='black', label='2.0 mm Al')
 
-plt.legend(handles=[bluepatch, purplepatch, redpatch, greenpatch, orangepatch, blackpatch], fancybox=True, shadow=False,
+#plt.legend(handles=[bluepatch, purplepatch, redpatch, greenpatch, orangepatch, blackpatch], fancybox=True, shadow=False,
+#           fontsize=18)
+
+plt.legend(handles=[blackpatch, orangepatch, redpatch], fancybox=True, shadow=False,
            fontsize=18)
 plt.xlabel('Energy (keV)', fontsize=20, labelpad=5)
 plt.ylabel(r"$\mu$ $(cm^{-1})$", fontsize=20)
 plt.tick_params(labelsize=18)
+plt.title('Gold', fontsize=20)
 plt.xlim([15, 120])
 #plt.ylim([1E-1, 1E3])
 #plt.ylim([0, 50])
@@ -130,7 +146,7 @@ elements = ['Au5P.npy', 'Dy5P.npy', 'Lu5P.npy', 'Gd5P.npy', 'I5P.npy']
 energies = np.load(folder + 'corrected-spectrum_120kV.npy')
 
 # Mass attenuation of 5% mixtures and water
-mat = 1
+mat = 4
 att = np.load(folder + elements[mat])
 h2o = np.load(folder + 'H2O.npy')
 
@@ -203,9 +219,9 @@ import matplotlib.lines as mlines
 folder = 'D:/Research/Bin Optimization/'
 folder1 = folder + '/Npy Attenuation/'
 
-spectrum = np.load(folder + 'Beam Spectrum/corrected-spectrum_120kV.npy')
+spectrumCu05 = np.load(folder + 'Beam Spectrum/corrected-spectrum_120kV.npy')
 
-energies1 = 1000*spectrum[:, 0]
+energies1 = 1000 * spectrumCu05[:, 0]
 fig = plt.figure(figsize=(8, 8))
 
 spect1 = np.load(folder + 'Cu0.5_spectrum.npy')
@@ -267,13 +283,13 @@ for i in np.arange(4):
 
     # Find the norm values for each 5% value and 0% for each bin in each of the filters
     #Al_norm[i, :] = sct.find_norm_value(folders[0], good_slices[0], vials[i], i, directory=directory)
-    #Cu05_norm[i, :] = sct.find_norm_value(folders[3], good_slices[3], vials[i], i, directory=directory)
-    Cu1_norm[i, :] = sct.find_norm_value(folders[6], good_slices[6], vials[i], i, directory=directory)
+    Cu05_norm[i, :] = sct.find_norm_value(folders[3], good_slices[3], vials[i], i, directory=directory)
+    #Cu1_norm[i, :] = sct.find_norm_value(folders[6], good_slices[6], vials[i], i, directory=directory)
 
     # Get the current linear fit coefficients for each filter
     #coeffs_Al = sct.linear_fit(Al_norm[i, 0], Al_norm[i, 1])
-    #coeffs_Cu05 = sct.linear_fit(Cu05_norm[i, 0], Cu05_norm[i, 1])
-    coeffs_Cu1 = sct.linear_fit(Cu1_norm[i, 0], Cu1_norm[i, 1])
+    coeffs_Cu05 = sct.linear_fit(Cu05_norm[i, 0], Cu05_norm[i, 1])
+    #coeffs_Cu1 = sct.linear_fit(Cu1_norm[i, 0], Cu1_norm[i, 1])
 
     # Normalize the K-Edge images
     # Aluminum 2.0 mm
@@ -292,8 +308,14 @@ for i in np.arange(4):
     #sct.norm_kedge(folders[8], coeffs_Cu1, i, directory=directory)  # 1%
 
     # Time Acquisitions
+    #sct.norm_kedge(folder2, coeffs_Cu05, i, directory=directory)  # 1.0s
     #sct.norm_kedge(folders[9], coeffs_Cu05, i, directory=directory)  # 0.5s
     #sct.norm_kedge(folders[10], coeffs_Cu05, i, directory=directory)  # 0.1s
+    #sct.norm_kedge(folder2+'-test', coeffs_Cu05, i, directory=directory)  # 1.0s
+    #sct.norm_kedge(folder3, coeffs_Cu05, i, directory=directory)  # 1.0s
+
+    sct.norm_kedge(time_folders[2], coeffs_Cu05, i, directory=directory)  # 1.0s
+    sct.norm_kedge(time_folders[1], coeffs_Cu05, i, directory=directory)  # 0.5s
 
     # Bin Width
     #sct.norm_kedge(folders[11], coeffs_Cu05, i, directory=directory)  # 5, 5
@@ -302,4 +324,23 @@ for i in np.arange(4):
     #sct.norm_kedge(folders[14], coeffs_Cu05, i, directory=directory)  # 8, 20
 
     # Copper 1.0 mm Wavelet trials
-    sct.norm_kedge('Cu_1.0_9-13-19-Wavelet', coeffs_Cu1, i, directory=directory)
+    #sct.norm_kedge('Cu_1.0_9-13-19-Wavelet', coeffs_Cu1, i, directory=directory)
+
+
+#%% Find the noise values in K-edge filter data
+
+# Choose gold (4-3), lutetium (3-2), dysprosium (2-1), or gadolinium (1-0)
+bin_minus = '1-0'
+
+for i, folder in enumerate([folders[1], folders[4], folders[7]]):
+    low_z, high_z = good_slices[i*3+1][0], good_slices[i*3+1][1]
+    background = np.load(directory + folder + '/Phantom_Mask.npy')
+
+    avg_noise = np.zeros(high_z-low_z)
+
+    # Go through all the good slices
+    for z in np.arange(low_z, high_z):
+        img = np.load(directory + folder + '/Normed K-Edge/Bin' + bin_minus + '_Slice' + str(z) + '.npy')
+        avg_noise[z - low_z] = np.nanstd(img*background)
+
+    print(np.mean(avg_noise), np.std(avg_noise))

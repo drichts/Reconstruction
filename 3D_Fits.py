@@ -2,20 +2,24 @@ import numpy as np
 import matplotlib.pyplot as plt
 import mpl_toolkits.mplot3d as m3d
 
+## This section will grab all of the relevant data
+
 # Main file path
 folder = 'D:/Research/Python Data/CBCT/Lan_7-15-19/'
+
+# Good slices
+low_slice, high_slice = 125, 150
 
 # Number of ROIs
 ROIs = 6
 
-# Pick the vial you would like to analyze
-vial = 1  # 1-5
-
+# The three percentages (depends on how you label your file folders)
 percentages = ['1_Percent/', '3_Percent/', '5_Percent/']
 
+# The two energies that the scans were taken at
 energies = ['40kVp', '80kVp']
 
-# Keep track of HU values of
+# Keep track of HU values of (keep tracks of all elements, labeled by vial #)
 HU_40kVp_water = []
 HU_80kVp_water = []
 HU_40kVp_1 = []
@@ -28,25 +32,32 @@ HU_40kVp_4 = []
 HU_80kVp_4 = []
 HU_40kVp_5 = []
 HU_80kVp_5 = []
+
+# Background values
 HU_40kVp_back = []
 HU_80kVp_back = []
 
 for percent in percentages:
 
+    # Set the filepath to the relevant concentration percentage folder
     filepath = folder + percent
 
-    # Load all of the ROIs
+    # Load all of the ROIs for the lower energy
     v40 = np.empty([ROIs, 120, 120])
     for k in np.arange(ROIs):
         v40[k, :, :] = np.load(filepath + '/Vial' + str(k) + '_MaskMatrix.npy')
     back40 = np.load(filepath + '/BackgroundMaskMatrix.npy')  # Background ROI matrix
 
+    # Load all of the ROIs for the higher energy
     v80 = np.empty([ROIs, 120, 120])
     for k in np.arange(ROIs):
         v80[k, :, :] = np.load(filepath + '/Vial' + str(k) + '_MaskMatrix.npy')
     back80 = np.load(filepath + '/BackgroundMaskMatrix.npy')  # Background ROI matrix
 
-    for i in np.arange(125, 151):
+
+    for i in np.arange(low_slice, high_slice+1):
+
+        # Load the specific slice from each of the 2 energies
         path40 = filepath + energies[0] + '/volume0' + str(i) + '.npy'
         path80 = filepath + energies[1] + '/volume0' + str(i) + '.npy'
 
@@ -94,6 +105,7 @@ for percent in percentages:
         HU_40kVp_back.append(mean40)
         HU_80kVp_back.append(mean80)
 
+# Get the lengths of each type of array (water, and all the others)
 wat_len = len(HU_40kVp_water)
 oth_len = int(len(HU_40kVp_1) / 3)
 
@@ -106,6 +118,12 @@ con[wat_len+2*oth_len:wat_len+3*oth_len] = 5
 
 HU_40 = np.array(HU_40kVp_water)
 HU_80 = np.array(HU_80kVp_water)
+
+#%%  This section will select the right data (contrast element) from above and graph it in 3D
+
+# Pick the vial you would like to analyze (check your scan for the right element)
+vial = 1  # 1-5
+
 # Check the vial and select the correct lists
 if vial is 1:
     HU_40 = np.concatenate((HU_40, HU_40kVp_1))
@@ -123,9 +141,9 @@ elif vial is 5:
     HU_40 = np.concatenate((HU_40, HU_40kVp_5))
     HU_80 = np.concatenate((HU_80, HU_80kVp_5))
 
+
 # Get data in 1 matrix, each data set is a column
 data = np.concatenate((HU_40[:, np.newaxis], HU_80[:, np.newaxis], con[:, np.newaxis]), axis=1)
-
 
 # Calculate the mean of the points, i.e. the 'center' of the cloud
 datamean = data.mean(axis=0)
@@ -147,7 +165,6 @@ linepts = vv[0] * np.mgrid[-300:800:2j][:, np.newaxis]
 linepts += datamean
 
 # Verify that everything looks right.
-
 ax = m3d.Axes3D(plt.figure())
 ax.scatter3D(*data.T, color='black', s=40)
 ax.plot3D(*linepts.T, lw=2)
@@ -166,6 +183,8 @@ plt.show()
 print(vv[0])
 #np.save(filepath+vial+'3Dcoords.npy', vv[0])
 
+# This is to calculate the HU at 80 kVp and the lowest resolvable concentration from the linear fit based on 40 HU as
+# the limiting noise in the 40 kVp images
 z = 5
 z1 = data[0][2]
 y1 = data[0][1]

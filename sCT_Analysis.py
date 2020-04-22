@@ -7,33 +7,58 @@ import generateROImask as grm
 import glob
 
 
-def main(folder, slice_num='15', directory='D:/Research/Python Data/Spectral CT/'):
+def main(folder, slice_num='15', directory='D:/Research/Python Data/Spectral CT/', cc=False, re_analyze=False):
     """
     Function takes the folder name, converts the .mat files to .npy files, gets the ROIs for all the vials, normalizes
     the images, and calculates all k_edges
     :param folder:
     :param slice_num:
     :param directory:
+    :param cc: True if collecting cc data as well
     :return:
     """
-    mat_to_npy(folder)
+    mat_to_npy(folder, cc=cc)
     image = np.load(directory + folder + '/RawSlices/Bin6_Slice' + slice_num + '.npy')
     continue_flag = True
+    if re_analyze:
+        continue_flag = False
+        masks = np.load(directory + folder + '/Vial_Masks.npy')
+        phantom_mask = np.load(directory + folder + '/Phantom_Mask.npy')
+
     while continue_flag:
-        masks = grm.phantom_ROIs(image)
+        masks = grm.phantom_ROIs(image, radius=7)
         val = input('Were the ROIs acceptable? (y/n)')
         if val is 'y':
             continue_flag = False
+
     np.save(directory + folder + '/Vial_Masks.npy', masks)
-    normalize(folder)
+
+    normalize(folder, cc=True)
+
+    continue_flag = True
+    if re_analyze:
+        continue_flag = False
+
+    while continue_flag:
+        phantom_mask = grm.entire_phantom(image)
+        val = input('Were the ROIs acceptable? (y/n)')
+        if val is 'y':
+            continue_flag = False
+    np.save(directory + folder + '/Phantom_Mask.npy', phantom_mask)
     k_edge(folder, 4, 3)
     k_edge(folder, 3, 2)
     k_edge(folder, 2, 1)
     k_edge(folder, 1, 0)
 
+    if cc:
+        k_edge(folder, 11, 10)  # CC 4, 3
+        k_edge(folder, 10, 9)  # CC 3, 2
+        k_edge(folder, 9, 8)  # CC 2, 1
+        k_edge(folder, 8, 7)  # CC 1, 0
+
 
 def mat_to_npy(folder, load_directory='D:/Research/sCT Scan Data/',
-               save_directory='D:/Research/Python Data/Spectral CT/', old=False):
+               save_directory='D:/Research/Python Data/Spectral CT/', old=False, cc=False):
     """
     This function takes the .mat files generated in Matlab and extracts each slice of each bin and saves it as an
     .npy file in the Python data folder
@@ -41,6 +66,7 @@ def mat_to_npy(folder, load_directory='D:/Research/sCT Scan Data/',
     :param load_directory: The directory where the specific folder with the .mat files is
     :param save_directory: The directory where we want to save the .npy files
     :param old: This is just for reanalyzing the very first few scans I ever took, typically won't use it
+    :param cc: True if you also want to collect the cc data
     :return: Nothing
     """
 
@@ -75,6 +101,8 @@ def mat_to_npy(folder, load_directory='D:/Research/sCT Scan Data/',
         s5 = loadmat(path + '/data/binSEC6_test_corrected2_revisit.mat')  # bin 5
         s6 = loadmat(path + '/data/binSEC13_test_corrected2_revisit.mat')  # bin 6 (summed bin)
 
+
+
     # Grab just the colormap matrices
     s0 = s0['Reconimg']
     s1 = s1['Reconimg']
@@ -102,14 +130,48 @@ def mat_to_npy(folder, load_directory='D:/Research/sCT Scan Data/',
         np.save(save_path + '/Bin5_Slice' + str(i) + '.npy', bin5_slice)
         np.save(save_path + '/Bin6_Slice' + str(i) + '.npy', bin6_slice)
 
+    if cc:
+        s7 = loadmat(path + '/data/binSEC7_test_corrected2_revisit.mat')  # bin 7
+        s8 = loadmat(path + '/data/binSEC8_test_corrected2_revisit.mat')  # bin 8
+        s9 = loadmat(path + '/data/binSEC9_test_corrected2_revisit.mat')  # bin 9
+        s10 = loadmat(path + '/data/binSEC10_test_corrected2_revisit.mat')  # bin 10
+        s11 = loadmat(path + '/data/binSEC11_test_corrected2_revisit.mat')  # bin 11
+        s12 = loadmat(path + '/data/binSEC12_test_corrected2_revisit.mat')  # bin 12
+
+        # Grab just the colormap matrices
+        s7 = s7['Reconimg']
+        s8 = s8['Reconimg']
+        s9 = s9['Reconimg']
+        s10 = s10['Reconimg']
+        s11 = s11['Reconimg']
+        s12 = s12['Reconimg']
+
+        # Save each slice separately
+        for i in np.arange(24):
+            bin7_slice = s7[:, :, i]
+            bin8_slice = s8[:, :, i]
+            bin9_slice = s9[:, :, i]
+            bin10_slice = s10[:, :, i]
+            bin11_slice = s11[:, :, i]
+            bin12_slice = s12[:, :, i]
+
+
+            np.save(save_path + '/Bin7_Slice' + str(i) + '.npy', bin7_slice)
+            np.save(save_path + '/Bin8_Slice' + str(i) + '.npy', bin8_slice)
+            np.save(save_path + '/Bin9_Slice' + str(i) + '.npy', bin9_slice)
+            np.save(save_path + '/Bin10_Slice' + str(i) + '.npy', bin10_slice)
+            np.save(save_path + '/Bin11_Slice' + str(i) + '.npy', bin11_slice)
+            np.save(save_path + '/Bin12_Slice' + str(i) + '.npy', bin12_slice)
+
     return
 
 
-def normalize(folder, directory='D:/Research/Python Data/Spectral CT/'):
+def normalize(folder, directory='D:/Research/Python Data/Spectral CT/', cc=False):
     """
     Normalizes the .npy matrices to HU based on the mean value in the water vial
     :param folder: The folder where the mask matrices live
     :param directory:
+    :param cc: True if wanting to collect cc data
     :return:
     """
     path = directory+folder
@@ -122,7 +184,12 @@ def normalize(folder, directory='D:/Research/Python Data/Spectral CT/'):
     # Create the Slices folder within the save_path
     gof.create_folder(folder_name='Slices', directory_path=path)
 
-    for i in np.arange(7):
+    if cc:
+        num = 13
+    else:
+        num = 7
+
+    for i in np.arange(num):
         for j in np.arange(24):
             # Load the specific slice
             file = 'Bin' + str(i) + '_Slice' + str(j) + '.npy'
@@ -519,6 +586,32 @@ def norm_kedge(folder, coeffs, edge, directory='D:/Research/Python Data/Spectral
         np.save(save_path + file, image)
 
     return
+
+def sum_sec_cc(folder, sec=True, cc=False, directory='D:/Research/Python Data/Spectral CT/'):
+    gof.create_folder(folder_name='CT Sum Slices', directory_path=directory+folder)
+    if sec:
+        for z in np.arange(24):
+            s0 = np.load(directory + folder + '/Slices/Bin0_Slice' + str(z) + '.npy')
+            s1 = np.load(directory + folder + '/Slices/Bin1_Slice' + str(z) + '.npy')
+            s2 = np.load(directory + folder + '/Slices/Bin2_Slice' + str(z) + '.npy')
+            s3 = np.load(directory + folder + '/Slices/Bin3_Slice' + str(z) + '.npy')
+            s4 = np.load(directory + folder + '/Slices/Bin4_Slice' + str(z) + '.npy')
+
+            s_sec = s0 + s1 + s2 + s3 + s4
+            np.save(directory + folder + '/CT Sum Slices/SEC_' + str(z) + '.npy', s_sec)
+
+    if cc:
+        for z in np.arange(24):
+            s7 = np.load(directory + folder + '/Slices/Bin7_Slice' + str(z) + '.npy')
+            s8 = np.load(directory + folder + '/Slices/Bin8_Slice' + str(z) + '.npy')
+            s9 = np.load(directory + folder + '/Slices/Bin9_Slice' + str(z) + '.npy')
+            s10 = np.load(directory + folder + '/Slices/Bin10_Slice' + str(z) + '.npy')
+            s11 = np.load(directory + folder + '/Slices/Bin11_Slice' + str(z) + '.npy')
+
+            s_cc = s7 + s8 + s9 + s10 + s11
+            np.save(directory + folder + '/CT Sum Slices/CC_' + str(z) + '.npy', s_cc)
+    return
+
 
 #%%
 

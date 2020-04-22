@@ -23,7 +23,7 @@ good_slices = [[5, 19], [10, 18], [11, 18],
 #%% Figure 1 Signal (now plots 1 bin, but all contrast agents, each in a separate plot with all filters)
 
 # Choose the bin
-b = 3
+b = 4
 
 concentration = np.array([5, 3, 1, 0, 0, 0])
 # Calculate y points from the fit above
