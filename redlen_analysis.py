@@ -2,6 +2,7 @@ from scipy.io import loadmat, whosmat
 import numpy as np
 import matplotlib.pyplot as plt
 import glob
+import general_OS_functions as gof
 
 
 def mat_to_npy(mat_path):
@@ -13,7 +14,7 @@ def mat_to_npy(mat_path):
 
     scan_data = loadmat(mat_path)
 
-    just_data = np.array(scan_data['cc_struct']['data'][0][0][0][0][0][0])  # Get only the data, no headers, etc.
+    just_data = np.array(scan_data['cc_struct']['data'][0][0][0][0][0])  # Get only the data, no headers, etc.
 
     return just_data
 
@@ -30,18 +31,15 @@ def stitch_A0A1(folder, tag=''):
     """
 
     files = glob.glob(folder + '/*' + tag + '*.mat')
+
     a0 = mat_to_npy(files[0])
     a1 = mat_to_npy(files[1])
 
     data_shape = np.array(np.shape(a0))  # Get the shape of the data files
 
-    idx = len(data_shape)
-    col = data_shape[idx-1]
-    data_shape[idx-1] = col*2  # Update the column number to be two times as many
+    ax = len(data_shape)-1
 
-    both_mods = np.zeros(data_shape)  # Empty array to hold the data
-    both_mods[:, :, :, 0:col] = a0
-    both_mods[:, :, :, col:] = a1
+    both_mods = np.concatenate((a0, a1), axis=ax)
 
     return both_mods
 
@@ -58,47 +56,68 @@ def stitch_MMs(folder, test_type=3):
              3: '/UNIFORMITY/'}
     subpath = tests[test_type]
     subfolders = glob.glob(folder + '/Raw Test Data/*/')
-    num_MMs = len(subfolders)
 
     mm0 = stitch_A0A1(subfolders[0] + subpath)
     data_shape = np.array(np.shape(mm0))  # Shape of the combined A0 A1 data matrix
-    idx = len(data_shape)
-    col = data_shape[idx-1]  # Number of columns (Should be 72)
-
-    new_shape = data_shape
-    new_shape[idx-1] = col * num_MMs  # Update the number of columns for the number of MMs
-    final_module = np.zeros(new_shape)
-    final_module[:, :, :, 0:col] = mm0  # Put the first MM into the new data file
+    ax = len(data_shape)-1  # Axis to concatenate along
 
     for i, sub in enumerate(subfolders[1:]):
         file_path = sub + subpath
         curr_mm = stitch_A0A1(file_path)
-        final_module[:, :, :, (i+1)*col:(i+2)*col] = curr_mm
+        final_module = np.concatenate((mm0, curr_mm), axis=ax)
 
     return final_module
 
-#%%
-path = r'X:\Devon_UVic\LDA Data\DM-general-04-28-20'
-subfolders = glob.glob(path + '/Raw Test Data/*/')
-#path = r'X:\TEST LOG\MINI MODULE\Canon\M20358_Q20\Test 84\Raw Test Data\M20358_Q20\UNIFORMITY'
-x = stitch_MMs(path)
-x0 = stitch_A0A1(subfolders[0] + '/UNIFORMITY/')
-x1 = stitch_A0A1(subfolders[1] + '/UNIFORMITY/')
-x2 = stitch_A0A1(subfolders[2] + '/UNIFORMITY/')
-x3 = stitch_A0A1(subfolders[3] + '/UNIFORMITY/')
 
+def get_data_and_save(path, save_name, tag='', folder='Raw Data/', save_directory='C:/Users/10376/Documents/IEEE Abstract/'):
+    data = stitch_A0A1(path, tag=tag)  # Grab the test data and stitch it
+    gof.create_folder(folder, save_directory)  # Create the folder within your save directory to save the data
+    np.save(save_directory + folder + '/' + save_name + '.npy', data)  # Save the data
+    return
+
+#%%
+#path1 = r'X:\TEST LOG\MINI MODULE\Canon\M20358_Q20\Test 84\Raw Test Data\M20358_Q20\UNIFORMITY\UNIFORMITY_M20358_Q20-A0_2020_04_21__14_06_59.mat'
+#path2 = r'X:\TEST LOG\MINI MODULE\Canon\M20358_Q20\Test 84\Raw Test Data\M20358_Q20\UNIFORMITY\UNIFORMITY_M20358_Q20-A1_2020_04_21__14_06_59.mat'
+path = r'X:\TEST LOG\MINI MODULE\Canon\M20358_Q20\Test 85\Raw Test Data\M20358_Q20\SPECTRUM'
+save_name = '4w_2mA_SPECTRUM'
+#save_name = '1w_UNIFORMITY_14_14_18'
+#x = mat_to_npy(path1)
+#y = mat_to_npy(path2)
+#l = len(np.shape(x))
+#z = stitch_A0A1(path, tag='14_06_59')
+get_data_and_save(path, save_name)
 
 #%%
 fig1 = plt.figure(figsize=(6, 3))
-plt.imshow(x0[12, 3], vmin=0, vmax=1E2)
+plt.imshow(x[2, 12, 3], vmin=0, vmax=1E6)
 fig2 = plt.figure(figsize=(6, 3))
-plt.imshow(x1[12, 3], vmin=0, vmax=1E2)
+plt.imshow(y[2, 12, 3], vmin=0, vmax=1E6)
 fig3 = plt.figure(figsize=(6, 3))
-plt.imshow(x2[12, 3], vmin=0, vmax=1E2)
-fig4 = plt.figure(figsize=(6, 3))
-plt.imshow(x3[12, 3], vmin=0, vmax=1E2)
-fig5 = plt.figure(figsize=(24, 3))
-plt.imshow(x[12, 3], vmin=0, vmax=1E2)
+plt.imshow(z[2, 12, 3], vmin=0, vmax=1E6)
 plt.show()
+
+#%%
+#path = r'X:\Devon_UVic\LDA Data\DM-general-04-28-20'
+#subfolders = glob.glob(path + '/Raw Test Data/*/')
+#path = r'X:\TEST LOG\MINI MODULE\Canon\M20358_Q20\Test 84\Raw Test Data\M20358_Q20\UNIFORMITY'
+#x = stitch_MMs(path)
+#x0 = stitch_A0A1(subfolders[0] + '/UNIFORMITY/')
+#x1 = stitch_A0A1(subfolders[1] + '/UNIFORMITY/')
+#x2 = stitch_A0A1(subfolders[2] + '/UNIFORMITY/')
+#x3 = stitch_A0A1(subfolders[3] + '/UNIFORMITY/')
+
+
+#%%
+#fig1 = plt.figure(figsize=(6, 3))
+#plt.imshow(x0[12, 3], vmin=0, vmax=1E2)
+#fig2 = plt.figure(figsize=(6, 3))
+#plt.imshow(x1[12, 3], vmin=0, vmax=1E2)
+#fig3 = plt.figure(figsize=(6, 3))
+#plt.imshow(x2[12, 3], vmin=0, vmax=1E2)
+#fig4 = plt.figure(figsize=(6, 3))
+#plt.imshow(x3[12, 3], vmin=0, vmax=1E2)
+#fig5 = plt.figure(figsize=(24, 3))
+#plt.imshow(x[12, 3], vmin=0, vmax=1E2)
+#plt.show()
 
 #x = stitch_modules(2, 'D:\Research\sCT Scan Data/Cu_0.5_10-17-19/Rot_9.88/Raw Test Data/M15691/UNIFORMITY', 'Run003')
