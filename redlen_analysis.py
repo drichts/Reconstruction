@@ -69,7 +69,7 @@ def stitch_MMs(folder, test_type=3):
     return final_module
 
 
-def get_data_and_save_A0A1(path, save_name, tag='', folder='Raw Data/', save_directory='C:/Users/10376/Documents/IEEE Abstract/'):
+def get_data_and_save_A0A1(path, save_name, tag='', folder='Flat Field/', save_directory='C:/Users/10376/Documents/IEEE Abstract/Raw Data/'):
     """
     This function grabs the A0 and A1 modules, stitches them and saves them to the folder in save_directory
     :param path:
@@ -97,15 +97,37 @@ def get_data_and_save(path, save_name, file='A0', folder='Spectra/', save_direct
     return data
 
 
-#%%  Doodle
+#%%  Save A0 for spectra
+def spectra():
 
-folder = r'X:\TEST LOG\MINI MODULE\Canon\M20358_Q20\acswindow'
-subfolders = glob.glob(folder + '/*')
-subfolders = subfolders[2:]
-save_names = ['Am241_1w', 'Am241_4w', 'Co57_1w', 'Co57_4w', '2mA_1w', '5mA_1w', '10mA_1w', '25mA_1w',
-              '2mA_4w', '5mA_4w', '10mA_4w', '25mA_4w']
+    folder = r'X:\TEST LOG\MINI MODULE\Canon\M20358_Q20\acswindow'
+    subfolders = glob.glob(folder + '/*')
+    subfolders = subfolders[2:]
+    save_names = ['Am241_1w', 'Am241_4w', 'Co57_1w', 'Co57_4w', '2mA_1w', '5mA_1w', '10mA_1w', '25mA_1w',
+                  '2mA_4w', '5mA_4w', '10mA_4w', '25mA_4w']
 
-for i, sf in enumerate(subfolders):
-    get_data_and_save(sf+'/Raw Test Data/M20358_Q20/SPECTRUM/', save_names[i])
+    for i, sf in enumerate(subfolders):
+        get_data_and_save(sf+'/Raw Test Data/M20358_Q20/SPECTRUM/', save_names[i])
 
 #get_data_and_save(path, save_name)
+
+#%% Save A0 and A1 for flat field and phantoms
+def flatfield():
+    folder = r'X:\TEST LOG\MINI MODULE\Canon\M20358_Q20'
+    subfolders = glob.glob(folder + '/m20358_q20_ndt_*')
+    #print(subfolders)
+    save_names = ['bluebelt_1w', 'bluebelt_4w', 'flatfield_1w', 'flatfield_4w', 'plexiglass_1w', 'plexiglass_4w']
+
+    for idx, sf in enumerate(subfolders):
+        get_data_and_save_A0A1(sf + '/Raw Test Data/M20358_Q20/UNIFORMITY/', save_names[idx])
+
+flatfield()
+
+#%%
+folder = 'C:/Users/10376/Documents/IEEE Abstract/Raw Data//Flat Field/'
+files = glob.glob(folder + '*')
+print(files)
+
+x = np.load(files[4])
+plt.imshow(x[0, 1, 0])
+plt.show()

@@ -33,7 +33,7 @@ def get_spectrum(data, pixel, energybin=0, view=0):
     if len(np.shape(pixel)) is not 1:
         pixel = pixel[0]
     steps = np.squeeze(data[:, energybin, view, pixel[0], pixel[1]])
-    return num_steps, steps
+    return steps
 
 
 #%%  Open spectra data files, get the actual spectrum, and save
@@ -50,16 +50,20 @@ for file in files:
     save_path = directory + save_folder
     dat = np.load(file)
 
-    pixelsec = get_median_pixels(dat)
-    steps_sec, spectrum_sec = get_spectrum(dat, pixelsec)
+    # This section is for grabbing the median pixel in the first capture and then following that pixel
+    #pixelsec = get_median_pixels(dat)
+    #spectrum_sec = get_spectrum(dat, pixelsec)
 
-    pixelcc = get_median_pixels(dat, energybin=6)
-    steps_cc, spectrum_cc = get_spectrum(dat, pixelcc, energybin=6)
+    #pixelcc = get_median_pixels(dat, energybin=6)
+    #spectrum_cc = get_spectrum(dat, pixelcc, energybin=6)
 
-    np.save(save_path + '/Energy/SEC_' + save_name, steps_sec)
-    np.save(save_path + '/Energy/CC_' + save_name, steps_cc)
+    # This section is for finding the median pixel in each capture
+    spectrum_sec = np.squeeze(np.median(dat[:, 0, :, :, :], axis=[2, 3]))
+    spectrum_cc = np.squeeze(np.median(dat[:, 6, :, :, :], axis=[2, 3]))
 
-    np.save(save_path + '/Spectra/SEC_' + save_name, spectrum_sec)
-    np.save(save_path + '/Spectra/CC_' + save_name, spectrum_cc)
+    np.save(save_path + '/SEC_' + save_name, spectrum_sec)
+    np.save(save_path + '/CC_' + save_name, spectrum_cc)
 
+#%%
 
+x = np.load(save_path)
