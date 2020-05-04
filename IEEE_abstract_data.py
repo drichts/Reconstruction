@@ -38,32 +38,109 @@ def get_spectrum(data, pixel, energybin=0, view=0):
 
 #%%  Open spectra data files, get the actual spectrum, and save
 
-directory = 'C:/Users/10376/Documents/IEEE Abstract/'
-load_folder = 'Raw Data/Spectra\\'
-save_folder = 'Analysis Data/Spectra\\'
+def save_spectra():
+    directory = 'C:/Users/10376/Documents/IEEE Abstract/'
+    load_folder = 'Raw Data/Spectra\\'
+    save_folder = 'Analysis Data/Spectra\\'
 
-load_path = directory + load_folder
-files = glob.glob(load_path + '\*')
+    load_path = directory + load_folder
+    files = glob.glob(load_path + '\*')
 
-for file in files:
-    save_name = file.replace(load_path, "")
-    save_path = directory + save_folder
-    dat = np.load(file)
+    for file in files:
+        save_name = file.replace(load_path, "")
+        save_path = directory + save_folder
+        dat = np.load(file)
 
-    # This section is for grabbing the median pixel in the first capture and then following that pixel
-    #pixelsec = get_median_pixels(dat)
-    #spectrum_sec = get_spectrum(dat, pixelsec)
+        length = len(dat)
+        spectrum_sec = np.zeros(length)
+        spectrum_cc = np.zeros(length)
 
-    #pixelcc = get_median_pixels(dat, energybin=6)
-    #spectrum_cc = get_spectrum(dat, pixelcc, energybin=6)
+        for i in np.arange(5):
 
-    # This section is for finding the median pixel in each capture
-    spectrum_sec = np.squeeze(np.median(dat[:, 0, :, :, :], axis=[2, 3]))
-    spectrum_cc = np.squeeze(np.median(dat[:, 6, :, :, :], axis=[2, 3]))
+            # This section is for finding the median pixel in each capture
+            temp_sec = np.squeeze(np.median(dat[:, i, :, :, :], axis=[2, 3]))
+            temp_cc = np.squeeze(np.median(dat[:, i+6, :, :, :], axis=[2, 3]))
 
-    np.save(save_path + '/SEC_' + save_name, spectrum_sec)
-    np.save(save_path + '/CC_' + save_name, spectrum_cc)
+            spectrum_sec = np.add(spectrum_sec, temp_sec)
+            spectrum_cc = np.add(spectrum_cc, temp_cc)
 
-#%%
+            np.save(save_path + '/SEC_' + save_name, spectrum_sec)
+            np.save(save_path + '/CC_' + save_name, spectrum_cc)
 
-x = np.load(save_path)
+    return
+
+save_spectra()
+#%% Flat field air
+
+def flatfield_air():
+    folder = 'C:/Users/10376/Documents/IEEE Abstract/Analysis Data/Flat Field/'
+
+    print('1w           4w')
+    w1 = np.load(folder + '/flatfield_1wA0.npy')
+    w4 = np.load(folder + '/flatfield_4wA0.npy')
+
+    w1 = np.squeeze(w1)
+    w4 = np.squeeze(w4)
+
+
+    for i in np.arange(5):
+        print('Bin' + str(i))
+        print(np.nanstd(w1[i+6])/np.mean(w1[i+6]))
+        print(np.nanstd(w4[i+6])/np.mean(w4[i+6]))
+
+flatfield_air()
+
+
+#%% Flatfield phantoms (correct for air)
+
+def flatfield_phantoms():
+    directory = 'C:/Users/10376/Documents/IEEE Abstract/'
+    load_folder = 'Raw Data/Flat Field\\'
+    save_folder = 'Analysis Data/Flat Field/'
+
+    load_path = directory + load_folder
+    air1w = np.squeeze(np.load(load_path + '/flatfield_1w.npy'))
+    air4w = np.squeeze(np.load(load_path + '/flatfield_4w.npy'))
+
+    blue1w = np.squeeze(np.load(load_path + 'bluebelt_1w.npy'))
+    blue4w = np.squeeze(np.load(load_path + 'bluebelt_4w.npy'))
+
+    plexi1w = np.squeeze(np.load(load_path + 'plexiglass_1w.npy'))
+    plexi4w = np.squeeze(np.load(load_path + 'plexiglass_4w.npy'))
+
+    # Take average of the air fields
+    #air1w = np.sum(air1w, axis=1)
+    #air4w = np.sum(air4w, axis=1)
+    #air1w = np.divide(air1w, 1000)
+    #air4w = np.divide(air4w, 1000)
+
+    blue1w = np.divide(blue1w, air1w)
+    blue4w = np.divide(blue4w, air4w)
+
+    plexi1w = np.divide(plexi1w, air1w)
+    plexi4w = np.divide(plexi4w, air4w)
+
+
+    #for i in np.arange(1000):
+        #blue1w[:, i, :, :] = np.divide(blue1w[:, i, :, :], air1w)
+        #blue4w[:, i, :, :] = np.divide(blue4w[:, i, :, :], air4w)
+
+        #plexi1w[:, i, :, :] = np.divide(plexi1w[:, i, :, :], air1w)
+        #plexi4w[:, i, :, :] = np.divide(plexi4w[:, i, :, :], air4w)
+
+    blue1w = -np.log(blue1w)
+    blue4w = -np.log(blue4w)
+
+    plexi1w = -np.log(plexi1w)
+    plexi4w = -np.log(plexi4w)
+
+    np.save(directory + save_folder + 'bluebelt_1w.npy', blue1w)
+    np.save(directory + save_folder + 'bluebelt_4w.npy', blue4w)
+
+    np.save(directory + save_folder + 'plexiglass_1w.npy', plexi1w)
+    np.save(directory + save_folder + 'plexiglass_4w.npy', plexi4w)
+    #yyy = np.zeros([13, 1000, 24, 72])
+    #yyy[:, 0, :, :] = np.divide(blue1w[:, 0, :, :], air1w)
+    return #np.divide(blue1w[:, 0, :, :], air1w), yyy
+
+flatfield_phantoms()

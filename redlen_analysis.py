@@ -119,15 +119,31 @@ def flatfield():
     save_names = ['bluebelt_1w', 'bluebelt_4w', 'flatfield_1w', 'flatfield_4w', 'plexiglass_1w', 'plexiglass_4w']
 
     for idx, sf in enumerate(subfolders):
+        print(sf)
+        print(save_names[idx])
+        print()
         get_data_and_save_A0A1(sf + '/Raw Test Data/M20358_Q20/UNIFORMITY/', save_names[idx])
 
-flatfield()
+#flatfield()
 
+#%% Get just A0 for the flatfield air images
+folder = r'C:\Users\10376\Documents\IEEE Abstract\Raw Data\Flat Field'
+w1 = np.squeeze(np.load(folder + '/flatfield_1w.npy'))
+w4 = np.squeeze(np.load(folder + '/flatfield_4w.npy'))
+
+w1 = w1[:, :, :, 0:36]
+w4 = w4[:, :, :, 0:36]
+
+np.save(r'C:\Users\10376\Documents\IEEE Abstract\Analysis Data\Flat Field\flatfield_1wA0.npy', w1)
+np.save(r'C:\Users\10376\Documents\IEEE Abstract\Analysis Data\Flat Field\flatfield_4wA0.npy', w4)
 #%%
 folder = 'C:/Users/10376/Documents/IEEE Abstract/Raw Data//Flat Field/'
 files = glob.glob(folder + '*')
-print(files)
 
-x = np.load(files[4])
-plt.imshow(x[0, 1, 0])
+file = files[5]
+print(file)
+x = np.load(file)
+x = np.squeeze(x)
+y = np.sum(x, axis=1)
+plt.imshow(x[6, 5])
 plt.show()
