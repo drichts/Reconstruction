@@ -1,8 +1,105 @@
-from scipy.io import loadmat, whosmat
+from scipy.io import loadmat
 import numpy as np
 import matplotlib.pyplot as plt
 import glob
 import general_OS_functions as gof
+
+
+def get_uniformity_data(folder, load_directory, MM, air_path='none', save_directory='X:/Devon_UVic/'):
+    """
+    This performs all of the necessary work to get and save UNIFORMITY data in numpy arrays including correcting for air
+    if necessary
+    :param folder: Just the folder before 'Raw Test Data', the analyzed data will be saved within this folder name within
+    the save directory
+    :param load_directory: The directory leading to the folder
+    :param MM: The MM name, e.g. M20358
+    :param air_path: Full path to combined air data (A0A1) in .npy format
+    :param save_directory: The directory to save the folder to
+    """
+    path = load_directory + '/' + folder + '/Raw Test Data/' + MM + '/UNIFORMITY/'
+    files = glob.glob(path + '/*.mat')
+
+    # Just in case there are the two extra files in the folder, skip over them
+    if len(files) > 2:
+        files = sorted(files, key=time_stamp)
+        a0 = mat_to_npy(files[2])
+        a1 = mat_to_npy(files[3])
+    else:
+        a0 = mat_to_npy(files[0])
+        a1 = mat_to_npy(files[1])
+
+    both_a = stitch_A0A1(a0, a1)
+
+    gof.create_folder(folder, save_directory)
+    save_path = save_directory + folder
+    gof.create_folder('Raw Data', save_path)
+
+    if air_path is not 'none':
+        corrected_both = intensity_correction(both_a)
+        gof.create_folder('Corrected Data', save_path)
+        np.save(save_path + '/Corrected Data/full_view.npy', corrected_both)
+
+    np.save(save_path + '/Raw Data/full_view.npy', both_a)
+    np.save(save_path + '/Raw Data/a0.npy', a0)
+    np.save(save_path + '/Raw Data/a1.npy', a1)
+
+
+def get_spectrum_data(folder, load_directory, MM, which_data=1, save_directory='X:/Devon_UVic/'):
+    """
+    This performs all of the necessary work to get and save SPECTRUM data in numpy arrays and get the count data to plot
+    spectra for cc and sec over energy range in AU
+    :param folder: Just the folder before 'Raw Test Data', the analyzed data will be saved within this folder name within
+    the save directory
+    :param load_directory: The directory leading to the folder
+    :param MM: The MM name, e.g. M20358
+    :param which_data: which data to get the median count rate from (1: A0, 2: A1, 3: both A0 and A1)
+    :param save_directory: The directory to save the folder to
+    """
+    modules = {1: 'A0',
+               2: 'A1',
+               3: 'both'}
+
+    path = load_directory + folder + '/Raw Test Data/' + MM + '/UNIFORMITY/'
+    files = glob.glob(path + '/*.mat')
+
+    # Just in case there are the two extra files in the folder, skip over them
+    if len(files) > 2:
+        files = sorted(files, key=time_stamp)
+        a0 = mat_to_npy(files[2])
+        a1 = mat_to_npy(files[3])
+    else:
+        a0 = mat_to_npy(files[0])
+        a1 = mat_to_npy(files[1])
+
+    both_a = stitch_A0A1(a0, a1)
+
+    if modules[which_data] is 'A0':
+        cc_spect, sec_spect = get_spectrum(a0)
+    elif modules[which_data] is 'A1':
+        cc_spect, sec_spect = get_spectrum(a1)
+    else:
+        cc_spect, sec_spect = get_spectrum(both_a)
+
+    gof.create_folder(folder, save_directory)
+    save_path = save_directory + folder
+    gof.create_folder('Raw Data', save_path)
+    gof.create_folder('Spectra', save_path)
+
+    np.save(save_path + '/Raw Data/full_view.npy', both_a)
+    np.save(save_path + '/Raw Data/a0.npy', a0)
+    np.save(save_path + '/Raw Data/a1.npy', a1)
+
+    np.save(save_path + '/Spectra/sec.npy', sec_spect)
+    np.save(save_path + '/Spectra/cc.npy', cc_spect)
+
+
+def time_stamp(file):
+    """
+    This function is a key for the sorted function, it returns the time stamp of a .mat data file
+    :param file: The file path
+    :return: The timestamp HR_MN_SC (hour, minute, second)
+    """
+    return file[-12:-4]
 
 
 def mat_to_npy(mat_path):
@@ -11,34 +108,22 @@ def mat_to_npy(mat_path):
     :param mat_path: The path to the .mat file
     :return: the data array as a numpy array
     """
-
     scan_data = loadmat(mat_path)
-
     just_data = np.array(scan_data['cc_struct']['data'][0][0][0][0][0])  # Get only the data, no headers, etc.
 
     return just_data
 
 
-def stitch_A0A1(folder, tag=''):
+def stitch_A0A1(a0, a1):
     """
-    This function will take the counts from all modules and assemble one numpy array
-    [Bin, view, row, column] (view is optional depending if the files have multiple views)
-    :param num_modules: The number of MMs in the detector
-    :param folder: The folder containing the data files
-    :param tag: A str that is contained by only the files corresponding to the specific run and modules, default is an
-                empty string since normally there are only two files
-    :return:
+    This function will take the counts from the two modules and assembles one numpy array
+    [time, bin, view, row, column]
+    :param a0: The A0 data array
+    :param a1: The A1 data array
+    :return: The combined array
     """
-
-    files = glob.glob(folder + '/*' + tag + '*.mat')
-
-    a0 = mat_to_npy(files[0])
-    a1 = mat_to_npy(files[1])
-
     data_shape = np.array(np.shape(a0))  # Get the shape of the data files
-
-    ax = len(data_shape)-1
-
+    ax = len(data_shape)-1  # We are combining more column data, so get that axis
     both_mods = np.concatenate((a0, a1), axis=ax)
 
     return both_mods
@@ -46,7 +131,7 @@ def stitch_A0A1(folder, tag=''):
 
 def stitch_MMs(folder, test_type=3):
     """
-
+    This function is meant to stitch together multiple MMs after the A0 and A1 modules have been combined
     :param folder: path for the test folder (i.e. Test03, or whatever you named it)
     :param subpath:
     :return:
@@ -69,81 +154,33 @@ def stitch_MMs(folder, test_type=3):
     return final_module
 
 
-def get_data_and_save_A0A1(path, save_name, tag='', folder='Flat Field/', save_directory='C:/Users/10376/Documents/IEEE Abstract/Raw Data/'):
+def get_spectrum(data):
     """
-    This function grabs the A0 and A1 modules, stitches them and saves them to the folder in save_directory
-    :param path:
-    :param save_name:
-    :param tag:
-    :param folder:
-    :param save_directory:
-    :return:
+    This takes the given data matrix and outputs the counts (both sec and cc) over the energy range in AU
+    :param data: The data matrix: form [time, bin, view, row, column])
+    :return: Array of the counts at each AU value, sec counts and cc counts
     """
-    data = stitch_A0A1(path, tag=tag)  # Grab the test data and stitch it
-    gof.create_folder(folder, save_directory)  # Create the folder within your save directory to save the data
-    np.save(save_directory + folder + '/' + save_name + '.npy', data)  # Save the data
-    return
+    length = len(data)  # The number of energy points in AU
+    spectrum_sec = np.zeros(length)
+    spectrum_cc = np.zeros(length)
+
+    for i in np.arange(5):
+        # This finds the median pixel in each capture
+        temp_sec = np.squeeze(np.median(data[:, i, :, :, :], axis=[2, 3]))
+        temp_cc = np.squeeze(np.median(data[:, i + 6, :, :, :], axis=[2, 3]))
+
+        spectrum_sec = np.add(spectrum_sec, temp_sec)
+        spectrum_cc = np.add(spectrum_cc, temp_cc)
+
+    return spectrum_cc, spectrum_sec
 
 
-def get_data_and_save(path, save_name, file='A0', folder='Spectra/', save_directory='C:/Users/10376/Documents/IEEE Abstract/Raw Data/'):
-
-    files = glob.glob(path + '/*' + file + '*')
-    print(files[0])
-    data = mat_to_npy(files[0])  # Grab the test data
-    gof.create_folder(folder, save_directory)  # Create the folder within your save directory to save the data
-    np.save(save_directory + folder + '/' + save_name + '.npy', data)  # Save the data
-    print(path, save_name)
-    print()
-    return data
-
-
-#%%  Save A0 for spectra
-def spectra():
-
-    folder = r'X:\TEST LOG\MINI MODULE\Canon\M20358_Q20\acswindow'
-    subfolders = glob.glob(folder + '/*')
-    subfolders = subfolders[2:]
-    save_names = ['Am241_1w', 'Am241_4w', 'Co57_1w', 'Co57_4w', '2mA_1w', '5mA_1w', '10mA_1w', '25mA_1w',
-                  '2mA_4w', '5mA_4w', '10mA_4w', '25mA_4w']
-
-    for i, sf in enumerate(subfolders):
-        get_data_and_save(sf+'/Raw Test Data/M20358_Q20/SPECTRUM/', save_names[i])
-
-#get_data_and_save(path, save_name)
-
-#%% Save A0 and A1 for flat field and phantoms
-def flatfield():
-    folder = r'X:\TEST LOG\MINI MODULE\Canon\M20358_Q20'
-    subfolders = glob.glob(folder + '/m20358_q20_ndt_*')
-    #print(subfolders)
-    save_names = ['bluebelt_1w', 'bluebelt_4w', 'flatfield_1w', 'flatfield_4w', 'plexiglass_1w', 'plexiglass_4w']
-
-    for idx, sf in enumerate(subfolders):
-        print(sf)
-        print(save_names[idx])
-        print()
-        get_data_and_save_A0A1(sf + '/Raw Test Data/M20358_Q20/UNIFORMITY/', save_names[idx])
-
-#flatfield()
-
-#%% Get just A0 for the flatfield air images
-folder = r'C:\Users\10376\Documents\IEEE Abstract\Raw Data\Flat Field'
-w1 = np.squeeze(np.load(folder + '/flatfield_1w.npy'))
-w4 = np.squeeze(np.load(folder + '/flatfield_4w.npy'))
-
-w1 = w1[:, :, :, 0:36]
-w4 = w4[:, :, :, 0:36]
-
-np.save(r'C:\Users\10376\Documents\IEEE Abstract\Analysis Data\Flat Field\flatfield_1wA0.npy', w1)
-np.save(r'C:\Users\10376\Documents\IEEE Abstract\Analysis Data\Flat Field\flatfield_4wA0.npy', w4)
-#%%
-folder = 'C:/Users/10376/Documents/IEEE Abstract/Raw Data//Flat Field/'
-files = glob.glob(folder + '*')
-
-file = files[5]
-print(file)
-x = np.load(file)
-x = np.squeeze(x)
-y = np.sum(x, axis=1)
-plt.imshow(x[6, 5])
-plt.show()
+def intensity_correction(data, air_data):
+    """
+    This function corrects flatfield data to show images, -ln(I/I0), I is the intensity of the data, I0 is the intensity
+    in an airscan
+    :param data: The data to correct (must be the same shape as air_data)
+    :param air_data: The airscan data (must be the same shape as data)
+    :return: The corrected data array
+    """
+    return np.log(np.divide(air_data, data))
