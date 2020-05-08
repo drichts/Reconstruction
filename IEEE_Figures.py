@@ -244,13 +244,5 @@ plt.subplots_adjust(top=0.95, bottom=0.15, left=0.15, right=0.90, hspace=0.85)
 plt.show()
 #plt.savefig('C:/Users/10376/Documents/IEEE Abstract/Figures/Spectra/mixed_spectra.png', dpi=fig.dpi)
 
-#%%  Flat field
-#sns.set_style('white')
-folder = 'C:/Users/10376/Documents/IEEE Abstract/Raw Data/Flat Field/'
-
-x = np.load(folder + 'plexiglass_4w.npy')
-
-plt.imshow(x[0, 7, 100])
-plt.show()
 
 
