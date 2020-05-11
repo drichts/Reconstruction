@@ -5,7 +5,9 @@ import glob
 import general_OS_functions as gof
 
 
-def get_uniformity_data(folder, load_directory, MM, air_path='none', save_directory='X:/Devon_UVic/'):
+def get_uniformity_data(folder, load_directory='X:/TEST LOG/MINI MODULE/Canon/M20358_Q20/Phantom_Tests_5-11-2020/',
+                        MM='M20358_Q20', air_path='none',
+                        save_directory='C:/Users/10376/Documents/Phantom Data/Raw Data/Uniformity/'):
     """
     This performs all of the necessary work to get and save UNIFORMITY data in numpy arrays including correcting for air
     if necessary
@@ -19,6 +21,12 @@ def get_uniformity_data(folder, load_directory, MM, air_path='none', save_direct
     path = load_directory + '/' + folder + '/Raw Test Data/' + MM + '/UNIFORMITY/'
     files = glob.glob(path + '/*.mat')
 
+    gof.create_folder(folder, save_directory)
+    save_path = save_directory + folder
+    gof.create_folder('Raw Data', save_path)
+    if air_path is not 'none':
+        gof.create_folder('Corrected Data', save_path)
+
     # Just in case there are the two extra files in the folder, skip over them
     if len(files) > 2:
         files = sorted(files, key=time_stamp)
@@ -30,18 +38,54 @@ def get_uniformity_data(folder, load_directory, MM, air_path='none', save_direct
 
     both_a = stitch_A0A1(a0, a1)
 
-    gof.create_folder(folder, save_directory)
-    save_path = save_directory + folder
-    gof.create_folder('Raw Data', save_path)
-
     if air_path is not 'none':
         corrected_both = intensity_correction(both_a)
-        gof.create_folder('Corrected Data', save_path)
         np.save(save_path + '/Corrected Data/full_view.npy', corrected_both)
 
     np.save(save_path + '/Raw Data/full_view.npy', both_a)
     np.save(save_path + '/Raw Data/a0.npy', a0)
     np.save(save_path + '/Raw Data/a1.npy', a1)
+
+
+def multiple_uniformity(folder, load_directory='X:/TEST LOG/MINI MODULE/Canon/M20358_Q20/Phantom_Tests_5-11-2020/',
+                        MM='M20358_Q20', air_path='none',
+                        save_directory='C:/Users/10376/Documents/Phantom Data/Raw Data/Uniformity/'):
+    """
+    This performs all of the necessary work to get and save UNIFORMITY data in numpy arrays including correcting for air
+    if necessary
+    :param folder: Just the folder before 'Raw Test Data', the analyzed data will be saved within this folder name within
+    the save directory
+    :param load_directory: The directory leading to the folder
+    :param MM: The MM name, e.g. M20358
+    :param air_path: Full path to combined air data (A0A1) in .npy format
+    :param save_directory: The directory to save the folder to
+    """
+    path = load_directory + '/' + folder + '/Raw Test Data/' + MM + '/UNIFORMITY/'
+    files = glob.glob(path + '/*.mat')
+
+    gof.create_folder(folder, save_directory)
+    save_path = save_directory + folder
+    gof.create_folder('Raw Data', save_path)
+    if air_path is not 'none':
+        gof.create_folder('Corrected Data', save_path)
+
+    for i in np.arange(1, int(len(files)/2)+1):
+        curr_run_files = glob.glob(path + '/*Run' + '{:03d}'.format(i) + '*.mat')
+        print(curr_run_files)
+        a0 = mat_to_npy(curr_run_files[0])
+        a1 = mat_to_npy(curr_run_files[1])
+
+        np.save(save_path + '/Raw Data/Run' + '{:03d}'.format(i) + '_a0.npy', a0)
+        np.save(save_path + '/Raw Data/Run' + '{:03d}'.format(i) + '_a1.npy', a1)
+
+        if air_path is not 'none':
+            air_a0 = np.load(air_path + '/a0.npy')
+            air_a1 = np.load(air_path + '/a1.npy')
+            a0_corr = intensity_correction(a0, air_a0)
+            a1_corr = intensity_correction(a1, air_a1)
+
+            np.save(save_path + '/Corrected Data/Run' + '{:03d}'.format(i) + '_a0.npy', a0_corr)
+            np.save(save_path + '/Corrected Data/Run' + '{:03d}'.format(i) + '_a1.npy', a1_corr)
 
 
 def get_spectrum_data(folder, load_directory, MM, which_data=1, save_directory='X:/Devon_UVic/'):
@@ -184,3 +228,27 @@ def intensity_correction(data, air_data):
     :return: The corrected data array
     """
     return np.log(np.divide(air_data, data))
+
+directory = 'C:/Users/10376/Documents/Phantom Data/Uniformity/'
+
+folders_1w = ['m20358_q20_al_bluebelt_acryl_1w', 'm20358_q20_al_bluebelt_fat_1w',
+           'm20358_q20_al_bluebelt_solidwater_1w', 'm20358_q20_al_polypropylene_1w']
+for folder in folders_1w:
+    path = directory + folder + '/Raw Data'
+
+    for i in np.arange(1, 11):
+        curr_run_files = glob.glob(path + '/*Run' + '{:03d}'.format(i) + '*.npy')
+        print(curr_run_files)
+        a0 = np.load(curr_run_files[0])
+        a1 = np.load(curr_run_files[1])
+
+        air_a0 = np.load(
+            r'C:\Users\10376\Documents\Phantom Data\Uniformity\m20358_q20_al_air_1w\Raw Data' + '/a0.npy')
+        air_a1 = np.load(
+            r'C:\Users\10376\Documents\Phantom Data\Uniformity\m20358_q20_al_air_1w\Raw Data' + '/a1.npy')
+
+        a0_corr = intensity_correction(a0, air_a0)
+        a1_corr = intensity_correction(a1, air_a1)
+
+        np.save(directory + folder + '/Corrected Data/Run' + '{:03d}'.format(i) + '_a0.npy', a0_corr)
+        np.save(directory + folder + '/Corrected Data/Run' + '{:03d}'.format(i) + '_a1.npy', a1_corr)
