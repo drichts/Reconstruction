@@ -57,7 +57,7 @@ def background_ROI(image):
     num_rows, num_cols = np.shape(image)
 
     # Plot to verify the ROI's
-    fig = plt.figure(figsize=(8,8))
+    fig = plt.figure(figsize=(8, 8))
     ax = fig.add_subplot(111)
     ax.imshow(image, cmap='gray')
 
@@ -269,7 +269,7 @@ def circular_mask(center, radius, img_dim):
     :return:
     """
     # Create meshgrid of values from 0 to img_dim in both dimension
-    xx, yy, = np.mgrid[:img_dim[1], :img_dim[0]]
+    xx, yy, = np.mgrid[:img_dim[0], :img_dim[1]]
 
     # Define the equation of the circle that we would like to create
     circle = (xx - center[1])**2 + (yy - center[0])**2

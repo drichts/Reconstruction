@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import glob
+import generateROImask as grm
 
 directory = 'C:/Users/10376/Documents/Phantom Data/Uniformity/'
 
@@ -62,6 +63,38 @@ for i, ax in enumerate(axes.flat):
     ax.set_yticks([])
 
 plt.show()
+
+#%% See A0 and A1
+folder = folders[0]
+
+data1 = np.load(directory + folder + '/Corrected Data/Run008_a0.npy')
+data2 = np.load(directory + folder + '/Corrected Data/Run008_a1.npy')
+data2 = np.flip(data2, axis=3)
+data2 = np.flip(data2, axis=4)
+
+data = np.concatenate((data1, data2), axis=4)
+data = np.squeeze(np.sum(data, axis=2))
+plt.imshow(data[12])
+plt.show()
+
+#%% Get masks for the folders
+
+for idx, folder in enumerate(folders[0:8:2]):
+    data = np.load(directory + folder + '/Corrected Data/Run010_a0.npy')
+    data = np.sum(data, axis=2)
+    data = np.squeeze(data)
+
+    mask = grm.background_ROI(data[12])
+    bg = grm.background_ROI(data[12])
+    np.save(directory + folder + '/a0_Mask.npy', mask)
+    np.save(directory + folder + '/a0_Background.npy', bg)
+
+    np.save(directory + folders[idx*2+1] + '/a0_Mask.npy', mask)
+    np.save(directory + folders[idx*2+1] + '/a0_Background.npy', bg)
+
+#    print(folder)
+#    print(folders[idx*2+1])
+#    print()
 
 #%% Test
 #x = np.load(directory + folders[6] + '/Raw Data/Run001_a0.npy')

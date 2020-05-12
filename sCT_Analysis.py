@@ -390,10 +390,11 @@ def total_image_noise_stats(image, folder, load=False, directory='D:/Research/Py
 def cnr(image, contrast_mask, background_mask):
     """
     This function calculates the CNR of an ROI given the image, the ROI mask, and the background mask
-    :param image:
-    :param contrast_mask:
-    :param background_mask:
-    :return:
+    It also gives the CNR error
+    :param image: The image to be analyzed as a 2D numpy array
+    :param contrast_mask: The mask of the contrast area as a 2D numpy array
+    :param background_mask: The mask of the background as a 2D numpy array
+    :return CNR, CNR_error: The CNR and error of the contrast area
     """
     # The mean signal within the contrast area
     mean_ROI = np.nanmean(image*contrast_mask)

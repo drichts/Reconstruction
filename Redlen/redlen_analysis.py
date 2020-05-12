@@ -228,27 +228,3 @@ def intensity_correction(data, air_data):
     :return: The corrected data array
     """
     return np.log(np.divide(air_data, data))
-
-directory = 'C:/Users/10376/Documents/Phantom Data/Uniformity/'
-
-folders_1w = ['m20358_q20_al_bluebelt_acryl_1w', 'm20358_q20_al_bluebelt_fat_1w',
-           'm20358_q20_al_bluebelt_solidwater_1w', 'm20358_q20_al_polypropylene_1w']
-for folder in folders_1w:
-    path = directory + folder + '/Raw Data'
-
-    for i in np.arange(1, 11):
-        curr_run_files = glob.glob(path + '/*Run' + '{:03d}'.format(i) + '*.npy')
-        print(curr_run_files)
-        a0 = np.load(curr_run_files[0])
-        a1 = np.load(curr_run_files[1])
-
-        air_a0 = np.load(
-            r'C:\Users\10376\Documents\Phantom Data\Uniformity\m20358_q20_al_air_1w\Raw Data' + '/a0.npy')
-        air_a1 = np.load(
-            r'C:\Users\10376\Documents\Phantom Data\Uniformity\m20358_q20_al_air_1w\Raw Data' + '/a1.npy')
-
-        a0_corr = intensity_correction(a0, air_a0)
-        a1_corr = intensity_correction(a1, air_a1)
-
-        np.save(directory + folder + '/Corrected Data/Run' + '{:03d}'.format(i) + '_a0.npy', a0_corr)
-        np.save(directory + folder + '/Corrected Data/Run' + '{:03d}'.format(i) + '_a1.npy', a1_corr)
