@@ -370,22 +370,6 @@ def total_image_noise_stats(image, folder, load=False, directory='D:/Research/Py
 
     return mean_noise, std_noise
 
-#directory='D:/Research/Python Data/Spectral CT/'
-#folder = 'AuGd_width_14_12-2-19/'
-#sli = 19
-#path = directory + folder + 'Slices/'
-#mean_noise = np.empty(7)
-#std_noise = np.empty(7)
-#for b in np.arange(7):
-#    image = np.load(path + 'Bin' + str(b) + '_Slice' + str(sli) + '.npy')
-#    if b == 0:
-#        mean_noise[b], std_noise[b] = total_image_noise_stats(image, folder)
-#    else:
-#        mean_noise[b], std_noise[b] = total_image_noise_stats(image, folder, load=True)
-
-#np.save(directory + folder + 'Mean_Noise.npy', mean_noise)
-#np.save(directory + folder + 'Noise_Error.npy', std_noise)
-
 
 def cnr(image, contrast_mask, background_mask):
     """

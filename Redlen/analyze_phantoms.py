@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import seaborn as sns
 import glob
 import general_OS_functions as gof
 import sCT_Analysis as sct
@@ -14,7 +15,7 @@ air_folders = ['m20358_q20_al_air_1w', 'm20358_q20_al_air_4w']
 a1_pixels = np.array([[0, 0], [0, 2], [0, 3], [23, 17], [16, 32], [13, 32], [8, 35], [11, 35], [12, 35], [14, 35], [17, 35]])
 
 
-def get_CNR_over_time_data(folder, air_folder, directory='C:/Users/10376/Documents/Phantom Data/Uniformity/'):
+def get_CNR_over_time_data_raw(folder, air_folder, directory='C:/Users/10376/Documents/Phantom Data/Uniformity/'):
 
     contrast_mask = np.load(directory + folder + '/a0_Mask.npy')
     bg_mask = np.load(directory + folder + '/a0_Background.npy')
@@ -58,18 +59,56 @@ def get_CNR_over_time_data(folder, air_folder, directory='C:/Users/10376/Documen
     return time_pts, CNR_pts, CNR_err
 
 
-def plot_CNR_over_time(time_pts, CNR_pts, CNR_err, title='n/a', save=False):
+def get_CNR_over_time_data_corrected(folder, directory='C:/Users/10376/Documents/Phantom Data/Uniformity/'):
 
+    contrast_mask = np.load(directory + folder + '/a0_Mask.npy')
+    bg_mask = np.load(directory + folder + '/a0_Background.npy')
+
+    time_pts = np.arange(0.001, 10.001, 0.001)  # Time points from 0.001 s to 10 s by 0.001 s increments
+    CNR_pts = np.zeros([6, len(time_pts)])
+    CNR_err = np.zeros([6, len(time_pts)])
+
+    total_data = np.zeros([6, 24, 36])
+    #random_order = np.array([10, 5, 6, 3, 9, 1, 4, 2, 8, 7])
+    random_order = np.array([10, 9, 8, 7, 6, 5, 4, 3, 2, 1])
+    for i in np.arange(1, 11):
+        nn = random_order[i-1]
+        add_data = np.load(directory + folder + '/Corrected Data/Run' + '{:03d}'.format(nn) + '_a0.npy')
+        add_data = np.squeeze(add_data)
+        add_data = add_data[6:11]
+
+        temp_data = np.zeros([6, 24, 36])
+        for j in np.arange(1000):
+            single_frame = add_data[:, j]
+            temp_data[0:5] = np.add(temp_data[0:5], single_frame)
+            sumcc_single_frame = np.sum(single_frame, axis=0)
+            temp_data[5] = np.add(temp_data[5], sumcc_single_frame)
+
+            total_data = np.add(total_data, temp_data)
+
+            for k, img in enumerate(total_data):
+                CNR_pts[k, (i-1)*1000+j], blah = sct.cnr(img, contrast_mask, bg_mask)
+
+    return time_pts, CNR_pts
+
+
+def plot_CNR_over_time(time_pts, CNR_pts, CNR_err=[], title='n/a', save=False,
+                       directory='C:/Users/10376/Documents/Phantom Data/Uniformity/'):
+
+    sns.set_style('whitegrid')
     fig, axes = plt.subplots(2, 3, figsize=(8, 6))
     ax1 = fig.add_subplot(111, frameon=False)
     ax1.grid(False)
     ax1.set_xticks([])
     ax1.set_yticks([])
-    titles = ['20-30 keV', '30-50 keV', '50-70 keV', '70-90 keV', '90-120 keV', '20-120 keV']
+    titles = ['20-30 keV', '30-50 keV', '50-70 keV', '70-90 keV', '90-120 keV', 'Sum CC']
 
+    max_CNR = np.max(CNR_pts) + 0.25
     for i, ax in enumerate(axes.flat):
-        ax.scatter(time_pts, CNR_pts[i], lw=1)
+        ax.plot(time_pts, CNR_pts[i], lw=1)
         ax.set_title(titles[i])
+        ax.set_xticks([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+        ax.set_ylim([0, max_CNR])
 
     plt.subplots_adjust(left=0.12, bottom=0.11, right=0.96, top=0.88, wspace=0.31, hspace=0.44)
     ax1.set_xlabel('Acquisition Time (s)', fontsize=14, labelpad=25)
@@ -77,6 +116,9 @@ def plot_CNR_over_time(time_pts, CNR_pts, CNR_err, title='n/a', save=False):
     ax1.set_title(title, fontsize=15, pad=25)
     plt.show()
 
+    if save:
+        plt.savefig(directory + '/Plots/CNR_' + title + '.png', dpi=fig.dpi)
+    plt.close()
 
 def correct_dead_pixels(img, pixels):
     """
@@ -141,7 +183,21 @@ def get_average_pixel_value(img, pixel):
     return avg
 
 
-#t, c, ce = get_CNR_over_time_data(folders[6], air_folders[0])
-#plot_CNR_over_time(t, c, ce)
+title = ['Bluebelt in Acrylic 1w reverse', 'Bluebelt in Acrylic 4w reverse',
+         'Bluebelt in Fat 1w reverse', 'Bluebelt in Fat 4w reverse',
+         'Bluebelt in Solid Water 1w reverse', 'Bluebelt in Solid Water 4w reverse',
+         'Polypropylene in Acrylic 1w reverse', 'Polypropylene in Acrylic 4w reverse']
+for nnn in np.arange(8):
+    t, c = get_CNR_over_time_data_corrected(folders[nnn])
+    plot_CNR_over_time(t, c, title=title[nnn], save=True)
+
 
 #%%
+#folders = ['m20358_q20_al_bluebelt_acryl_1w', 'm20358_q20_al_bluebelt_acryl_4w',
+#           'm20358_q20_al_bluebelt_fat_1w', 'm20358_q20_al_bluebelt_fat_4w',
+#           'm20358_q20_al_bluebelt_solidwater_1w', 'm20358_q20_al_bluebelt_solidwater_4w',
+#           'm20358_q20_al_polypropylene_1w', 'm20358_q20_al_polypropylene_4w']
+#plot_CNR_over_time(t, c)
+#t, c, ce = get_CNR_over_time_data_raw(folders[6], air_folders[0])
+#plot_CNR_over_time(t, c)
+

@@ -43,10 +43,14 @@ plt.show()
 
 #%% Plot the 5 bins plus the EC bin for any folder, with auto corrected data
 folder = folders[7]
-
-data = np.load(directory + folder + '/Corrected Data/Run010_a0.npy')
+titl = 'Polypropylene in acrylic 4w'
+data = np.load(directory + folder + '/Corrected Data/Run008_a0.npy')
 
 fig, axes = plt.subplots(2, 3, figsize=(8, 6))
+ax1 = fig.add_subplot(111, frameon=False)
+ax1.grid(False)
+ax1.set_xticks([])
+ax1.set_yticks([])
 
 data = np.sum(data, axis=2)
 data = np.squeeze(data)
@@ -54,15 +58,19 @@ data = np.squeeze(data)
 titles = ['20-30 keV', '30-50 keV', '50-70 keV', '70-90 keV', '90-120 keV', '20-120 keV']
 
 for i, ax in enumerate(axes.flat):
+    mn, mx = np.min(data[6:11, :, 0:35]), np.max(data[6:11, :, 0:35])
     if i == 5:
-        ax.imshow(data[12])
+        ax.imshow(data[12, :, 0:35], vmin=mn, vmax=mx)
     else:
-        ax.imshow(data[i+6])
+        ax.imshow(data[i+6, :, 0:35], vmin=mn, vmax=mx)
     ax.set_title(titles[i])
     ax.set_xticks([])
     ax.set_yticks([])
 
+ax1.set_title(titl, fontsize=15, pad=10)
 plt.show()
+
+
 
 #%% See A0 and A1
 folder = folders[0]
