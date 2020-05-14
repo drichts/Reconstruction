@@ -16,7 +16,13 @@ a1_pixels = np.array([[0, 0], [0, 2], [0, 3], [23, 17], [16, 32], [13, 32], [8, 
 
 
 def get_CNR_over_time_data_raw(folder, air_folder, directory='C:/Users/10376/Documents/Phantom Data/Uniformity/'):
-
+    """
+    This function takes a folder and collects the CNR is all CC bins at 0.001, 0.01, 0.1, 0.5, 1, 2, 3.... seconds
+    :param folder:
+    :param air_folder:
+    :param directory:
+    :return:
+    """
     contrast_mask = np.load(directory + folder + '/a0_Mask.npy')
     bg_mask = np.load(directory + folder + '/a0_Background.npy')
 
@@ -59,7 +65,7 @@ def get_CNR_over_time_data_raw(folder, air_folder, directory='C:/Users/10376/Doc
     return time_pts, CNR_pts, CNR_err
 
 
-def get_CNR_over_time_data_corrected(folder, directory='C:/Users/10376/Documents/Phantom Data/Uniformity/'):
+def get_CNR_over_time_data_corrected_10s(folder, directory='C:/Users/10376/Documents/Phantom Data/Uniformity/'):
 
     contrast_mask = np.load(directory + folder + '/a0_Mask.npy')
     bg_mask = np.load(directory + folder + '/a0_Background.npy')
@@ -92,7 +98,45 @@ def get_CNR_over_time_data_corrected(folder, directory='C:/Users/10376/Documents
     return time_pts, CNR_pts
 
 
-def plot_CNR_over_time(time_pts, CNR_pts, CNR_err=[], title='n/a', save=False,
+def get_CNR_over_time_data_corrected_1sec(folder, CC=True, directory='C:/Users/10376/Documents/Phantom Data/Uniformity/'):
+
+    contrast_mask = np.load(directory + folder + '/a0_Mask.npy')
+    bg_mask = np.load(directory + folder + '/a0_Background.npy')
+
+    time_pts = np.arange(0.001, 1.001, 0.001)  # Time points from 0.001 s to 10 s by 0.001 s increments
+    CNR_pts = np.zeros([10, 6, len(time_pts)])  # Collect CNR over 1 s for all 10 files
+    CNR_err = np.zeros([10, 6])
+
+    for i in np.arange(1, 11):
+        total_data = np.zeros([6, 24, 36])  # Holds the current data for all bins plus the sum of all bins
+        add_data = np.load(directory + folder + '/Corrected Data/Run' + '{:03d}'.format(i) + '_a0.npy')
+        add_data = np.squeeze(add_data)  # Squeeze out the single capture axis
+
+        if CC:
+            add_data = add_data[6:11]  # Grab just cc (or sec) bins
+        else:
+            add_data = add_data[0:5]  # Grab just sec bins
+
+        for j in np.arange(1000):
+            single_frame = add_data[:, j]  # Get the next view data
+            total_data[0:5] = np.add(total_data[0:5], single_frame)  # Add to the current total data
+            sum_single_frame = np.sum(single_frame, axis=0)  # Sum all bins to get summed cc (or sec)
+            total_data[5] = np.add(total_data[5], sum_single_frame)  # Add to the total summed
+
+            for k, img in enumerate(total_data):
+                # Calculate the CNR (i-1 = file, k = bin, j = view/time point)
+                CNR_pts[i-1, k, j], err = sct.cnr(img, contrast_mask, bg_mask)
+                if j == 249:
+                    CNR_err[i-1, k] = err
+
+    CNR_pts = np.mean(CNR_pts, axis=0)  # Average over all of the files
+    err_mean = np.mean(CNR_err, axis=0)
+    err_std = np.std(CNR_err, axis=0)
+
+    return time_pts, CNR_pts, err_mean, err_std
+
+
+def plot_CNR_over_time_10s(time_pts, CNR_pts, CNR_err=[], title='n/a', save=False,
                        directory='C:/Users/10376/Documents/Phantom Data/Uniformity/'):
 
     sns.set_style('whitegrid')
@@ -119,6 +163,46 @@ def plot_CNR_over_time(time_pts, CNR_pts, CNR_err=[], title='n/a', save=False,
     if save:
         plt.savefig(directory + '/Plots/CNR_' + title + '.png', dpi=fig.dpi)
     plt.close()
+
+
+def plot_CNR_over_time_1s_multiple(time_pts, CNR_pts, CNR_err_mean, CC='CC', title='n/a', save=False,
+                       directory='C:/Users/10376/Documents/Phantom Data/Uniformity/'):
+    """
+
+    :param time_pts:
+    :param CNR_pts:
+    :param CNR_err:
+    :param title:
+    :param save:
+    :param directory:
+    :return:
+    """
+    sns.set_style('whitegrid')
+    fig, axes = plt.subplots(2, 3, figsize=(8, 6))
+    ax1 = fig.add_subplot(111, frameon=False)
+    ax1.grid(False)
+    ax1.set_xticks([])
+    ax1.set_yticks([])
+    titles = ['20-30 keV', '30-50 keV', '50-70 keV', '70-90 keV', '90-120 keV', 'Sum ' + CC]
+
+    max_CNR = np.max(CNR_pts) + 0.25
+    for i, ax in enumerate(axes.flat):
+        ax.plot(time_pts, CNR_pts[i], lw=1)
+        ax.set_title(titles[i])
+        ax.set_xticks([0, 0.25, 0.5, 0.75, 1])
+        ax.set_ylim([0, max_CNR])
+        ax.set_xlabel('CNR error at 0.25 s is \n' + '{:.2f}'.format(CNR_err_mean[i]))
+
+    plt.subplots_adjust(left=0.12, bottom=0.2, right=0.96, top=0.88, wspace=0.31, hspace=0.55)
+    ax1.set_xlabel('Acquisition Time (s)', fontsize=14, labelpad=45)
+    ax1.set_ylabel('CNR', fontsize=14, labelpad=30)
+    ax1.set_title(title, fontsize=15, pad=25)
+    plt.show()
+
+    if save:
+        plt.savefig(directory + '/Plots/CNR ' + title + '.png', dpi=fig.dpi)
+    plt.close()
+
 
 def correct_dead_pixels(img, pixels):
     """
@@ -182,14 +266,16 @@ def get_average_pixel_value(img, pixel):
 
     return avg
 
-
-title = ['Bluebelt in Acrylic 1w reverse', 'Bluebelt in Acrylic 4w reverse',
-         'Bluebelt in Fat 1w reverse', 'Bluebelt in Fat 4w reverse',
-         'Bluebelt in Solid Water 1w reverse', 'Bluebelt in Solid Water 4w reverse',
-         'Polypropylene in Acrylic 1w reverse', 'Polypropylene in Acrylic 4w reverse']
+t = 0
+types = ['CC', 'SEC']
+title = ['Bluebelt in Acrylic 1w ' + types[t], 'Bluebelt in Acrylic 4w ' + types[t],
+         'Bluebelt in Fat 1w ' + types[t], 'Bluebelt in Fat 4w ' + types[t],
+         'Bluebelt in Solid Water 1w ' + types[t], 'Bluebelt in Solid Water 4w ' + types[t],
+         'Polypropylene in Acrylic 1w ' + types[t], 'Polypropylene in Acrylic 4w ' + types[t]]
 for nnn in np.arange(8):
-    t, c = get_CNR_over_time_data_corrected(folders[nnn])
-    plot_CNR_over_time(t, c, title=title[nnn], save=True)
+#nnn = 2
+    t, c, cem, ces = get_CNR_over_time_data_corrected_1sec(folders[nnn], CC=True)
+    plot_CNR_over_time_1s_multiple(t, c, CNR_err_mean=cem, CC='CC', title=title[nnn], save=True)
 
 
 #%%
