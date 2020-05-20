@@ -98,28 +98,39 @@ def get_CNR_over_time_data_corrected_10s(folder, directory='C:/Users/10376/Docum
     return time_pts, CNR_pts
 
 
-def get_CNR_over_time_data_corrected_1sec(folder, CC=True, directory='C:/Users/10376/Documents/Phantom Data/Uniformity/'):
+def get_CNR_over_time_data_corrected_1sec(folder, corr3x3=False, CC=True,
+                                          directory='C:/Users/10376/Documents/Phantom Data/Uniformity/'):
 
-    contrast_mask = np.load(directory + folder + '/a0_Mask.npy')
-    bg_mask = np.load(directory + folder + '/a0_Background.npy')
+    if corr3x3:
+        contrast_mask = np.load(directory + folder + '/3x3_a0_Mask.npy')
+        bg_mask = np.load(directory + folder + '/3x3_a0_Background.npy')
+    else:
+        contrast_mask = np.load(directory + folder + '/a0_Mask.npy')
+        bg_mask = np.load(directory + folder + '/a0_Background.npy')
 
     time_pts = np.arange(0.001, 1.001, 0.001)  # Time points from 0.001 s to 10 s by 0.001 s increments
     CNR_pts = np.zeros([10, 6, len(time_pts)])  # Collect CNR over 1 s for all 10 files
     CNR_err = np.zeros([10, 6])
 
     for i in np.arange(1, 11):
-        total_data = np.zeros([6, 24, 36])  # Holds the current data for all bins plus the sum of all bins
-        add_data = np.load(directory + folder + '/Corrected Data/Run' + '{:03d}'.format(i) + '_a0.npy')
+
+        if corr3x3:
+            total_data = np.zeros([6, 8, 12])  # Holds the current data for all bins plus the sum of all bins
+            add_data = np.load(directory + folder + '/3x3 Corrected Data/Run' + '{:03d}'.format(i) + '_a0.npy')
+        else:
+            total_data = np.zeros([6, 24, 36])  # Holds the current data for all bins plus the sum of all bins
+            add_data = np.load(directory + folder + '/Corrected Data/Run' + '{:03d}'.format(i) + '_a0.npy')
+
         add_data = np.squeeze(add_data)  # Squeeze out the single capture axis
 
         if CC:
-            add_data = add_data[6:11]  # Grab just cc (or sec) bins
+            add_data = add_data[6:12]  # Grab just cc (or sec) bins
         else:
-            add_data = add_data[0:5]  # Grab just sec bins
+            add_data = add_data[0:6]  # Grab just sec bins
 
         for j in np.arange(1000):
             single_frame = add_data[:, j]  # Get the next view data
-            total_data[0:5] = np.add(total_data[0:5], single_frame)  # Add to the current total data
+            total_data[0:5] = np.add(total_data[0:5], single_frame[0:5])  # Add to the current total data
             sum_single_frame = np.sum(single_frame, axis=0)  # Sum all bins to get summed cc (or sec)
             total_data[5] = np.add(total_data[5], sum_single_frame)  # Add to the total summed
 
@@ -201,7 +212,7 @@ def plot_CNR_over_time_1s_multiple(time_pts, CNR_pts, CNR_err_mean, CC='CC', tit
 
     if save:
         plt.savefig(directory + '/Plots/CNR ' + title + '.png', dpi=fig.dpi)
-    plt.close()
+        plt.close()
 
 
 def correct_dead_pixels(img, pixels):
@@ -268,14 +279,19 @@ def get_average_pixel_value(img, pixel):
 
 t = 0
 types = ['CC', 'SEC']
-title = ['Bluebelt in Acrylic 1w ' + types[t], 'Bluebelt in Acrylic 4w ' + types[t],
-         'Bluebelt in Fat 1w ' + types[t], 'Bluebelt in Fat 4w ' + types[t],
-         'Bluebelt in Solid Water 1w ' + types[t], 'Bluebelt in Solid Water 4w ' + types[t],
-         'Polypropylene in Acrylic 1w ' + types[t], 'Polypropylene in Acrylic 4w ' + types[t]]
-for nnn in np.arange(8):
-#nnn = 2
-    t, c, cem, ces = get_CNR_over_time_data_corrected_1sec(folders[nnn], CC=True)
-    plot_CNR_over_time_1s_multiple(t, c, CNR_err_mean=cem, CC='CC', title=title[nnn], save=True)
+cc = 1
+correction = ['330 um', '1 mm']
+
+title = ['Bluebelt in Acrylic 1w ' + types[t] + ' ' + correction[cc], 'Bluebelt in Acrylic 4w ' + types[t] + ' ' + correction[cc],
+         'Bluebelt in Fat 1w ' + types[t] + ' ' + correction[cc], 'Bluebelt in Fat 4w ' + types[t] + ' ' + correction[cc],
+         'Bluebelt in Solid Water 1w ' + types[t] + ' ' + correction[cc], 'Bluebelt in Solid Water 4w ' + types[t] + ' ' + correction[cc],
+         'Polypropylene in Acrylic 1w ' + types[t] + ' ' + correction[cc], 'Polypropylene in Acrylic 4w ' + types[t] + ' ' + correction[cc]]
+#for nnn in np.arange(8):
+nnn = 0
+t, c, cem, ces = get_CNR_over_time_data_corrected_1sec(folders[nnn], corr3x3=True, CC=True)
+plot_CNR_over_time_1s_multiple(t, c, CNR_err_mean=cem, CC='CC', title=title[nnn], save=False)
+print(title[nnn])
+print()
 
 
 #%%

@@ -1,5 +1,42 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.patches import Rectangle
+
+
+def square_ROI(image):
+
+    # Open the image and click the 4 corners
+    coords = click_image(image, message_num=6)
+
+    # Array to hold the saved mask
+    num_rows, num_cols = np.shape(image)
+
+    # Create the mask
+    mask = rectangular_mask(coords, [num_rows, num_cols])
+
+    # Plot to verify the ROI's
+    fig = plt.figure(figsize=(8, 8))
+    ax = fig.add_subplot(111)
+    ax.imshow(image, cmap='gray')
+
+    coords = np.squeeze(coords)
+    x_max = int(round(np.max(coords[:, 1])))
+    x_min = int(round(np.min(coords[:, 1])))
+
+    y_max = int(round(np.max(coords[:, 0])))
+    y_min = int(round(np.min(coords[:, 0])))
+
+    corner = (y_min-0.5, x_min-0.5)
+    height = y_max - y_min + 1
+    width = x_max - x_min + 1
+    sq = Rectangle(corner, height, width, fill=False, edgecolor='red')
+    ax.add_artist(sq)
+
+    plt.show()
+    plt.pause(2)
+    plt.close()
+
+    return mask
 
 
 def phantom_ROIs(image, radius=6):
@@ -234,16 +271,20 @@ def click_image(image, message_num=0):
     """
     # These are the possible instructions that will be set as the title of how to collect the desired points
     instructions = {0: 'Click the center of the phantom first, then a point giving the desired radius from the center'
-                    '\n Left-click: add point, Right-click: remove point, Enter: stop collecting',
+                        '\n Left-click: add point, Right-click: remove point, Enter: stop collecting',
                     1: 'Click the center of the desired ROI, then the desired radius (relative to the center)'
-                    '\n Left-click: add point, Right-click: remove point, Enter: stop collecting',
+                        '\n Left-click: add point, Right-click: remove point, Enter: stop collecting',
                     2: 'Click the center of each ROI in order from water to highest concentration.'
-                    '\n Left-click: add point, Right-click: remove point, Enter: stop collecting',
+                        '\n Left-click: add point, Right-click: remove point, Enter: stop collecting',
                     3: 'Click the center of each ROI from water vial, then move counter-clockwise.'
-                    '\n Left-click: add point, Right-click: remove point, Enter: stop collecting',
+                        '\n Left-click: add point, Right-click: remove point, Enter: stop collecting',
                     4: 'Click the centers of the desired ROIs'
-                    '\n Left-click: add point, Right-click: remove point, Enter: stop collecting',
-                    5: 'Click the center of the phantom and the edge of the phantom'}
+                        '\n Left-click: add point, Right-click: remove point, Enter: stop collecting',
+                    5: 'Click the center of the phantom and the edge of the phantom'
+                        '\n Left-click: add point, Right-click: remove point, Enter: stop collecting',
+                    6: 'Click four corner pixels that form a rectangle/square.'
+                       '\n Left-click: add point, Right-click: remove point, Enter: stop collecting'
+                    }
 
     fig = plt.figure(figsize=(7, 7))
     ax = fig.add_subplot(111)
@@ -284,3 +325,31 @@ def circular_mask(center, radius, img_dim):
     arr[arr == 0] = np.nan
 
     return arr
+
+
+def rectangular_mask(coords, img_dim):
+    """
+
+    :param coords:
+    :param img_dim:
+    :return:
+    """
+    coords = np.squeeze(coords)
+
+    xpts = np.array(coords[:, 1])
+    ypts = np.array(coords[:, 0])
+
+    x_max = int(round(np.max(xpts)))
+    x_min = int(round(np.min(xpts)))
+
+    y_max = int(round(np.max(ypts)))
+    y_min = int(round(np.min(ypts)))
+
+    # Create the mask of the rect
+    arr = np.zeros([img_dim[0], img_dim[1]])
+    arr[x_min:x_max+1, y_min:y_max+1] = 1
+    arr[arr == 0] = np.nan
+
+    return arr
+
+#m1 = square_ROI(np.squeeze(np.sum(np.load('C:/Users/10376/Documents/Phantom Data/Uniformity/m20358_q20_al_bluebelt_acryl_1w/Corrected Data/Run002_a0.npy'), axis=2))[12])

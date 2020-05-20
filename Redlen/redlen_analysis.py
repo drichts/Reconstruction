@@ -7,7 +7,7 @@ import general_OS_functions as gof
 
 def get_uniformity_data(folder, load_directory='X:/TEST LOG/MINI MODULE/Canon/M20358_Q20/Phantom_Tests_5-11-2020/',
                         MM='M20358_Q20', air_path='none',
-                        save_directory='C:/Users/10376/Documents/Phantom Data/Raw Data/Uniformity/'):
+                        save_directory='C:/Users/10376/Documents/Phantom Data/Uniformity/'):
     """
     This performs all of the necessary work to get and save UNIFORMITY data in numpy arrays including correcting for air
     if necessary
@@ -228,3 +228,83 @@ def intensity_correction(data, air_data):
     :return: The corrected data array
     """
     return np.log(np.divide(air_data, data))
+
+
+def sum3x3(data):
+    """
+    This function sums all pixels into 3x3 megapixels (1 mm)
+    :param data: Numpy array, raw count data
+    :return: The data in numpy form with
+    """
+    dat_shape = np.array(np.shape(data))
+    dat_shape[3] = dat_shape[3]/3  # Reduce size by 3
+    dat_shape[4] = dat_shape[4]/3
+
+    ndata = np.zeros(dat_shape)
+
+    for row in np.arange(dat_shape[3]):
+        for col in np.arange(dat_shape[4]):
+            temp = data[:, :, :, 3*row:3*row+3, 3*col:3*col+3]  # Get each 3x3 subarray over all of the first 3 axes
+            ndata[:, :, :, row, col] = np.sum(temp, axis=(3, 4))  # Sum over only the rows and columns
+
+    return ndata
+
+
+def get_3x3data(folder, air_path='none', directory='C:/Users/10376/Documents/Phantom Data/Uniformity/'):
+    """
+    This function will collect the raw data and call the sum 3x3 function and save the new raw data
+    :param folder:
+    :param directory:
+    :return:
+    """
+    # Create the 3x3 Raw Data subfolders within 'folder'
+    gof.create_folder('3x3 Raw Data', directory + folder)
+
+    if air_path is not 'none':
+        gof.create_folder('3x3 Corrected Data', directory + folder)
+        aira0 = np.load(air_path + '/a0.npy')
+        aira1 = np.load(air_path + '/a1.npy')
+
+    files = glob.glob(directory + folder + '/Raw Data/*.npy')
+
+    if len(files) < 4:
+        rawa0 = np.load(directory + folder + '/Raw Data/a0.npy')
+        rawa1 = np.load(directory + folder + '/Raw Data/a1.npy')
+        newa0 = sum3x3(rawa0)
+        newa1 = sum3x3(rawa1)
+
+        np.save(directory + folder + '/3x3 Raw Data/a0.npy', newa0)
+        np.save(directory + folder + '/3x3 Raw Data/a1.npy', newa1)
+
+        if air_path is not 'none':
+            corr_newa0 = intensity_correction(newa0, aira0)
+            corr_newa1 = intensity_correction(newa1, aira1)
+
+            np.save(directory + folder + '/3x3 Corrected Data/a0.npy', corr_newa0)
+            np.save(directory + folder + '/3x3 Corrected Data/a1.npy', corr_newa1)
+    else:
+        for i in np.arange(1, int(len(files) / 2) + 1):
+            curr_run_files = glob.glob(directory + folder + '/Raw Data/*Run' + '{:03d}'.format(i) + '*.npy')
+            rawa0 = np.load(curr_run_files[0])
+            rawa1 = np.load(curr_run_files[1])
+
+            newa0 = sum3x3(rawa0)
+            newa1 = sum3x3(rawa1)
+
+            np.save(directory + folder + '/3x3 Raw Data/Run' + '{:03d}'.format(i) + '_a0.npy', newa0)
+            np.save(directory + folder + '/3x3 Raw Data/Run' + '{:03d}'.format(i) + '_a1.npy', newa1)
+
+            if air_path is not 'none':
+                corr_newa0 = intensity_correction(newa0, aira0)
+                corr_newa1 = intensity_correction(newa1, aira1)
+
+                np.save(directory + folder + '/3x3 Corrected Data/Run' + '{:03d}'.format(i) + '_a0.npy', corr_newa0)
+                np.save(directory + folder + '/3x3 Corrected Data/Run' + '{:03d}'.format(i) + '_a1.npy', corr_newa1)
+
+folders = ['m20358_q20_al_bluebelt_acryl_1w', 'm20358_q20_al_bluebelt_acryl_4w',
+           'm20358_q20_al_bluebelt_fat_1w', 'm20358_q20_al_bluebelt_fat_4w',
+           'm20358_q20_al_bluebelt_solidwater_1w', 'm20358_q20_al_bluebelt_solidwater_4w',
+           'm20358_q20_al_polypropylene_1w', 'm20358_q20_al_polypropylene_4w']
+
+air_folders = ['m20358_q20_al_air_1w', 'm20358_q20_al_air_4w']
+
