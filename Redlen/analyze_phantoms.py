@@ -12,7 +12,8 @@ folders = ['m20358_q20_al_bluebelt_acryl_1w', 'm20358_q20_al_bluebelt_acryl_4w',
 
 air_folders = ['m20358_q20_al_air_1w', 'm20358_q20_al_air_4w']
 
-a1_pixels = np.array([[0, 0], [0, 2], [0, 3], [23, 17], [16, 32], [13, 32], [8, 35], [11, 35], [12, 35], [14, 35], [17, 35]])
+a1_pixels = np.array([[0, 0], [0, 2], [0, 3], [23, 17], [16, 32], [13, 32], [8, 35], [11, 35], [12, 35], [14, 35],
+                      [17, 35]])
 
 
 def get_CNR_over_time_data_raw(folder, air_folder, directory='C:/Users/10376/Documents/Phantom Data/Uniformity/'):
@@ -98,6 +99,105 @@ def get_CNR_over_time_data_corrected_10s(folder, directory='C:/Users/10376/Docum
     return time_pts, CNR_pts
 
 
+def plot_CNR_over_time_10s(time_pts, CNR_pts, CNR_err=[], title='n/a', save=False,
+                       directory='C:/Users/10376/Documents/Phantom Data/Uniformity/'):
+
+    sns.set_style('whitegrid')
+    fig, axes = plt.subplots(2, 3, figsize=(8, 6))
+    ax1 = fig.add_subplot(111, frameon=False)
+    ax1.grid(False)
+    ax1.set_xticks([])
+    ax1.set_yticks([])
+    titles = ['20-30 keV', '30-50 keV', '50-70 keV', '70-90 keV', '90-120 keV', 'Sum CC']
+
+    max_CNR = np.max(CNR_pts) + 0.25
+    for i, ax in enumerate(axes.flat):
+        ax.plot(time_pts, CNR_pts[i], lw=1)
+        ax.set_title(titles[i])
+        ax.set_xticks([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+        ax.set_ylim([0, max_CNR])
+
+    plt.subplots_adjust(left=0.12, bottom=0.11, right=0.96, top=0.88, wspace=0.31, hspace=0.44)
+    ax1.set_xlabel('Acquisition Time (s)', fontsize=14, labelpad=25)
+    ax1.set_ylabel('CNR', fontsize=14, labelpad=30)
+    ax1.set_title(title, fontsize=15, pad=25)
+    plt.show()
+
+    if save:
+        plt.savefig(directory + '/Plots/CNR_' + title + '.png', dpi=fig.dpi)
+    plt.close()
+
+
+def add_adj_bins(data, bins):
+    """
+    This function takes the adjacent bins given in bins and sums along the bin axis, can sum multiple bins
+    :param data: 4D numpy array
+                Data array with shape <counters, views, rows, columns
+    :param bins: 1D array
+                Bin numbers (as python indices, i.e the 1st bin would be 0) to sum
+                Form: [Starting bin, Ending bin]
+                Ex. for the 2nd through 5th bins, bins = [1, 4]
+    :return: The summed data with the summed bins added together and the rest of the data intact
+                shape <counters, views, rows, columns>
+    """
+    data_shape = np.array(np.shape(data))
+    data_shape[0] = data_shape[0] - (bins[1] - bins[0])  # The new data will have the number of added bins - 1 new counters
+    new_data = np.zeros(data_shape)
+
+    new_data[0:bins[0]] = data[0:bins[0]]
+    new_data[bins[0]] = np.sum(data[bins[0]:bins[-1]+1], axis=0)
+    new_data[bins[0]+1:] = data[bins[1]+1:]
+
+    return new_data
+
+
+def get_CNR_over_1s_sum_adj_bin(folder, bins, corr3x3=False, CC=False,
+                                directory='C:/Users/10376/Documents/Phantom Data/Uniformity/'):
+
+    num_bins = 6 - (bins[1] - bins[0])
+    if corr3x3:
+        contrast_mask = np.load(directory + folder + '/3x3_a0_Mask.npy')
+        bg_mask = np.load(directory + folder + '/3x3_a0_Background.npy')
+    else:
+        contrast_mask = np.load(directory + folder + '/a0_Mask.npy')
+        bg_mask = np.load(directory + folder + '/a0_Background.npy')
+
+    time_pts = np.arange(0.001, 1.001, 0.001)  # Time points from 0.001 s to 10 s by 0.001 s increments
+    CNR_pts = np.zeros([10, num_bins, len(time_pts)])  # Collect CNR over 1 s for all 10 files
+
+    for i in np.arange(1, 11):
+
+        if corr3x3:
+            total_data = np.zeros([num_bins, 8, 12])  # Holds the current data for all bins plus the sum of all bins
+            add_data = np.load(directory + folder + '/3x3 Corrected Data/Run' + '{:03d}'.format(i) + '_a0.npy')
+        else:
+            total_data = np.zeros([num_bins, 24, 36])  # Holds the current data for all bins plus the sum of all bins
+            add_data = np.load(directory + folder + '/Corrected Data/Run' + '{:03d}'.format(i) + '_a0.npy')
+
+        add_data = np.squeeze(add_data)  # Squeeze out the single capture axis
+
+        if CC:
+            add_data = add_data[6:12]  # Grab just cc (or sec) bins
+        else:
+            add_data = add_data[0:6]  # Grab just sec bins
+
+        add_data = add_adj_bins(add_data, bins)  # Add the appropriate bins together
+
+        for j in np.arange(1000):
+            single_frame = add_data[:, j]  # Get the next view data
+            total_data[0:num_bins-1] = np.add(total_data[0:num_bins-1], single_frame[0:num_bins-1])  # Add to the current total data
+            sum_single_frame = np.sum(single_frame, axis=0)  # Sum all bins to get summed cc (or sec)
+            total_data[num_bins-1] = np.add(total_data[num_bins-1], sum_single_frame)  # Add to the total summed
+
+            for k, img in enumerate(total_data):
+                # Calculate the CNR (i-1 = file, k = bin, j = view/time point)
+                CNR_pts[i-1, k, j], err = sct.cnr(img, contrast_mask, bg_mask)
+
+    CNR_pts = np.mean(CNR_pts, axis=0)  # Average over all of the files
+
+    return time_pts, CNR_pts
+
+
 def get_CNR_over_time_data_corrected_1sec(folder, corr3x3=False, CC=True,
                                           directory='C:/Users/10376/Documents/Phantom Data/Uniformity/'):
 
@@ -147,34 +247,6 @@ def get_CNR_over_time_data_corrected_1sec(folder, corr3x3=False, CC=True,
     return time_pts, CNR_pts, err_mean, err_std
 
 
-def plot_CNR_over_time_10s(time_pts, CNR_pts, CNR_err=[], title='n/a', save=False,
-                       directory='C:/Users/10376/Documents/Phantom Data/Uniformity/'):
-
-    sns.set_style('whitegrid')
-    fig, axes = plt.subplots(2, 3, figsize=(8, 6))
-    ax1 = fig.add_subplot(111, frameon=False)
-    ax1.grid(False)
-    ax1.set_xticks([])
-    ax1.set_yticks([])
-    titles = ['20-30 keV', '30-50 keV', '50-70 keV', '70-90 keV', '90-120 keV', 'Sum CC']
-
-    max_CNR = np.max(CNR_pts) + 0.25
-    for i, ax in enumerate(axes.flat):
-        ax.plot(time_pts, CNR_pts[i], lw=1)
-        ax.set_title(titles[i])
-        ax.set_xticks([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
-        ax.set_ylim([0, max_CNR])
-
-    plt.subplots_adjust(left=0.12, bottom=0.11, right=0.96, top=0.88, wspace=0.31, hspace=0.44)
-    ax1.set_xlabel('Acquisition Time (s)', fontsize=14, labelpad=25)
-    ax1.set_ylabel('CNR', fontsize=14, labelpad=30)
-    ax1.set_title(title, fontsize=15, pad=25)
-    plt.show()
-
-    if save:
-        plt.savefig(directory + '/Plots/CNR_' + title + '.png', dpi=fig.dpi)
-    plt.close()
-
 
 def plot_CNR_over_time_1s_multiple(time_pts, CNR_pts, CNR_err_mean, CC='CC', title='n/a', save=False,
                        directory='C:/Users/10376/Documents/Phantom Data/Uniformity/'):
@@ -215,83 +287,61 @@ def plot_CNR_over_time_1s_multiple(time_pts, CNR_pts, CNR_err_mean, CC='CC', tit
         plt.close()
 
 
-def correct_dead_pixels(img, pixels):
+def plot_CNR_adj_bins(time_pts, CNR_pts, plottitles, title='n/a', save=False,
+                      directory='C:/Users/10376/Documents/Phantom Data/Uniformity/'):
     """
-    Correct for non-responsive and anomalous pixels
-    :param img: The image to be corrected as a 2D numpy array
-    :param pixels: The dead pixels as an array of tuples
-    :return img: The corrected image
-    """
-    for pixel in pixels:
-        avg = get_average_pixel_value(img, pixel)
-        img[pixel[0], pixel[1]] = avg
 
-    return img
-
-
-def get_average_pixel_value(img, pixel):
-    """
-    Averages the dead pixel using the 8 nearest neighbours
-    :param img: the projection image
-    :param pixel: the problem pixel (is a 2-tuple)
+    :param time_pts:
+    :param CNR_pts:
+    :param title:
+    :param save:
+    :param directory:
     :return:
     """
+    sns.set_style('whitegrid')
+    fig, axes = plt.subplots(2, 3, figsize=(8, 6))
+    ax1 = fig.add_subplot(111, frameon=False)
+    ax1.grid(False)
+    ax1.set_xticks([])
+    ax1.set_yticks([])
 
-    shape = np.shape(img)
-    row, col = pixel
+    max_CNR = np.max(CNR_pts) + 0.25
+    for i, ax in enumerate(axes.flat):
+        if i > len(CNR_pts) - 1:
+            break
+        ax.plot(time_pts, CNR_pts[i], lw=1)
+        ax.set_title(plottitles[i])
+        ax.set_xticks([0, 0.25, 0.5, 0.75, 1])
+        ax.set_ylim([0, max_CNR])
 
-    if col == shape[1]-1:
-        n1 = np.nan
-    else:
-        n1 = img[row, col+1]
-    if col == 0:
-        n2 = np.nan
-    else:
-        n2 = img[row, col-1]
-    if row == shape[0]-1:
-        n3 = np.nan
-    else:
-        n3 = img[row+1, col]
-    if row == 0:
-        n4 = np.nan
-    else:
-        n4 = img[row-1, col]
-    if col == shape[1]-1 or row == shape[0]-1:
-        n5 = np.nan
-    else:
-        n5 = img[row+1, col+1]
-    if col == 0 or row == shape[0]-1:
-        n6 = np.nan
-    else:
-        n6 = img[row+1, col-1]
-    if col == shape[1]-1 or row == 0:
-        n7 = np.nan
-    else:
-        n7 = img[row-1, col+1]
-    if col == 0 or row == 0:
-        n8 = np.nan
-    else:
-        n8 = img[row-1, col-1]
+    plt.subplots_adjust(left=0.12, bottom=0.2, right=0.96, top=0.88, wspace=0.31, hspace=0.55)
+    ax1.set_xlabel('Acquisition Time (s)', fontsize=14, labelpad=45)
+    ax1.set_ylabel('CNR', fontsize=14, labelpad=30)
+    ax1.set_title(title, fontsize=15, pad=25)
+    plt.show()
 
-    avg = np.nanmean(np.array([n1, n2, n3, n4, n5, n6, n7, n8]))
+    if save:
+        plt.savefig(directory + '/Plots/CNR ' + title + '.png', dpi=fig.dpi)
+        plt.close()
 
-    return avg
 
 t = 0
 types = ['CC', 'SEC']
-cc = 1
+cc = 0
 correction = ['330 um', '1 mm']
 
 title = ['Bluebelt in Acrylic 1w ' + types[t] + ' ' + correction[cc], 'Bluebelt in Acrylic 4w ' + types[t] + ' ' + correction[cc],
          'Bluebelt in Fat 1w ' + types[t] + ' ' + correction[cc], 'Bluebelt in Fat 4w ' + types[t] + ' ' + correction[cc],
          'Bluebelt in Solid Water 1w ' + types[t] + ' ' + correction[cc], 'Bluebelt in Solid Water 4w ' + types[t] + ' ' + correction[cc],
          'Polypropylene in Acrylic 1w ' + types[t] + ' ' + correction[cc], 'Polypropylene in Acrylic 4w ' + types[t] + ' ' + correction[cc]]
+bintitles = ['20-30 keV', '30-90 keV', '90-120 keV', 'Sum ' + types[t]]
+bins = [1, 3]
 #for nnn in np.arange(8):
-nnn = 0
-t, c, cem, ces = get_CNR_over_time_data_corrected_1sec(folders[nnn], corr3x3=True, CC=True)
-plot_CNR_over_time_1s_multiple(t, c, CNR_err_mean=cem, CC='CC', title=title[nnn], save=False)
-print(title[nnn])
-print()
+nnn = 6
+t, c = get_CNR_over_1s_sum_adj_bin(folders[nnn], bins, corr3x3=False, CC=True)
+plot_CNR_adj_bins(t, c, bintitles, title=title[nnn], save=False)
+#print(title[nnn])
+#print()
 
 
 #%%
