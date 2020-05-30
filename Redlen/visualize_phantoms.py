@@ -3,21 +3,15 @@ import matplotlib.pyplot as plt
 import glob
 import generateROImask as grm
 
-directory = 'C:/Users/10376/Documents/Phantom Data/Uniformity/'
+directory = 'C:/Users/10376/Documents/Phantom Data/Uniformity/Multiple Energy Thresholds/1w/'
 
-folders = ['m20358_q20_al_bluebelt_acryl_1w', 'm20358_q20_al_bluebelt_acryl_4w',
-           'm20358_q20_al_bluebelt_fat_1w', 'm20358_q20_al_bluebelt_fat_4w',
-           'm20358_q20_al_bluebelt_solidwater_1w', 'm20358_q20_al_bluebelt_solidwater_4w',
-           'm20358_q20_al_polypropylene_1w', 'm20358_q20_al_polypropylene_4w']
-
-air_folders = ['m20358_q20_al_air_1w', 'm20358_q20_al_air_4w']
+folders = ['Data', '3x3 Data']
 
 #%% Get masks for the folders
-directory = 'C:/Users/10376/Documents/Phantom Data/Uniformity/'
-for idx, folder in enumerate(folders[0:8:2]):
-    data = np.load(directory + folder + '/Corrected Data/Run010_a0.npy')
-    data = np.sum(data, axis=2)
-    data = np.squeeze(data)
+
+for folder in folders:
+    data = np.load(directory + folder + '/Thresholds_1.npy')
+    data = np.squeeze(np.sum(data, axis=2))
 
     continue_flag = True
     while continue_flag:
@@ -33,11 +27,11 @@ for idx, folder in enumerate(folders[0:8:2]):
         if val is 'y':
             continue_flag = False
 
-    np.save(directory + folder + '/a0_Mask.npy', mask)
-    np.save(directory + folder + '/a0_Background.npy', bg)
+    np.save(directory + folder + '/Con_Mask.npy', mask)
+    np.save(directory + folder + '/Background.npy', bg)
 
-    np.save(directory + folders[idx*2+1] + '/a0_Mask.npy', mask)
-    np.save(directory + folders[idx*2+1] + '/a0_Background.npy', bg)
+    np.save('C:/Users/10376/Documents/Phantom Data/Uniformity/Multiple Energy Thresholds/3w/' + folder + '/Con_Mask.npy', mask)
+    np.save('C:/Users/10376/Documents/Phantom Data/Uniformity/Multiple Energy Thresholds/3w/' + folder + '/Background.npy', bg)
 
 #%% Plot the 5 bins plus the EC bin for any folder, correcting the raw data manually
 folder = folders[7]

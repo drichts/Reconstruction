@@ -234,7 +234,7 @@ def sum3x3(data):
     """
     This function sums all pixels into 3x3 megapixels (1 mm)
     :param data: Numpy array, raw count data
-    :return: The data in numpy form with
+    :return: The data in numpy form with new size
     """
     dat_shape = np.array(np.shape(data))
     dat_shape[3] = dat_shape[3]/3  # Reduce size by 3
@@ -301,10 +301,43 @@ def get_3x3data(folder, air_path='none', directory='C:/Users/10376/Documents/Pha
                 np.save(directory + folder + '/3x3 Corrected Data/Run' + '{:03d}'.format(i) + '_a0.npy', corr_newa0)
                 np.save(directory + folder + '/3x3 Corrected Data/Run' + '{:03d}'.format(i) + '_a1.npy', corr_newa1)
 
-folders = ['m20358_q20_al_bluebelt_acryl_1w', 'm20358_q20_al_bluebelt_acryl_4w',
-           'm20358_q20_al_bluebelt_fat_1w', 'm20358_q20_al_bluebelt_fat_4w',
-           'm20358_q20_al_bluebelt_solidwater_1w', 'm20358_q20_al_bluebelt_solidwater_4w',
-           'm20358_q20_al_polypropylene_1w', 'm20358_q20_al_polypropylene_4w']
 
-air_folders = ['m20358_q20_al_air_1w', 'm20358_q20_al_air_4w']
+def polyprop_mult_energy():
+    """
+    Goes through the two folders holding all the energy threshold data and calculates the air corrected
+    data and 3x3 data
+    :return:
+    """
+    load_dir = r'X:\TEST LOG\MINI MODULE\Canon\M20358_Q20/'
+    save_dir = r'C:\Users\10376\Documents\Phantom Data\Uniformity/Multiple Energy Thresholds/'
 
+    save_folder = ['/1w/', '/3w/']  # Two folders in the save directory
+
+    folders = ['multiple_energy_thresholds_1w', 'multiple_energy_thresholds_3w']
+    air_folders = ['multiple_energy_thresholds_flatfield_1w', 'multiple_energy_thresholds_flatfield_3w']
+
+    # Go through the two folders and the corresponding air folders
+    for i in np.arange(2):
+        files = glob.glob(load_dir + folders[i] + '/Raw Test Data/M20358_Q20/UNIFORMITY/*A0*')
+        air_files = glob.glob(load_dir + air_folders[i] + '/Raw Test Data/M20358_Q20/UNIFORMITY/*A0*')
+
+        # Go through each file and it's corresponding air file
+        for j in np.arange(len(files)):
+            print(files[j][-100:-25])
+            print(air_files[j][-100:-25])
+            print()
+            data = mat_to_npy(files[j])
+            air_data = mat_to_npy(air_files[j])
+
+            data3x3 = sum3x3(data)
+            air_data3x3 = sum3x3(air_data)
+
+            corr = intensity_correction(data, air_data)
+            corr3x3 = intensity_correction(data3x3, air_data3x3)
+
+            # Save the data, j corresponds to the NDT number in the filename and the threshold settings in my notes
+            # See Redlen notebook
+            np.save(save_dir + save_folder[i] + 'Data/Thresholds_' + str(j+1) + '.npy', corr)
+            np.save(save_dir + save_folder[i] + '3x3 Data/Thresholds_' + str(j+1) + '.npy', corr3x3)
+
+polyprop_mult_energy()

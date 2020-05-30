@@ -247,6 +247,45 @@ def get_CNR_over_time_data_corrected_1sec(folder, corr3x3=False, CC=True,
     return time_pts, CNR_pts, err_mean, err_std
 
 
+def get_CNR_over_time_energy_thresh(folder, threshold, corr3x3=False, CC=True,
+                            directory='C:/Users/10376/Documents/Phantom Data/Uniformity/Multiple Energy Thresholds'):
+
+    if corr3x3:
+        contrast_mask = np.load(directory + folder + '/3x3_a0_Mask.npy')
+        bg_mask = np.load(directory + folder + '/3x3_a0_Background.npy')
+    else:
+        contrast_mask = np.load(directory + folder + '/a0_Mask.npy')
+        bg_mask = np.load(directory + folder + '/a0_Background.npy')
+
+    time_pts = np.arange(0.001, 1.001, 0.001)  # Time points from 0.001 s to 10 s by 0.001 s increments
+    CNR_pts = np.zeros([6, len(time_pts)])  # Collect CNR over 1 s for all 10 files
+
+    if corr3x3:
+        total_data = np.zeros([6, 8, 12])  # Holds the current data for all bins plus the sum of all bins
+        add_data = np.load(directory + folder + '/3x3 Data/Thresholds_' + str(threshold) + '.npy')
+    else:
+        total_data = np.zeros([6, 24, 36])  # Holds the current data for all bins plus the sum of all bins
+        add_data = np.load(directory + folder + '/Data/Thresholds_' + str(threshold) + '.npy')
+
+    add_data = np.squeeze(add_data)  # Squeeze out the single capture axis
+
+    if CC:
+        add_data = add_data[6:12]  # Grab just cc (or sec) bins
+    else:
+        add_data = add_data[0:6]  # Grab just sec bins
+
+    for j in np.arange(1000):
+        single_frame = add_data[:, j]  # Get the next view data
+        total_data[0:5] = np.add(total_data[0:5], single_frame[0:5])  # Add to the current total data
+        sum_single_frame = np.sum(single_frame, axis=0)  # Sum all bins to get summed cc (or sec)
+        total_data[5] = np.add(total_data[5], sum_single_frame)  # Add to the total summed
+
+        for k, img in enumerate(total_data):
+            # Calculate the CNR (i-1 = file, k = bin, j = view/time point)
+            CNR_pts[k, j], err = sct.cnr(img, contrast_mask, bg_mask)
+
+    return time_pts, CNR_pts
+
 
 def plot_CNR_over_time_1s_multiple(time_pts, CNR_pts, CNR_err_mean, CC='CC', title='n/a', save=False,
                        directory='C:/Users/10376/Documents/Phantom Data/Uniformity/'):
@@ -325,21 +364,25 @@ def plot_CNR_adj_bins(time_pts, CNR_pts, plottitles, title='n/a', save=False,
         plt.close()
 
 
-t = 0
-types = ['CC', 'SEC']
-cc = 0
-correction = ['330 um', '1 mm']
+directory = r'C:\Users\10376\Documents\Phantom Data\Uniformity\Multiple Energy Thresholds/'
+bintitles = [['20-30 keV', '30-50 keV', '50-70 keV', '70-90 keV', '90-120 keV', '20-120 keV'],
+             ['20-30 keV', '30-40 keV', '40-50 keV', '50-60 keV', '60-70 keV', '20-70 keV'],
+             ['20-35 keV', '35-50 keV', '50-65 keV', '65-80 keV', '80-90 keV', '20-90 keV'],
+             ['25-35 keV', '35-45 keV', '45-55 keV', '55-65 keV', '65-75 keV', '25-75 keV'],
+             ['25-40 keV', '40-55 keV', '55-70 keV', '70-80 keV', '80-95 keV', '25-95 keV'],
+             ['30-45 keV', '45-60 keV', '60-75 keV', '75-85 keV', '85-95 keV', '30-95 keV'],
+             ['20-30 keV', '30-70 keV', '70-85 keV', '85-100 keV', '100-120 keV', '20-120 keV']]
 
-title = ['Bluebelt in Acrylic 1w ' + types[t] + ' ' + correction[cc], 'Bluebelt in Acrylic 4w ' + types[t] + ' ' + correction[cc],
-         'Bluebelt in Fat 1w ' + types[t] + ' ' + correction[cc], 'Bluebelt in Fat 4w ' + types[t] + ' ' + correction[cc],
-         'Bluebelt in Solid Water 1w ' + types[t] + ' ' + correction[cc], 'Bluebelt in Solid Water 4w ' + types[t] + ' ' + correction[cc],
-         'Polypropylene in Acrylic 1w ' + types[t] + ' ' + correction[cc], 'Polypropylene in Acrylic 4w ' + types[t] + ' ' + correction[cc]]
-bintitles = ['20-30 keV', '30-90 keV', '90-120 keV', 'Sum ' + types[t]]
-bins = [1, 3]
-#for nnn in np.arange(8):
-nnn = 6
-t, c = get_CNR_over_1s_sum_adj_bin(folders[nnn], bins, corr3x3=False, CC=True)
-plot_CNR_adj_bins(t, c, bintitles, title=title[nnn], save=False)
+for folder in ['/1w/', '/3w/']:
+    for three in [False, True]:
+        for i in np.arange(1, 8):
+            t, c = get_CNR_over_time_energy_thresh(folder, i, corr3x3=three)
+            for j in np.arange(5):
+                if three:
+                    np.save(directory + folder + '/3x3 Data/Ranges CNR/' + bintitles[i-1][j] + '.npy', c[j])
+                else:
+                    np.save(directory + folder + '/Data/Ranges CNR/' + bintitles[i-1][j] + '.npy', c[j])
+#plot_CNR_adj_bins(t, c, bintitles, title=title[nnn], save=False)
 #print(title[nnn])
 #print()
 
