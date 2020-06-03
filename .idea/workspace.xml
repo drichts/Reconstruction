@@ -19,11 +19,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e941e18b-2940-48ac-a2bc-ba92ca5d083f" name="Default Changelist" comment="Add adj bins (5/27/2020)">
+    <list default="true" id="e941e18b-2940-48ac-a2bc-ba92ca5d083f" name="Default Changelist" comment="Add multiple thresholds (5/29/2020)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Redlen/analyze_phantoms.py" beforeDir="false" afterPath="$PROJECT_DIR$/Redlen/analyze_phantoms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redlen/redlen_analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/Redlen/redlen_analysis.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redlen/visualize_phantoms.py" beforeDir="false" afterPath="$PROJECT_DIR$/Redlen/visualize_phantoms.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -187,6 +185,7 @@
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
         <env name="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
       </envs>
       <option name="SDK_HOME" value="C:\Users\drich\Anaconda3\python.exe" />
@@ -424,7 +423,8 @@
       <workItem from="1589994827642" duration="16218000" />
       <workItem from="1590613394174" duration="6283000" />
       <workItem from="1590779435618" duration="4150000" />
-      <workItem from="1590792477447" duration="5223000" />
+      <workItem from="1590792477447" duration="5453000" />
+      <workItem from="1591121644762" duration="17160000" />
     </task>
     <task id="LOCAL-00001" summary="Paper Edits">
       <created>1582153406007</created>
@@ -552,7 +552,14 @@
       <option name="project" value="LOCAL" />
       <updated>1590621123750</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="Add multiple thresholds (5/29/2020)">
+      <created>1590797920875</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1590797920876</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -588,7 +595,8 @@
     <MESSAGE value="Phantom analysis update for CNR over 1 second acquisitions (5/14/2020)" />
     <MESSAGE value="3x3 pixel analysis update (5/20/2020)" />
     <MESSAGE value="Add adj bins (5/27/2020)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add adj bins (5/27/2020)" />
+    <MESSAGE value="Add multiple thresholds (5/29/2020)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add multiple thresholds (5/29/2020)" />
   </component>
   <component name="WindowStateProjectService">
     <state x="715" y="324" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1586977505005">
@@ -642,10 +650,10 @@
     <state x="394" y="84" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1588193117258" />
     <state x="795" y="175" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1588272863045" />
     <state x="461" y="223" key="SettingsEditor/0.0.1920.1160/-1920.0.1536.824@0.0.1920.1160" timestamp="1584474497130" />
-    <state x="442" y="201" key="Vcs.Push.Dialog.v2" timestamp="1590621129151">
+    <state x="442" y="201" key="Vcs.Push.Dialog.v2" timestamp="1590797924485">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="442" y="201" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1590621129151" />
+    <state x="442" y="201" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1590797924485" />
     <state x="552" y="254" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1589488677492" />
     <state x="769" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1588618612832">
       <screen x="0" y="0" width="1920" height="1040" />
