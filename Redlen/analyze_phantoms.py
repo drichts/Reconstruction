@@ -275,7 +275,8 @@ def get_CNR_over_time_energy_thresh(folder, threshold, corr3x3=False, CC=True,
         for k, img in enumerate(total_data):
             # Calculate the CNR (i-1 = file, k = bin, j = view/time point)
             CNR_pts[k, j], err = sct.cnr(img, contrast_mask, bg_mask)
-
+            if k == 3:
+                print(CNR_pts[k, j])
     CNR_err = np.std(CNR_pts, axis=1)
     CNR_pts = np.mean(CNR_pts, axis=1)
 
@@ -444,22 +445,10 @@ nbt = [[20, 30, 50, 70, 90, 120],
        [30, 45, 60, 75, 85, 95],
        [20, 30, 70, 85, 100, 120]]
 
-files = ['1_20-30 keV.npy', '1_30-50 keV.npy', '1_50-70 keV.npy', '1_70-90 keV.npy', '1_90-120 keV.npy', '1_20-120 keV.npy']
+files = ['1_20-30 keV.npy', '1_30-50 keV.npy', '1_50-70 keV.npy', '1_70-90 keV.npy', '1_90-120 keV.npy',
+         '1_20-120 keV.npy']
 tpts = np.arange(0.001, 0.251, 0.001)
 diam = ['1 mm', '330 um']
-
-
-
-
-    #for j, subfolder in enumerate(['3x3 Data', 'Data']):
-
-
-
-        #data = np.zeros([6, 250])
-        #for i in np.arange(6):
-        #    data[i] = np.load(directory + '/' + folder + '/' + subfolder + '/Ranges CNR/' + files[i])[0:250]
-        #title = folder + ' ' + diam[j]
-       #plot_CNR_adj_bins(tpts, data, bintitles[0], title=title, save=True, directory=directory)
 
 bins = np.array([[0, 1], [0, 2], [0, 3], [1, 2], [1, 3], [2, 3]])
 
@@ -490,6 +479,8 @@ for folder in ['1w', '3w']:
     print(folder)
     print(find_top_10(folder, '3x3 Data'))
     print()
+
+t, c, ce = get_CNR_over_time_energy_thresh('/1w/', 2, corr3x3=False)
 #%%
 np.set_printoptions(precision=2)
 for sub in ['Data', '3x3 Data']:

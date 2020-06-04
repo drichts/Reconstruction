@@ -325,13 +325,14 @@ def polyprop_mult_energy():
         for j in np.arange(len(files)):
             print(files[j][-100:-25])
             print(air_files[j][-100:-25])
-            print()
+
             data = mat_to_npy(files[j])
             air_data = mat_to_npy(air_files[j])
 
             data3x3 = sum3x3(data)
+            print(np.sum(data3x3) - np.sum(data))
             air_data3x3 = sum3x3(air_data)
-
+            print()
             corr = intensity_correction(data, air_data)
             corr3x3 = intensity_correction(data3x3, air_data3x3)
 
@@ -340,4 +341,4 @@ def polyprop_mult_energy():
             np.save(save_dir + save_folder[i] + 'Data/Thresholds_' + str(j+1) + '.npy', corr)
             np.save(save_dir + save_folder[i] + '3x3 Data/Thresholds_' + str(j+1) + '.npy', corr3x3)
 
-polyprop_mult_energy()
+#polyprop_mult_energy()
