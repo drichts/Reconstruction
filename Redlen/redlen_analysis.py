@@ -329,16 +329,41 @@ def polyprop_mult_energy():
             data = mat_to_npy(files[j])
             air_data = mat_to_npy(air_files[j])
 
+            data2x2 = sum2x2(data)
+            air_data2x2 = sum2x2(air_data)
+
             data3x3 = sum3x3(data)
-            print(np.sum(data3x3) - np.sum(data))
             air_data3x3 = sum3x3(air_data)
-            print()
+
             corr = intensity_correction(data, air_data)
+            corr2x2 = intensity_correction(data2x2, air_data2x2)
             corr3x3 = intensity_correction(data3x3, air_data3x3)
 
             # Save the data, j corresponds to the NDT number in the filename and the threshold settings in my notes
             # See Redlen notebook
             np.save(save_dir + save_folder[i] + 'Data/Thresholds_' + str(j+1) + '.npy', corr)
+            np.save(save_dir + save_folder[i] + '2x2 Data/Thresholds_' + str(j + 1) + '.npy', corr2x2)
             np.save(save_dir + save_folder[i] + '3x3 Data/Thresholds_' + str(j+1) + '.npy', corr3x3)
 
-#polyprop_mult_energy()
+
+def sum2x2(data):
+    """
+    This function takes a data array and sums 2x2 pixels along the row and column data
+    :param data: 5D array
+                The full data array <captures, counters, views, rows, columns>
+    :return: The new data array with 2x2 pixels from the inital data summed together
+    """
+    dat_shape = np.array(np.shape(data))
+    dat_shape[3] = dat_shape[3] / 2  # Reduce size by 2 in the row and column directions
+    dat_shape[4] = dat_shape[4] / 2
+
+    ndata = np.zeros(dat_shape)
+
+    for row in np.arange(dat_shape[3]):
+        for col in np.arange(dat_shape[4]):
+            temp = data[:, :, :, 2*row:2*row+2, 2*col:2*col+2]  # Get each 2x2 subarray over all of the first 2 axes
+            ndata[:, :, :, row, col] = np.sum(temp, axis=(3, 4))  # Sum over only the rows and columns
+
+    return ndata
+
+polyprop_mult_energy()
