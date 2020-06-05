@@ -33,7 +33,7 @@ def main(folder, slice_num='15', directory='D:/Research/Python Data/Spectral CT/
 
     np.save(directory + folder + '/Vial_Masks.npy', masks)
 
-    normalize(folder, cc=True)
+    normalize(folder, cc=cc)
 
     continue_flag = True
     if re_analyze:
@@ -100,8 +100,6 @@ def mat_to_npy(folder, load_directory='D:/Research/sCT Scan Data/',
         s4 = loadmat(path + '/data/binSEC5_test_corrected2_revisit.mat')  # bin 4
         s5 = loadmat(path + '/data/binSEC6_test_corrected2_revisit.mat')  # bin 5
         s6 = loadmat(path + '/data/binSEC13_test_corrected2_revisit.mat')  # bin 6 (summed bin)
-
-
 
     # Grab just the colormap matrices
     s0 = s0['Reconimg']
@@ -370,22 +368,6 @@ def total_image_noise_stats(image, folder, load=False, directory='D:/Research/Py
 
     return mean_noise, std_noise
 
-#directory='D:/Research/Python Data/Spectral CT/'
-#folder = 'AuGd_width_14_12-2-19/'
-#sli = 19
-#path = directory + folder + 'Slices/'
-#mean_noise = np.empty(7)
-#std_noise = np.empty(7)
-#for b in np.arange(7):
-#    image = np.load(path + 'Bin' + str(b) + '_Slice' + str(sli) + '.npy')
-#    if b == 0:
-#        mean_noise[b], std_noise[b] = total_image_noise_stats(image, folder)
-#    else:
-#        mean_noise[b], std_noise[b] = total_image_noise_stats(image, folder, load=True)
-
-#np.save(directory + folder + 'Mean_Noise.npy', mean_noise)
-#np.save(directory + folder + 'Noise_Error.npy', std_noise)
-
 
 def cnr(image, contrast_mask, background_mask):
     """
@@ -515,7 +497,16 @@ def mean_ROI_value(image, vial):
 
 
 def find_norm_value(folder, good_slice, vial, edge, subtype=2, directory='D:/Research/Python Data/Spectral CT/'):
-
+    """
+    Find the mean value of the highest concentration and of water to normalize images to concentration
+    :param folder:
+    :param good_slice:
+    :param vial:
+    :param edge:
+    :param subtype:
+    :param directory:
+    :return:
+    """
     low_slice, high_slice = good_slice[0], good_slice[1]
 
     # Define subfolder with subtype
@@ -550,13 +541,26 @@ def find_norm_value(folder, good_slice, vial, edge, subtype=2, directory='D:/Res
 
 
 def linear_fit(zero_value, norm_value):
-
+    """
+    Find a linear fit between 0 and 5% concentration
+    :param zero_value: the water value (0%) concentration
+    :param norm_value: the 5% concentration value
+    :return:
+    """
     coeffs = np.polyfit([zero_value, norm_value], [0, 5], 1)
 
     return coeffs
 
 def norm_kedge(folder, coeffs, edge, directory='D:/Research/Python Data/Spectral CT/'):
-
+    """
+    Normalize the k-edge images and save in a new folder (Normed K-Edge)
+    :param folder:
+    :param coeffs:
+    :param edge: int
+                The K-edge image to look at, 0 = 1-0, 1 = 2-1, 2 = 3-2, 4 = 4-3
+    :param directory:
+    :return:
+    """
     # Define the specific K-edge
     bin_edge = {0: 'Bin1-0_',
                 1: 'Bin2-1_',
@@ -613,64 +617,3 @@ def sum_sec_cc(folder, sec=True, cc=False, directory='D:/Research/Python Data/Sp
             np.save(directory + folder + '/CT Sum Slices/CC_' + str(z) + '.npy', s_cc)
     return
 
-
-#%%
-
-directory = 'D:/OneDrive - University of Victoria/Research/Python Data/Spectral CT/'
-folders = ['Al_2.0_8-14-19', 'Al_2.0_10-17-19_3P', 'Al_2.0_10-17-19_1P',
-           'Cu_0.5_8-14-19', 'Cu_0.5_9-13-19', 'Cu_0.5_10-17-19',
-           'Cu_1.0_8-14-19', 'Cu_1.0_9-13-19', 'Cu_1.0_10-17-19',
-           'Cu_0.5_Time_0.5_11-11-19', 'Cu_0.5_Time_0.1_11-4-19',
-           'AuGd_width_5_12-2-19', 'AuGd_width_10_12-2-19', 'AuGd_width_14_12-2-19', 'AuGd_width_20_12-9-19']
-
-good_slices = [[5, 19], [10, 18], [11, 18],
-               [4, 15], [7, 15], [12, 19],
-               [4, 14], [5, 16], [10, 19],
-               [10, 19], [10, 18],
-               [11, 19], [11, 19], [11, 19], [11, 19]]
-
-# Normalization values
-#Al_norm = np.zeros([4, 2])
-#Cu05_norm = np.zeros([4, 2])
-#Cu1_norm = np.zeros([4, 2])
-
-#for i in np.arange(4):
-
-    # Order of the vials according to the bin
-#    vials = np.array([4, 2, 3, 1])
-
-    # Find the norm values for each 5% value and 0% for each bin in each of the filters
-#    Al_norm[i, :] = find_norm_value(folders[0], good_slices[0], vials[i], i, directory=directory)
-#    Cu05_norm[i, :] = find_norm_value(folders[3], good_slices[3], vials[i], i, directory=directory)
-#    Cu1_norm[i, :] = find_norm_value(folders[6], good_slices[6], vials[i], i, directory=directory)
-
-    # Get the current linear fit coefficients for each filter
-#    coeffs_Al = linear_fit(Al_norm[i, 0], Al_norm[i, 1])
-#    coeffs_Cu05 = linear_fit(Cu05_norm[i, 0], Cu05_norm[i, 1])
-#    coeffs_Cu1 = linear_fit(Cu1_norm[i, 0], Cu1_norm[i, 1])
-
-    # Normalize the K-Edge images
-    # Aluminum 2.0 mm
-    #sct.norm_kedge(folders[0], coeffs_Al, i, directory=directory)  # 5%
-    #sct.norm_kedge(folders[1], coeffs_Al, i, directory=directory)  # 3%
-    #sct.norm_kedge(folders[2], coeffs_Al, i, directory=directory)  # 1%
-
-    # Copper 0.5 mm
-    #sct.norm_kedge(folders[3], coeffs_Cu05, i, directory=directory)  # 5%
-    #sct.norm_kedge(folders[4], coeffs_Cu05, i, directory=directory)  # 3%
-    #sct.norm_kedge(folders[5], coeffs_Cu05, i, directory=directory)  # 1%
-
-    # Copper 1.0 mm
-    #sct.norm_kedge(folders[6], coeffs_Cu1, i, directory=directory)  # 5%
-    #sct.norm_kedge(folders[7], coeffs_Cu1, i, directory=directory)  # 3%
-    #sct.norm_kedge(folders[8], coeffs_Cu1, i, directory=directory)  # 1%
-
-    # Time Acquisitions
-    #norm_kedge(folders[9], coeffs_Cu05, i, directory=directory)  # 0.5s
-    #norm_kedge(folders[10], coeffs_Cu05, i, directory=directory)  # 0.1s
-
-    # Bin Width
-    #norm_kedge(folders[11], coeffs_Cu05, i, directory=directory)  # 5, 5
-    #norm_kedge(folders[12], coeffs_Cu05, i, directory=directory)  # 10, 10
-    #norm_kedge(folders[13], coeffs_Cu05, i, directory=directory)  # 14, 14
-    #norm_kedge(folders[14], coeffs_Cu05, i, directory=directory)  # 8, 20

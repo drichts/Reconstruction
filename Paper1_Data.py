@@ -39,19 +39,19 @@ energies = np.load(folder + 'corrected-spectrum_120kV.npy')
 #au1 = np.load(folder + 'Au3P.npy')
 au = np.load(folder + 'Au5P.npy')
 #au = np.add(au1, 3*au2)/4
-dy = np.load(folder + 'Dy5P.npy')
-lu = np.load(folder + 'Lu5P.npy')
-gd = np.load(folder + 'Gd5P.npy')
-iod = np.load(folder + 'I5P.npy')
-h2o = np.load(folder + 'H2O.npy')
+#dy = np.load(folder + 'Dy5P.npy')
+#lu = np.load(folder + 'Lu5P.npy')
+gd = np.load(folder + 'Gd.npy')
+#iod = np.load(folder + 'I5P.npy')
+#h2o = np.load(folder + 'H2O.npy')
 
 # Denisities of the various mixtures
-d_Au = 1.91  # 3P 1.55; 5P 1.91; 4P 1.71
-d_Lu = 1.44
-d_Dy = 1.38
-d_Gd = 1.34
-d_iod = 1.19  # Iohexol 5P 1.0057; 5P 1.19
-d_h2o = 0.997
+#d_Au = 1.91  # 3P 1.55; 5P 1.91; 4P 1.71
+#d_Lu = 1.44
+#d_Dy = 1.38
+#d_Gd = 1.34
+#d_iod = 1.19  # Iohexol 5P 1.0057; 5P 1.19
+#d_h2o = 0.997
 
 # Linear attenuation of the mixtures
 au = np.multiply(au, d_Au)
@@ -115,6 +115,48 @@ plt.xlim([15, 120])
 #plt.ylim([1E-1, 1E3])
 #plt.ylim([0, 50])
 plt.subplots_adjust(left=0.145, right=0.92)
+plt.show()
+
+#%% For Chelsea (50% Au and Gd) scaled spectrum
+
+folder = 'D:/Research/Bin Optimization/'
+
+colors = ['orange', 'crimson', 'mediumseagreen', 'darkorchid', 'dodgerblue']  # Au, Dy, Lu, Gd, I
+
+energies = np.load(folder + 'corrected-spectrum_120kV.npy')
+energies = energies[:, 0]
+np.save(folder + '/Chelsea/energy_values.npy', energies)
+spectrum = np.load(folder + 'Cu0.5_spectrum.npy')
+np.save(folder + '/Chelsea/Cu0.5spectrum_weights.npy', spectrum)
+
+au = np.load(folder + 'Au.npy')
+np.save(folder + '/Chelsea/Au_mass_attenuation.npy', au)
+gd = np.load(folder + 'Gd.npy')
+np.save(folder + '/Chelsea/Gd_mass_attenuation.npy', gd)
+
+combined = np.add(0.5*au, 0.5*gd)
+np.save(folder + '/Chelsea/combined_mass_attenuation.npy', combined)
+combined = np.multiply(combined, spectrum)
+np.save(folder + '/Chelsea/combined_weighted.npy', combined)
+au = np.multiply(0.5*au, spectrum)
+np.save(folder + '/Chelsea/Au_weighted.npy', au)
+gd = np.multiply(0.5*gd, spectrum)
+np.save(folder + '/Chelsea/Gd_weighted.npy', gd)
+#au = au*0.5
+#gd = gd*0.5
+
+fig = plt.figure(figsize=(9, 7))
+plt.semilogy(energies, au, color='orange')
+plt.semilogy(energies, gd, color='darkorchid')
+plt.semilogy(energies, combined, color='crimson')
+#plt.plot(energies, au, color='orange')
+#plt.plot(energies, gd, color='darkorchid')
+#plt.plot(energies, combined, color='crimson')
+plt.legend(['50% Au', '50% Gd', '50/50'], fontsize=20)
+plt.xlabel('Energy (MeV)', fontsize=20, labelpad=5)
+plt.ylabel(r"$\mu / \rho$ $(cm^{2}/g)$", fontsize=20)
+plt.tick_params(labelsize=14)
+plt.savefig(folder + '/Chelsea/massatt_all3.png', dpi=500)
 plt.show()
 
 #%%
