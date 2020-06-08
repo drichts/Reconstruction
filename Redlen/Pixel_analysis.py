@@ -27,8 +27,11 @@ def line(x, m):
 def quadratic(x, a, b):
     return a*x*x + b*x
 
+def sqroot(x, a, b):
+    return a*np.sqrt(np.abs(b)*x)
 
-def plot_all_bins(test_num, order, save=False,
+
+def plot_all_bins(test_num, order, save=False, nine=False,
                   directory='C:/Users/10376/Documents/Phantom Data/Uniformity/Multiple Energy Thresholds/3w/'):
     binrngs = [['20-30', '30-50', '50-70', '70-90', '90-120', '20-120'],
                ['20-30', '30-40', '40-50', '50-60', '60-70', '20-70'],
@@ -39,8 +42,13 @@ def plot_all_bins(test_num, order, save=False,
                ['20-30', '30-70', '70-85', '85-100', '100-120', '20-120']]
 
     rngs = binrngs[test_num-1]  # Get the bin widths for the test number
-    pixels = np.array([0, 1, 2, 3])  # Number of pixels in the row and column direction (2x2, 1x1, 3x3)
-    xpts = np.linspace(0, 4, 50)
+
+    if nine:
+        pixels = np.array([0, 1, 4, 9])
+        xpts = np.linspace(0, 10, 50)
+    else:
+        pixels = np.array([0, 1, 2, 3])  # Number of pixels in the row and column direction (2x2, 1x1, 3x3)
+        xpts = np.linspace(0, 4, 50)
 
     fig, axes = plt.subplots(2, 3, figsize=(8, 6), sharey=True)
     ax1 = fig.add_subplot(111, frameon=False)
@@ -59,10 +67,19 @@ def plot_all_bins(test_num, order, save=False,
             r2 = r2_score(data[:, 0], y_pred)
             ax.annotate('Slope: m=%5.3f' % tuple(coeffs), (0.1, 13.5))
             ax.annotate(r'R$^2$=%5.3f' % r2, (0.1, 12))
-        else:
+            ax.set_xlabel('CNR(1)=%5.2f' % data[1, 0])
+        elif order == 2:
             coeffs, covar = curve_fit(quadratic, pixels, data[:, 0])
             ypts = quadratic(xpts, coeffs[0], coeffs[1])
             y_pred = quadratic(pixels, coeffs[0], coeffs[1])
+            r2 = r2_score(data[:, 0], y_pred)
+            ax.annotate('Coeffs: a=%5.3f, \n'
+                        '            b=%5.3f' % tuple(coeffs), (0.1, 12))
+            ax.annotate(r'R$^2$=%5.3f' % r2, (0.1, 10.5))
+        else:
+            coeffs, covar = curve_fit(sqroot, pixels, data[:, 0])
+            ypts = sqroot(xpts, coeffs[0], coeffs[1])
+            y_pred = sqroot(pixels, coeffs[0], coeffs[1])
             r2 = r2_score(data[:, 0], y_pred)
             ax.annotate('Coeffs: a=%5.3f, \n'
                         '            b=%5.3f' % tuple(coeffs), (0.1, 12))
@@ -71,22 +88,123 @@ def plot_all_bins(test_num, order, save=False,
         ax.plot(xpts, ypts, color='midnightblue', linewidth=2)
         ax.errorbar(pixels, data[:, 0], yerr=data[:, 1], fmt='none', color='midnightblue', capsize=3)
         ax.set_title(rngs[i] + ' keV')
-        ax.set_xlim([0, 3.5])
+        if nine:
+            ax.set_xlim([0, 9.5])
+        else:
+            ax.set_xlim([0, 3.5])
         ax.set_ylim([0, 16])
 
     if order == 1:
         ax1.set_title('Linear fit', fontsize=15, pad=30)
-    else:
+    elif order == 2:
         ax1.set_title('Quadratic fit', fontsize=15, pad=30)
+    else:
+        ax1.set_title('Sq. root fit', fontsize=15, pad=30)
 
-    ax1.set_xlabel('Number of Pixels Sq.', fontsize=15, labelpad=25)
+    if nine:
+        ax1.set_xlabel('Total # of Pixels', fontsize=15, labelpad=25)
+    else:
+        ax1.set_xlabel('Number of Pixels Sq.', fontsize=15, labelpad=35)
     ax1.set_ylabel('CNR', fontsize=15, labelpad=30)
-    plt.subplots_adjust(hspace=0.3)
+    plt.subplots_adjust(hspace=0.4, bottom=0.15)
     plt.show()
 
     if save:
         if order == 1:
             plt.savefig(directory + 'CNR vs Pixels/Test Num ' + str(test_num) + ' Linear.png', dpi=fig.dpi)
-        else:
+        elif order == 2:
             plt.savefig(directory + 'CNR vs Pixels/Test Num ' + str(test_num) + ' Quadratic.png', dpi=fig.dpi)
+        else:
+            plt.savefig(directory + 'CNR vs Pixels/Test Num ' + str(test_num) + ' SqRoot.png', dpi=fig.dpi)
+        plt.close()
+
+
+def plot_ranges(order, save=False, nine=False,
+                  directory='C:/Users/10376/Documents/Phantom Data/Uniformity/Multiple Energy Thresholds/3w/'):
+
+    nbt = [[20, 30, 50, 70, 90, 120],
+           [20, 30, 40, 50, 60, 70],
+           [20, 35, 50, 65, 80, 90],
+           [25, 35, 45, 55, 65, 75],
+           [25, 40, 55, 70, 80, 95],
+           [30, 45, 60, 75, 85, 95],
+           [20, 30, 70, 85, 100, 120]]
+
+    rngs = [[0, 0, 3], [2, 0, 3], [6, 0, 2], [0, 0, 2], [1, 0, 3], [2, 0, 2]]  # Get the bin widths for the test number
+
+    if nine:
+        pixels = np.array([0, 1, 4, 9])
+        xpts = np.linspace(0, 10, 50)
+    else:
+        pixels = np.array([0, 1, 2, 3])  # Number of pixels in the row and column direction (2x2, 1x1, 3x3)
+        xpts = np.linspace(0, 4, 50)
+
+    fig, axes = plt.subplots(2, 3, figsize=(8, 6), sharey=True)
+    ax1 = fig.add_subplot(111, frameon=False)
+    ax1.grid(False)
+    # Hide axes ticks
+    ax1.set_xticks([])
+    ax1.set_yticks([])
+
+    for i, ax in enumerate(axes.flat):
+        data = np.zeros([4, 2])
+        test_num = rngs[i][0] + 1
+        rng = str(nbt[rngs[i][0]][rngs[i][1]]) + '-' + str(nbt[rngs[i][0]][rngs[i][2]])
+        data[1:] = get_CNR_vs_num_pixel_data(test_num, rng, directory=directory)
+        if order == 1:
+            coeffs, covar = curve_fit(line, pixels, data[:, 0])
+            ypts = line(xpts, coeffs[0])
+            y_pred = line(pixels, coeffs[0])
+            r2 = r2_score(data[:, 0], y_pred)
+            ax.annotate('Slope: m=%5.3f' % tuple(coeffs), (0.1, 13.5))
+            ax.annotate(r'R$^2$=%5.3f' % r2, (0.1, 12))
+            ax.set_xlabel('CNR(1)=%5.2f' % data[1, 0])
+        elif order == 2:
+            coeffs, covar = curve_fit(quadratic, pixels, data[:, 0])
+            ypts = quadratic(xpts, coeffs[0], coeffs[1])
+            y_pred = quadratic(pixels, coeffs[0], coeffs[1])
+            r2 = r2_score(data[:, 0], y_pred)
+            ax.annotate('Coeffs: a=%5.3f, \n'
+                        '            b=%5.3f' % tuple(coeffs), (0.1, 12))
+            ax.annotate(r'R$^2$=%5.3f' % r2, (0.1, 10.5))
+        else:
+            coeffs, covar = curve_fit(sqroot, pixels, data[:, 0])
+            ypts = sqroot(xpts, coeffs[0], coeffs[1])
+            y_pred = sqroot(pixels, coeffs[0], coeffs[1])
+            r2 = r2_score(data[:, 0], y_pred)
+            ax.annotate('Coeffs: a=%5.3f, \n'
+                        '            b=%5.3f' % tuple(coeffs), (0.1, 12))
+            ax.annotate(r'R$^2$=%5.3f' % r2, (0.1, 10.5))
+
+        ax.plot(xpts, ypts, color='midnightblue', linewidth=2)
+        ax.errorbar(pixels, data[:, 0], yerr=data[:, 1], fmt='none', color='midnightblue', capsize=3)
+        ax.set_title(rng + ' keV')
+        if nine:
+            ax.set_xlim([0, 9.5])
+        else:
+            ax.set_xlim([0, 3.5])
+        ax.set_ylim([0, 16])
+
+    if order == 1:
+        ax1.set_title('Linear fit', fontsize=15, pad=30)
+    elif order == 2:
+        ax1.set_title('Quadratic fit', fontsize=15, pad=30)
+    else:
+        ax1.set_title('Sq. root fit', fontsize=15, pad=30)
+
+    if nine:
+        ax1.set_xlabel('Total # of Pixels', fontsize=15, labelpad=25)
+    else:
+        ax1.set_xlabel('Number of Pixels Sq.', fontsize=15, labelpad=35)
+    ax1.set_ylabel('CNR', fontsize=15, labelpad=30)
+    plt.subplots_adjust(hspace=0.4, bottom=0.15)
+    plt.show()
+
+    if save:
+        if order == 1:
+            plt.savefig(directory + 'CNR vs Pixels/High Ranges Linear.png', dpi=fig.dpi)
+        elif order == 2:
+            plt.savefig(directory + 'CNR vs Pixels/High Ranges Quadratic.png', dpi=fig.dpi)
+        else:
+            plt.savefig(directory + 'CNR vs Pixels/High Ranges SqRoot.png', dpi=fig.dpi)
         plt.close()
