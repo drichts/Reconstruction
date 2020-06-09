@@ -4,7 +4,12 @@ from matplotlib.patches import Rectangle
 
 
 def square_ROI(image):
-
+    """
+    This function will create a square mask based on the corners the user selects
+    :param image: 2D ndarray
+                The image to mask
+    :return: The image mask
+    """
     # Open the image and click the 4 corners
     coords = click_image(image, message_num=6)
 
@@ -79,7 +84,7 @@ def phantom_ROIs(image, radius=6):
     return masks
 
 
-def background_ROI(image):
+def single_circular_ROI(image):
     """
     This function takes a single ROI representing the background of an image, you will click the center of the ROI and
     a point along its radius
@@ -118,46 +123,6 @@ def background_ROI(image):
     plt.close()
 
     return mask
-
-
-def noise_ROIs(image, radius=4):
-    """
-    This function generates the number of circular ROIs corresponding to user input center points of each ROI
-    It will output as many ROIs as coordinates clicked
-    The radius is also set by the user and may need some fine tuning
-    Each mask will have 1's inside the ROI and nan everywhere else
-    :param image: The image as a numpy array
-    :param radius: The desired ROI radius (all ROIs will have this radius)
-    :return: the saved masks as a single numpy array (individual masks callable by masks[i]
-    """
-
-    # Open the image and click the ROIs within the desired vial
-    coords = click_image(image, message_num=4)
-
-    # Array to hold the saved masks
-    num_rows, num_cols = np.shape(image)
-    num_of_ROIs = len(coords)
-    masks = np.empty([num_of_ROIs, num_rows, num_cols])
-
-    # Plot to verify the ROI's
-    fig = plt.figure()
-    ax = fig.add_subplot(111)
-    ax.imshow(image, cmap='gray')
-
-    for idx, center in enumerate(coords):
-
-        # Make the mask for those center coordinates
-        masks[idx] = circular_mask(center, radius, (num_rows, num_cols))
-
-        # Verify the ROI
-        circ = plt.Circle(center, radius=radius, fill=False, edgecolor='red')
-        ax.add_artist(circ)
-
-    plt.show()
-    plt.pause(3)
-    plt.close()
-
-    return masks
 
 
 def entire_phantom(image, radii=13):
@@ -262,6 +227,45 @@ def air_mask(image):
     return switch
 
 
+def single_pixels_mask(image):
+    """
+    This function will create a mask just to obtain individual pixel values, the pixels that are clicked
+    :param image: The image to mask
+    :return: The mask of the clicked pixels
+    """
+
+    coords = click_image(image, message_num=7)  # The coordinates of the pixels to mask
+
+    # Size of the image
+    num_rows, num_cols = np.shape(image)
+
+    # Plot to verify the ROI's
+    fig = plt.figure(figsize=(7, 7))
+    ax = fig.add_subplot(111)
+    ax.imshow(image, cmap='gray')
+
+    mask = np.ones([num_rows, num_cols])*np.nan  # Create a matrix with only nan values
+
+    # Get each pair of coordinates
+    for pair in coords:
+        x = int(round(pair[1]))
+        y = int(round(pair[0]))
+        mask[x, y] = 1  # Set each clicked pixel equal to one
+
+        # Verify that the correct pixel has been chosen
+        corner = (y - 0.5, x - 0.5)
+        height = 1
+        width = 1
+        sq = Rectangle(corner, height, width, fill=False, edgecolor='red')
+        ax.add_artist(sq)
+
+    plt.show()
+    plt.pause(2)
+    plt.close()
+
+    return mask
+
+
 def click_image(image, message_num=0):
     """
 
@@ -283,6 +287,8 @@ def click_image(image, message_num=0):
                     5: 'Click the center of the phantom and the edge of the phantom'
                         '\n Left-click: add point, Right-click: remove point, Enter: stop collecting',
                     6: 'Click four corner pixels that form a rectangle/square.'
+                       '\n Left-click: add point, Right-click: remove point, Enter: stop collecting',
+                    7: 'Click the desired pixels to obtain values from.'
                        '\n Left-click: add point, Right-click: remove point, Enter: stop collecting'
                     }
 

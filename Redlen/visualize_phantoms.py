@@ -8,25 +8,25 @@ directory = 'C:/Users/10376/Documents/Phantom Data/Uniformity/Multiple Energy Th
 folders = ['Data', '3x3 Data']
 
 
-def get_masks():
+def get_masks(name='4x4'):
     # Get masks for the folders
     directory = 'C:/Users/10376/Documents/Phantom Data/Uniformity/Multiple Energy Thresholds/1w/'
-    folders = ['2x2 Data']
-    name = '2x2'
+    folders = [name + ' Data']
+
     for folder in folders:
         data = np.load(directory + folder + '/Thresholds_1.npy')
         data = np.squeeze(np.sum(data, axis=2))
 
         continue_flag = True
         while continue_flag:
-            mask = grm.square_ROI(data[12])
+            mask = grm.single_pixels_mask(data[12])
             val = input('Were the ROIs acceptable? (y/n)')
             if val is 'y':
                 continue_flag = False
 
         continue_flag = True
         while continue_flag:
-            bg = grm.square_ROI(data[12])
+            bg = grm.single_pixels_mask(data[12])
             val = input('Were the ROIs acceptable? (y/n)')
             if val is 'y':
                 continue_flag = False

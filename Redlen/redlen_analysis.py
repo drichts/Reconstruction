@@ -230,26 +230,6 @@ def intensity_correction(data, air_data):
     return np.log(np.divide(air_data, data))
 
 
-def sum3x3(data):
-    """
-    This function sums all pixels into 3x3 megapixels (1 mm)
-    :param data: Numpy array, raw count data
-    :return: The data in numpy form with new size
-    """
-    dat_shape = np.array(np.shape(data))
-    dat_shape[3] = dat_shape[3]/3  # Reduce size by 3
-    dat_shape[4] = dat_shape[4]/3
-
-    ndata = np.zeros(dat_shape)
-
-    for row in np.arange(dat_shape[3]):
-        for col in np.arange(dat_shape[4]):
-            temp = data[:, :, :, 3*row:3*row+3, 3*col:3*col+3]  # Get each 3x3 subarray over all of the first 3 axes
-            ndata[:, :, :, row, col] = np.sum(temp, axis=(3, 4))  # Sum over only the rows and columns
-
-    return ndata
-
-
 def get_3x3data(folder, air_path='none', directory='C:/Users/10376/Documents/Phantom Data/Uniformity/'):
     """
     This function will collect the raw data and call the sum 3x3 function and save the new raw data
@@ -302,7 +282,7 @@ def get_3x3data(folder, air_path='none', directory='C:/Users/10376/Documents/Pha
                 np.save(directory + folder + '/3x3 Corrected Data/Run' + '{:03d}'.format(i) + '_a1.npy', corr_newa1)
 
 
-def polyprop_mult_energy():
+def polyprop_mult_energy(pxp=[12]):
     """
     Goes through the two folders holding all the energy threshold data and calculates the air corrected
     data and 3x3 data
@@ -329,39 +309,40 @@ def polyprop_mult_energy():
             data = mat_to_npy(files[j])
             air_data = mat_to_npy(air_files[j])
 
-            data2x2 = sum2x2(data)
-            air_data2x2 = sum2x2(air_data)
+            for pix in pxp:
+                datapxp = sumpxp(data, pix)
+                air_datapxp = sumpxp(air_data, pix)
+                corrpxp = intensity_correction(datapxp, air_datapxp)
 
-            data3x3 = sum3x3(data)
-            air_data3x3 = sum3x3(air_data)
+                gof.create_folder(str(pix) + 'x' + str(pix) + ' Data', save_dir + save_folder[i])
+
+                np.save(save_dir + save_folder[i] + str(pix) + 'x' + str(pix) + ' Data/Thresholds_' + str(j+1) + '.npy',
+                        corrpxp)
 
             corr = intensity_correction(data, air_data)
-            corr2x2 = intensity_correction(data2x2, air_data2x2)
-            corr3x3 = intensity_correction(data3x3, air_data3x3)
 
             # Save the data, j corresponds to the NDT number in the filename and the threshold settings in my notes
             # See Redlen notebook
             np.save(save_dir + save_folder[i] + 'Data/Thresholds_' + str(j+1) + '.npy', corr)
-            np.save(save_dir + save_folder[i] + '2x2 Data/Thresholds_' + str(j + 1) + '.npy', corr2x2)
-            np.save(save_dir + save_folder[i] + '3x3 Data/Thresholds_' + str(j+1) + '.npy', corr3x3)
 
 
-def sum2x2(data):
+
+def sumpxp(data, num_pixels):
     """
-    This function takes a data array and sums 2x2 pixels along the row and column data
+    This function takes a data array and sums nxn pixels along the row and column data
     :param data: 5D array
                 The full data array <captures, counters, views, rows, columns>
-    :return: The new data array with 2x2 pixels from the inital data summed together
+    :return: The new data array with nxn pixels from the inital data summed together
     """
     dat_shape = np.array(np.shape(data))
-    dat_shape[3] = dat_shape[3] / 2  # Reduce size by 2 in the row and column directions
-    dat_shape[4] = dat_shape[4] / 2
+    dat_shape[3] = int(dat_shape[3] / num_pixels)  # Reduce size by 2 in the row and column directions
+    dat_shape[4] = int(dat_shape[4] / num_pixels)
 
     ndata = np.zeros(dat_shape)
-
+    n = num_pixels
     for row in np.arange(dat_shape[3]):
         for col in np.arange(dat_shape[4]):
-            temp = data[:, :, :, 2*row:2*row+2, 2*col:2*col+2]  # Get each 2x2 subarray over all of the first 2 axes
+            temp = data[:, :, :, n*row:n*row+n, n*col:n*col+n]  # Get each 2x2 subarray over all of the first 2 axes
             ndata[:, :, :, row, col] = np.sum(temp, axis=(3, 4))  # Sum over only the rows and columns
 
     return ndata
