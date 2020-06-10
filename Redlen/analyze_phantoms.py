@@ -125,9 +125,19 @@ def get_CNR_over_time_data_1s(folder, corr3x3=False, CC=True,
     return time_pts, CNR_pts, err_mean, err_std
 
 
-def get_CNR_over_time_energy_thresh(folder, threshold, pxp=1, CC=True, one_frame=True,
-                            directory='C:/Users/10376/Documents/Phantom Data/Uniformity/Multiple Energy Thresholds'):
+def get_CNR_over_time_energy_thresh(folder, threshold, pxp=1, CC=True, one_frame=True, frames=1000,
+                            directory='C:/Users/10376/Documents/Phantom Data/Uniformity/Multiple Energy Thresholds/'):
+    """
 
+    :param folder:
+    :param threshold:
+    :param pxp:
+    :param CC:
+    :param one_frame:
+    :param frames:
+    :param directory:
+    :return:
+    """
     if pxp > 1:
         contrast_mask = np.load(directory + folder + '/' + str(pxp) + 'x' + str(pxp) + '_a0_Mask.npy')
         bg_mask = np.load(directory + folder + '/' + str(pxp) + 'x' + str(pxp) + '_a0_Background.npy')
@@ -135,8 +145,9 @@ def get_CNR_over_time_energy_thresh(folder, threshold, pxp=1, CC=True, one_frame
         contrast_mask = np.load(directory + folder + '/a0_Mask.npy')
         bg_mask = np.load(directory + folder + '/a0_Background.npy')
 
-    time_pts = np.arange(0.001, 1.001, 0.001)  # Time points from 0.001 s to 10 s by 0.001 s increments
-    CNR_pts = np.zeros([6, len(time_pts)])  # Collect CNR over 1 s for all 10 files
+    time_pts = np.arange(0.001, frames/1000 + 0.001, 0.001)  # Time points from 0.001 s to 10 s by 0.001 s increments
+    CNR_pts = np.zeros([6, frames])  # Collect CNR over 1 s for all 10 files
+    CNR_err = np.zeros([6, frames])  # Collect CNR error over 1 s for all 10 files
 
     if pxp > 1:
         r = int(24/pxp)
@@ -155,7 +166,7 @@ def get_CNR_over_time_energy_thresh(folder, threshold, pxp=1, CC=True, one_frame
     else:
         add_data = add_data[0:6]  # Grab just sec bins
 
-    for j in np.arange(1000):
+    for j in np.arange(frames):
         single_frame = add_data[:, j]  # Get the next view data
         if one_frame:
             total_data[0:5] = single_frame[0:5]  # switch between the two if looking to average over every frame
@@ -170,16 +181,34 @@ def get_CNR_over_time_energy_thresh(folder, threshold, pxp=1, CC=True, one_frame
 
         for k, img in enumerate(total_data):
             # Calculate the CNR (i-1 = file, k = bin, j = view/time point)
-            CNR_pts[k, j], err = sct.cnr(img, contrast_mask, bg_mask)
+            CNR_pts[k, j], CNR_err[k, j] = sct.cnr(img, contrast_mask, bg_mask)
 
-    CNR_err = np.std(CNR_pts, axis=1)
-    CNR_pts = np.mean(CNR_pts, axis=1)
+    if one_frame:
+        CNR_err = np.std(CNR_pts, axis=1)
+        CNR_pts = np.mean(CNR_pts, axis=1)
 
     return time_pts, CNR_pts, CNR_err
 
 
-def get_CNR_single_adj_bin(folder, bins, threshold, pxp=1, CC=True, one_frame=True,
+def get_CNR_single_adj_bin(folder, bins, threshold, pxp=1, CC=True, one_frame=True, frames=1000,
                                 directory='C:/Users/10376/Documents/Phantom Data/Uniformity/'):
+    """
+
+    :param folder: The folder within the directory that contains the data
+    :param bins: 1D array
+                The range of bins to add together, i.e. [1, 4] adds the 1st through the 4th bin
+    :param threshold: The test number as an integer
+    :param pxp: int, default = 1
+                The number of pixels aggregated together (on one side) 1 for 1x1, 2, for 2x2
+    :param CC: boolean, default = True
+                True if CC data, False if SEC data
+    :param one_frame: boolean, default = True
+                True if you want an average over the number of frames in frames
+    :param frames: int, default = 1000
+                The number of frames to go through
+    :param directory:
+    :return: return
+    """
     if pxp > 1:
         contrast_mask = np.load(directory + folder + '/' + str(pxp) + 'x' + str(pxp) + '_a0_Mask.npy')
         bg_mask = np.load(directory + folder + '/' + str(pxp) + 'x' + str(pxp) + '_a0_Background.npy')
@@ -187,8 +216,8 @@ def get_CNR_single_adj_bin(folder, bins, threshold, pxp=1, CC=True, one_frame=Tr
         contrast_mask = np.load(directory + folder + '/a0_Mask.npy')
         bg_mask = np.load(directory + folder + '/a0_Background.npy')
 
-    time_pts = np.arange(0.001, 1.001, 0.001)  # Time points from 0.001 s to 10 s by 0.001 s increments
-    CNR_pts = np.zeros(len(time_pts))  # Collect CNR over 1 s for all 10 files
+    time_pts = np.arange(0.001, frames/1000 + 0.001, 0.001)  # Time points from 0.001 s to 10 s by 0.001 s increments
+    CNR_pts = np.zeros(frames)  # Collect CNR over 1 s for all 10 files
 
     if pxp > 1:
         r = int(24 / pxp)
@@ -210,17 +239,20 @@ def get_CNR_single_adj_bin(folder, bins, threshold, pxp=1, CC=True, one_frame=Tr
     add_data = add_adj_bins(add_data, bins)  # sum the desired bins together
     add_data = add_data[bins[0]]  # Get just the new summed bin
 
-    for j in np.arange(1000):
+    for j in np.arange(frames):
         single_frame = add_data[j]  # Get the next view data
         if one_frame:
-            total_data = single_frame  # Swtich if looking to average over every frame
+            total_data = single_frame
         else:
             total_data = np.add(total_data, single_frame)  # Add to the current total data
         # Calculate the CNR (i-1 = file, k = bin, j = view/time point)
         CNR_pts[j], err = sct.cnr(total_data, contrast_mask, bg_mask)
 
-    CNR_err = np.std(CNR_pts)
-    CNR_pts = np.mean(CNR_pts)
+    if one_frame:
+        CNR_err = np.std(CNR_pts)
+        CNR_pts = np.mean(CNR_pts)
+    else:
+        CNR_err = err
 
     return time_pts, CNR_pts, CNR_err
 
@@ -248,7 +280,7 @@ def find_top_10(folder, sub, directory=r'C:\Users\10376\Documents\Phantom Data\U
     return high_files, high_nums
 
 
-def plot_CNR_over_time_1s_multiple(time_pts, CNR_pts, CNR_err_mean, CC='CC', title='n/a', save=False,
+def plot_CNR_over_time_1s(time_pts, CNR_pts, CNR_err_mean, CC='CC', title='n/a', save=False,
                        directory='C:/Users/10376/Documents/Phantom Data/Uniformity/'):
     """
 
@@ -272,9 +304,9 @@ def plot_CNR_over_time_1s_multiple(time_pts, CNR_pts, CNR_err_mean, CC='CC', tit
     for i, ax in enumerate(axes.flat):
         ax.plot(time_pts, CNR_pts[i], lw=1)
         ax.set_title(titles[i])
-        ax.set_xticks([0, 0.25, 0.5, 0.75, 1])
+        ax.set_xlim([0, time_pts[-1]])
         ax.set_ylim([0, max_CNR])
-        ax.set_xlabel('CNR error at 0.25 s is \n' + '{:.2f}'.format(CNR_err_mean[i]))
+        #ax.set_xlabel('CNR error at 0.25 s is \n' + '{:.2f}'.format(CNR_err_mean[i]))
 
     plt.subplots_adjust(left=0.12, bottom=0.2, right=0.96, top=0.88, wspace=0.31, hspace=0.55)
     ax1.set_xlabel('Acquisition Time (s)', fontsize=14, labelpad=45)
@@ -325,8 +357,9 @@ def plot_CNR_adj_bins(time_pts, CNR_pts, plottitles, title='n/a', save=False,
         plt.close()
 
 
-def get_single_view_avg_CNR(pxp=[4, 6, 8]):
-    directory = r'C:\Users\10376\Documents\Phantom Data\Uniformity\Multiple Energy Thresholds/'
+def get_single_view_avg_CNR(pxp=[1, 2, 3, 4, 6, 8, 12], frames=1, folders=['1w/', '3w/'], CC=True,
+                            directory='C:/Users/10376/Documents/Phantom Data/Uniformity/Multiple Energy Thresholds/'):
+
     bintitles = [['20-30 keV', '30-50 keV', '50-70 keV', '70-90 keV', '90-120 keV', '20-120 keV'],
                  ['20-30 keV', '30-40 keV', '40-50 keV', '50-60 keV', '60-70 keV', '20-70 keV'],
                  ['20-35 keV', '35-50 keV', '50-65 keV', '65-80 keV', '80-90 keV', '20-90 keV'],
@@ -343,47 +376,69 @@ def get_single_view_avg_CNR(pxp=[4, 6, 8]):
            [30, 45, 60, 75, 85, 95],
            [20, 30, 70, 85, 100, 120]]
 
+    # The bin numbers to add together to create larger energy ranges in each test
     bins = np.array([[0, 1], [0, 2], [0, 3], [1, 2], [1, 3], [2, 3]])
-    for folder in ['/1w/', '/3w/']:
+    for folder in folders:
         for pix in pxp:
-            print(pix)
+            # Create the folder to save the data and choose the savepath for the data
+            if pix > 1 and frames == 1:
+                gof.create_folder('Single Frame Avg', directory + folder + '/' + str(pix) + 'x' + str(pix) + ' Data/')
+                save_path = directory + folder + '/' + str(pix) + 'x' + str(pix) + ' Data/Single Frame Avg/'
+
+            elif pix > 1 and frames > 1:
+                gof.create_folder(str(frames) + ' Frame Avg', directory + folder + '/' + str(pix) + 'x' + str(pix) +
+                                  ' Data/')
+                save_path = directory + folder + '/' + str(pix) + 'x' + str(pix) + ' Data/' + str(frames) + ' Frame Avg/'
+
+            elif pix == 1 and frames == 1:
+                gof.create_folder('Single Frame Avg', directory + folder + 'Data/')
+                save_path = directory + folder + 'Data/Single Frame Avg/'
+
+            else:
+                gof.create_folder(str(frames) + ' Frame Avg', directory + folder + 'Data/')
+                save_path = directory + folder + '/Data/' + str(frames) + ' Frame Avg/'
+
+            # Go through each of the runs we collected
             for i in np.arange(1, 8):
-                t, c, ce = get_CNR_over_time_energy_thresh(folder, i, pxp=pix)
+                if frames == 1:
+                    t, c, ce = get_CNR_over_time_energy_thresh(folder, i, pxp=pix, CC=CC, frames=frames,
+                                                               directory=directory)
+                else:
+                    t, c, ce = get_CNR_over_time_energy_thresh(folder, i, pxp=pix, CC=CC, one_frame=False,
+                                                               frames=frames, directory=directory)
+                    c = c[:, -1]  # Get the CNR of the last frame (which is what we want)
+                    ce = ce[:, -1]
+
+                # Save each of the bins under the proper name
                 for j in np.arange(6):
-                    if pix > 1:
-                        gof.create_folder('Single Frame Avg', directory + folder + '/' + str(pix) + 'x' + str(pix) +
-                                          ' Data/')
-                        np.save(directory + folder + '/' + str(pix) + 'x' + str(pix) + ' Data/Single Frame Avg/' +
-                                str(i) + '_' + bintitles[i-1][j] + '.npy', np.array([c[j], ce[j]]))
-                    else:
-                        gof.create_folder('Single Frame Avg', directory + folder + 'Data/')
-                        np.save(directory + folder + '/Data/Single Frame Avg/' + str(i) + '_' + bintitles[i-1][j] +
-                                '.npy', np.array([c[j], ce[j]]))
+                    np.save(save_path + str(i) + '_' + bintitles[i-1][j] + '.npy', np.array([c[j], ce[j]]))
 
                 for b in bins:
-                    print(b)
-                    tb, cb, ceb = get_CNR_single_adj_bin(folder, b, i, pxp=pix, directory=directory)
+                    if frames == 1:
+                        tb, cb, ceb = get_CNR_single_adj_bin(folder, b, i, pxp=pix, CC=CC, directory=directory)
+                    else:
+                        tb, cb, ceb = get_CNR_single_adj_bin(folder, b, i, pxp=pix, CC=CC, one_frame=False,
+                                                             frames=frames, directory=directory)
+                        cb = cb[-1]  # Get the last value
                     ths = nbt[i-1]
                     name = str(i) + '_' + str(ths[b[0]]) + '-' + str(ths[b[1]+1]) + ' kev.npy'
-                    print(name)
-                    if pix > 1:
-                        np.save(directory + folder + '/' + str(pix) + 'x' + str(pix) + ' Data/Single Frame Avg/' + name,
-                                np.array([cb, ceb]))
-                    else:
-                        np.save(directory + folder + '/Data/Single Frame Avg/' + name, np.array([cb, ceb]))
+                    np.save(save_path + name, np.array([cb, ceb]))
 
 
-def print_avg_CNR_1view():
-    directory = r'C:\Users\10376\Documents\Phantom Data\Uniformity\Multiple Energy Thresholds/'
-    np.set_printoptions(precision=2)
-    for sub in ['Data', '3x3 Data']:
-        for folder in ['/1w/', '/3w/']:
-            path = directory + folder + sub + '/Single Frame Avg/'
-            files = glob.glob(path + '*25-65*')
-            print(folder + sub)
-            temp = np.zeros([len(files), 2])
-            for i, file in enumerate(files):
-                temp[i] = np.load(file)
-            print(np.mean(temp, axis=0))
-            print()
+def get_CNR_over_time_pixel_agg(pxp=[1, 2, 3, 4, 6, 8, 12], folders=['1w/', '3w/'], CC=True,
+                            directory='C:/Users/10376/Documents/Phantom Data/Uniformity/Multiple Energy Thresholds/'):
 
+    for folder in folders:
+        for pix in pxp:
+            if pix == 1:
+                save_path = directory + folder + 'Data/'
+            else:
+                save_path = directory + folder + str(pix) + 'x' + str(pix) + ' Data/'
+
+            t, c, ce = get_CNR_over_time_energy_thresh(folder, 1, pxp=pix, CC=CC, one_frame=False, frames=300,
+                                                       directory=directory)
+            np.save(save_path + 'Thresh1_CNR_over_time.npy', c)
+
+            if folder == '3w/':
+                plot_CNR_over_time_1s(t, c, ce, title=str(pix) + 'x' + str(pix), save=True,
+                                      directory=directory)
