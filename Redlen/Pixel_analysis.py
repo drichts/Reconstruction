@@ -6,7 +6,7 @@ from sklearn.metrics import r2_score
 from datetime import datetime as dt
 from scipy.stats import chi2
 
-def get_CNR_vs_num_pixel_data(test_num, rng, frames,
+def get_CNR_vs_num_pixel_data(test_num, rng, frames, CC='CC',
                            directory='C:/Users/10376/Documents/Phantom Data/Uniformity/Multiple Energy Thresholds/3w/'):
     """
     This function grabs the CNR at each pixel size for
@@ -21,7 +21,7 @@ def get_CNR_vs_num_pixel_data(test_num, rng, frames,
     else:
         sub = str(frames)
     for i, folder in enumerate(['Data', '2x2 Data', '3x3 Data', '4x4 Data', '6x6 Data', '8x8 Data', '12x12 Data']):
-        path = directory + folder + '/' + sub + ' Frame Avg/' + str(test_num) + '_' + rng + ' keV.npy'
+        path = directory + folder + '/' + sub + ' Frame Avg ' + CC + '/' + str(test_num) + '_' + rng + ' keV.npy'
         data[i] = np.load(path)
 
     return data
@@ -138,7 +138,7 @@ def plot_all_bins(test_num, order, save=False, nine=False,
         plt.close()
 
 
-def plot_ranges(order, save=False, nine=False,
+def plot_ranges(order, frames, save=False, nine=False, CC='CC',
                   directory='C:/Users/10376/Documents/Phantom Data/Uniformity/Multiple Energy Thresholds/3w/'):
     """
     This function takes a number of custom ranges (rngs) and plots CNR vs. number of aggregated pixels
@@ -176,7 +176,7 @@ def plot_ranges(order, save=False, nine=False,
         data = np.zeros([8, 2])
         test_num = rngs[i][0] + 1
         rng = str(nbt[rngs[i][0]][rngs[i][1]]) + '-' + str(nbt[rngs[i][0]][rngs[i][2]])
-        data[1:] = get_CNR_vs_num_pixel_data(test_num, rng, directory=directory)
+        data[1:] = get_CNR_vs_num_pixel_data(test_num, rng, frames, CC=CC, directory=directory)
         if order == 1:
             coeffs, covar = curve_fit(line, pixels, data[:, 0])
             ypts = line(xpts, coeffs[0])
@@ -196,13 +196,13 @@ def plot_ranges(order, save=False, nine=False,
         else:
             coeffs, covar = curve_fit(sqroot, pixels, data[:, 0])
             ypts = sqroot(xpts, coeffs[0], coeffs[1])
-            y_pred = sqroot(pixels, coeffs[0], coeffs[1])
-            r2 = r2_score(data[:, 0], y_pred)
-            ax.annotate('Coeffs: a=%5.3f, \n'
-                        '            b=%5.3f' % tuple(coeffs), (0.2, 29))
-            ax.annotate(r'R$^2$=%5.3f' % r2, (0.2, 25))
+            #y_pred = sqroot(pixels, coeffs[0], coeffs[1])
+            #r2 = r2_score(data[:, 0], y_pred)
+            #ax.annotate('Coeffs: a=%5.3f, \n'
+             #           '            b=%5.3f' % tuple(coeffs), (0.2, 29))
+            #ax.annotate(r'R$^2$=%5.3f' % r2, (0.2, 25))
 
-        ax.plot(xpts, ypts, color='midnightblue', linewidth=2)
+        #ax.plot(xpts, ypts, color='midnightblue', linewidth=2)
         ax.errorbar(pixels, data[:, 0], yerr=data[:, 1], fmt='none', color='midnightblue', capsize=3)
         ax.set_title(rng + ' keV')
         if nine:
@@ -216,7 +216,7 @@ def plot_ranges(order, save=False, nine=False,
     elif order == 2:
         ax1.set_title('Quadratic fit', fontsize=15, pad=30)
     else:
-        ax1.set_title('Sq. root fit', fontsize=15, pad=30)
+        ax1.set_title(str(frames) + ' Frames ' + CC, fontsize=15, pad=30)
 
     if nine:
         ax1.set_xlabel('Total # of Pixels', fontsize=15, labelpad=25)
@@ -227,19 +227,21 @@ def plot_ranges(order, save=False, nine=False,
     plt.show()
 
     if save:
+        datenow = dt.now()
+        timestamp = datenow.strftime("%Y-%m-%d-%H-%M-%S")
         if order == 1:
             plt.savefig(r'C:\Users\10376\Documents\Phantom Data\Uniformity\Multiple Energy Thresholds\Plots/'
-                        r'CNR vs Pixels/High Ranges Linear.png', dpi=fig.dpi)
+                        r'CNR vs Pixels/High Ranges Linear ' + str(frames) + ' Frames' + timestamp + '.png', dpi=fig.dpi)
         elif order == 2:
             plt.savefig(r'C:\Users\10376\Documents\Phantom Data\Uniformity\Multiple Energy Thresholds\Plots/'
-                        r'CNR vs Pixels/High Ranges Quadratic.png', dpi=fig.dpi)
+                        r'CNR vs Pixels/High Ranges Quadratic ' + str(frames) + ' Frames' + timestamp + '.png', dpi=fig.dpi)
         else:
             plt.savefig(r'C:\Users\10376\Documents\Phantom Data\Uniformity\Multiple Energy Thresholds\Plots/'
-                        r'CNR vs Pixels/High Ranges SqRoot.png', dpi=fig.dpi)
+                        r'CNR vs Pixels/High Ranges' + str(frames) + ' Frames ' + CC + ' ' + timestamp + '.png', dpi=fig.dpi)
         plt.close()
 
 
-def plot_std_bins(test_num, frames, order=2, save=False, sq=False,
+def plot_std_bins(test_num, frames, order=3, save=False, sq=False, CC='CC',
                   directory=r'C:\Users\10376\Documents\Phantom Data\Uniformity\Multiple Energy Thresholds/3w/'):
     """
     This function takes the test_num from the Multiple Energy Thresholds folder and plots the standard bins used in
@@ -276,10 +278,10 @@ def plot_std_bins(test_num, frames, order=2, save=False, sq=False,
     # Hide axes ticks
     ax1.set_xticks([])
     ax1.set_yticks([])
-
     for i, ax in enumerate(axes.flat):
         data = np.zeros([8, 2])
-        data[1:] = get_CNR_vs_num_pixel_data(test_num, rngs[i], frames, directory=directory)
+        data[1:] = get_CNR_vs_num_pixel_data(test_num, rngs[i], frames, CC=CC, directory=directory)
+
         if order == 1:
             coeffs, covar = curve_fit(line, pixels, data[:, 0])
             ypts = line(xpts, coeffs[0])
@@ -309,14 +311,14 @@ def plot_std_bins(test_num, frames, order=2, save=False, sq=False,
             ax.set_xlim([0, 145])
         else:
             ax.set_xlim([0, 12.5])
-        ax.set_ylim([0, 45])
+        ax.set_ylim([0, 35])
 
     if order == 1:
         ax1.set_title('Linear fit: ' + str(frames) + ' Frames', fontsize=15, pad=30)
     elif order == 2:
         ax1.set_title('Quadratic fit: ' + str(frames) + ' Frames', fontsize=15, pad=30)
     else:
-        ax1.set_title(str(frames) + ' Frames', fontsize=15, pad=30)
+        ax1.set_title(str(frames) + ' Frames ' + CC, fontsize=15, pad=30)
 
     if sq:
         ax1.set_xlabel('Total # of Pixels', fontsize=15, labelpad=25)
@@ -337,5 +339,7 @@ def plot_std_bins(test_num, frames, order=2, save=False, sq=False,
                         r'CNR vs Pixels/Quadratic: ' + str(frames) + ' Frames' + timestamp + '.png', dpi=fig.dpi)
         else:
             plt.savefig(r'C:\Users\10376\Documents\Phantom Data\Uniformity\Multiple Energy Thresholds\Plots/'
-                        r'CNR vs Pixels/SqRoot: ' + str(frames) + ' Frames' + timestamp + '.png', dpi=fig.dpi)
+                        r'CNR vs Pixels/' + str(frames) + ' Frames ' + timestamp + '.png', dpi=fig.dpi)
         plt.close()
+
+

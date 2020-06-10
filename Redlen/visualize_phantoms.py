@@ -8,34 +8,38 @@ directory = 'C:/Users/10376/Documents/Phantom Data/Uniformity/Multiple Energy Th
 folders = ['Data', '3x3 Data']
 
 
-def get_masks(name='4x4'):
+def get_masks(name='8x8'):
     # Get masks for the folders
     directory = 'C:/Users/10376/Documents/Phantom Data/Uniformity/Multiple Energy Thresholds/1w/'
-    folders = [name + ' Data']
+    if name == '':
+        folder = name + 'Data'
+    else:
+        folder = name + ' Data'
 
-    for folder in folders:
-        data = np.load(directory + folder + '/Thresholds_1.npy')
-        data = np.squeeze(np.sum(data, axis=2))
+    data = np.load(directory + folder + '/Thresholds_1.npy')
+    data = np.squeeze(np.sum(data, axis=2))
 
-        continue_flag = True
-        while continue_flag:
-            mask = grm.single_pixels_mask(data[12])
-            val = input('Were the ROIs acceptable? (y/n)')
-            if val is 'y':
-                continue_flag = False
+    continue_flag = True
+    while continue_flag:
+        #mask = grm.single_pixels_mask(data[12])
+        mask = grm.square_ROI(data[12])
+        val = input('Were the ROIs acceptable? (y/n)')
+        if val is 'y':
+            continue_flag = False
 
-        continue_flag = True
-        while continue_flag:
-            bg = grm.single_pixels_mask(data[12])
-            val = input('Were the ROIs acceptable? (y/n)')
-            if val is 'y':
-                continue_flag = False
+    continue_flag = True
+    while continue_flag:
+        #bg = grm.single_pixels_mask(data[12])
+        bg = grm.square_ROI(data[12])
+        val = input('Were the ROIs acceptable? (y/n)')
+        if val is 'y':
+            continue_flag = False
+    name = name + '_'
+    np.save(directory + name + 'a0_Mask.npy', mask)
+    np.save(directory + name + 'a0_Background.npy', bg)
 
-        np.save(directory + name + '_a0_Mask.npy', mask)
-        np.save(directory + name + '_a0_Background.npy', bg)
-
-        np.save('C:/Users/10376/Documents/Phantom Data/Uniformity/Multiple Energy Thresholds/3w/' + name + '_a0_Mask.npy', mask)
-        np.save('C:/Users/10376/Documents/Phantom Data/Uniformity/Multiple Energy Thresholds/3w/' + name + '_a0_Background.npy', bg)
+    np.save('C:/Users/10376/Documents/Phantom Data/Uniformity/Multiple Energy Thresholds/3w/' + name + 'a0_Mask.npy', mask)
+    np.save('C:/Users/10376/Documents/Phantom Data/Uniformity/Multiple Energy Thresholds/3w/' + name + 'a0_Background.npy', bg)
 
 
 def show_imgs():

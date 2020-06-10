@@ -376,33 +376,40 @@ def get_single_view_avg_CNR(pxp=[1, 2, 3, 4, 6, 8, 12], frames=1, folders=['1w/'
            [30, 45, 60, 75, 85, 95],
            [20, 30, 70, 85, 100, 120]]
 
+    if CC:
+        bintype = 'CC'
+    else:
+        bintype = 'SEC'
+
     # The bin numbers to add together to create larger energy ranges in each test
     bins = np.array([[0, 1], [0, 2], [0, 3], [1, 2], [1, 3], [2, 3]])
     for folder in folders:
         for pix in pxp:
             # Create the folder to save the data and choose the savepath for the data
             if pix > 1 and frames == 1:
-                gof.create_folder('Single Frame Avg', directory + folder + '/' + str(pix) + 'x' + str(pix) + ' Data/')
-                save_path = directory + folder + '/' + str(pix) + 'x' + str(pix) + ' Data/Single Frame Avg/'
+                gof.create_folder('Single Frame Avg ' + bintype, directory + folder + '/' + str(pix) + 'x' + str(pix) +
+                                  ' Data/')
+                save_path = directory + folder + '/' + str(pix) + 'x' + str(pix) + ' Data/Single Frame Avg ' + \
+                            bintype + '/'
 
             elif pix > 1 and frames > 1:
-                gof.create_folder(str(frames) + ' Frame Avg', directory + folder + '/' + str(pix) + 'x' + str(pix) +
-                                  ' Data/')
-                save_path = directory + folder + '/' + str(pix) + 'x' + str(pix) + ' Data/' + str(frames) + ' Frame Avg/'
+                gof.create_folder(str(frames) + ' Frame Avg ' + bintype, directory + folder + '/' + str(pix) + 'x' +
+                                  str(pix) + ' Data/')
+                save_path = directory + folder + '/' + str(pix) + 'x' + str(pix) + ' Data/' + str(frames) + \
+                            ' Frame Avg ' + bintype + '/'
 
             elif pix == 1 and frames == 1:
-                gof.create_folder('Single Frame Avg', directory + folder + 'Data/')
-                save_path = directory + folder + 'Data/Single Frame Avg/'
+                gof.create_folder('Single Frame Avg ' + bintype, directory + folder + 'Data/')
+                save_path = directory + folder + 'Data/Single Frame Avg ' + bintype + '/'
 
             else:
-                gof.create_folder(str(frames) + ' Frame Avg', directory + folder + 'Data/')
-                save_path = directory + folder + '/Data/' + str(frames) + ' Frame Avg/'
+                gof.create_folder(str(frames) + ' Frame Avg ' + bintype, directory + folder + 'Data/')
+                save_path = directory + folder + '/Data/' + str(frames) + ' Frame Avg ' + bintype + '/'
 
             # Go through each of the runs we collected
             for i in np.arange(1, 8):
                 if frames == 1:
-                    t, c, ce = get_CNR_over_time_energy_thresh(folder, i, pxp=pix, CC=CC, frames=frames,
-                                                               directory=directory)
+                    t, c, ce = get_CNR_over_time_energy_thresh(folder, i, pxp=pix, CC=CC, directory=directory)
                 else:
                     t, c, ce = get_CNR_over_time_energy_thresh(folder, i, pxp=pix, CC=CC, one_frame=False,
                                                                frames=frames, directory=directory)
@@ -423,22 +430,3 @@ def get_single_view_avg_CNR(pxp=[1, 2, 3, 4, 6, 8, 12], frames=1, folders=['1w/'
                     ths = nbt[i-1]
                     name = str(i) + '_' + str(ths[b[0]]) + '-' + str(ths[b[1]+1]) + ' kev.npy'
                     np.save(save_path + name, np.array([cb, ceb]))
-
-
-def get_CNR_over_time_pixel_agg(pxp=[1, 2, 3, 4, 6, 8, 12], folders=['1w/', '3w/'], CC=True,
-                            directory='C:/Users/10376/Documents/Phantom Data/Uniformity/Multiple Energy Thresholds/'):
-
-    for folder in folders:
-        for pix in pxp:
-            if pix == 1:
-                save_path = directory + folder + 'Data/'
-            else:
-                save_path = directory + folder + str(pix) + 'x' + str(pix) + ' Data/'
-
-            t, c, ce = get_CNR_over_time_energy_thresh(folder, 1, pxp=pix, CC=CC, one_frame=False, frames=300,
-                                                       directory=directory)
-            np.save(save_path + 'Thresh1_CNR_over_time.npy', c)
-
-            if folder == '3w/':
-                plot_CNR_over_time_1s(t, c, ce, title=str(pix) + 'x' + str(pix), save=True,
-                                      directory=directory)

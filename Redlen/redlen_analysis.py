@@ -230,58 +230,6 @@ def intensity_correction(data, air_data):
     return np.log(np.divide(air_data, data))
 
 
-def get_3x3data(folder, air_path='none', directory='C:/Users/10376/Documents/Phantom Data/Uniformity/'):
-    """
-    This function will collect the raw data and call the sum 3x3 function and save the new raw data
-    :param folder:
-    :param directory:
-    :return:
-    """
-    # Create the 3x3 Raw Data subfolders within 'folder'
-    gof.create_folder('3x3 Raw Data', directory + folder)
-
-    if air_path is not 'none':
-        gof.create_folder('3x3 Corrected Data', directory + folder)
-        aira0 = np.load(air_path + '/a0.npy')
-        aira1 = np.load(air_path + '/a1.npy')
-
-    files = glob.glob(directory + folder + '/Raw Data/*.npy')
-
-    if len(files) < 4:
-        rawa0 = np.load(directory + folder + '/Raw Data/a0.npy')
-        rawa1 = np.load(directory + folder + '/Raw Data/a1.npy')
-        newa0 = sum3x3(rawa0)
-        newa1 = sum3x3(rawa1)
-
-        np.save(directory + folder + '/3x3 Raw Data/a0.npy', newa0)
-        np.save(directory + folder + '/3x3 Raw Data/a1.npy', newa1)
-
-        if air_path is not 'none':
-            corr_newa0 = intensity_correction(newa0, aira0)
-            corr_newa1 = intensity_correction(newa1, aira1)
-
-            np.save(directory + folder + '/3x3 Corrected Data/a0.npy', corr_newa0)
-            np.save(directory + folder + '/3x3 Corrected Data/a1.npy', corr_newa1)
-    else:
-        for i in np.arange(1, int(len(files) / 2) + 1):
-            curr_run_files = glob.glob(directory + folder + '/Raw Data/*Run' + '{:03d}'.format(i) + '*.npy')
-            rawa0 = np.load(curr_run_files[0])
-            rawa1 = np.load(curr_run_files[1])
-
-            newa0 = sum3x3(rawa0)
-            newa1 = sum3x3(rawa1)
-
-            np.save(directory + folder + '/3x3 Raw Data/Run' + '{:03d}'.format(i) + '_a0.npy', newa0)
-            np.save(directory + folder + '/3x3 Raw Data/Run' + '{:03d}'.format(i) + '_a1.npy', newa1)
-
-            if air_path is not 'none':
-                corr_newa0 = intensity_correction(newa0, aira0)
-                corr_newa1 = intensity_correction(newa1, aira1)
-
-                np.save(directory + folder + '/3x3 Corrected Data/Run' + '{:03d}'.format(i) + '_a0.npy', corr_newa0)
-                np.save(directory + folder + '/3x3 Corrected Data/Run' + '{:03d}'.format(i) + '_a1.npy', corr_newa1)
-
-
 def polyprop_mult_energy(pxp=[12]):
     """
     Goes through the two folders holding all the energy threshold data and calculates the air corrected
