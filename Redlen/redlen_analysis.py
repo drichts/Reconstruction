@@ -295,4 +295,4 @@ def sumpxp(data, num_pixels):
 
     return ndata
 
-polyprop_mult_energy()
+#polyprop_mult_energy()

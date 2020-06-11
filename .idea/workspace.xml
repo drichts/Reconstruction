@@ -19,13 +19,11 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e941e18b-2940-48ac-a2bc-ba92ca5d083f" name="Default Changelist" comment="More pixel x pixel (6/9/2020)">
-      <change afterPath="$PROJECT_DIR$/Redlen/plot_CNR_over_time.py" afterDir="false" />
+    <list default="true" id="e941e18b-2940-48ac-a2bc-ba92ca5d083f" name="Default Changelist" comment="More pixel x pixel (6/10/2020)">
+      <change afterPath="$PROJECT_DIR$/Redlen/analyze_noise_CNR.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redlen/Pixel_analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/Redlen/Pixel_analysis.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redlen/analyze_phantoms.py" beforeDir="false" afterPath="$PROJECT_DIR$/Redlen/analyze_phantoms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Redlen/plot_CNR_over_time.py" beforeDir="false" afterPath="$PROJECT_DIR$/Redlen/plot_CNR_over_time.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Redlen/redlen_analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/Redlen/redlen_analysis.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redlen/visualize_phantoms.py" beforeDir="false" afterPath="$PROJECT_DIR$/Redlen/visualize_phantoms.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,7 +90,7 @@
       <recent name="C:\Users\drich\PycharmProjects\Reconstruction\Old Scripts" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.plot_CNR_over_time (1)">
+  <component name="RunManager" selected="Python.analyze_noise_CNR">
     <configuration name="Pixel_analysis" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Reconstruction" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -130,6 +128,28 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="analyze_noise_CNR" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Reconstruction" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\drich\Anaconda3\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Redlen" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Redlen/analyze_noise_CNR.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -182,11 +202,12 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="plot_CNR_over_time" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="redlen_analysis" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Reconstruction" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
         <env name="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
       </envs>
       <option name="SDK_HOME" value="C:\Users\drich\Anaconda3\python.exe" />
@@ -195,29 +216,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="C:\Users\10376\PycharmProjects\Reconstruction\Redlen\plot_CNR_over_time.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="true" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="visualize_phantoms" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="Reconstruction" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
-      </envs>
-      <option name="SDK_HOME" value="C:\Users\drich\Anaconda3\python.exe" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Redlen" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Redlen/visualize_phantoms.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Redlen/redlen_analysis.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -227,19 +226,19 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.visualize_phantoms" />
       <item itemvalue="Python.analyze_phantoms" />
-      <item itemvalue="Python.Pixel_analysis" />
-      <item itemvalue="Python.plot_CNR_over_time" />
       <item itemvalue="Python.plot_CNR_over_time (1)" />
+      <item itemvalue="Python.redlen_analysis" />
+      <item itemvalue="Python.Pixel_analysis" />
+      <item itemvalue="Python.analyze_noise_CNR" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.plot_CNR_over_time (1)" />
-        <item itemvalue="Python.analyze_phantoms" />
-        <item itemvalue="Python.plot_CNR_over_time" />
-        <item itemvalue="Python.visualize_phantoms" />
+        <item itemvalue="Python.analyze_noise_CNR" />
         <item itemvalue="Python.Pixel_analysis" />
+        <item itemvalue="Python.analyze_phantoms" />
+        <item itemvalue="Python.plot_CNR_over_time (1)" />
+        <item itemvalue="Python.redlen_analysis" />
       </list>
     </recent_temporary>
   </component>
@@ -432,7 +431,11 @@
       <workItem from="1591634329364" duration="4451000" />
       <workItem from="1591652124689" duration="9975000" />
       <workItem from="1591736563155" duration="12314000" />
-      <workItem from="1591806306988" duration="13557000" />
+      <workItem from="1591806306988" duration="13870000" />
+      <workItem from="1591832637267" duration="939000" />
+      <workItem from="1591833757844" duration="1470000" />
+      <workItem from="1591835801679" duration="420000" />
+      <workItem from="1591892610389" duration="5074000" />
     </task>
     <task id="LOCAL-00001" summary="Paper Edits">
       <created>1582153406007</created>
@@ -609,7 +612,14 @@
       <option name="project" value="LOCAL" />
       <updated>1591749205407</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="More pixel x pixel (6/10/2020)">
+      <created>1591828130371</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1591828130371</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -652,7 +662,8 @@
     <MESSAGE value="Mult. Thresh. Analysis (6/8/2020)" />
     <MESSAGE value="Any num pixel aggregate (6/8/2020)" />
     <MESSAGE value="More pixel x pixel (6/9/2020)" />
-    <option name="LAST_COMMIT_MESSAGE" value="More pixel x pixel (6/9/2020)" />
+    <MESSAGE value="More pixel x pixel (6/10/2020)" />
+    <option name="LAST_COMMIT_MESSAGE" value="More pixel x pixel (6/10/2020)" />
   </component>
   <component name="WindowStateProjectService">
     <state x="715" y="324" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1586977505005">

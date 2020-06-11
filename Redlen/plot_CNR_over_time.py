@@ -1,15 +1,10 @@
 import numpy as np
 import sCT_Analysis as sct
-
 import matplotlib.pyplot as plt
 import seaborn as sns
 from scipy.optimize import curve_fit
 from sklearn.metrics import r2_score
 from datetime import datetime as dt
-
-directory = 'C:/Users/10376/Documents/Phantom Data/Uniformity/Multiple Energy Thresholds/3w/'
-folders = ['', '2x2', '3x3', '4x4', '6x6', '8x8', '12x12']
-
 
 
 def plot_CNR_over_time_1s(time_pts, CNR_pts, CNR_err_mean, CC='CC', title='n/a', save=False,
