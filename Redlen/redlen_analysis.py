@@ -1,140 +1,254 @@
 from scipy.io import loadmat
 import numpy as np
 import matplotlib.pyplot as plt
+import os
 import glob
 import general_OS_functions as gof
+import sCT_Analysis as sct
+import generateROImask as grm
 
 
-def get_uniformity_data(folder, load_directory='X:/TEST LOG/MINI MODULE/Canon/M20358_Q20/Phantom_Tests_5-11-2020/',
-                        MM='M20358_Q20', air_path='none',
-                        save_directory='C:/Users/10376/Documents/Phantom Data/Uniformity/'):
+def testalign(folder, air_folder, num, directory='X:/TEST LOG/MINI MODULE/Canon/M20358_D32/'):
     """
-    This performs all of the necessary work to get and save UNIFORMITY data in numpy arrays including correcting for air
-    if necessary
-    :param folder: Just the folder before 'Raw Test Data', the analyzed data will be saved within this folder name within
-    the save directory
-    :param load_directory: The directory leading to the folder
-    :param MM: The MM name, e.g. M20358
-    :param air_path: Full path to combined air data (A0A1) in .npy format
-    :param save_directory: The directory to save the folder to
+    This function is to test the inital alignment of a phantom at Redlen
+    :param folder: The folder name in the directory
+    :param air_folder: The airscan folder name in the directory
+    :param num: The file number to look at in Uniformity (only A0 files)
+    :param directory: The file path where the test folders save to
+    :return: shows an image of the phantom after air correction
     """
-    path = load_directory + '/' + folder + '/Raw Test Data/' + MM + '/UNIFORMITY/'
-    files = glob.glob(path + '/*.mat')
+    datapath = directory + folder + '/Raw Test Data/M20358_D32/UNIFORMITY/*A0*'
+    airpath = directory + air_folder + '/Raw Test Data/M20358_D32/UNIFORMITY/*A0*'
 
-    gof.create_folder(folder, save_directory)
-    save_path = save_directory + folder
-    gof.create_folder('Raw Data', save_path)
-    if air_path is not 'none':
-        gof.create_folder('Corrected Data', save_path)
+    datafiles = glob.glob(datapath)
+    airfiles = glob.glob(airpath)
 
-    # Just in case there are the two extra files in the folder, skip over them
-    if len(files) > 2:
-        files = sorted(files, key=time_stamp)
-        a0 = mat_to_npy(files[2])
-        a1 = mat_to_npy(files[3])
+    # Grab the correct data files
+    data = np.squeeze(mat_to_npy(datafiles[num]))
+    air = np.squeeze(mat_to_npy(airfiles[num]))
+
+    # Do the air correction
+    corr = -1*np.log(np.divide(data, air))
+    corr = np.sum(corr, axis=1)
+
+    plt.imshow(corr[12])
+    plt.pause(10)
+    plt.close()
+
+
+def npy_uniformity(folder, air_folder, small_contrast, boxname='M20358_D32', mm=0, pxp=[1, 2, 3, 4, 6, 8, 10, 12],
+                   directory='X:/TEST LOG/MINI MODULE/Canon/',
+                   savedir='C:/Users/10376/Documents/Phantom Data/', reanalyze=False):
+
+    # Modifiers for loading and saving data
+    module = {0: '*A0*', 1: '*A1*'}
+    save_mm = {0: 'a0_', 1: 'a1_'}
+
+    gof.create_folder(folder, savedir)  # Create the folder in the save directory
+    savedir = savedir + '/' + folder  # Update the save directory
+
+    # The full data path to get either A0 or A1 files
+    datapath = directory + '/' + boxname + '/' + folder + '/Raw Test Data/' + boxname + '/UNIFORMITY/' + module[mm]
+    airpath = directory + '/' + boxname + '/' + air_folder + '/Raw Test Data/' + boxname + '/UNIFORMITY/' + module[mm]
+
+    # Glob all data files with with A0 or A1
+    datafiles = glob.glob(datapath)
+    airfiles = glob.glob(airpath)
+
+    for i in np.arange(len(datafiles)):
+
+        filename = 'TestNumData_' + save_mm[mm] + str(i+1)  # Filename for this test's data
+        airname = 'TestNumAir_' + save_mm[mm] + str(i+1)   # Filename for this test's air
+
+        print(os.path.basename(datafiles[i]))
+        print(os.path.basename(airfiles[i]))
+        print()
+
+        # Convert to ndarrays
+        data = mat_to_npy(datafiles[i])
+        air = mat_to_npy(airfiles[i])
+
+        # Aggregate the number of pixels in pxp squared
+        for pix in pxp:
+            if pix == 1:
+                data_pxp = np.squeeze(data)
+                air_pxp = np.squeeze(air)
+            else:
+                data_pxp = np.squeeze(sumpxp(data, pix))  # Aggregate the pixels
+                air_pxp = np.squeeze(sumpxp(air, pix))
+
+            pixel_name = str(pix) + 'x' + str(pix)
+            gof.create_folder(pixel_name + ' Data', savedir)
+            savepath = savedir + '/' + pixel_name + ' Data/'  # Update the save path
+
+            gof.create_folder('Raw Data', savepath)  # Create folder for the raw data files (not corrected for air)
+            np.save(savepath + 'Raw Data/' + filename + '.npy', data_pxp)  # Save the raw data
+            np.save(savepath + 'Raw Data/' + airname + '.npy', air_pxp)  # Save the air data
+
+            # Don't find new masks if reanalyzing for past the first file (all files will be of the same phantom
+            if reanalyze or i > 0:
+                mask = np.load(savepath + save_mm[mm] + 'Mask.npy')
+                bg = np.load(savepath + save_mm[mm] + 'Background.npy')
+            else:
+                # Sum over all views to find background and contrast area
+                temp_data = np.sum(data_pxp[6:], axis=1)
+                temp_air = np.sum(air_pxp[6:], axis=1)
+                image = intensity_correction(temp_data, temp_air)  # Correct for air
+                # Test which bin shows the contrast area before defining the mask ROIs
+                ideal_bin = test_visibilty(image)
+                image = image[ideal_bin]
+
+                # Get a contrast and background mask for this pixel aggregation and save
+                mask, bg = choose_mask_types(image, small_contrast, pix)
+                np.save(savepath + save_mm[mm] + 'Mask.npy', mask)
+                np.save(savepath + save_mm[mm] + 'Background.npy', bg)
+
+            # Collect the frames aggregated over, the noise and cnr and save
+            frames, cnr, noise = avg_cnr_noise_over_all_frames(data_pxp, air_pxp, mask, bg)
+            np.save(savepath + filename + 'Frames_averaged_over.npy', frames)
+            np.save(savepath + filename + 'Avg_CNR_over_averaged_frames.npy', cnr)
+            np.save(savepath + filename + 'Avg_noise_over_averaged_frames.npy', noise)
+
+
+def test_visibilty(image):
+    """
+    This function will test if your contrast area is visible in the current bin
+    :param image: 3D ndarray
+                The images with all bins
+    :return: The bin to use
+    """
+    bins = np.roll(np.arange(len(image)), 1)  # The bin options from EC, first, second, etc.
+    for b in bins:
+        plt.imshow(image[b])
+        plt.pause(1)
+        plt.close()
+        val = input('Was the contrast visible? (y/n)')
+        if val is 'y':
+            return b
+
+    return np.nan
+
+
+def choose_mask_types(image, small, pixels):
+    """
+    This function chooses the mask function to call based on if you are aggregating lots of pixels together and if
+    the contrast area is small. If the contrast area is small, the contrast mask will chosen pixel by pixel, otherwise
+    it will be selected by choosing the corners of a rectangle. The same is true for the background mask if you aggregate
+    a lot of pixels, you need to choose the background mask pixel by pixel
+    :param image: 2D ndarray
+                The image to mask
+    :param small: boolean
+                True if the contrast area is small
+    :param pixels: int
+                The number of pixels being aggregated together
+    :return:
+    """
+    # First get the contrast mask, if it is a small contrast area (<2mm) choose the ROI pixel by pixel
+    # It will ask you after selecting if the ROI is acceptable, anything but y will allow you to redefine the ROI
+    continue_flag = True
+    if small or pixels > 5:
+        while continue_flag:
+            mask = grm.single_pixels_mask(image)
+            val = input('Were the ROIs acceptable? (y/n)')
+            if val is 'y':
+                continue_flag = False
     else:
-        a0 = mat_to_npy(files[0])
-        a1 = mat_to_npy(files[1])
+        while continue_flag:
+            mask = grm.square_ROI(image)
+            val = input('Were the ROIs acceptable? (y/n)')
+            if val is 'y':
+                continue_flag = False
 
-    both_a = stitch_A0A1(a0, a1)
-
-    if air_path is not 'none':
-        corrected_both = intensity_correction(both_a)
-        np.save(save_path + '/Corrected Data/full_view.npy', corrected_both)
-
-    np.save(save_path + '/Raw Data/full_view.npy', both_a)
-    np.save(save_path + '/Raw Data/a0.npy', a0)
-    np.save(save_path + '/Raw Data/a1.npy', a1)
-
-
-def multiple_uniformity(folder, load_directory='X:/TEST LOG/MINI MODULE/Canon/M20358_Q20/Phantom_Tests_5-11-2020/',
-                        MM='M20358_Q20', air_path='none',
-                        save_directory='C:/Users/10376/Documents/Phantom Data/Raw Data/Uniformity/'):
-    """
-    This performs all of the necessary work to get and save UNIFORMITY data in numpy arrays including correcting for air
-    if necessary
-    :param folder: Just the folder before 'Raw Test Data', the analyzed data will be saved within this folder name within
-    the save directory
-    :param load_directory: The directory leading to the folder
-    :param MM: The MM name, e.g. M20358
-    :param air_path: Full path to combined air data (A0A1) in .npy format
-    :param save_directory: The directory to save the folder to
-    """
-    path = load_directory + '/' + folder + '/Raw Test Data/' + MM + '/UNIFORMITY/'
-    files = glob.glob(path + '/*.mat')
-
-    gof.create_folder(folder, save_directory)
-    save_path = save_directory + folder
-    gof.create_folder('Raw Data', save_path)
-    if air_path is not 'none':
-        gof.create_folder('Corrected Data', save_path)
-
-    for i in np.arange(1, int(len(files)/2)+1):
-        curr_run_files = glob.glob(path + '/*Run' + '{:03d}'.format(i) + '*.mat')
-        print(curr_run_files)
-        a0 = mat_to_npy(curr_run_files[0])
-        a1 = mat_to_npy(curr_run_files[1])
-
-        np.save(save_path + '/Raw Data/Run' + '{:03d}'.format(i) + '_a0.npy', a0)
-        np.save(save_path + '/Raw Data/Run' + '{:03d}'.format(i) + '_a1.npy', a1)
-
-        if air_path is not 'none':
-            air_a0 = np.load(air_path + '/a0.npy')
-            air_a1 = np.load(air_path + '/a1.npy')
-            a0_corr = intensity_correction(a0, air_a0)
-            a1_corr = intensity_correction(a1, air_a1)
-
-            np.save(save_path + '/Corrected Data/Run' + '{:03d}'.format(i) + '_a0.npy', a0_corr)
-            np.save(save_path + '/Corrected Data/Run' + '{:03d}'.format(i) + '_a1.npy', a1_corr)
-
-
-def get_spectrum_data(folder, load_directory, MM, which_data=1, save_directory='X:/Devon_UVic/'):
-    """
-    This performs all of the necessary work to get and save SPECTRUM data in numpy arrays and get the count data to plot
-    spectra for cc and sec over energy range in AU
-    :param folder: Just the folder before 'Raw Test Data', the analyzed data will be saved within this folder name within
-    the save directory
-    :param load_directory: The directory leading to the folder
-    :param MM: The MM name, e.g. M20358
-    :param which_data: which data to get the median count rate from (1: A0, 2: A1, 3: both A0 and A1)
-    :param save_directory: The directory to save the folder to
-    """
-    modules = {1: 'A0',
-               2: 'A1',
-               3: 'both'}
-
-    path = load_directory + folder + '/Raw Test Data/' + MM + '/UNIFORMITY/'
-    files = glob.glob(path + '/*.mat')
-
-    # Just in case there are the two extra files in the folder, skip over them
-    if len(files) > 2:
-        files = sorted(files, key=time_stamp)
-        a0 = mat_to_npy(files[2])
-        a1 = mat_to_npy(files[3])
+    # Choose the background mask in the same way, if you are aggregating more pixels than 5, you will select pixel by pixel
+    continue_flag = True
+    if pixels < 5:
+        while continue_flag:
+            bg = grm.square_ROI(image)
+            val = input('Were the ROIs acceptable? (y/n)')
+            if val is 'y':
+                continue_flag = False
     else:
-        a0 = mat_to_npy(files[0])
-        a1 = mat_to_npy(files[1])
+        while continue_flag:
+            bg = grm.single_pixels_mask(image)
+            val = input('Were the ROIs acceptable? (y/n)')
+            if val is 'y':
+                continue_flag = False
 
-    both_a = stitch_A0A1(a0, a1)
+    return mask, bg
 
-    if modules[which_data] is 'A0':
-        cc_spect, sec_spect = get_spectrum(a0)
-    elif modules[which_data] is 'A1':
-        cc_spect, sec_spect = get_spectrum(a1)
-    else:
-        cc_spect, sec_spect = get_spectrum(both_a)
 
-    gof.create_folder(folder, save_directory)
-    save_path = save_directory + folder
-    gof.create_folder('Raw Data', save_path)
-    gof.create_folder('Spectra', save_path)
+def avg_cnr_noise_over_frames(data, airdata, mask, bg_mask, frames):
+    """
+    This function will take the data and airscan and calculate the CNR every number of frames and then avg, will also
+    give the CNR error as well. Also will calculate the avg noise
+    :param data: 4D ndarray, <counters, views, rows, columns>
+                The phantom data
+    :param airdata: 4D ndarray, <counters, views, rows, columns>
+                The airscan
+    :param frames: int
+                The number of frames to avg together
+    :param mask: 2D ndarray
+                The mask of the contrast area
+    :param bg_mask: 2D ndarray
+                The mask of the background
+    :return: four lists with the cnr, cnr error, noise, and std of the noise in each of the bins (usually 13 elements)
+    """
+    cnr = np.zeros([len(data), int(1000/frames)])  # Array to hold the cnr for the number of times it will be calculated
+    cnr_err = np.zeros([len(data), int(1000/frames)])  # array for the cnr error
+    noise = np.zeros([len(data), int(1000/frames)])  # Same for noise
 
-    np.save(save_path + '/Raw Data/full_view.npy', both_a)
-    np.save(save_path + '/Raw Data/a0.npy', a0)
-    np.save(save_path + '/Raw Data/a1.npy', a1)
+    # Go over the data views in jumps of the number of frames
+    for i, data_idx in enumerate(np.arange(0, 1001-frames, frames)):
+        if frames == 1:
+            tempdata = data[:, data_idx]  # Grab the next view
+            tempair = airdata[:, data_idx]
+        else:
+            tempdata = np.sum(data[:, data_idx:data_idx + frames], axis=1)  # Grab the sum of the next 'frames' views
+            tempair = np.sum(airdata[:, data_idx:data_idx + frames], axis=1)
 
-    np.save(save_path + '/Spectra/sec.npy', sec_spect)
-    np.save(save_path + '/Spectra/cc.npy', cc_spect)
+        corr_data = intensity_correction(tempdata, tempair)  # Correct for air
+
+        # Go through each bin and calculate CNR
+        for j, img in enumerate(corr_data):
+            cnr[j, i], cnr_err[j, i] = sct.cnr(img, mask, bg_mask)
+            noise[j, i] = np.nanstd(img*bg_mask)
+
+    # Average over the frames
+    cnr = np.mean(cnr, axis=1)
+    cnr_err = np.mean(cnr_err, axis=1)
+    noise_std = np.std(noise, axis=1)
+    noise = np.mean(noise, axis=1)
+
+    return cnr, cnr_err, noise, noise_std
+
+
+def avg_cnr_noise_over_all_frames(data, airdata, mask, bg_mask,
+                                  frames=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 50, 100, 250, 500, 1000]):
+    """
+    This function will take the data and airscan and calculate the CNR and CNR error over all the frames in the list
+    :param data: 4D ndarray, <counters, views, rows, columns>
+                The phantom data
+    :param airdata: 4D ndarray, <counters, views, rows, columns>
+                The airscan
+    :param mask: 2D ndarray
+                The mask of the contrast area
+    :param bg_mask: 2D ndarray
+                The mask of the background
+    :param frames: 1D ndarray
+                List of the frames to avg over
+    :return:
+    """
+    cnr_frames = np.zeros([len(frames), len(data), 2])  # The CNR and CNR error over all frames in the list
+    noise_frames = np.zeros([len(frames), len(data), 2])  # Same for noise
+
+    for i in np.arange(len(frames)):
+        c, ce, n, ne = avg_cnr_noise_over_frames(data, airdata, mask, bg_mask, frames[i])  # Calculate the CNR and error
+        cnr_frames[i, :, 0] = c   # The ith frames, set first column equal to cnr
+        cnr_frames[i, :, 1] = ce  # The ith frames, set second column equal to cnr error
+        noise_frames[i, :, 0] = n  # Same for noise, 1st column
+        noise_frames[i, :, 1] = ne  # Noise error, 2nd column
+
+    return frames, cnr_frames, noise_frames
 
 
 def time_stamp(file):
@@ -274,16 +388,15 @@ def polyprop_mult_energy(pxp=[12]):
             np.save(save_dir + save_folder[i] + 'Data/Thresholds_' + str(j+1) + '.npy', corr)
 
 
-
 def sumpxp(data, num_pixels):
     """
     This function takes a data array and sums nxn pixels along the row and column data
-    :param data: 5D array
+    :param data: 4D array
                 The full data array <captures, counters, views, rows, columns>
     :return: The new data array with nxn pixels from the inital data summed together
     """
     dat_shape = np.array(np.shape(data))
-    dat_shape[3] = int(dat_shape[3] / num_pixels)  # Reduce size by 2 in the row and column directions
+    dat_shape[3] = int(dat_shape[3] / num_pixels)  # Reduce size by num_pixels in the row and column directions
     dat_shape[4] = int(dat_shape[4] / num_pixels)
 
     ndata = np.zeros(dat_shape)
@@ -294,5 +407,3 @@ def sumpxp(data, num_pixels):
             ndata[:, :, :, row, col] = np.sum(temp, axis=(3, 4))  # Sum over only the rows and columns
 
     return ndata
-
-#polyprop_mult_energy()
