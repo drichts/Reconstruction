@@ -36,10 +36,34 @@ def testalign(folder, air_folder, num, directory='X:/TEST LOG/MINI MODULE/Canon/
     plt.close()
 
 
-def npy_uniformity(folder, air_folder, small_contrast, boxname='M20358_D32', mm=0, pxp=[1, 2, 3, 4, 6, 8, 10, 12],
-                   directory='X:/TEST LOG/MINI MODULE/Canon/',
+def npy_uniformity(folder, air_folder, small_contrast=False, w=1, boxname='M20358_D32', mm=0,
+                   pxp=[1, 2, 3, 4, 6, 8, 10, 12], directory='X:/TEST LOG/MINI MODULE/Canon/',
                    savedir='C:/Users/10376/Documents/Phantom Data/', reanalyze=False):
-
+    """
+    This function does a lot of analysis: creates masks for the contrast area and background at each pixel aggregation,
+    analyzes to calculate CNR of each bin at each of the pixel aggs and at a number of different time frames =
+    :param folder: string
+                The name of the folder where the .mat phantom data is
+    :param air_folder: string
+                The name of the folder where the .mat airscan is
+    :param small_contrast: boolean, default=False
+                If you are working with a small contrast agent, less than 2-3 mm, should be changed to True
+    :param w: int, default is 1
+                The charge sharing correction window width
+    :param boxname: string, default is 'M20358_D32'
+                The box name of the detector used
+    :param mm: int, default is 0
+                The ASIC data to choose, could be 0 or 1 (A0 or A1)
+    :param pxp: list of ints, default is [1, 2, 3, 4, 6, 8, 10, 12]
+                The number of pixels to aggregate
+    :param directory: string
+                The directory leading to the folder with box name in it first
+    :param savedir: string
+                The path to the folder where the data from this phantom should be saved
+    :param reanalyze: boolean, default is False
+                Whether you are re-analyzing the data or not
+    :return:
+    """
     # Modifiers for loading and saving data
     module = {0: '*A0*', 1: '*A1*'}
     save_mm = {0: 'a0_', 1: 'a1_'}
@@ -54,6 +78,8 @@ def npy_uniformity(folder, air_folder, small_contrast, boxname='M20358_D32', mm=
     # Glob all data files with with A0 or A1
     datafiles = glob.glob(datapath)
     airfiles = glob.glob(airpath)
+    print(datapath)
+    print(airpath)
 
     for i in np.arange(len(datafiles)):
 
@@ -64,9 +90,13 @@ def npy_uniformity(folder, air_folder, small_contrast, boxname='M20358_D32', mm=
         print(os.path.basename(airfiles[i]))
         print()
 
-        # Convert to ndarrays
-        data = mat_to_npy(datafiles[i])
-        air = mat_to_npy(airfiles[i])
+        # Takes a long time to load a .mat file so if reanalyzing, load from the already saved .npy
+        if reanalyze:
+            data = np.expand_dims(np.load(savedir + '/1x1 Data/Raw Data/' + filename + '.npy'), axis=0)
+            air = np.expand_dims(np.load(savedir + '/1x1 Data/Raw Data/' + airname + '.npy'), axis=0)
+        else:
+            data = mat_to_npy(datafiles[i])
+            air = mat_to_npy(airfiles[i])
 
         # Aggregate the number of pixels in pxp squared
         for pix in pxp:
@@ -85,29 +115,40 @@ def npy_uniformity(folder, air_folder, small_contrast, boxname='M20358_D32', mm=
             np.save(savepath + 'Raw Data/' + filename + '.npy', data_pxp)  # Save the raw data
             np.save(savepath + 'Raw Data/' + airname + '.npy', air_pxp)  # Save the air data
 
-            # Don't find new masks if reanalyzing for past the first file (all files will be of the same phantom
-            if reanalyze or i > 0:
-                mask = np.load(savepath + save_mm[mm] + 'Mask.npy')
-                bg = np.load(savepath + save_mm[mm] + 'Background.npy')
-            else:
-                # Sum over all views to find background and contrast area
-                temp_data = np.sum(data_pxp[6:], axis=1)
-                temp_air = np.sum(air_pxp[6:], axis=1)
-                image = intensity_correction(temp_data, temp_air)  # Correct for air
-                # Test which bin shows the contrast area before defining the mask ROIs
-                ideal_bin = test_visibilty(image)
-                image = image[ideal_bin]
+            # Don't find new masks if reanalyzing for past the first file (all files will be of the same phantom)
+            if w == 1:
+                if reanalyze or i > 0:
+                    mask = np.load(savepath + save_mm[mm] + 'Mask.npy')
+                    bg = np.load(savepath + save_mm[mm] + 'Background.npy')
+                else:
+                    # Sum over all views to find background and contrast area
+                    temp_data = np.sum(data_pxp[6:], axis=1)
+                    temp_air = np.sum(air_pxp[6:], axis=1)
+                    image = intensity_correction(temp_data, temp_air)  # Correct for air
+                    # Test which bin shows the contrast area before defining the mask ROIs
+                    ideal_bin = test_visibilty(image)
+                    image = image[ideal_bin]
 
-                # Get a contrast and background mask for this pixel aggregation and save
-                mask, bg = choose_mask_types(image, small_contrast, pix)
-                np.save(savepath + save_mm[mm] + 'Mask.npy', mask)
-                np.save(savepath + save_mm[mm] + 'Background.npy', bg)
+                    # Get a contrast and background mask for this pixel aggregation and save
+                    mask, bg = choose_mask_types(image, small_contrast, pix)
+                    np.save(savepath + save_mm[mm] + 'Mask.npy', mask)
+                    np.save(savepath + save_mm[mm] + 'Background.npy', bg)
+            else:
+                maskpath = savepath
+                print(maskpath)
+                w_idx = maskpath.find(str(w) + 'w')
+                w_repl = maskpath[w_idx:w_idx+2]
+                maskpath = maskpath.replace(w_repl, '1w')
+                print(maskpath)
+                print()
+                mask = np.load(maskpath + save_mm[mm] + 'Mask.npy')
+                bg = np.load(maskpath + save_mm[mm] + 'Background.npy')
 
             # Collect the frames aggregated over, the noise and cnr and save
             frames, cnr, noise = avg_cnr_noise_over_all_frames(data_pxp, air_pxp, mask, bg)
-            np.save(savepath + filename + 'Frames_averaged_over.npy', frames)
-            np.save(savepath + filename + 'Avg_CNR_over_averaged_frames.npy', cnr)
-            np.save(savepath + filename + 'Avg_noise_over_averaged_frames.npy', noise)
+            np.save(savepath + filename + '_Frames.npy', frames)
+            np.save(savepath + filename + '_Avg_CNR.npy', cnr)
+            np.save(savepath + filename + '_Avg_noise.npy', noise)
 
 
 def test_visibilty(image):
