@@ -37,8 +37,8 @@ def testalign(folder, air_folder, num, directory='X:/TEST LOG/MINI MODULE/Canon/
 
 
 def npy_uniformity(folder, air_folder, small_contrast=False, w=1, boxname='M20358_D32', mm=0,
-                   pxp=[1, 2, 3, 4, 6, 8, 10, 12], directory='X:/TEST LOG/MINI MODULE/Canon/',
-                   savedir='C:/Users/10376/Documents/Phantom Data/', reanalyze=False):
+                   pxp=[1, 2, 3, 4, 6, 8, 12], directory='X:/TEST LOG/MINI MODULE/Canon/',
+                   savedir='C:/Users/10376/Documents/Phantom Data/Polypropylene_06-12-20/', reanalyze=False):
     """
     This function does a lot of analysis: creates masks for the contrast area and background at each pixel aggregation,
     analyzes to calculate CNR of each bin at each of the pixel aggs and at a number of different time frames =
@@ -134,15 +134,21 @@ def npy_uniformity(folder, air_folder, small_contrast=False, w=1, boxname='M2035
                     np.save(savepath + save_mm[mm] + 'Mask.npy', mask)
                     np.save(savepath + save_mm[mm] + 'Background.npy', bg)
             else:
-                maskpath = savepath
-                print(maskpath)
-                w_idx = maskpath.find(str(w) + 'w')
-                w_repl = maskpath[w_idx:w_idx+2]
-                maskpath = maskpath.replace(w_repl, '1w')
-                print(maskpath)
-                print()
-                mask = np.load(maskpath + save_mm[mm] + 'Mask.npy')
-                bg = np.load(maskpath + save_mm[mm] + 'Background.npy')
+                if reanalyze or i > 0:
+                    mask = np.load(savepath + save_mm[mm] + 'Mask.npy')
+                    bg = np.load(savepath + save_mm[mm] + 'Background.npy')
+                else:
+                    maskpath = savepath
+                    print(maskpath)
+                    w_idx = maskpath.find(str(w) + 'w')
+                    w_repl = maskpath[w_idx:w_idx+2]
+                    maskpath = maskpath.replace(w_repl, '1w')
+                    print(maskpath)
+                    print()
+                    mask = np.load(maskpath + save_mm[mm] + 'Mask.npy')
+                    bg = np.load(maskpath + save_mm[mm] + 'Background.npy')
+                    np.save(savepath + save_mm[mm] + 'Mask.npy', mask)
+                    np.save(savepath + save_mm[mm] + 'Background.npy', bg)
 
             # Collect the frames aggregated over, the noise and cnr and save
             frames, cnr, noise = avg_cnr_noise_over_all_frames(data_pxp, air_pxp, mask, bg)
@@ -252,7 +258,7 @@ def avg_cnr_noise_over_frames(data, airdata, mask, bg_mask, frames):
         # Go through each bin and calculate CNR
         for j, img in enumerate(corr_data):
             cnr[j, i], cnr_err[j, i] = sct.cnr(img, mask, bg_mask)
-            noise[j, i] = np.nanstd(img*bg_mask)
+            noise[j, i] = np.nanstd(img*bg_mask)  # Get noise as fraction of mean background
 
     # Average over the frames
     cnr = np.mean(cnr, axis=1)
@@ -290,6 +296,75 @@ def avg_cnr_noise_over_all_frames(data, airdata, mask, bg_mask,
         noise_frames[i, :, 1] = ne  # Noise error, 2nd column
 
     return frames, cnr_frames, noise_frames
+
+
+def avg_contrast_over_frames(data, airdata, mask, bg_mask, frames):
+    """
+    This function will take the data and airscan and calculate the contrast as a fraction of mean background for every
+    number of frames and then avg
+    :param data: 4D ndarray, <counters, views, rows, columns>
+                The phantom data
+    :param airdata: 4D ndarray, <counters, views, rows, columns>
+                The airscan
+    :param frames: int
+                The number of frames to avg together
+    :param mask: 2D ndarray
+                The mask of the contrast area
+    :param bg_mask: 2D ndarray
+                The mask of the background
+    :return: four lists with the cnr, cnr error, noise, and std of the noise in each of the bins (usually 13 elements)
+    """
+    contrast = np.zeros([len(data), int(1000/frames)])  # Array to hold the cnr for the number of times it will be calculated
+
+    # Go over the data views in jumps of the number of frames
+    for i, data_idx in enumerate(np.arange(0, 1001-frames, frames)):
+        if frames == 1:
+            tempdata = data[:, data_idx]  # Grab the next view
+            tempair = airdata[:, data_idx]
+        else:
+            tempdata = np.sum(data[:, data_idx:data_idx + frames], axis=1)  # Grab the sum of the next 'frames' views
+            tempair = np.sum(airdata[:, data_idx:data_idx + frames], axis=1)
+
+        corr_data = intensity_correction(tempdata, tempair)  # Correct for air
+
+        # Go through each bin and calculate CNR
+        for j, img in enumerate(corr_data):
+            #background = np.nanmean(img*bg_mask)
+            #contrast[j, i] = np.nanmean(img*mask) - background
+            contrast[j, i] = np.nanstd(img*bg_mask)
+
+    # Average over the frames
+    contrast_err = np.std(contrast, axis=1)
+    contrast = np.mean(contrast, axis=1)
+
+    return contrast, contrast_err
+
+
+def avg_contrast_over_all_frames(data, airdata, mask, bg_mask,
+                                  frames=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 50, 100, 250, 500, 1000]):
+    """
+    This function will take the data and airscan and calculate the contrast and contrast error over all the frames in
+    the list
+    :param data: 4D ndarray, <counters, views, rows, columns>
+                The phantom data
+    :param airdata: 4D ndarray, <counters, views, rows, columns>
+                The airscan
+    :param mask: 2D ndarray
+                The mask of the contrast area
+    :param bg_mask: 2D ndarray
+                The mask of the background
+    :param frames: 1D ndarray
+                List of the frames to avg over
+    :return:
+    """
+    contrast_frames = np.zeros([len(frames), len(data), 2])  # The contrast and contrast error over frames in the list
+
+    for i in np.arange(len(frames)):
+        c, ce, = avg_contrast_over_frames(data, airdata, mask, bg_mask, frames[i])  # Calculate the contrast
+        contrast_frames[i, :, 0] = c   # The ith frames, set first column equal to contrast
+        contrast_frames[i, :, 1] = ce  # The ith frames, set second column equal to contrast error
+
+    return contrast_frames
 
 
 def time_stamp(file):
@@ -448,3 +523,16 @@ def sumpxp(data, num_pixels):
             ndata[:, :, :, row, col] = np.sum(temp, axis=(3, 4))  # Sum over only the rows and columns
 
     return ndata
+
+directory = r'C:\Users\10376\Documents\Phantom Data\Polypropylene_06-12-20/'
+folders = ['polyprop_1w_deadtime_32ns/', 'polyprop_3w_deadtime_32ns/', 'polyprop_8w_deadtime_32ns/']
+
+for folder in folders:
+    path = directory + folder + '1x1 Data/'
+    data = np.load(path + 'Raw Data/TestNumData_a0_1.npy')
+    air = np.load(path + 'Raw Data/TestNumAir_a0_1.npy')
+    mask = np.load(path + 'a0_Mask.npy')
+    bg = np.load(path + 'a0_Background.npy')
+
+    con = avg_contrast_over_all_frames(data, air, mask, bg)
+    np.save(path + 'TestNumData_a0_1_Avg_noise.npy', con)

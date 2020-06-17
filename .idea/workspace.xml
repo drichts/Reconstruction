@@ -19,11 +19,12 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e941e18b-2940-48ac-a2bc-ba92ca5d083f" name="Default Changelist" comment="Major update for non-specific analysis (6/12/2020)">
-      <change afterPath="$PROJECT_DIR$/Redlen/organize_data.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Redlen/visualize_data.py" afterDir="false" />
+    <list default="true" id="e941e18b-2940-48ac-a2bc-ba92ca5d083f" name="Default Changelist" comment="Major update for non-specific analysis (6/15/2020)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Redlen/organize_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/Redlen/organize_data.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Redlen/redlen_analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/Redlen/redlen_analysis.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Redlen/visualize_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/Redlen/visualize_data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sCT_Analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/sCT_Analysis.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,7 +91,7 @@
       <recent name="C:\Users\drich\PycharmProjects\Reconstruction\Old Scripts" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.visualize_data">
+  <component name="RunManager" selected="Python.test">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <module name="Reconstruction" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -234,9 +235,9 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.visualize_data" />
-        <item itemvalue="Python.organize_data" />
         <item itemvalue="Python.test" />
+        <item itemvalue="Python.organize_data" />
+        <item itemvalue="Python.visualize_data" />
         <item itemvalue="Python.redlen_analysis" />
         <item itemvalue="Python.analyze_noise_CNR" />
       </list>
@@ -440,7 +441,9 @@
       <workItem from="1591912298224" duration="1052000" />
       <workItem from="1591981018728" duration="18668000" />
       <workItem from="1592237552597" duration="1913000" />
-      <workItem from="1592239491089" duration="22959000" />
+      <workItem from="1592239491089" duration="23036000" />
+      <workItem from="1592323588961" duration="142000" />
+      <workItem from="1592323743888" duration="25355000" />
     </task>
     <task id="LOCAL-00001" summary="Paper Edits">
       <created>1582153406007</created>
@@ -638,7 +641,14 @@
       <option name="project" value="LOCAL" />
       <updated>1592010887932</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="Major update for non-specific analysis (6/15/2020)">
+      <created>1592266554009</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1592266554009</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -657,7 +667,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="AAPM-COMP data for figures abstract/extra file" />
     <MESSAGE value="Slight revisions for WesCan talk figures" />
     <MESSAGE value="Updates since last push (Date: 4/22/20)" />
     <MESSAGE value="redlen-analysis.py update (4/29/2020)" />
@@ -682,7 +691,8 @@
     <MESSAGE value="More pixel x pixel (6/10/2020)" />
     <MESSAGE value="Noise analysis (6/11/2020)" />
     <MESSAGE value="Major update for non-specific analysis (6/12/2020)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Major update for non-specific analysis (6/12/2020)" />
+    <MESSAGE value="Major update for non-specific analysis (6/15/2020)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Major update for non-specific analysis (6/15/2020)" />
   </component>
   <component name="WindowStateProjectService">
     <state x="715" y="324" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1586977505005">
@@ -744,10 +754,10 @@
     <state x="394" y="84" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1591738383991" />
     <state x="795" y="175" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1588272863045" />
     <state x="461" y="223" key="SettingsEditor/0.0.1920.1160/-1920.0.1536.824@0.0.1920.1160" timestamp="1584474497130" />
-    <state x="442" y="201" key="Vcs.Push.Dialog.v2" timestamp="1592010892049">
+    <state x="442" y="201" key="Vcs.Push.Dialog.v2" timestamp="1592266559465">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="442" y="201" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1592010892049" />
+    <state x="442" y="201" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1592266559465" />
     <state x="552" y="254" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1589488677492" />
     <state x="609" y="134" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1592241701057">
       <screen x="0" y="0" width="1920" height="1040" />

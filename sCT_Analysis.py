@@ -539,6 +539,7 @@ def linear_fit(zero_value, norm_value):
 
     return coeffs
 
+
 def norm_kedge(folder, coeffs, edge, directory='D:/Research/Python Data/Spectral CT/'):
 
     # Define the specific K-edge
