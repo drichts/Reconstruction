@@ -551,6 +551,7 @@ def linear_fit(zero_value, norm_value):
 
     return coeffs
 
+
 def norm_kedge(folder, coeffs, edge, directory='D:/Research/Python Data/Spectral CT/'):
     """
     Normalize the k-edge images and save in a new folder (Normed K-Edge)

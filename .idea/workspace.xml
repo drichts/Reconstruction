@@ -1,30 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="e941e18b-2940-48ac-a2bc-ba92ca5d083f" name="Default Changelist" comment="">
+    <list default="true" id="e941e18b-2940-48ac-a2bc-ba92ca5d083f" name="Default Changelist" comment="Major update for non-specific analysis (6/15/2020)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/First_Paper_Analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/First_Paper_Analysis.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/First_Paper_Figures.py" beforeDir="false" afterPath="$PROJECT_DIR$/First_Paper_Figures.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WesCanFigures.py" beforeDir="false" afterPath="$PROJECT_DIR$/WesCanFigures.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Redlen/organize_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/Redlen/organize_data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Redlen/redlen_analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/Redlen/redlen_analysis.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Redlen/visualize_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/Redlen/visualize_data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sCT_Analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/sCT_Analysis.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="DatabaseView">
-    <option name="SHOW_INTERMEDIATE" value="true" />
-    <option name="GROUP_DATA_SOURCES" value="true" />
-    <option name="GROUP_SCHEMA" value="true" />
-    <option name="GROUP_CONTENTS" value="false" />
-    <option name="SORT_POSITIONED" value="false" />
-    <option name="SHOW_EMPTY_GROUPS" value="false" />
-    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
-    <option name="HIDDEN_KINDS">
-      <set />
-    </option>
-    <expand />
-    <select />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -41,10 +46,11 @@
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
@@ -76,107 +82,16 @@
     </option>
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\drich\PycharmProjects\Reconstruction\Old Scripts" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\drich\PycharmProjects\Reconstruction" />
       <recent name="C:\Users\drich\OneDrive\Documents\GitHub\desktop-tutorial" />
     </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\10376\PycharmProjects\Reconstruction\Redlen" />
+      <recent name="C:\Users\drich\PycharmProjects\Reconstruction\Old Scripts" />
+    </key>
   </component>
-  <component name="RunManager" selected="Python.First_Paper_Figures">
-    <configuration name="First_Paper_Analysis" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="Reconstruction" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-        <env name="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
-      </envs>
-      <option name="SDK_HOME" value="C:\Users\drich\Anaconda3\python.exe" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/First_Paper_Analysis.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="true" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="First_Paper_Figures" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="Reconstruction" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-        <env name="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
-      </envs>
-      <option name="SDK_HOME" value="C:\Users\drich\Anaconda3\python.exe" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/First_Paper_Figures.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="true" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Recon_test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="Reconstruction" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-        <env name="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
-      </envs>
-      <option name="SDK_HOME" value="C:\Users\drich\Anaconda3\python.exe" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/CT Recon Testing" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/CT Recon Testing/Recon_test.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="true" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="WesCanFigures" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="Reconstruction" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-        <env name="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
-      </envs>
-      <option name="SDK_HOME" value="C:\Users\drich\Anaconda3\python.exe" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/WesCanFigures.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="true" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="Python.test">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <module name="Reconstruction" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -200,20 +115,109 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="sCT_Analysis" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="analyze_noise_CNR" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Reconstruction" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
       </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="SDK_HOME" value="C:\Users\drich\Anaconda3\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Redlen" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/sCT_Analysis.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Redlen/analyze_noise_CNR.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="organize_data" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Reconstruction" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\drich\Anaconda3\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Redlen" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Redlen/organize_data.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="redlen_analysis" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Reconstruction" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\drich\Anaconda3\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Redlen" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Redlen/redlen_analysis.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Reconstruction" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\drich\Anaconda3\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Redlen" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Redlen/test.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="visualize_data" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Reconstruction" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\drich\Anaconda3\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Redlen" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Redlen/visualize_data.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -223,19 +227,19 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.sCT_Analysis" />
-      <item itemvalue="Python.Recon_test" />
-      <item itemvalue="Python.First_Paper_Analysis" />
-      <item itemvalue="Python.First_Paper_Figures" />
-      <item itemvalue="Python.WesCanFigures" />
+      <item itemvalue="Python.redlen_analysis" />
+      <item itemvalue="Python.analyze_noise_CNR" />
+      <item itemvalue="Python.test" />
+      <item itemvalue="Python.organize_data" />
+      <item itemvalue="Python.visualize_data" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.First_Paper_Figures" />
-        <item itemvalue="Python.First_Paper_Analysis" />
-        <item itemvalue="Python.WesCanFigures" />
-        <item itemvalue="Python.sCT_Analysis" />
-        <item itemvalue="Python.Recon_test" />
+        <item itemvalue="Python.test" />
+        <item itemvalue="Python.organize_data" />
+        <item itemvalue="Python.visualize_data" />
+        <item itemvalue="Python.redlen_analysis" />
+        <item itemvalue="Python.analyze_noise_CNR" />
       </list>
     </recent_temporary>
   </component>
@@ -399,33 +403,47 @@
       <workItem from="1587591479471" duration="74000" />
       <workItem from="1587591579316" duration="7015000" />
       <workItem from="1587751647509" duration="5594000" />
-      <workItem from="1589994507091" duration="779000" />
-      <workItem from="1590017137106" duration="631000" />
-      <workItem from="1590172267612" duration="11894000" />
-      <workItem from="1590426332332" duration="1223000" />
-      <workItem from="1590444700071" duration="4686000" />
-      <workItem from="1590452926234" duration="242000" />
-      <workItem from="1590508612910" duration="4780000" />
-      <workItem from="1590520284996" duration="1219000" />
-      <workItem from="1590533863343" duration="7098000" />
-      <workItem from="1590597094470" duration="677000" />
-      <workItem from="1590698224839" duration="2863000" />
-      <workItem from="1591203274867" duration="7234000" />
-      <workItem from="1591310514486" duration="3562000" />
-      <workItem from="1591314116916" duration="3133000" />
-      <workItem from="1591385006002" duration="2592000" />
-      <workItem from="1591721336773" duration="227000" />
-      <workItem from="1591721675212" duration="3988000" />
-      <workItem from="1591730739299" duration="1713000" />
-      <workItem from="1591811375458" duration="8528000" />
-      <workItem from="1591898637214" duration="2296000" />
-      <workItem from="1591977435723" duration="1857000" />
-      <workItem from="1592341631294" duration="16000" />
-      <workItem from="1592514824691" duration="1548000" />
-      <workItem from="1592602461362" duration="18000" />
-      <workItem from="1592609878517" duration="55000" />
-      <workItem from="1592869088429" duration="36000" />
-      <workItem from="1592947364468" duration="2141000" />
+      <workItem from="1588190761720" duration="15000" />
+      <workItem from="1588190839439" duration="598000" />
+      <workItem from="1588191474915" duration="6706000" />
+      <workItem from="1588270202191" duration="9878000" />
+      <workItem from="1588351579713" duration="2801000" />
+      <workItem from="1588366018152" duration="7970000" />
+      <workItem from="1588468867796" duration="4599000" />
+      <workItem from="1588609931607" duration="20516000" />
+      <workItem from="1588694635672" duration="4050000" />
+      <workItem from="1588712704233" duration="5471000" />
+      <workItem from="1588781850775" duration="13416000" />
+      <workItem from="1588869033136" duration="14947000" />
+      <workItem from="1588974244042" duration="16059000" />
+      <workItem from="1589300513009" duration="33000" />
+      <workItem from="1589300599066" duration="13288000" />
+      <workItem from="1589391098293" duration="14860000" />
+      <workItem from="1589474391847" duration="6470000" />
+      <workItem from="1589994827642" duration="16218000" />
+      <workItem from="1590613394174" duration="6283000" />
+      <workItem from="1590779435618" duration="4150000" />
+      <workItem from="1590792477447" duration="5453000" />
+      <workItem from="1591121644762" duration="18051000" />
+      <workItem from="1591225556420" duration="5141000" />
+      <workItem from="1591289272425" duration="2654000" />
+      <workItem from="1591375887454" duration="993000" />
+      <workItem from="1591376895827" duration="16947000" />
+      <workItem from="1591634329364" duration="4451000" />
+      <workItem from="1591652124689" duration="9975000" />
+      <workItem from="1591736563155" duration="12314000" />
+      <workItem from="1591806306988" duration="13870000" />
+      <workItem from="1591832637267" duration="939000" />
+      <workItem from="1591833757844" duration="1470000" />
+      <workItem from="1591835801679" duration="420000" />
+      <workItem from="1591892610389" duration="5093000" />
+      <workItem from="1591907819115" duration="1125000" />
+      <workItem from="1591912298224" duration="1052000" />
+      <workItem from="1591981018728" duration="18668000" />
+      <workItem from="1592237552597" duration="1913000" />
+      <workItem from="1592239491089" duration="23036000" />
+      <workItem from="1592323588961" duration="142000" />
+      <workItem from="1592323743888" duration="25355000" />
     </task>
     <task id="LOCAL-00001" summary="Paper Edits">
       <created>1582153406007</created>
@@ -462,81 +480,309 @@
       <option name="project" value="LOCAL" />
       <updated>1587582093140</updated>
     </task>
-    <task id="LOCAL-00006" summary="Paper 1 no stripe algorithm analysis (Date: 6/4/20)">
-      <created>1591317276258</created>
+    <task id="LOCAL-00006" summary="redlen-analysis.py update (4/29/2020)">
+      <created>1588198294531</created>
       <option name="number" value="00006" />
       <option name="presentableId" value="LOCAL-00006" />
       <option name="project" value="LOCAL" />
-      <updated>1591317276258</updated>
+      <updated>1588198294531</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Redlen IEEE Data">
+      <created>1588294360405</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1588294360405</updated>
+    </task>
+    <task id="LOCAL-00008" summary="IEEE Abstract Update (5/1/2020)">
+      <created>1588374400371</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1588374400371</updated>
+    </task>
+    <task id="LOCAL-00009" summary="IEEE Abstract Update (5/2/2020)">
+      <created>1588477980446</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1588477980446</updated>
+    </task>
+    <task id="LOCAL-00010" summary="IEEE Abstract Update (5/4/2020)">
+      <created>1588632547912</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1588632547912</updated>
+    </task>
+    <task id="LOCAL-00011" summary="IEEE Abstract Update (5/4/2020)">
+      <created>1588812318335</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1588812318351</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Analysis update for Redlen (5/7/2020)">
+      <created>1588899500274</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1588899500274</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Analysis update for Redlen (5/11/2020)&#10;Changed the location of the Redlen files to their own directory">
+      <created>1589231254453</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1589231254453</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Analysis update for Redlen (5/12/2020)">
+      <created>1589317086248</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1589317086248</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Analysis update for Redlen (5/13/2020)">
+      <created>1589409936550</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1589409936550</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Phantom analysis update for CNR over 1 second acquisitions (5/14/2020)">
+      <created>1589488672265</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1589488672265</updated>
+    </task>
+    <task id="LOCAL-00017" summary="3x3 pixel analysis update (5/20/2020)">
+      <created>1590012895731</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1590012895731</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Add adj bins (5/27/2020)">
+      <created>1590621123750</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1590621123750</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Add multiple thresholds (5/29/2020)">
+      <created>1590797920875</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1590797920876</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Mult. Thresh. Analysis (6/2/2020)">
+      <created>1591143019177</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1591143019177</updated>
+    </task>
+    <task id="LOCAL-00021" summary="Mult. Thresh. Analysis (6/4/2020)">
+      <created>1591292280538</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1591292280538</updated>
+    </task>
+    <task id="LOCAL-00022" summary="Mult. Thresh. Analysis (6/5/2020)">
+      <created>1591400999158</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1591400999158</updated>
+    </task>
+    <task id="LOCAL-00023" summary="Mult. Thresh. Analysis (6/8/2020)">
+      <created>1591638972079</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1591638972079</updated>
+    </task>
+    <task id="LOCAL-00024" summary="Any num pixel aggregate (6/8/2020)">
+      <created>1591661872884</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1591661872884</updated>
+    </task>
+    <task id="LOCAL-00025" summary="More pixel x pixel (6/9/2020)">
+      <created>1591749205407</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1591749205407</updated>
+    </task>
+    <task id="LOCAL-00026" summary="More pixel x pixel (6/10/2020)">
+      <created>1591828130371</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1591828130371</updated>
+    </task>
+    <task id="LOCAL-00027" summary="Noise analysis (6/11/2020)">
+      <created>1591898526364</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1591898526364</updated>
+    </task>
+    <task id="LOCAL-00028" summary="Major update for non-specific analysis (6/12/2020)">
+      <created>1592010887932</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1592010887932</updated>
+    </task>
+    <task id="LOCAL-00029" summary="Major update for non-specific analysis (6/15/2020)">
+      <created>1592266554009</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1592266554009</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
+    <option name="version" value="2" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="COLUMN_ORDER" />
-            </State>
+            <State />
           </value>
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Paper Edits" />
-    <MESSAGE value="Changed First Paper Figures slightly for WesCan talk" />
-    <MESSAGE value="AAPM-COMP data for figures abstract/extra file" />
     <MESSAGE value="Slight revisions for WesCan talk figures" />
     <MESSAGE value="Updates since last push (Date: 4/22/20)" />
-    <MESSAGE value="Paper 1 no stripe algorithm analysis (Date: 6/4/20)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Paper 1 no stripe algorithm analysis (Date: 6/4/20)" />
+    <MESSAGE value="redlen-analysis.py update (4/29/2020)" />
+    <MESSAGE value="Redlen IEEE Data" />
+    <MESSAGE value="IEEE Abstract Update (5/1/2020)" />
+    <MESSAGE value="IEEE Abstract Update (5/2/2020)" />
+    <MESSAGE value="IEEE Abstract Update (5/4/2020)" />
+    <MESSAGE value="Analysis update for Redlen (5/7/2020)" />
+    <MESSAGE value="Analysis update for Redlen (5/11/2020)&#10;Changed the location of the Redlen files to their own directory" />
+    <MESSAGE value="Analysis update for Redlen (5/12/2020)" />
+    <MESSAGE value="Analysis update for Redlen (5/13/2020)" />
+    <MESSAGE value="Phantom analysis update for CNR over 1 second acquisitions (5/14/2020)" />
+    <MESSAGE value="3x3 pixel analysis update (5/20/2020)" />
+    <MESSAGE value="Add adj bins (5/27/2020)" />
+    <MESSAGE value="Add multiple thresholds (5/29/2020)" />
+    <MESSAGE value="Mult. Thresh. Analysis (6/2/2020)" />
+    <MESSAGE value="Mult. Thresh. Analysis (6/4/2020)" />
+    <MESSAGE value="Mult. Thresh. Analysis (6/5/2020)" />
+    <MESSAGE value="Mult. Thresh. Analysis (6/8/2020)" />
+    <MESSAGE value="Any num pixel aggregate (6/8/2020)" />
+    <MESSAGE value="More pixel x pixel (6/9/2020)" />
+    <MESSAGE value="More pixel x pixel (6/10/2020)" />
+    <MESSAGE value="Noise analysis (6/11/2020)" />
+    <MESSAGE value="Major update for non-specific analysis (6/12/2020)" />
+    <MESSAGE value="Major update for non-specific analysis (6/15/2020)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Major update for non-specific analysis (6/15/2020)" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="414" y="176" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1591313263870">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="414" y="176" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1591313263870" />
     <state x="715" y="324" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1586977505005">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="715" y="324" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1586977505005" />
-    <state x="585" y="157" key="CommitChangelistDialog2" timestamp="1591317274483">
+    <state x="585" y="157" key="CommitChangelistDialog2" timestamp="1587582091517">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="468" y="16" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1589994680826" />
-    <state x="585" y="157" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1591317274483" />
+    <state x="585" y="157" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1587582091517" />
     <state x="585" y="175" key="CommitChangelistDialog2/0.0.1920.1160/-1920.0.1536.824@0.0.1920.1160" timestamp="1584474883686" />
-    <state x="592" y="238" key="FileChooserDialogImpl" timestamp="1593032810353">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="592" y="238" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1593032810353" />
-    <state x="740" y="301" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1592602475910" />
-    <state x="795" y="175" key="SettingsEditor" timestamp="1587752569892">
+    <state x="740" y="301" key="FileChooserDialogImpl" timestamp="1587581899942">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="795" y="175" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1587752569892" />
-    <state x="461" y="223" key="SettingsEditor/0.0.1920.1160/-1920.0.1536.824@0.0.1920.1160" timestamp="1584474497130" />
-    <state x="442" y="201" key="Vcs.Push.Dialog.v2" timestamp="1588113704369">
+    <state x="740" y="301" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1587581899942" />
+    <state width="1493" height="261" key="GridCell.Tab.0.bottom" timestamp="1591654373305">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="442" y="201" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1588113704369" />
-    <state x="552" y="254" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1587583423484" />
+    <state width="1493" height="261" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1591654373305" />
+    <state width="1877" height="348" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1589231303070" />
+    <state width="1493" height="261" key="GridCell.Tab.0.center" timestamp="1591654373305">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="261" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1591654373305" />
+    <state width="1877" height="348" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1589231303070" />
+    <state width="1493" height="261" key="GridCell.Tab.0.left" timestamp="1591654373305">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="261" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1591654373305" />
+    <state width="1877" height="348" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1589231303070" />
+    <state width="1493" height="261" key="GridCell.Tab.0.right" timestamp="1591654373305">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="261" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1591654373305" />
+    <state width="1877" height="348" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1589231303070" />
+    <state width="1493" height="261" key="GridCell.Tab.1.bottom" timestamp="1591654373305">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="261" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1591654373305" />
+    <state width="1877" height="348" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1589231303070" />
+    <state width="1493" height="261" key="GridCell.Tab.1.center" timestamp="1591654373305">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="261" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1591654373305" />
+    <state width="1877" height="348" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1589231303070" />
+    <state width="1493" height="261" key="GridCell.Tab.1.left" timestamp="1591654373305">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="261" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1591654373305" />
+    <state width="1877" height="348" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1589231303070" />
+    <state width="1493" height="261" key="GridCell.Tab.1.right" timestamp="1591654373305">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="261" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1591654373305" />
+    <state width="1877" height="348" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1589231303070" />
+    <state x="394" y="84" key="SettingsEditor" timestamp="1591738383991">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="394" y="84" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1591738383991" />
+    <state x="795" y="175" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1588272863045" />
+    <state x="461" y="223" key="SettingsEditor/0.0.1920.1160/-1920.0.1536.824@0.0.1920.1160" timestamp="1584474497130" />
+    <state x="442" y="201" key="Vcs.Push.Dialog.v2" timestamp="1592266559465">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="442" y="201" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1592266559465" />
+    <state x="552" y="254" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1589488677492" />
+    <state x="609" y="134" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1592241701057">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="609" y="134" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1592241701057" />
+    <state x="769" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1588618612832">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="769" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1588618612832" />
     <state x="678" y="312" key="git4idea.merge.GitPullDialog" timestamp="1587582132439">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="678" y="312" key="git4idea.merge.GitPullDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1587582132439" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1591638364906">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1591638364906" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Reconstruction$CBCT_EnergyVSEnergy_Mouse.coverage" NAME="CBCT_EnergyVSEnergy_Mouse Coverage Results" MODIFIED="1562705634648" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Reconstruction$Pixel_analysis.coverage" NAME="Pixel_analysis Coverage Results" MODIFIED="1591654364430" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Redlen" />
+    <SUITE FILE_PATH="coverage/Reconstruction$CBCT_EvsE_Cylinder.coverage" NAME="CBCT_EvsE_Cylinder Coverage Results" MODIFIED="1563824975017" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Reconstruction$MatDeComp_Retry.coverage" NAME="MatDeComp_Retry Coverage Results" MODIFIED="1565652238991" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Reconstruction$generate_sinogram.coverage" NAME="generate_sinogram Coverage Results" MODIFIED="1558931035306" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Reconstruction$CBCT_EvsE_Cylinder.coverage" NAME="CBCT_EvsE_Cylinder Coverage Results" MODIFIED="1563824975017" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Reconstruction$CBCT_MaterialDecomp.coverage" NAME="CBCT_MaterialDecomp Coverage Results" MODIFIED="1560808633057" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Reconstruction$K_Edge.coverage" NAME="K-Edge Coverage Results" MODIFIED="1589222762247" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Reconstruction$CBCT_EnergyVSEnergy_Mouse.coverage" NAME="CBCT_EnergyVSEnergy_Mouse Coverage Results" MODIFIED="1562705634648" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
