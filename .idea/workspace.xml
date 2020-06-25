@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e941e18b-2940-48ac-a2bc-ba92ca5d083f" name="Default Changelist" comment="Updates (Date: 4/22/20)">
-      <change afterPath="$PROJECT_DIR$/CT Recon Testing/Recon_test.py" afterDir="false" />
+    <list default="true" id="e941e18b-2940-48ac-a2bc-ba92ca5d083f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/First_Paper_Analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/First_Paper_Analysis.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/First_Paper_Figures.py" beforeDir="false" afterPath="$PROJECT_DIR$/First_Paper_Figures.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Paper1_Data.py" beforeDir="false" afterPath="$PROJECT_DIR$/Paper1_Data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sCT_Analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/sCT_Analysis.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WesCanFigures.py" beforeDir="false" afterPath="$PROJECT_DIR$/WesCanFigures.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,12 +84,13 @@
       <recent name="C:\Users\drich\OneDrive\Documents\GitHub\desktop-tutorial" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.First_Paper_Analysis">
+  <component name="RunManager" selected="Python.First_Paper_Figures">
     <configuration name="First_Paper_Analysis" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Reconstruction" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
         <env name="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
       </envs>
       <option name="SDK_HOME" value="C:\Users\drich\Anaconda3\python.exe" />
@@ -114,6 +113,7 @@
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
         <env name="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
       </envs>
       <option name="SDK_HOME" value="C:\Users\drich\Anaconda3\python.exe" />
@@ -154,6 +154,29 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="WesCanFigures" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Reconstruction" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\drich\Anaconda3\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/WesCanFigures.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <module name="Reconstruction" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -169,29 +192,6 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="true" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="redlen_analysis" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="Reconstruction" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-        <env name="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
-      </envs>
-      <option name="SDK_HOME" value="C:\Users\drich\Anaconda3\python.exe" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/redlen_analysis.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -223,19 +223,19 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.redlen_analysis" />
       <item itemvalue="Python.sCT_Analysis" />
       <item itemvalue="Python.Recon_test" />
       <item itemvalue="Python.First_Paper_Analysis" />
       <item itemvalue="Python.First_Paper_Figures" />
+      <item itemvalue="Python.WesCanFigures" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.First_Paper_Analysis" />
         <item itemvalue="Python.First_Paper_Figures" />
+        <item itemvalue="Python.First_Paper_Analysis" />
+        <item itemvalue="Python.WesCanFigures" />
         <item itemvalue="Python.sCT_Analysis" />
         <item itemvalue="Python.Recon_test" />
-        <item itemvalue="Python.redlen_analysis" />
       </list>
     </recent_temporary>
   </component>
@@ -412,7 +412,20 @@
       <workItem from="1590698224839" duration="2863000" />
       <workItem from="1591203274867" duration="7234000" />
       <workItem from="1591310514486" duration="3562000" />
-      <workItem from="1591314116916" duration="2872000" />
+      <workItem from="1591314116916" duration="3133000" />
+      <workItem from="1591385006002" duration="2592000" />
+      <workItem from="1591721336773" duration="227000" />
+      <workItem from="1591721675212" duration="3988000" />
+      <workItem from="1591730739299" duration="1713000" />
+      <workItem from="1591811375458" duration="8528000" />
+      <workItem from="1591898637214" duration="2296000" />
+      <workItem from="1591977435723" duration="1857000" />
+      <workItem from="1592341631294" duration="16000" />
+      <workItem from="1592514824691" duration="1548000" />
+      <workItem from="1592602461362" duration="18000" />
+      <workItem from="1592609878517" duration="55000" />
+      <workItem from="1592869088429" duration="36000" />
+      <workItem from="1592947364468" duration="2141000" />
     </task>
     <task id="LOCAL-00001" summary="Paper Edits">
       <created>1582153406007</created>
@@ -449,7 +462,14 @@
       <option name="project" value="LOCAL" />
       <updated>1587582093140</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Paper 1 no stripe algorithm analysis (Date: 6/4/20)">
+      <created>1591317276258</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1591317276258</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -474,7 +494,8 @@
     <MESSAGE value="AAPM-COMP data for figures abstract/extra file" />
     <MESSAGE value="Slight revisions for WesCan talk figures" />
     <MESSAGE value="Updates since last push (Date: 4/22/20)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updates since last push (Date: 4/22/20)" />
+    <MESSAGE value="Paper 1 no stripe algorithm analysis (Date: 6/4/20)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Paper 1 no stripe algorithm analysis (Date: 6/4/20)" />
   </component>
   <component name="WindowStateProjectService">
     <state x="414" y="176" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1591313263870">
@@ -485,17 +506,17 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="715" y="324" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1586977505005" />
-    <state x="468" y="16" key="CommitChangelistDialog2" timestamp="1589994680826">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state x="585" y="157" key="CommitChangelistDialog2" timestamp="1591317274483">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="468" y="16" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1589994680826" />
-    <state x="585" y="157" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1587582091517" />
+    <state x="585" y="157" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1591317274483" />
     <state x="585" y="175" key="CommitChangelistDialog2/0.0.1920.1160/-1920.0.1536.824@0.0.1920.1160" timestamp="1584474883686" />
-    <state x="592" y="238" key="FileChooserDialogImpl" timestamp="1590597109422">
+    <state x="592" y="238" key="FileChooserDialogImpl" timestamp="1593032810353">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="592" y="238" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1590597109422" />
-    <state x="740" y="301" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1587581899942" />
+    <state x="592" y="238" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1593032810353" />
+    <state x="740" y="301" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1592602475910" />
     <state x="795" y="175" key="SettingsEditor" timestamp="1587752569892">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

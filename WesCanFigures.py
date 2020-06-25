@@ -8,6 +8,7 @@ import matplotlib.image as mpimg
 import matplotlib.gridspec as gridspec
 import matplotlib.colors as colors
 from mpl_toolkits.axes_grid1 import make_axes_locatable
+from First_Paper_Analysis import table_one
 
 directory = 'D:/Research/Python Data/Spectral CT/'
 folders = ['Al_2.0_8-14-19', 'Al_2.0_10-17-19_3P', 'Al_2.0_10-17-19_1P',
@@ -15,8 +16,10 @@ folders = ['Al_2.0_8-14-19', 'Al_2.0_10-17-19_3P', 'Al_2.0_10-17-19_1P',
            'Cu_1.0_8-14-19', 'Cu_1.0_9-13-19', 'Cu_1.0_10-17-19',
            'Cu_0.5_Time_0.5_11-11-19', 'Cu_0.5_Time_0.1_11-4-19',
            'AuGd_width_5_12-2-19', 'AuGd_width_10_12-2-19', 'AuGd_width_14_12-2-19', 'AuGd_width_20_12-9-19']
-folder2 = 'Cu_0.5_Time_1.0_02-20-20'
-folder3 = 'Cu_0.5_Time1.0_Uniformity_02-25-20'
+
+old_folders = ['AuGd_width_5_12-2-19-with-stripe-removal', 'AuGd_width_10_12-2-19-with-stripe-removal',
+               'AuGd_width_14_12-2-19-with-stripe-removal', 'AuGd_width_20_12-9-19-with-stripe-removal']
+time_folders = ['Cu_0.5_Time_0.1_11-4-19', 'Frame5_Time_0.1', 'Frame10_Time_0.1']
 gs2 = [12, 18]
 
 good_slices = [[5, 19], [10, 18], [11, 18],
@@ -50,12 +53,7 @@ cmap4 = colors.LinearSegmentedColormap.from_list('Redd8', c4_rng, N=nbins)
 xpts = np.linspace(0, 25, 50)
 sns.set_style('whitegrid')
 
-fig, ax = plt.subplots(1, 2, figsize=(10, 5), sharey=True)
-ax1 = fig.add_subplot(111, frameon=False)
-ax1.grid(False)
-# Hide axes ticks
-ax1.set_xticks([])
-ax1.set_yticks([])
+fig, ax = plt.subplots(2, 1, figsize=(4, 7))
 
 # Au, Gd
 colors = ['orange', 'darkorchid']
@@ -111,22 +109,23 @@ ax[0].errorbar(Gd_widths, Gd_CNR, yerr=Gd_std, fmt='none', capsize=4, color=colo
 
 ax[0].set_xlim([4, 15])
 ax[1].set_xlim([4, 21])
-ax[0].set_ylim([0, 30])
+ax[0].set_ylim([0, 27])
+ax[1].set_ylim([0, 27])
+
+ax[1].set_xticks([5, 10, 15, 20])
 
 ax[0].set_title('Gadolinum', fontsize=18)
 ax[1].set_title('Gold', fontsize=18)
 
+ax[0].set_xlabel('Bin Width (keV)', fontsize=16)
+ax[1].set_xlabel('Bin Width (keV)', fontsize=16)
+ax[0].set_ylabel('CNR', fontsize=16)
+ax[1].set_ylabel('CNR', fontsize=16)
+
 ax[0].tick_params(labelsize=16)
 ax[1].tick_params(labelsize=16)
 
-#orangepatch = mpatches.Patch(color=colors[0], label='Au (Z=79)')
-#purplepatch = mpatches.Patch(color=colors[1], label='Gd (Z=64)')
-#leg = plt.legend(handles=[purplepatch, orangepatch], loc='lower center', bbox_to_anchor=(0.5, -0.28), ncol=2,
-#                 fancybox=True, fontsize=20)
-#ax1.add_artist(leg)
-ax1.set_ylabel('K-Edge CNR', fontsize=18, labelpad=40)
-ax1.set_xlabel('Bin Width (keV)', fontsize=18, labelpad=35)
-plt.subplots_adjust(bottom=0.23, wspace=0.1)
+plt.subplots_adjust(left=0.2, right=0.8, hspace=0.5)
 plt.show()
 #plt.savefig(directory + 'WesCan/Figure2.png', dpi=500)
 
@@ -160,7 +159,7 @@ ax1.set_yticks([])
 colors = ['orange', 'mediumseagreen', 'crimson', 'darkorchid']
 titles = ['1 s', '0.5 s', '0.1 s']
 
-for i, folder in enumerate(np.concatenate(([folder3], folders[9:11]))):
+for i, folder in enumerate(time_folders):
 
     mean_CNR = np.load(directory + folder + '/Mean_Kedge_CNR_Time.npy')
     std_CNR = np.load(directory + folder + '/Std_Kedge_CNR_Time.npy')
@@ -467,94 +466,97 @@ plt.show()
 #plt.savefig(directory + 'WesCan/K-Edge-Time.png', dpi=500)
 
 #%% Filter Optimization K-Edge images
-zed = '2-1'
-m = 10
-mmin, mmax = 0.0, 3.6
+def filt_opt_k(m, save=False):
 
-filter_font = 18
-conc_font = 16
-cont_font = 24
+    zed = '2-1'
+    mmin, mmax = 0.1, 3.6
 
-img5p = np.load(directory + folders[1] + '/Normed K-Edge/Bin' + zed + '_Slice' + str(m+8) + '.npy')
-img3p = np.load(directory + folders[4] + '/Normed K-Edge/Bin' + zed + '_Slice' + str(m-3) + '.npy')
-img1p = np.load(directory + folders[7] + '/Normed K-Edge/Bin' + zed + '_Slice' + str(m-3) + '.npy')
+    filter_font = 18
+    conc_font = 16
+    cont_font = 24
 
-fig, ax = plt.subplots(2, 3, figsize=(9, 6))
-ax1 = fig.add_subplot(111, frameon=False)
-ax1.grid(False)
-# Hide axes ticks
-ax1.set_xticks([])
-ax1.set_yticks([])
+    img5p = np.load(directory + folders[1] + '/Normed K-Edge/Bin' + zed + '_Slice' + str(m) + '.npy')
+    img3p = np.load(directory + folders[4] + '/Normed K-Edge/Bin' + zed + '_Slice' + str(m) + '.npy')
+    img1p = np.load(directory + folders[7] + '/Normed K-Edge/Bin' + zed + '_Slice' + str(m) + '.npy')
 
-im0 = ax[0, 0].imshow(img5p, cmap=cmap4, vmin=mmin, vmax=mmax)
-ax[0, 0].grid(False)
-ax[0, 0].set_xticks([])
-ax[0, 0].set_yticks([])
-ax[0, 0].set_title('2.0 mm Al', fontsize=filter_font)
-ax[0, 0].set_ylabel('Dysprosium', fontsize=cont_font, labelpad=10)
+    fig, ax = plt.subplots(2, 3, figsize=(9, 6))
+    ax1 = fig.add_subplot(111, frameon=False)
+    ax1.grid(False)
+    # Hide axes ticks
+    ax1.set_xticks([])
+    ax1.set_yticks([])
 
-im1 = ax[0, 1].imshow(img3p, cmap=cmap4, vmin=mmin, vmax=mmax)
-ax[0, 1].grid(False)
-ax[0, 1].set_xticks([])
-ax[0, 1].set_yticks([])
-ax[0, 1].set_title('0.5 mm Cu', fontsize=filter_font)
+    im0 = ax[0, 0].imshow(img5p, cmap=cmap4, vmin=mmin, vmax=mmax)
+    ax[0, 0].grid(False)
+    ax[0, 0].set_xticks([])
+    ax[0, 0].set_yticks([])
+    ax[0, 0].set_title('2.0 mm Al', fontsize=filter_font)
+    ax[0, 0].set_ylabel('Dysprosium', fontsize=cont_font, labelpad=10)
 
-im2 = ax[0, 2].imshow(img1p, cmap=cmap4, vmin=mmin, vmax=mmax)
-ax[0, 2].grid(False)
-ax[0, 2].set_xticks([])
-ax[0, 2].set_yticks([])
-ax[0, 2].set_title('1.0 mm Cu', fontsize=filter_font)
+    im1 = ax[0, 1].imshow(img3p, cmap=cmap4, vmin=mmin, vmax=mmax)
+    ax[0, 1].grid(False)
+    ax[0, 1].set_xticks([])
+    ax[0, 1].set_yticks([])
+    ax[0, 1].set_title('0.5 mm Cu', fontsize=filter_font)
 
-zed = '4-3'
+    im2 = ax[0, 2].imshow(img1p, cmap=cmap4, vmin=mmin, vmax=mmax)
+    ax[0, 2].grid(False)
+    ax[0, 2].set_xticks([])
+    ax[0, 2].set_yticks([])
+    ax[0, 2].set_title('1.0 mm Cu', fontsize=filter_font)
 
-img5p = np.load(directory + folders[1] + '/Normed K-Edge/Bin' + zed + '_Slice' + str(m+8) + '.npy')
-img3p = np.load(directory + folders[4] + '/Normed K-Edge/Bin' + zed + '_Slice' + str(m-3) + '.npy')
-img1p = np.load(directory + folders[7] + '/Normed K-Edge/Bin' + zed + '_Slice' + str(m-3) + '.npy')
+    zed = '4-3'
+    mmin = 0.0
+    img5p = np.load(directory + folders[1] + '/Normed K-Edge/Bin' + zed + '_Slice' + str(m) + '.npy')
+    img3p = np.load(directory + folders[4] + '/Normed K-Edge/Bin' + zed + '_Slice' + str(m) + '.npy')
+    img1p = np.load(directory + folders[7] + '/Normed K-Edge/Bin' + zed + '_Slice' + str(m) + '.npy')
 
-im3 = ax[1, 0].imshow(img5p, cmap=cmap3, vmin=mmin, vmax=mmax)
-ax[1, 0].grid(False)
-ax[1, 0].set_xticks([])
-ax[1, 0].set_yticks([])
-ax[1, 0].set_title('2.0 mm Al', fontsize=filter_font)
-ax[1, 0].set_ylabel('Gold', fontsize=cont_font, labelpad=10)
+    im3 = ax[1, 0].imshow(img5p, cmap=cmap3, vmin=mmin, vmax=mmax)
+    ax[1, 0].grid(False)
+    ax[1, 0].set_xticks([])
+    ax[1, 0].set_yticks([])
+    ax[1, 0].set_title('2.0 mm Al', fontsize=filter_font)
+    ax[1, 0].set_ylabel('Gold', fontsize=cont_font, labelpad=10)
 
-im4 = ax[1, 1].imshow(img3p, cmap=cmap3, vmin=mmin, vmax=mmax)
-ax[1, 1].grid(False)
-ax[1, 1].set_xticks([])
-ax[1, 1].set_yticks([])
-ax[1, 1].set_title('0.5 mm Cu', fontsize=filter_font)
+    im4 = ax[1, 1].imshow(img3p, cmap=cmap3, vmin=mmin, vmax=mmax)
+    ax[1, 1].grid(False)
+    ax[1, 1].set_xticks([])
+    ax[1, 1].set_yticks([])
+    ax[1, 1].set_title('0.5 mm Cu', fontsize=filter_font)
 
-im5 = ax[1, 2].imshow(img1p, cmap=cmap3, vmin=mmin, vmax=mmax)
-ax[1, 2].grid(False)
-ax[1, 2].set_xticks([])
-ax[1, 2].set_yticks([])
-ax[1, 2].set_title('1.0 mm Cu', fontsize=filter_font)
+    im5 = ax[1, 2].imshow(img1p, cmap=cmap3, vmin=mmin, vmax=mmax)
+    ax[1, 2].grid(False)
+    ax[1, 2].set_xticks([])
+    ax[1, 2].set_yticks([])
+    ax[1, 2].set_title('1.0 mm Cu', fontsize=filter_font)
 
 
-cbar_ax1 = fig.add_axes([0.90, 0.522, 0.03, 0.353])
-cbar_ax1.tick_params(labelsize=conc_font)
-fig.colorbar(im2, cax=cbar_ax1)
-h1 = cbar_ax1.set_ylabel('Concentration (%)', fontsize=filter_font, labelpad=25)
-h1.set_rotation(-90)
+    cbar_ax1 = fig.add_axes([0.90, 0.522, 0.03, 0.353])
+    cbar_ax1.tick_params(labelsize=conc_font)
+    fig.colorbar(im2, cax=cbar_ax1)
+    h1 = cbar_ax1.set_ylabel('Concentration (%)', fontsize=filter_font, labelpad=25)
+    h1.set_rotation(-90)
 
-cbar_ax2 = fig.add_axes([0.90, 0.11, 0.03, 0.353])
-cbar_ax2.tick_params(labelsize=conc_font)
-fig.colorbar(im5, cax=cbar_ax2)
-h2 = cbar_ax2.set_ylabel('Concentration (%)', fontsize=filter_font, labelpad=25)
-h2.set_rotation(-90)
+    cbar_ax2 = fig.add_axes([0.90, 0.11, 0.03, 0.353])
+    cbar_ax2.tick_params(labelsize=conc_font)
+    fig.colorbar(im5, cax=cbar_ax2)
+    h2 = cbar_ax2.set_ylabel('Concentration (%)', fontsize=filter_font, labelpad=25)
+    h2.set_rotation(-90)
 
-plt.subplots_adjust(top=0.875,
-bottom=0.11,
-left=0.13,
-right=0.89,
-hspace=0.23,
-wspace=0.05)
+    plt.subplots_adjust(top=0.875,
+    bottom=0.11,
+    left=0.13,
+    right=0.89,
+    hspace=0.23,
+    wspace=0.05)
 
-plt.show()
-#plt.savefig(directory + 'WesCan/K-Edge-Filter.png', dpi=500)
+    plt.show()
+    if save:
+        plt.savefig(directory + 'WesCan/K-Edge-Filter.png', dpi=500)
+        plt.close()
 
 #%% Beam Spectra with different filtration
-
+sns.set_style('white')
 folder = 'D:/Research/Bin Optimization/'
 folder1 = folder + '/Npy Attenuation/'
 
@@ -567,7 +569,7 @@ Al_spectrum = np.load(folder + 'Al2.0_spectrum.npy')
 Cu05_spectrum = np.load(folder + 'Cu0.5_spectrum.npy')
 Cu1_spectrum = np.load(folder + 'Cu1.0_spectrum.npy')
 
-fig = plt.figure(figsize=(8, 6))
+fig = plt.figure(figsize=(7, 6))
 plt.plot(energies, Al_spectrum*1E7, ls='-', color='black')
 plt.plot(energies, Cu05_spectrum*2.25E7, ls='--', color='black')
 plt.plot(energies, Cu1_spectrum*4.75E7, ls=':', color='black')
@@ -580,8 +582,9 @@ plt.legend(handles=[linepatch, dashpatch, dotpatch], fancybox=True, shadow=False
 
 plt.xlabel('Energy (keV)', fontsize=24, labelpad=5)
 plt.ylabel('Relative Weight', fontsize=24, labelpad=5)
-plt.xlim([0, 140])
+plt.xlim([10, 120])
 plt.ylim([0, 7])
+plt.yticks([])
 plt.title('Filtered beam spectra', fontsize=26)
 #plt.ylim([0, 3.2E-7])
 plt.tick_params(labelsize=22)
@@ -591,7 +594,7 @@ plt.savefig(directory + 'WesCan/Spectra.png', dpi=500)
 
 #%% Plot the spectrum for spectral CT
 
-sns.set_style('whitegrid')
+sns.set_style('white')
 folder1 = 'D:/Research/Bin Optimization/'
 file = np.load(folder1 + '/corrected-spectrum_120kV.npy')
 energies = file[:, 0]
@@ -606,7 +609,7 @@ weights = 10000*np.divide(np.subtract(weights, wmin), rng)
 ones = np.ones(50)
 y_vals = np.linspace(0, 20000, 50)
 
-fig, ax = plt.subplots(figsize=(11, 7))
+fig, ax = plt.subplots(figsize=(10, 7))
 ax.plot(energies, weights, color='midnightblue', lw=2)
 ax.plot(16*ones, y_vals, color='crimson', ls='--', lw=2)
 ax.plot(33*ones, y_vals, color='crimson', ls='--', lw=2)
@@ -627,36 +630,36 @@ ax.legend(['120 kVp Spectrum', 'Energy thresholds'], fontsize=22, fancybox=True,
 plt.subplots_adjust(bottom=0.2)
 plt.show()
 
-#plt.savefig(directory + 'WesCan/EnergyBinSpectrum.png', dpi=500)
+#plt.savefig(directory + 'WesCan/EnergyBinSpectrum.png', dpi=fig.dpi)
 
 #%% Plot gold and water mass attenuation
 folder = 'D:/Research/Bin Optimization/Beam Spectrum/'
 
 spectrum = np.load(folder + 'energy_spectrum_120kV.npy')
-#au = np.load('D:/Research/Bin Optimization/Au.npy')
+au = np.load('D:/Research/Bin Optimization/Au.npy')
 #gd = np.load(directory + 'Gd.npy')
-bi = np.load('D:/Research/Bin Optimization/Bi.npy')
-i = np.load('D:/Research/Bin Optimization/I.npy')
+#bi = np.load('D:/Research/Bin Optimization/Bi.npy')
+#i = np.load('D:/Research/Bin Optimization/I.npy')
 h2o = np.load('D:/Research/Bin Optimization/H2O.npy')
 energies = spectrum[:, 0]
 energies = energies[2:-1:3]
 energies = 1000*energies
 
-fig = plt.figure(figsize=(9, 7))
-#plt.semilogy(energies, au, color='orange', lw=2)
-plt.semilogy(energies, bi, color='green', lw=2)
-plt.semilogy(energies, i, color='black', lw=2)
-plt.semilogy(energies, h2o, color='midnightblue', lw=2)
+fig = plt.figure(figsize=(12, 6))
+plt.semilogy(energies, au, color='orange', lw=2)
+#plt.semilogy(energies, bi, color='green', lw=2)
+#plt.semilogy(energies, i, color='black', lw=2)
+plt.semilogy(energies, h2o, color='mediumblue', lw=2)
 ones = np.ones(50)
 y_vals = np.linspace(0, 20000, 50)
 
-plt.plot(16*ones, y_vals, color='crimson', ls='--')
-plt.plot(33*ones, y_vals, color='crimson', ls='--')
-plt.plot(50*ones, y_vals, color='crimson', ls='--')
-plt.plot(71*ones, y_vals, color='crimson', ls='--', lw=2)
-plt.plot(90*ones, y_vals, color='crimson', ls='--', lw=2)
-plt.plot(120*ones, y_vals, color='crimson', ls='--', lw=2)
-plt.xlim([10.275, 120.5])
+plt.plot(16*ones, y_vals, color='crimson', ls='--', lw=2)
+plt.plot(33*ones, y_vals, color='crimson', ls='--', lw=2)
+plt.plot(50*ones, y_vals, color='crimson', ls='--', lw=2)
+plt.plot(67*ones, y_vals, color='crimson', ls='--', lw=2)
+plt.plot(81*ones, y_vals, color='crimson', ls='--', lw=2)
+plt.plot(119*ones, y_vals, color='crimson', ls='--', lw=2)
+plt.xlim([10.275, 120])
 plt.ylim([0.1, 5E2])
 #plt.title('Mass Attenuation Coefficient vs. X-ray Energy', fontsize=25)
 plt.ylabel(r"$\mu / \rho$ $(cm^2 / g)$", fontsize=24)
@@ -664,19 +667,32 @@ plt.xlabel('Energy (keV)', fontsize=24)
 plt.tick_params(labelsize=22)
 #plt.annotate('K-edge (80.7 keV)', xy=(1, 0), xycoords='axes fraction', xytext=(-50, 320),
 #               textcoords='offset pixels', horizontalalignment='right', verticalalignment='bottom', fontsize=18)
-plt.legend(['Bismuth', 'Iodine', '$H_2O$'], fontsize=24, fancybox=True, shadow=True)
-plt.subplots_adjust(bottom=0.12, left=0.14)
+plt.legend(['Gold', '$H_2O$'], fontsize=24, fancybox=True, shadow=True)
+plt.subplots_adjust(bottom=0.14, left=0.14)
+#plt.title('Mass Attenuation of Gold', fontsize=24)
 plt.show()
-#plt.savefig(directory + 'WesCan/MassAttenuation.png', dpi=500)
+plt.savefig(directory + 'WesCan/MassAttenuation2.png', dpi=500, transparent=True)
 
 #%% Regular CT images and K-edge image
 folder = folders[13]
-z = 14
-image = np.load(directory + folder + '/Slices/Bin3_Slice' + str(z) + '.npy')
+z = 12
+titl = '81-95 keV'
+image = np.load(directory + folder + '/Slices/Bin4_Slice' + str(z) + '.npy')
 fig = plt.figure(figsize=(7, 7))
 plt.grid(False)
 plt.imshow(image, cmap='gray', vmin=-500, vmax=1000)
+#plt.imshow(image, cmap=cmap3, vmin=0, vmax=3.5)
 plt.xticks([])
 plt.yticks([])
-plt.title('67-81 keV', fontsize=30)
+#plt.title('81-95 keV', fontsize=30)
+plt.title(titl, fontsize=30)
 plt.show()
+plt.savefig(directory + 'WesCan/' + titl + '.png', dpi=500, transparent=True)
+
+#%% Tables
+def table(z):
+    #able_one(z)
+    for folder in [folders[1], folders[4], folders[7]]:
+        print(np.load(directory + folder + '/Mean_Kedge_CNR_Filter.npy')[4:])
+
+

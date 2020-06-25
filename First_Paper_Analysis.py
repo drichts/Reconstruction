@@ -11,6 +11,9 @@ folders = ['Al_2.0_8-14-19', 'Al_2.0_10-17-19_3P', 'Al_2.0_10-17-19_1P',
            'Frame6_Time_0.1', 'Frame7_Time_0.1', 'Frame8_Time_0.1', 'Frame9_Time_0.1', 'Frame10_Time_0.1',
            'AuGd_width_5_12-2-19', 'AuGd_width_10_12-2-19', 'AuGd_width_14_12-2-19', 'AuGd_width_20_12-9-19']
 
+old_folders = ['AuGd_width_5_12-2-19-with-stripe-removal', 'AuGd_width_10_12-2-19-with-stripe-removal',
+               'AuGd_width_14_12-2-19-with-stripe-removal', 'AuGd_width_20_12-9-19-with-stripe-removal']
+
 good_slices = [[5, 19], [10, 18], [11, 18],                         # 0
                [4, 15], [7, 15], [12, 19],                          # 3
                [4, 14], [5, 16], [10, 19],                          # 6
@@ -120,7 +123,7 @@ def figure_four():
         np.save(directory + folder + '/Std_Signal.npy', std_signal)
 
 
-def table_one():
+def table_one(z):
     # Table 1 K-Edge CNR
 
     # Get the K-Edge CNR in the first 9 folders
@@ -131,6 +134,7 @@ def table_one():
     # Go through each of the folders
     for i, folder in enumerate(folders[0:9]):
         low_z, high_z = good_slices[i][0], good_slices[i][1]  # Get the specific good slices for this folder
+        #low_z, high_z = z, z
         vials = np.load(directory + folder + '/Vial_Masks.npy')  # Load the vial masks
         background = np.load(directory + folder + '/Phantom_Mask.npy')  # Load the background mask for the entire phantom
 
@@ -171,7 +175,7 @@ def table_one():
         np.save(directory + folder + '/Std_Kedge_CNR_Filter.npy', std_kedge)
 
 
-def figure_six():
+def figure_six(folds=folders[19:]):
     # Figure 6 K-Edge CNR Collection
 
     # Get the K-Edge CNR in the first bin width folders
@@ -180,11 +184,10 @@ def figure_six():
     edges = ['4-3', '1-0']
 
     # Go through each of the bin width folder
-    for i, folder in enumerate(folders[19:]):
+    for i, folder in enumerate(folds):
         vials = np.load(directory + folder + '/Vial_Masks.npy')  # Load the vial masks of the folder
         background = np.load(directory + folder + '/Phantom_Mask.npy')  # Load the phantom background mask
-        low_z, high_z = 11, 19  # The good slices
-
+        low_z, high_z = 11, 19
         # Initialize matrices to hold the K-edge CNR data
         # Orientation: [slice, vial (in order 0, 5, 1, 0, 2, 4)]
         mean_CNR = np.zeros([high_z - low_z + 1, 6])

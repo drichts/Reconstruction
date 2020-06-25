@@ -242,7 +242,7 @@ def fig2(save=False):
 
 def fig3(save=False):
     # Figure 3 CT Images
-    z = 10
+    z = 7
     colors = ['orange', 'mediumseagreen', 'crimson', 'darkorchid', 'dodgerblue']
     sns.set_style('ticks')
     # fig, ax = plt.subplots(2, 2, figsize=(6.75, 6))
@@ -267,7 +267,7 @@ def fig3(save=False):
     ax[0, 0].tick_params(labelsize=14)
     ax[0, 0].set_title('0.5 mm Cu\n16-50 keV', fontsize=15)
 
-    img1 = np.load(directory + folders[4] + '/Slices/Bin4_Slice' + str(z) +'.npy')
+    img1 = np.load(directory + folders[4] + '/Slices/Bin4_Slice' + str(z+2) +'.npy')
     img01 = ax[0, 1].imshow(img1, cmap='gray', vmin=min_HU, vmax=max_HU)
     ax[0, 1].grid(False)
     ax[0, 1].set_xticks([4, 57.5, 111])
@@ -277,7 +277,7 @@ def fig3(save=False):
     ax[0, 1].tick_params(labelsize=14)
     ax[0, 1].set_title('0.5 mm Cu\n81-120 keV', fontsize=15)
 
-    img2 = np.load(directory + folders[1] + '/Slices/Bin0_Slice' + str(z+9) +'.npy')
+    img2 = np.load(directory + folders[1] + '/Slices/Bin0_Slice' + str(z+8) +'.npy')
     img02 = ax[1, 0].imshow(img2, cmap='gray', vmin=min_HU, vmax=max_HU)
     ax[1, 0].grid(False)
     ax[1, 0].set_xticks([4, 57.5, 111])
@@ -514,15 +514,15 @@ def fig4(save=False):
         plt.close()
 
 
-def fig5(save=False):
+def fig5(plus, save=False):
     # Figure 5
     zed = '2-1'
-    m = 10
-    mmin, mmax = -0.05, 3.6
+    m = 13
+    mmin, mmax = 0.3, 3.6
 
-    img5p = np.load(directory + folders[0] + '/Normed K-Edge/Bin' + zed + '_Slice' + str(m + 8) + '.npy')
-    img3p = np.load(directory + folders[3] + '/Normed K-Edge/Bin' + zed + '_Slice' + str(m - 3) + '.npy')
-    img1p = np.load(directory + folders[6] + '/Normed K-Edge/Bin' + zed + '_Slice' + str(m - 3) + '.npy')
+    img5p = np.load(directory + folders[1] + '/Normed K-Edge/Bin' + zed + '_Slice' + str(m - plus) + '.npy')
+    img3p = np.load(directory + folders[4] + '/Normed K-Edge/Bin' + zed + '_Slice' + str(m) + '.npy')
+    img1p = np.load(directory + folders[7] + '/Normed K-Edge/Bin' + zed + '_Slice' + str(m) + '.npy')
 
     fig, ax = plt.subplots(2, 3, figsize=(6.75, 5))
     ax1 = fig.add_subplot(111, frameon=False)
@@ -574,9 +574,10 @@ def fig5(save=False):
 
     zed = '4-3'
 
-    img5p = np.load(directory + folders[1] + '/Normed K-Edge/Bin' + zed + '_Slice' + str(m + 8) + '.npy')
-    img3p = np.load(directory + folders[4] + '/Normed K-Edge/Bin' + zed + '_Slice' + str(m - 3) + '.npy')
-    img1p = np.load(directory + folders[7] + '/Normed K-Edge/Bin' + zed + '_Slice' + str(m - 3) + '.npy')
+    mmin = 0.1
+    img5p = np.load(directory + folders[1] + '/Normed K-Edge/Bin' + zed + '_Slice' + str(m - plus) + '.npy')
+    img3p = np.load(directory + folders[4] + '/Normed K-Edge/Bin' + zed + '_Slice' + str(m - plus - 3) + '.npy')
+    img1p = np.load(directory + folders[7] + '/Normed K-Edge/Bin' + zed + '_Slice' + str(m - 1) + '.npy')
 
     im3 = ax[1, 0].imshow(img5p, cmap=cmap3, vmin=mmin, vmax=mmax)
     ax[1, 0].grid(False)
