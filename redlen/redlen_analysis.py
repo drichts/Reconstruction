@@ -500,7 +500,7 @@ def polyprop_mult_energy(pxp=[12]):
             corr = intensity_correction(data, air_data)
 
             # Save the data, j corresponds to the NDT number in the filename and the threshold settings in my notes
-            # See Redlen notebook
+            # See redlen notebook
             np.save(save_dir + save_folder[i] + 'Data/Thresholds_' + str(j+1) + '.npy', corr)
 
 

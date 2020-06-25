@@ -21,10 +21,80 @@
   <component name="ChangeListManager">
     <list default="true" id="e941e18b-2940-48ac-a2bc-ba92ca5d083f" name="Default Changelist" comment="Major update for non-specific analysis (6/15/2020)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redlen/organize_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/Redlen/organize_data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redlen/redlen_analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/Redlen/redlen_analysis.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redlen/visualize_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/Redlen/visualize_data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sCT_Analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/sCT_Analysis.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AAPM-COMP-Figures.py" beforeDir="false" afterPath="$PROJECT_DIR$/presentations/AAPM-COMP-Figures.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/APPM-COMP-data.py" beforeDir="false" afterPath="$PROJECT_DIR$/presentations/APPM-COMP-data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backwards_MatDecomp.py" beforeDir="false" afterPath="$PROJECT_DIR$/material_decomp/Backwards_MatDecomp.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CBCT_Analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/saarp_cbct/CBCT_Analysis.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CBCT_EnergyVSEnergy_Mouse.py" beforeDir="false" afterPath="$PROJECT_DIR$/saarp_cbct/CBCT_EnergyVSEnergy_Mouse.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CBCT_EvsE_Cylinder.py" beforeDir="false" afterPath="$PROJECT_DIR$/saarp_cbct/CBCT_EvsE_Cylinder.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CBCT_MatDecomp_Graph.py" beforeDir="false" afterPath="$PROJECT_DIR$/material_decomp/CBCT_MatDecomp_Graph.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CBCT_Pixel_Graph.py" beforeDir="false" afterPath="$PROJECT_DIR$/saarp_cbct/CBCT_Pixel_Graph.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CBCT_Statistics.py" beforeDir="false" afterPath="$PROJECT_DIR$/saarp_cbct/CBCT_Statistics.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CT Recon Testing/Recon_test.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CZTmodule.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dual_Energy_MatDecomp.py" beforeDir="false" afterPath="$PROJECT_DIR$/material_decomp/Dual_Energy_MatDecomp.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/First_Paper_Analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/papers/paper_optimization/First_Paper_Analysis.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/First_Paper_Figures.py" beforeDir="false" afterPath="$PROJECT_DIR$/papers/paper_optimization/First_Paper_Figures.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/First_Paper_Figures_Draft.py" beforeDir="false" afterPath="$PROJECT_DIR$/papers/paper_optimization/First_Paper_Figures_Draft.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GraphLinear.py" beforeDir="false" afterPath="$PROJECT_DIR$/obsolete/GraphLinear.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/I_Au_5_17_19/AllBinsImages_I_Au_5-17.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/I_Au_5_17_19/BackgroundMaskMatrix_I_Au_5-17.npy" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/I_Au_5_17_19/Bin0_Matrix_I_Au_5-17.npy" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/I_Au_5_17_19/Bin1_Matrix_I_Au_5-17.npy" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/I_Au_5_17_19/Bin2_Matrix_I_Au_5-17.npy" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/I_Au_5_17_19/Bin3_Matrix_I_Au_5-17.npy" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/I_Au_5_17_19/Bin4_Matrix_I_Au_5-17.npy" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/I_Au_5_17_19/Bin5_Matrix_I_Au_5-17.npy" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/I_Au_5_17_19/Bin6_Matrix_I_Au_5-17.npy" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/I_Au_5_17_19/K-Edge_CNR_I_Au_5-17_Gold.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/I_Au_5_17_19/K-Edge_CNR_I_Au_5-17_Iodine.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/I_Au_5_17_19/K-Edge_Image_I_Au_5-17_Gold.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/I_Au_5_17_19/K-Edge_Image_I_Au_5-17_Iodine.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/I_Au_5_17_19/K-Edge_Linearity_I_Au_5-17_Gold.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/I_Au_5_17_19/K-Edge_Linearity_I_Au_5-17_Iodine.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/I_Au_5_17_19/Vial1_MaskMatrix_I_Au_5-17.npy" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/I_Au_5_17_19/Vial2_MaskMatrix_I_Au_5-17.npy" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/I_Au_5_17_19/Vial3_MaskMatrix_I_Au_5-17.npy" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/I_Au_5_17_19/Vial4_MaskMatrix_I_Au_5-17.npy" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/I_Au_5_17_19/Vial5_MaskMatrix_I_Au_5-17.npy" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/I_Au_5_17_19/Vial6_MaskMatrix_I_Au_5-17.npy" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/I_Au_5_17_19/binSEC0_multiplex_corrected2.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/I_Au_5_17_19/binSEC1_multiplex_corrected2.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/I_Au_5_17_19/binSEC2_multiplex_corrected2.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/I_Au_5_17_19/binSEC3_multiplex_corrected2.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/I_Au_5_17_19/binSEC4_multiplex_corrected2.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/I_Au_5_17_19/binSEC5_multiplex_corrected2.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/I_Au_5_17_19/binSEC6_multiplex_corrected2.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/K-Edge-Mouse.py" beforeDir="false" afterPath="$PROJECT_DIR$/obsolete/K-Edge-Mouse.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/K-Edge.py" beforeDir="false" afterPath="$PROJECT_DIR$/obsolete/K-Edge.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/K-Edge_Phantom.py" beforeDir="false" afterPath="$PROJECT_DIR$/obsolete/K-Edge_Phantom.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/KEdge_CNR_widths.py" beforeDir="false" afterPath="$PROJECT_DIR$/obsolete/KEdge_CNR_widths.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LoadASC.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/obsolete/LoadASC.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LoadCSV.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/obsolete/LoadCSV.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Old Scripts/CBCT_MaterialDecomp.py" beforeDir="false" afterPath="$PROJECT_DIR$/material_decomp/CBCT_MaterialDecomp.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Old Scripts/F_G_equations_graphs.py" beforeDir="false" afterPath="$PROJECT_DIR$/material_decomp/F_G_equations_graphs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Old Scripts/Image_Noise.py" beforeDir="false" afterPath="$PROJECT_DIR$/material_decomp/Image_Noise.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Old Scripts/MatDeComp_Retry.py" beforeDir="false" afterPath="$PROJECT_DIR$/material_decomp/MatDeComp_Retry.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Old Scripts/Test_MatDecomp.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/material_decomp/Test_MatDecomp.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Paper1_Data.py" beforeDir="false" afterPath="$PROJECT_DIR$/papers/paper_optimization/Paper1_Data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Redlen/IEEE_Figures.py" beforeDir="false" afterPath="$PROJECT_DIR$/redlen/IEEE_Figures.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Redlen/IEEE_abstract_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/redlen/IEEE_abstract_data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Redlen/Pixel_analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/redlen/Pixel_analysis.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Redlen/analyze_noise_CNR.py" beforeDir="false" afterPath="$PROJECT_DIR$/redlen/analyze_noise_CNR.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Redlen/analyze_phantoms.py" beforeDir="false" afterPath="$PROJECT_DIR$/redlen/analyze_phantoms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Redlen/organize_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/redlen/organize_data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Redlen/plot_CNR_over_time.py" beforeDir="false" afterPath="$PROJECT_DIR$/redlen/plot_CNR_over_time.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Redlen/read_csv.py" beforeDir="false" afterPath="$PROJECT_DIR$/redlen/read_csv.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Redlen/redlen_analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/redlen/redlen_analysis.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Redlen/visualize_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/redlen/visualize_data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Redlen/visualize_phantoms.py" beforeDir="false" afterPath="$PROJECT_DIR$/redlen/visualize_phantoms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Roll_Test.py" beforeDir="false" afterPath="$PROJECT_DIR$/obsolete/Roll_Test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Test2.py" beforeDir="false" afterPath="$PROJECT_DIR$/obsolete/montecarlo_update_angle.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Transfer_Report_Figures.py" beforeDir="false" afterPath="$PROJECT_DIR$/presentations/Transfer_Report_Figures.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WesCanFigures.py" beforeDir="false" afterPath="$PROJECT_DIR$/presentations/WesCanFigures.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/generateROImask_oldversion.py" beforeDir="false" afterPath="$PROJECT_DIR$/obsolete/generateROImask_oldversion.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/generate_sinogram.py" beforeDir="false" afterPath="$PROJECT_DIR$/obsolete/generate_sinogram.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pixel_correction.py" beforeDir="false" afterPath="$PROJECT_DIR$/obsolete/pixel_correction.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,6 +112,7 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="JupyterTrust" id="f6acf0fb-570a-4d7d-8568-0baaf2b441f3" />
   <component name="ProjectId" id="1OscsUwfTN8uS21C3bB4MRTiQfV" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -82,13 +153,16 @@
     </option>
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\drich\PycharmProjects\Reconstruction\obsolete" />
+      <recent name="C:\Users\drich\PycharmProjects\Reconstruction\saarp_cbct" />
+      <recent name="C:\Users\drich\PycharmProjects\Reconstruction\material_decomp" />
+      <recent name="C:\Users\drich\PycharmProjects\Reconstruction\presentations" />
+      <recent name="C:\Users\drich\PycharmProjects\Reconstruction\papers" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\drich\PycharmProjects\Reconstruction" />
       <recent name="C:\Users\drich\OneDrive\Documents\GitHub\desktop-tutorial" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\10376\PycharmProjects\Reconstruction\Redlen" />
-      <recent name="C:\Users\drich\PycharmProjects\Reconstruction\Old Scripts" />
     </key>
   </component>
   <component name="RunManager" selected="Python.test">
@@ -143,6 +217,7 @@
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
         <env name="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
       </envs>
       <option name="SDK_HOME" value="C:\Users\drich\Anaconda3\python.exe" />
@@ -165,6 +240,7 @@
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
         <env name="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
       </envs>
       <option name="SDK_HOME" value="C:\Users\drich\Anaconda3\python.exe" />
@@ -187,6 +263,7 @@
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
         <env name="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
       </envs>
       <option name="SDK_HOME" value="C:\Users\drich\Anaconda3\python.exe" />
@@ -209,6 +286,7 @@
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
         <env name="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
       </envs>
       <option name="SDK_HOME" value="C:\Users\drich\Anaconda3\python.exe" />
@@ -444,6 +522,7 @@
       <workItem from="1592239491089" duration="23036000" />
       <workItem from="1592323588961" duration="142000" />
       <workItem from="1592323743888" duration="25355000" />
+      <workItem from="1593044772156" duration="820000" />
     </task>
     <task id="LOCAL-00001" summary="Paper Edits">
       <created>1582153406007</created>
@@ -652,19 +731,20 @@
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="2" />
+    <option name="version" value="1" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Slight revisions for WesCan talk figures" />
@@ -777,12 +857,12 @@
     <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1591638364906" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Reconstruction$Pixel_analysis.coverage" NAME="Pixel_analysis Coverage Results" MODIFIED="1591654364430" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Redlen" />
-    <SUITE FILE_PATH="coverage/Reconstruction$CBCT_EvsE_Cylinder.coverage" NAME="CBCT_EvsE_Cylinder Coverage Results" MODIFIED="1563824975017" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Reconstruction$CBCT_EnergyVSEnergy_Mouse.coverage" NAME="CBCT_EnergyVSEnergy_Mouse Coverage Results" MODIFIED="1562705634648" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Reconstruction$MatDeComp_Retry.coverage" NAME="MatDeComp_Retry Coverage Results" MODIFIED="1565652238991" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Reconstruction$generate_sinogram.coverage" NAME="generate_sinogram Coverage Results" MODIFIED="1558931035306" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Reconstruction$CBCT_MaterialDecomp.coverage" NAME="CBCT_MaterialDecomp Coverage Results" MODIFIED="1560808633057" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Reconstruction$CBCT_EvsE_Cylinder.coverage" NAME="CBCT_EvsE_Cylinder Coverage Results" MODIFIED="1563824975017" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Reconstruction$K_Edge.coverage" NAME="K-Edge Coverage Results" MODIFIED="1589222762247" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Reconstruction$CBCT_EnergyVSEnergy_Mouse.coverage" NAME="CBCT_EnergyVSEnergy_Mouse Coverage Results" MODIFIED="1562705634648" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Reconstruction$CBCT_MaterialDecomp.coverage" NAME="CBCT_MaterialDecomp Coverage Results" MODIFIED="1560808633057" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Reconstruction$Pixel_analysis.coverage" NAME="Pixel_analysis Coverage Results" MODIFIED="1591654364430" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Redlen" />
   </component>
 </project>
