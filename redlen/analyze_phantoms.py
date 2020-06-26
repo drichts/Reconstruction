@@ -2,8 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import glob
-import general_OS_functions as gof
-import sCT_Analysis as sct
+from obsolete import general_OS_functions as gof
+import sct_analysis as sct
 
 
 def add_adj_bins(data, bins):

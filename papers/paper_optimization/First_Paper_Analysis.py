@@ -1,5 +1,5 @@
 import numpy as np
-import sCT_Analysis as sct
+import sct_analysis as sct
 import generateROImask as grm
 
 directory = 'D:/Research/Python Data/Spectral CT/'

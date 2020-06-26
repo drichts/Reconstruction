@@ -1,9 +1,6 @@
 import numpy as np
-import general_OS_functions as gof
 import matplotlib.pyplot as plt
-import seaborn as sns
-import glob
-from scipy.io import loadmat
+
 
 #%% Flat field air
 
@@ -196,7 +193,6 @@ map25_1w = np.divide(a0_1w_cc[9], theoretical_1w[2])
 map25_4w = np.divide(a0_4wa_cc[9], theoretical_4w[2])
 
 #%% 1w plots
-from mpl_toolkits.axes_grid1 import make_axes_locatable
 fig, ax = plt.subplots(2, 3, figsize=(8, 4))
 ax1 = fig.add_subplot(111, frameon=False)
 ax1.grid(False)

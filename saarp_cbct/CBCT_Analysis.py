@@ -1,7 +1,7 @@
 import numpy as np
 import pydicom as pyd
 import os
-import general_OS_functions as gof
+from obsolete import general_OS_functions as gof
 from scipy.ndimage import rotate as rotate
 import matplotlib.pyplot as plt
 

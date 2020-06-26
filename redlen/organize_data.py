@@ -1,12 +1,6 @@
 import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
 from glob import glob
-import general_OS_functions as gof
-import sCT_Analysis as sct
-from scipy.optimize import curve_fit
-from sklearn.metrics import r2_score
-from datetime import datetime as dt
+from obsolete import general_OS_functions as gof
 
 
 def cnr_vs_pixels_multi_w(folder, num_tests, pxp=[1, 2, 3, 4, 6, 8, 10, 12], times=[1, 2, 10, 250],

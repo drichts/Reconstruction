@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import sCT_Analysis as sct
+import sct_analysis as sct
 import seaborn as sns
 import matplotlib.patches as mpatches
 import matplotlib.lines as mlines
@@ -9,7 +9,7 @@ import matplotlib.gridspec as gridspec
 import matplotlib.colors as colors
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 import generateROImask as grm
-import sCT_Analysis as sct
+import sct_analysis as sct
 
 directory = 'D:/Research/Python Data/Spectral CT/'
 folders = ['Al_2.0_8-14-19', 'Al_2.0_10-17-19_3P', 'Al_2.0_10-17-19_1P',

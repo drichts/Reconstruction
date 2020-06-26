@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import sCT_Analysis as sct
+import sct_analysis as sct
 import seaborn as sns
 import matplotlib.patches as mpatches
 import matplotlib.lines as mlines

@@ -5,7 +5,7 @@ import os
 import sys
 import glob
 import generateROImask as grm
-import sCT_Analysis as sct
+import sct_analysis as sct
 
 def read_csv():
     directory = 'C:/Users/10376/Documents/ndt_excel/'

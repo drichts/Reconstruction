@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from sCT_Analysis import cnr
+from sct_analysis import cnr
 
 directory = 'D:/Research/Python Data/Spectral CT/'
 folder1 = 'AuGd_width_5_12-2-19/'

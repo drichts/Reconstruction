@@ -19,82 +19,29 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e941e18b-2940-48ac-a2bc-ba92ca5d083f" name="Default Changelist" comment="Major update for non-specific analysis (6/15/2020)">
+    <list default="true" id="e941e18b-2940-48ac-a2bc-ba92ca5d083f" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/analysis.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AAPM-COMP-Figures.py" beforeDir="false" afterPath="$PROJECT_DIR$/presentations/AAPM-COMP-Figures.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/APPM-COMP-data.py" beforeDir="false" afterPath="$PROJECT_DIR$/presentations/APPM-COMP-data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backwards_MatDecomp.py" beforeDir="false" afterPath="$PROJECT_DIR$/material_decomp/Backwards_MatDecomp.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CBCT_Analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/saarp_cbct/CBCT_Analysis.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CBCT_EnergyVSEnergy_Mouse.py" beforeDir="false" afterPath="$PROJECT_DIR$/saarp_cbct/CBCT_EnergyVSEnergy_Mouse.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CBCT_EvsE_Cylinder.py" beforeDir="false" afterPath="$PROJECT_DIR$/saarp_cbct/CBCT_EvsE_Cylinder.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CBCT_MatDecomp_Graph.py" beforeDir="false" afterPath="$PROJECT_DIR$/material_decomp/CBCT_MatDecomp_Graph.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CBCT_Pixel_Graph.py" beforeDir="false" afterPath="$PROJECT_DIR$/saarp_cbct/CBCT_Pixel_Graph.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CBCT_Statistics.py" beforeDir="false" afterPath="$PROJECT_DIR$/saarp_cbct/CBCT_Statistics.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CT Recon Testing/Recon_test.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/CZTmodule.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dual_Energy_MatDecomp.py" beforeDir="false" afterPath="$PROJECT_DIR$/material_decomp/Dual_Energy_MatDecomp.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/First_Paper_Analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/papers/paper_optimization/First_Paper_Analysis.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/First_Paper_Figures.py" beforeDir="false" afterPath="$PROJECT_DIR$/papers/paper_optimization/First_Paper_Figures.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/First_Paper_Figures_Draft.py" beforeDir="false" afterPath="$PROJECT_DIR$/papers/paper_optimization/First_Paper_Figures_Draft.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GraphLinear.py" beforeDir="false" afterPath="$PROJECT_DIR$/obsolete/GraphLinear.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/I_Au_5_17_19/AllBinsImages_I_Au_5-17.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/I_Au_5_17_19/BackgroundMaskMatrix_I_Au_5-17.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/I_Au_5_17_19/Bin0_Matrix_I_Au_5-17.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/I_Au_5_17_19/Bin1_Matrix_I_Au_5-17.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/I_Au_5_17_19/Bin2_Matrix_I_Au_5-17.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/I_Au_5_17_19/Bin3_Matrix_I_Au_5-17.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/I_Au_5_17_19/Bin4_Matrix_I_Au_5-17.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/I_Au_5_17_19/Bin5_Matrix_I_Au_5-17.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/I_Au_5_17_19/Bin6_Matrix_I_Au_5-17.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/I_Au_5_17_19/K-Edge_CNR_I_Au_5-17_Gold.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/I_Au_5_17_19/K-Edge_CNR_I_Au_5-17_Iodine.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/I_Au_5_17_19/K-Edge_Image_I_Au_5-17_Gold.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/I_Au_5_17_19/K-Edge_Image_I_Au_5-17_Iodine.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/I_Au_5_17_19/K-Edge_Linearity_I_Au_5-17_Gold.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/I_Au_5_17_19/K-Edge_Linearity_I_Au_5-17_Iodine.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/I_Au_5_17_19/Vial1_MaskMatrix_I_Au_5-17.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/I_Au_5_17_19/Vial2_MaskMatrix_I_Au_5-17.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/I_Au_5_17_19/Vial3_MaskMatrix_I_Au_5-17.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/I_Au_5_17_19/Vial4_MaskMatrix_I_Au_5-17.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/I_Au_5_17_19/Vial5_MaskMatrix_I_Au_5-17.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/I_Au_5_17_19/Vial6_MaskMatrix_I_Au_5-17.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/I_Au_5_17_19/binSEC0_multiplex_corrected2.mat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/I_Au_5_17_19/binSEC1_multiplex_corrected2.mat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/I_Au_5_17_19/binSEC2_multiplex_corrected2.mat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/I_Au_5_17_19/binSEC3_multiplex_corrected2.mat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/I_Au_5_17_19/binSEC4_multiplex_corrected2.mat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/I_Au_5_17_19/binSEC5_multiplex_corrected2.mat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/I_Au_5_17_19/binSEC6_multiplex_corrected2.mat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/K-Edge-Mouse.py" beforeDir="false" afterPath="$PROJECT_DIR$/obsolete/K-Edge-Mouse.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/K-Edge.py" beforeDir="false" afterPath="$PROJECT_DIR$/obsolete/K-Edge.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/K-Edge_Phantom.py" beforeDir="false" afterPath="$PROJECT_DIR$/obsolete/K-Edge_Phantom.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/KEdge_CNR_widths.py" beforeDir="false" afterPath="$PROJECT_DIR$/obsolete/KEdge_CNR_widths.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LoadASC.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/obsolete/LoadASC.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LoadCSV.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/obsolete/LoadCSV.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Old Scripts/CBCT_MaterialDecomp.py" beforeDir="false" afterPath="$PROJECT_DIR$/material_decomp/CBCT_MaterialDecomp.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Old Scripts/F_G_equations_graphs.py" beforeDir="false" afterPath="$PROJECT_DIR$/material_decomp/F_G_equations_graphs.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Old Scripts/Image_Noise.py" beforeDir="false" afterPath="$PROJECT_DIR$/material_decomp/Image_Noise.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Old Scripts/MatDeComp_Retry.py" beforeDir="false" afterPath="$PROJECT_DIR$/material_decomp/MatDeComp_Retry.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Old Scripts/Test_MatDecomp.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/material_decomp/Test_MatDecomp.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Paper1_Data.py" beforeDir="false" afterPath="$PROJECT_DIR$/papers/paper_optimization/Paper1_Data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redlen/IEEE_Figures.py" beforeDir="false" afterPath="$PROJECT_DIR$/redlen/IEEE_Figures.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redlen/IEEE_abstract_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/redlen/IEEE_abstract_data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redlen/Pixel_analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/redlen/Pixel_analysis.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redlen/analyze_noise_CNR.py" beforeDir="false" afterPath="$PROJECT_DIR$/redlen/analyze_noise_CNR.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redlen/analyze_phantoms.py" beforeDir="false" afterPath="$PROJECT_DIR$/redlen/analyze_phantoms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redlen/organize_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/redlen/organize_data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redlen/plot_CNR_over_time.py" beforeDir="false" afterPath="$PROJECT_DIR$/redlen/plot_CNR_over_time.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redlen/read_csv.py" beforeDir="false" afterPath="$PROJECT_DIR$/redlen/read_csv.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redlen/redlen_analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/redlen/redlen_analysis.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redlen/visualize_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/redlen/visualize_data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redlen/visualize_phantoms.py" beforeDir="false" afterPath="$PROJECT_DIR$/redlen/visualize_phantoms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Roll_Test.py" beforeDir="false" afterPath="$PROJECT_DIR$/obsolete/Roll_Test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Test2.py" beforeDir="false" afterPath="$PROJECT_DIR$/obsolete/montecarlo_update_angle.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Transfer_Report_Figures.py" beforeDir="false" afterPath="$PROJECT_DIR$/presentations/Transfer_Report_Figures.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WesCanFigures.py" beforeDir="false" afterPath="$PROJECT_DIR$/presentations/WesCanFigures.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/generateROImask_oldversion.py" beforeDir="false" afterPath="$PROJECT_DIR$/obsolete/generateROImask_oldversion.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/generate_sinogram.py" beforeDir="false" afterPath="$PROJECT_DIR$/obsolete/generate_sinogram.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pixel_correction.py" beforeDir="false" afterPath="$PROJECT_DIR$/obsolete/pixel_correction.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CT_Image_Analysis/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CT_Image_Analysis/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frames_CNR.py" beforeDir="false" afterPath="$PROJECT_DIR$/Frames_CNR.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/general_OS_functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/obsolete/general_OS_functions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obsolete/KEdge_CNR_widths.py" beforeDir="false" afterPath="$PROJECT_DIR$/obsolete/KEdge_CNR_widths.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/papers/paper_optimization/First_Paper_Analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/papers/paper_optimization/First_Paper_Analysis.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/papers/paper_optimization/First_Paper_Figures_Draft.py" beforeDir="false" afterPath="$PROJECT_DIR$/papers/paper_optimization/First_Paper_Figures_Draft.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/papers/paper_optimization/Paper1_Data.py" beforeDir="false" afterPath="$PROJECT_DIR$/papers/paper_optimization/Paper1_Data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/presentations/AAPM-COMP-Figures.py" beforeDir="false" afterPath="$PROJECT_DIR$/presentations/AAPM-COMP-Figures.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/presentations/APPM-COMP-data.py" beforeDir="false" afterPath="$PROJECT_DIR$/presentations/APPM-COMP-data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/presentations/WesCanFigures.py" beforeDir="false" afterPath="$PROJECT_DIR$/presentations/WesCanFigures.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/redlen/IEEE_abstract_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/redlen/IEEE_abstract_data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/redlen/analyze_phantoms.py" beforeDir="false" afterPath="$PROJECT_DIR$/redlen/analyze_phantoms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/redlen/organize_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/redlen/organize_data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/redlen/plot_CNR_over_time.py" beforeDir="false" afterPath="$PROJECT_DIR$/redlen/plot_CNR_over_time.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/redlen/read_csv.py" beforeDir="false" afterPath="$PROJECT_DIR$/redlen/read_csv.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/redlen/redlen_analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/redlen/redlen_analysis.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/redlen/visualize_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/redlen/visualize_data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sCT_Analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/sct_analysis.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/saarp_cbct/CBCT_Analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/saarp_cbct/CBCT_Analysis.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -153,16 +100,16 @@
     </option>
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\drich\PycharmProjects\Reconstruction" />
+      <recent name="C:\Users\drich\OneDrive\Documents\GitHub\desktop-tutorial" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\drich\PycharmProjects\Reconstruction\obsolete" />
       <recent name="C:\Users\drich\PycharmProjects\Reconstruction\saarp_cbct" />
       <recent name="C:\Users\drich\PycharmProjects\Reconstruction\material_decomp" />
       <recent name="C:\Users\drich\PycharmProjects\Reconstruction\presentations" />
       <recent name="C:\Users\drich\PycharmProjects\Reconstruction\papers" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\drich\PycharmProjects\Reconstruction" />
-      <recent name="C:\Users\drich\OneDrive\Documents\GitHub\desktop-tutorial" />
     </key>
   </component>
   <component name="RunManager" selected="Python.test">
@@ -522,7 +469,9 @@
       <workItem from="1592239491089" duration="23036000" />
       <workItem from="1592323588961" duration="142000" />
       <workItem from="1592323743888" duration="25355000" />
-      <workItem from="1593044772156" duration="820000" />
+      <workItem from="1593044772156" duration="980000" />
+      <workItem from="1593113470718" duration="1264000" />
+      <workItem from="1593127046918" duration="5731000" />
     </task>
     <task id="LOCAL-00001" summary="Paper Edits">
       <created>1582153406007</created>
@@ -727,7 +676,14 @@
       <option name="project" value="LOCAL" />
       <updated>1592266554009</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="Major update for organization (6/24/2020)">
+      <created>1593045737485</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1593045737485</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -747,7 +703,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Slight revisions for WesCan talk figures" />
     <MESSAGE value="Updates since last push (Date: 4/22/20)" />
     <MESSAGE value="redlen-analysis.py update (4/29/2020)" />
     <MESSAGE value="Redlen IEEE Data" />
@@ -772,18 +727,20 @@
     <MESSAGE value="Noise analysis (6/11/2020)" />
     <MESSAGE value="Major update for non-specific analysis (6/12/2020)" />
     <MESSAGE value="Major update for non-specific analysis (6/15/2020)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Major update for non-specific analysis (6/15/2020)" />
+    <MESSAGE value="Major update for organization (6/24/2020)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Major update for organization (6/24/2020)" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="715" y="324" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1586977505005">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="572" y="257" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1593132320390">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
+    <state x="572" y="257" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1536.824@0.0.1536.824" timestamp="1593132320390" />
     <state x="715" y="324" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1586977505005" />
-    <state x="585" y="157" key="CommitChangelistDialog2" timestamp="1587582091517">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="285" y="14" key="CommitChangelistDialog2" timestamp="1593045735187">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
+    <state x="285" y="14" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1593045735187" />
     <state x="585" y="157" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1587582091517" />
-    <state x="585" y="175" key="CommitChangelistDialog2/0.0.1920.1160/-1920.0.1536.824@0.0.1920.1160" timestamp="1584474883686" />
     <state x="740" y="301" key="FileChooserDialogImpl" timestamp="1587581899942">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -833,7 +790,6 @@
     </state>
     <state x="394" y="84" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1591738383991" />
     <state x="795" y="175" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1588272863045" />
-    <state x="461" y="223" key="SettingsEditor/0.0.1920.1160/-1920.0.1536.824@0.0.1920.1160" timestamp="1584474497130" />
     <state x="442" y="201" key="Vcs.Push.Dialog.v2" timestamp="1592266559465">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

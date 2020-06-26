@@ -1,5 +1,5 @@
 import numpy as np
-import sCT_Analysis as sct
+import sct_analysis as sct
 import matplotlib.pyplot as plt
 import seaborn as sns
 from scipy.optimize import curve_fit

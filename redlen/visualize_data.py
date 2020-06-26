@@ -1,13 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
-import seaborn as sns
 from glob import glob
-import general_OS_functions as gof
-import sCT_Analysis as sct
-from scipy.optimize import curve_fit
-from sklearn.metrics import r2_score
-from datetime import datetime as dt
+from obsolete import general_OS_functions as gof
 from scipy.interpolate import make_interp_spline as spline
 
 
