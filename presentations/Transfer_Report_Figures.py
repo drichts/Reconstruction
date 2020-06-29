@@ -4,7 +4,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
-import generateROImask as grm
+import mask_functions as grm
 
 directory = 'D:/Research/Python Data/Spectral CT/'
 folder = 'Au_9-17-19/'

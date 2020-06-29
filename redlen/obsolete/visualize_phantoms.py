@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import glob
-import generateROImask as grm
+import mask_functions as grm
 
 directory = 'C:/Users/10376/Documents/Phantom Data/Uniformity/Multiple Energy Thresholds/1w/'
 

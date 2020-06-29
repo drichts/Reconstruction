@@ -3,7 +3,7 @@ from scipy.io import loadmat, whosmat
 from obsolete import general_OS_functions as gof
 import matplotlib.colors as colors
 import matplotlib.pyplot as plt
-import generateROImask as grm
+import mask_functions as grm
 import glob
 import os
 from analysis import Analyze
@@ -376,32 +376,7 @@ class PCCT_Analyze(Analyze):
 
         return mean_noise, std_noise
 
-
-    def cnr(self, image, contrast_mask, background_mask):
-        """
-        This function calculates the CNR of an ROI given the image, the ROI mask, and the background mask
-        It also gives the CNR error
-        :param image: The image to be analyzed as a 2D numpy array
-        :param contrast_mask: The mask of the contrast area as a 2D numpy array
-        :param background_mask: The mask of the background as a 2D numpy array
-        :return CNR, CNR_error: The CNR and error of the contrast area
-        """
-        # The mean signal within the contrast area
-        mean_ROI = np.nanmean(image*contrast_mask)
-        std_ROI = np.nanstd(image*contrast_mask)
-
-        # Mean and std. dev. of the background
-        bg = np.multiply(image, background_mask)
-        mean_bg = np.nanmean(bg)
-        std_bg = np.nanstd(bg)
-
-        CNR = abs(mean_ROI - mean_bg) / std_bg
-        CNR_err = np.sqrt(std_ROI**2 + std_bg**2) / std_bg
-
-        return CNR, CNR_err
-
-
-    def get_ct_cnr(folder, z, type='water', directory='D:/Research/Python Data/Spectral CT/'):
+    def get_ct_cnr(self, z, type='water'):
         """
         Get the cnr for each of the vial ROIs in a specific slice
         :param folder:
@@ -426,7 +401,7 @@ class PCCT_Analyze(Analyze):
         return CNR, CNR_err
 
 
-    def find_least_noise(folder, low_slice, high_slice, directory='D:/Research/Python Data/Spectral CT/'):
+    def find_least_noise(self, low_slice, high_slice, directory='D:/Research/Python Data/Spectral CT/'):
         """
         Find the slice with the least noise in the summed bin
         :param folder: folder to examine

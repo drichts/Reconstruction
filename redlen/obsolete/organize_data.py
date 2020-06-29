@@ -2,7 +2,7 @@ import numpy as np
 from glob import glob
 from obsolete import general_OS_functions as gof
 
-
+## This was a stupid function, just tranpose the freaking matrix
 def cnr_vs_pixels_multi_w(folder, num_tests, pxp=[1, 2, 3, 4, 6, 8, 10, 12], times=[1, 2, 10, 250],
                           directory='C:/Users/10376/Documents/Phantom Data/'):
     """

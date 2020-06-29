@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import sct_analysis as sct
 import seaborn as sns
 from scipy.optimize import curve_fit
-import generateROImask as grm
+import mask_functions as grm
 import matplotlib.patches as mpatches
 import matplotlib.lines as mlines
 import matplotlib.image as mpimg

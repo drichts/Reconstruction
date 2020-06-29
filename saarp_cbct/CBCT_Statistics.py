@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from generateROImask import generateROImask
+from mask_functions import generateROImask
 
 
 # Take an image and compute the statistics of the number of ROIs given

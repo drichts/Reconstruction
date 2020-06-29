@@ -8,7 +8,7 @@ import matplotlib.image as mpimg
 import matplotlib.gridspec as gridspec
 import matplotlib.colors as colors
 from mpl_toolkits.axes_grid1 import make_axes_locatable
-import generateROImask as grm
+import mask_functions as grm
 import sct_analysis as sct
 
 directory = 'D:/Research/Python Data/Spectral CT/'
