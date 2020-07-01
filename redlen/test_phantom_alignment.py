@@ -15,7 +15,7 @@ air_path = glob(directory + mm + air_folder + '/Raw Test Data/' + mm + 'UNIFORMI
 
 def test_phantom_alignment(data_path, air_path):
     """
-    This function is to test the inital alignment of a phantom at Redlen
+    This function is to test the inital alignment of a phantom at redlen
     :param data_path: The data path to the mat file
     :param air_path: The data path to the mat air file
     :param num: The file number to look at

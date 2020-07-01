@@ -1,11 +1,6 @@
 import numpy as np
-from scipy.io import loadmat, whosmat
-from obsolete import general_OS_functions as gof
-import matplotlib.colors as colors
-import matplotlib.pyplot as plt
-import mask_functions as grm
-import glob
 import os
+import _pickle as pickle
 
 
 class Analyze:
@@ -37,3 +32,14 @@ class Analyze:
         cnr_err = np.sqrt(std_roi ** 2 + std_bg ** 2) / std_bg
 
         return cnr_val, cnr_err
+
+    def save_object(self, filename):
+        """This function takes an object and a filename and saves the object to the save directory"""
+        if filename[-3:] == 'pk1':
+            filename = filename
+        elif '.' in filename[-4:]:
+            filename.replace(filename[-3:], 'pk1')
+        else:
+            filename = filename + '.pk1'
+        with open(self.save_dir + '/' + filename, 'wb') as output:
+            pickle.dump(self, output)
