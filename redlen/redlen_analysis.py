@@ -5,25 +5,26 @@ from glob import glob
 from analysis import Analyze
 
 
+class SizeError(Exception):
+    pass
+
+
 class RedlenAnalyze(Analyze):
 
-    def __init__(self, folder, mm, acquiretype, load_dir):
+    def __init__(self, folder, test_num, mm, acquire_type, load_dir):
 
-        substring = os.path.join('Raw Test Data', mm, acquiretype)
+        substring = os.path.join('Raw Test Data', mm, acquire_type)
         self.load_dir = os.path.join(load_dir, mm, folder, substring)
+        del substring
 
-        self.mat_a0_files = glob(os.path.join(load_dir, '*A0*'))
-        self.mat_a1_files = glob(os.path.join(load_dir, '*A1*'))
+        self.mat_a0_files = glob(os.path.join(self.load_dir, '*A0*'))
+        self.mat_a1_files = glob(os.path.join(self.load_dir, '*A1*'))
 
-        self.data_shape = np.shape(self.mat_to_npy(self.mat_a0_files[0]))
-        self.num_bins = self.data_shape[1]
-        files_shape = (len(self.mat_a0_files), *self.data_shape)
-        self.data_a0 = np.squeeze(np.zeros(files_shape))
-        # self.data_a1 = np.squeeze(np.zeros(test_shape))
+        self.data_a0 = np.squeeze(self.mat_to_npy(self.mat_a0_files[test_num-1]))
+        # self.data_a1 = np.squeeze(self.mat_to_npy(self.mat_a1_files[test_num-1]))
 
-        for i in range(len(self.mat_a0_files)):
-            self.data_a0[i] = np.squeeze(self.mat_to_npy(self.mat_a0_files[i]))
-            # self.data_a1[i] = np.squeeze(self.mat_to_npy(self.mat_a1_files[i]))
+        self.data_shape = np.shape(self.data_a0)
+        self.num_bins = self.data_shape[0]
 
     @staticmethod
     def mat_to_npy(mat_path):
@@ -61,17 +62,22 @@ class RedlenAnalyze(Analyze):
         :return: The new data array with nxn pixels from the inital data summed together
         """
         dat_shape = np.array(np.shape(data))
-        dat_shape[3] = int(dat_shape[3] / num_pixels)  # Reduce size by num_pixels in the row and column directions
-        dat_shape[4] = int(dat_shape[4] / num_pixels)
+        dat_shape[-2] = int(dat_shape[-2] / num_pixels)  # Reduce size by num_pixels in the row and column directions
+        dat_shape[-1] = int(dat_shape[-1] / num_pixels)
 
         ndata = np.zeros(dat_shape)
         n = num_pixels
-        for row in np.arange(dat_shape[3]):
-            for col in np.arange(dat_shape[4]):
-                temp = data[:, :, :, n * row:n * row + n,
-                       n * col:n * col + n]  # Get each 2x2 subarray over all of the first 2 axes
-                ndata[:, :, :, row, col] = np.sum(temp, axis=(3, 4))  # Sum over only the rows and columns
-
+        for row in np.arange(dat_shape[-2]):
+            for col in np.arange(dat_shape[-1]):
+                # Get each 2x2 subarray over all of the first 2 axes
+                if len(dat_shape) == 5:
+                    temp = data[:, :, :, n * row:n * row + n, n * col:n * col + n]
+                    ndata[:, :, :, row, col] = np.sum(temp, axis=(-2, -1))  # Sum over only the rows and columns
+                elif len(dat_shape) == 4:
+                    temp = data[:, :, n * row:n * row + n, n * col:n * col + n]
+                    ndata[:, :, row, col] = np.sum(temp, axis=(-2, -1))  # Sum over only the rows and columns
+                else:
+                    return SizeError('Size of input array in sumpxp.py is not 4 or 5 dimensions.')
         return ndata
 
     # def stitch_MMs(self, test_type=3):

@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import os
 from redlen.redlen_analysis import RedlenAnalyze
 import mask_functions as grm
+import _pickle as pickle
 
 
 class VisibilityError(Exception):
@@ -11,46 +12,74 @@ class VisibilityError(Exception):
 
 class AnalyzeUniformity(RedlenAnalyze):
 
-    def __init__(self, folder, air_folder, mm='M20358_D32', load_dir=r'X:\TEST LOG\MINI MODULE\Canon',
-                 save_dir=r'C:\Users\10376\Documents\Phantom Data', reanalyze=False):
+    def __new__(cls, filepath=None, folder='', air_folder='', test_num=1, mm='M20358_D32',
+                load_dir=r'X:\TEST LOG\MINI MODULE\Canon', save_dir=r'C:\Users\10376\Documents\Phantom Data'):
+        if filepath:
+            with open(filepath) as f:
+                inst = pickle.load(f)
+            if not isinstance(inst, cls):
+                raise TypeError('Unpickled object is not of type {}'.format(cls))
+        else:
+            inst = super(AnalyzeUniformity, cls).__new__(cls)
+        return inst
+
+    def __init__(self, folder, air_folder, test_num=1, mm='M20358_D32', load_dir=r'X:\TEST LOG\MINI MODULE\Canon',
+                 save_dir=r'C:\Users\10376\Documents\Phantom Data'):
+
+        super().__init__(folder, test_num, mm, 'UNIFORMITY', load_dir)
         self.thresholds = []
         self.pxp = np.array([1, 2, 3, 4, 6, 8, 12])
         self.frames = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 50, 100, 250, 500, 1000])
 
+        self.air_data = RedlenAnalyze(air_folder, test_num, mm, 'UNIFORMITY', load_dir)
+
         self.save_dir = os.path.join(save_dir, 'Uniformity', folder)
+        print(self.save_dir)
         os.makedirs(self.save_dir, exist_ok=True)
+        self.filename = f'Run{test_num}Data.pk1'
 
-        super.__init__(folder, mm, 'UNIFORMITY', load_dir)
+        self.masks = []
+        self.bg = []
 
-        self.reanalyze = reanalyze
-        self.air_data = RedlenAnalyze(air_folder, mm, 'UNIFORMITY', load_dir)
-
-        self.masks = np.zeros[len(self.pxp), *self.data_shape[-2:]]
-        self.bg = np.zeros[len(self.pxp), *self.data_shape[-2:]]
-        if self.reanalyze:
-            self.visible_bin = self.test_visibility()
-            val = input('Is the phantom small? (y/n)')
-            if val is 'y':
-                self.small_phantom = True
-            else:
-                self.small_phantom = False
-
-            for i, pixel in enumerate(self.pxp):
-                tempdata = self.sumpxp(self.data_a0[0], pixel)
-                tempair = self.sumpxp(self.air_data.data_a0[0], pixel)
-                image = self.intensity_correction(tempdata, tempair)
-                image = np.sum(image[0], axis=1)
-                self.masks[i], self.bg[i] = self.choose_mask_types(image[self.visible_bin], pixel)
-                np.savez(os.path.join(save_dir, 'Masks.npz'), mask=self.masks, bg=self.bg)
+        if 'Masks.npz' in os.listdir(self.save_dir):
+            self.masks = np.load(os.path.join(self.save_dir, 'Masks.npz'), allow_pickle=True)['mask']
+            self.bg = np.load(os.path.join(self.save_dir, 'Masks.npz'), allow_pickle=True)['bg']
         else:
-            self.masks = np.load(os.path.join(save_dir, 'Masks.npz'))['mask']
-            self.bg = np.load(os.path.join(save_dir, 'Masks.npz'))['bg']
+            self.get_masks()
 
-        # CNR vs. time, noise vs. time <files, pixels, time, bin, value or error (0 or 1)>
+        # CNR vs. time, noise vs. time <pixels, time, bin, value or error (0 or 1)>
         self.cnr_time, self.noise_time = self.analyze_cnr_noise()
-        # Reorganize to <files, bin, pixels, value or error, time>
-        self.cnr_time = np.transpose(self.cnr_time, axes=(0, 3, 1, 4, 2))
-        self.noise_time = np.transpose(self.noise_time, axes=(0, 3, 1, 4, 2))
+        # Reorganize to <pixels, bin, value or error, time>
+        self.cnr_time = np.transpose(self.cnr_time, axes=(0, 2, 3, 1))
+        self.noise_time = np.transpose(self.noise_time, axes=(0, 2, 3, 1))
+
+        # Save the object
+        self.save_object(self.filename)
+
+    def get_masks(self):
+        """This function gets the contrast mask and background mask for all pixel aggregations"""
+        self.visible_bin = self.test_visibility()
+        val = input('Is the phantom small? (y/n)')
+        if val is 'y':
+            self.small_phantom = True
+        else:
+            self.small_phantom = False
+
+        for i, pixel in enumerate(self.pxp):
+            if pixel == 1:
+                tempdata = self.data_a0
+                tempair = self.air_data.data_a0
+            else:
+                tempdata = self.sumpxp(self.data_a0, pixel)
+                tempair = self.sumpxp(self.air_data.data_a0, pixel)
+            image = self.intensity_correction(tempdata, tempair)
+            image = np.sum(image, axis=1)
+            tempmask, tempbg = self.choose_mask_types(image[self.visible_bin], pixel)
+
+            self.masks.append(tempmask)
+            self.bg.append(tempbg)
+
+        np.savez(os.path.join(self.save_dir + '/Masks.npz'), mask=self.masks, bg=self.bg)
 
     def test_visibility(self):
         """
@@ -58,10 +87,10 @@ class AnalyzeUniformity(RedlenAnalyze):
         :return: The bin to use
         """
 
-        image = np.squeeze(self.intensity_correction(self.data_a0[0], self.air_data.data_a0[0]))
+        image = np.squeeze(self.intensity_correction(self.data_a0, self.air_data.data_a0))
         image = np.sum(image, axis=1)  # Sum all views
 
-        bins = np.arange(len(image), -1, -1)  # The bin options from EC down
+        bins = np.arange(len(image)-1, -1, -1)  # The bin options from EC down
         for b in bins:
             plt.imshow(image[b])
             plt.pause(1)
@@ -123,26 +152,20 @@ class AnalyzeUniformity(RedlenAnalyze):
         of different acquisition times
         :return:
         """
-        cnr_vals = np.zeros([len(self.data_a0), len(self.pxp), len(self.frames), self.num_bins, 2])
-        noise = np.zeros([len(self.data_a0), len(self.pxp), len(self.frames), self.num_bins, 2])
-        for i in np.arange(len(self.data_a0)):
+        cnr_vals = np.zeros([len(self.pxp), len(self.frames), self.num_bins, 2])
+        noise = np.zeros([len(self.pxp), len(self.frames), self.num_bins, 2])
 
-            print(os.path.basename(self.data_a0[i]))
-            print(os.path.basename(self.air_data.data_a0[i]))
-            print()
+        # Aggregate the number of pixels in pxp squared
+        for p, pix in enumerate(self.pxp):
+            if pix == 1:
+                data_pxp = np.squeeze(self.data_a0)
+                air_pxp = np.squeeze(self.air_data.data_a0)
+            else:
+                data_pxp = np.squeeze(self.sumpxp(self.data_a0, pix))  # Aggregate the pixels
+                air_pxp = np.squeeze(self.sumpxp(self.air_data.data_a0, pix))
 
-            # Aggregate the number of pixels in pxp squared
-            for p, pix in enumerate(self.pxp):
-                if pix == 1:
-                    data_pxp = np.squeeze(self.data_a0[i])
-                    air_pxp = np.squeeze(self.air_data.data_a0[i])
-                else:
-                    data_pxp = np.squeeze(self.sumpxp(self.data_a0[i], pix))  # Aggregate the pixels
-                    air_pxp = np.squeeze(self.sumpxp(self.air_data.data_a0[i], pix))
-
-                # Collect the frames aggregated over, the noise and cnr and save
-                cnr_vals[i, p], noise[i, p] = self.avg_cnr_noise_over_all_frames(data_pxp, air_pxp, self.masks[p],
-                                                                                 self.bg[p])
+            # Collect the frames aggregated over, the noise and cnr and save
+            cnr_vals[p], noise[p] = self.avg_cnr_noise_over_all_frames(data_pxp, air_pxp, self.masks[p], self.bg[p])
 
         return cnr_vals, noise
 
@@ -292,6 +315,34 @@ class AnalyzeUniformity(RedlenAnalyze):
         cnr_pixel = np.transpose(self.cnr_time, axes=(0, 4, 2, 3, 1))
         noise_pixel = np.transpose(self.noise_time, axes=(0, 4, 2, 3, 1))
         return cnr_pixel, noise_pixel
+
+    def non_uniformity(self, pixel1, pixel2):
+        """
+        This function finds the relative difference between 2 pixels over time
+        :param pixel1: tuple
+                    The first pixel coordinates
+        :param pixel2: tuple
+                    The second pixel coordinates
+        :return:
+        """
+        # The results of the test
+        nu_res = np.zeros([self.num_bins, len(self.frames)])
+        # Go through each frame in frames
+        for j, frame in enumerate(self.frames):
+            temp_nu = np.zeros([self.num_bins, int(1000/frame)])  # Collect data for all bins
+            for idx, data_idx in enumerate(np.arange(0, 1001 - frame, frame)):
+                if frame == 1:
+                    tempair = self.air_data.data_a0[:, data_idx]
+                else:
+                    tempair = np.sum(self.air_data.data_a0[:, data_idx:data_idx + frame], axis=1)
+
+                for i in np.arange(self.num_bins):
+                    temp_nu[i, idx] = (tempair[(i, *pixel1)] - tempair[(i, *pixel2)])/np.nanmean(self.bg[0]*tempair[i])
+
+            # Add temp_nu to the non-uniformity results data
+            nu_res[:, j] = np.mean(temp_nu, axis=1)
+
+        return np.abs(nu_res)
 
     @staticmethod
     def intensity_correction(data, air_data):
