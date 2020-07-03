@@ -12,16 +12,20 @@ class VisibilityError(Exception):
 
 class AnalyzeUniformity(RedlenAnalyze):
 
-    def __new__(cls, filepath=None, folder='', air_folder='', test_num=1, mm='M20358_D32',
-                load_dir=r'X:\TEST LOG\MINI MODULE\Canon', save_dir=r'C:\Users\10376\Documents\Phantom Data'):
-        if filepath:
-            with open(filepath) as f:
-                inst = pickle.load(f)
-            if not isinstance(inst, cls):
-                raise TypeError('Unpickled object is not of type {}'.format(cls))
-        else:
-            inst = super(AnalyzeUniformity, cls).__new__(cls)
-        return inst
+    # def __new__(cls, folder, air_folder, filepath=None, test_num=1, mm='M20358_D32',
+    #             load_dir=r'X:\TEST LOG\MINI MODULE\Canon', save_dir=r'C:\Users\10376\Documents\Phantom Data'):
+    #     if filepath:
+    #         with open(filepath, 'rb') as f:
+    #             unpickler = pickle.Unpickler(f)
+    #             inst = unpickler.load()
+    #             f.close()
+    #         if not isinstance(inst, cls):
+    #             raise TypeError('Unpickled object is not of type {}'.format(cls))
+    #         print('Loaded')
+    #     else:
+    #         inst = super(AnalyzeUniformity, cls).__new__(cls)
+    #         print('New')
+    #     return inst
 
     def __init__(self, folder, air_folder, test_num=1, mm='M20358_D32', load_dir=r'X:\TEST LOG\MINI MODULE\Canon',
                  save_dir=r'C:\Users\10376\Documents\Phantom Data'):
@@ -316,13 +320,31 @@ class AnalyzeUniformity(RedlenAnalyze):
         noise_pixel = np.transpose(self.noise_time, axes=(0, 4, 2, 3, 1))
         return cnr_pixel, noise_pixel
 
-    def non_uniformity(self, pixel1, pixel2):
+    def mean_counts(self):
+        """This function gets the mean counts within the airscan for all times in frames for all bins"""
+        counts = np.zeros([self.num_bins, len(self.frames)])
+        for j, frame in enumerate(self.frames):
+            temp_cts = np.zeros([self.num_bins, int(1000 / frame)])  # Collect data for all bins
+            # Get every frame number of frames and sum, over the entire view range
+            for idx, data_idx in enumerate(np.arange(0, 1001 - frame, frame)):
+                if frame == 1:
+                    tempair = self.air_data.data_a0[:, data_idx]
+                else:
+                    tempair = np.sum(self.air_data.data_a0[:, data_idx:data_idx + frame], axis=1)
+
+                for i in np.arange(self.num_bins):
+                    temp_cts[i, idx] = np.nanmean(tempair[i]*self.bg[0])
+
+            # Add temp_cts to the counts results, averaging over all different frames
+            counts[:, j] = np.mean(temp_cts, axis=1)
+
+        return counts
+
+    def non_uniformity(self, pixel):
         """
         This function finds the relative difference between 2 pixels over time
-        :param pixel1: tuple
-                    The first pixel coordinates
-        :param pixel2: tuple
-                    The second pixel coordinates
+        :param pixel: tuple
+                    The pixel coordinates
         :return:
         """
         # The results of the test
@@ -337,12 +359,14 @@ class AnalyzeUniformity(RedlenAnalyze):
                     tempair = np.sum(self.air_data.data_a0[:, data_idx:data_idx + frame], axis=1)
 
                 for i in np.arange(self.num_bins):
-                    temp_nu[i, idx] = (tempair[(i, *pixel1)] - tempair[(i, *pixel2)])/np.nanmean(self.bg[0]*tempair[i])
+                    px_val = tempair[(i, *pixel)]
+                    diff = np.abs(np.subtract(tempair[i], px_val))
+                    temp_nu[i, idx] = np.nanmean(self.bg[0]*diff)/np.nanmean(self.bg[0]*tempair[i])
 
             # Add temp_nu to the non-uniformity results data
             nu_res[:, j] = np.mean(temp_nu, axis=1)
 
-        return np.abs(nu_res)
+        return nu_res
 
     @staticmethod
     def intensity_correction(data, air_data):
