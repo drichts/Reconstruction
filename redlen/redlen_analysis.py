@@ -21,7 +21,7 @@ class RedlenAnalyze(Analyze):
         self.mat_a1_files = glob(os.path.join(self.load_dir, '*A1*'))
 
         self.data_a0 = np.squeeze(self.mat_to_npy(self.mat_a0_files[test_num-1]))
-        # self.data_a1 = np.squeeze(self.mat_to_npy(self.mat_a1_files[test_num-1]))
+        self.data_a1 = np.squeeze(self.mat_to_npy(self.mat_a1_files[test_num-1]))
 
         self.data_shape = np.shape(self.data_a0)
         self.num_bins = self.data_shape[0]
@@ -38,8 +38,7 @@ class RedlenAnalyze(Analyze):
 
         return just_data
 
-    @staticmethod
-    def stitch_a0a1(a0, a1):
+    def stitch_a0a1(self):
         """
         This function will take the counts from the two modules and assembles one numpy array
         [capture, bin, view, row, column]
@@ -47,9 +46,16 @@ class RedlenAnalyze(Analyze):
         :param a1: The A1 data array
         :return: The combined array
         """
-        data_shape = np.array(np.shape(a0))  # Get the shape of the data files
-        ax = len(data_shape) - 1  # We are combining more column data, so get that axis
-        both_mods = np.concatenate((a0, a1), axis=ax)
+        data_shape = np.array(np.shape(self.data_a0))  # Get the shape of the data files
+        new_shape = list(data_shape)
+        new_shape[-1] = 2*data_shape[-1]
+
+        a0 = self.data_a0[..., :, :, ::-1]  # Flip horizontally
+        a1 = self.data_a1[..., :, ::-1, :]  # Flip vertically
+        both_mods = np.zeros(new_shape)
+
+        both_mods[..., :, :, 0:36] = a0
+        both_mods[..., :, :, 36:] = a1
 
         return both_mods
 

@@ -12,21 +12,6 @@ class VisibilityError(Exception):
 
 class AnalyzeUniformity(RedlenAnalyze):
 
-    # def __new__(cls, folder, air_folder, filepath=None, test_num=1, mm='M20358_D32',
-    #             load_dir=r'X:\TEST LOG\MINI MODULE\Canon', save_dir=r'C:\Users\10376\Documents\Phantom Data'):
-    #     if filepath:
-    #         with open(filepath, 'rb') as f:
-    #             unpickler = pickle.Unpickler(f)
-    #             inst = unpickler.load()
-    #             f.close()
-    #         if not isinstance(inst, cls):
-    #             raise TypeError('Unpickled object is not of type {}'.format(cls))
-    #         print('Loaded')
-    #     else:
-    #         inst = super(AnalyzeUniformity, cls).__new__(cls)
-    #         print('New')
-    #     return inst
-
     def __init__(self, folder, air_folder, test_num=1, mm='M20358_D32', load_dir=r'X:\TEST LOG\MINI MODULE\Canon',
                  save_dir=r'C:\Users\10376\Documents\Phantom Data'):
 
@@ -44,6 +29,8 @@ class AnalyzeUniformity(RedlenAnalyze):
 
         self.masks = []
         self.bg = []
+        self.small_phantom = False
+        self.visible_bin = 12
 
         if 'Masks.npz' in os.listdir(self.save_dir):
             self.masks = np.load(os.path.join(self.save_dir, 'Masks.npz'), allow_pickle=True)['mask']
@@ -51,14 +38,10 @@ class AnalyzeUniformity(RedlenAnalyze):
         else:
             self.get_masks()
 
-        # CNR vs. time, noise vs. time <pixels, time, bin, value or error (0 or 1)>
-        self.cnr_time, self.noise_time = self.analyze_cnr_noise()
-        # Reorganize to <pixels, bin, value or error, time>
-        self.cnr_time = np.transpose(self.cnr_time, axes=(0, 2, 3, 1))
-        self.noise_time = np.transpose(self.noise_time, axes=(0, 2, 3, 1))
-
-        # Save the object
-        self.save_object(self.filename)
+        self.cnr_time, self.noise_time = [], []
+        self.counts = []
+        self.rel_uniformity = []
+        self.air_noise = []
 
     def get_masks(self):
         """This function gets the contrast mask and background mask for all pixel aggregations"""
@@ -170,6 +153,12 @@ class AnalyzeUniformity(RedlenAnalyze):
 
             # Collect the frames aggregated over, the noise and cnr and save
             cnr_vals[p], noise[p] = self.avg_cnr_noise_over_all_frames(data_pxp, air_pxp, self.masks[p], self.bg[p])
+
+        # CNR vs. time, noise vs. time <pixels, time, bin, value or error (0 or 1)>
+        self.cnr_time, self.noise_time = cnr_vals, noise
+        # Reorganize to <pixels, bin, value or error, time>
+        self.cnr_time = np.transpose(self.cnr_time, axes=(0, 2, 3, 1))
+        self.noise_time = np.transpose(self.noise_time, axes=(0, 2, 3, 1))
 
         return cnr_vals, noise
 
@@ -337,8 +326,32 @@ class AnalyzeUniformity(RedlenAnalyze):
 
             # Add temp_cts to the counts results, averaging over all different frames
             counts[:, j] = np.mean(temp_cts, axis=1)
+            self.counts = counts
 
         return counts
+
+    def get_air_noise(self):
+        """This function will get the noise in the airscan image at all bins and all times in self.frames"""
+        # The results of the test
+        air_noise = np.zeros([self.num_bins, len(self.frames)])
+        # Go through each frame in frames
+        for j, frame in enumerate(self.frames):
+            temp_an = np.zeros([self.num_bins, int(1000 / frame)])  # Collect data for all bins
+            for idx, data_idx in enumerate(np.arange(0, 1001 - frame, frame)):
+                if frame == 1:
+                    tempair = self.air_data.data_a0[:, data_idx]
+                else:
+                    tempair = np.sum(self.air_data.data_a0[:, data_idx:data_idx + frame], axis=1)
+
+                for i in np.arange(self.num_bins):
+                    bg_img = self.bg[0]*tempair[i]
+                    temp_an[i, idx] = np.nanstd(bg_img) / np.nanmean(bg_img)
+
+            # Add temp_nu to the non-uniformity results data
+            air_noise[:, j] = np.mean(temp_an, axis=1)
+            self.air_noise = air_noise
+
+        return air_noise
 
     def non_uniformity(self, pixel):
         """
@@ -365,6 +378,7 @@ class AnalyzeUniformity(RedlenAnalyze):
 
             # Add temp_nu to the non-uniformity results data
             nu_res[:, j] = np.mean(temp_nu, axis=1)
+            self.rel_uniformity = nu_res
 
         return nu_res
 
