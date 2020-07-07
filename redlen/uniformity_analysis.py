@@ -42,6 +42,9 @@ class AnalyzeUniformity(RedlenAnalyze):
         self.counts = []
         self.rel_uniformity = []
         self.air_noise = []
+        self.signal = []
+        self.bg_signal = []
+        self.contrast = []
 
     def get_masks(self):
         """This function gets the contrast mask and background mask for all pixel aggregations"""
@@ -234,73 +237,72 @@ class AnalyzeUniformity(RedlenAnalyze):
 
         return cnr_frames, noise_frames
 
-    def avg_contrast_over_frames(self, data, airdata, mask, bg_mask, frame):
+    def avg_signal_over_frames(self, frame):
         """
-        This function will take the data and airscan and calculate the contrast as a fraction of mean background for
+        This function will take the data and airscan and calculate the signal of the contrast and the background for
         every number of frames and then avg
-        :param data: 4D ndarray, <counters, views, rows, columns>
-                    The phantom data
-        :param airdata: 4D ndarray, <counters, views, rows, columns>
-                    The airscan
-        :param mask: 2D ndarray
-                    The mask of the contrast area
-        :param bg_mask: 2D ndarray
-                    The mask of the background
         :param frame: int
                     The number of frames to avg together
-        :return: four lists with the cnr, cnr error, noise, and std of the noise in each of the bins
+        :return: four lists with the signal, signal error, background signal, and bg signal error in each of the bins
                     (usually 13 elements)
         """
         # Array to hold the cnr for the number of times it will be calculated
-        contrast = np.zeros([len(data), int(1000/frame)])
+        contrast_signal = np.zeros([self.num_bins, int(1000/frame)])
+        bg_signal = np.zeros([self.num_bins, int(1000 / frame)])
 
         # Go over the data views in jumps of the number of frames
         for i, data_idx in enumerate(np.arange(0, 1001-frame, frame)):
             if frame == 1:
-                tempdata = data[:, data_idx]  # Grab the next view
-                tempair = airdata[:, data_idx]
+                tempdata = self.data_a0[:, data_idx]  # Grab the next view
+                tempair = self.air_data.data_a0[:, data_idx]
             else:
-                tempdata = np.sum(data[:, data_idx:data_idx + frame], axis=1)  # Grab the sum of the next 'frames' views
-                tempair = np.sum(airdata[:, data_idx:data_idx + frame], axis=1)
+                # Grab the sum of the next 'frames' views
+                tempdata = np.sum(self.data_a0[:, data_idx:data_idx + frame], axis=1)
+                tempair = np.sum(self.air_data.data_a0[:, data_idx:data_idx + frame], axis=1)
 
             corr_data = self.intensity_correction(tempdata, tempair)  # Correct for air
 
             # Go through each bin and calculate CNR
             for j, img in enumerate(corr_data):
-                background = np.nanmean(img*bg_mask)
-                roi = np.nanmean(img*mask)
-                contrast[j, i] = abs(background - roi)
+                bg_signal[j, i] = np.nanmean(img*self.bg[0])
+                contrast_signal[j, i] = np.nanmean(img*self.masks[0])
 
         # Average over the frames
-        contrast_err = np.std(contrast, axis=1)
-        contrast = np.mean(contrast, axis=1)
+        contrast_signal_err = np.std(contrast_signal, axis=1)
+        contrast_signal = np.mean(contrast_signal, axis=1)
 
-        return contrast, contrast_err
+        bg_signal_err = np.std(bg_signal, axis=1)
+        bg_signal = np.mean(bg_signal, axis=1)
 
-    def avg_contrast_over_all_frames(self, data, airdata, mask, bg_mask):
+        return contrast_signal, contrast_signal_err, bg_signal, bg_signal_err
+
+    def avg_contrast_over_all_frames(self):
         """
         This function will take the data and airscan and calculate the contrast and contrast error over all the frames
-        in the list
-        :param data: 4D ndarray, <counters, views, rows, columns>
-                    The phantom data
-        :param airdata: 4D ndarray, <counters, views, rows, columns>
-                    The airscan
-        :param mask: 2D ndarray
-                    The mask of the contrast area
-        :param bg_mask: 2D ndarray
-                    The mask of the background
+        in the list, and the signal and background signal
         :return:
         """
         # The contrast and contrast error over frames in the list
-        contrast_frames = np.zeros([len(self.frames), len(data), 2])
+        contrast_frames = np.zeros([self.num_bins, 2, len(self.frames)])
+        signal_frames = np.zeros([self.num_bins, 2, len(self.frames)])
+        bg_frames = np.zeros([self.num_bins, 2, len(self.frames)])
 
         for i in np.arange(len(self.frames)):
             # Calculate the contrast
-            c, ce = self.avg_contrast_over_frames(data, airdata, mask, bg_mask, self.frames[i])
-            contrast_frames[i, :, 0] = c   # The ith frames, set first column equal to contrast
-            contrast_frames[i, :, 1] = ce  # The ith frames, set second column equal to contrast error
+            s, se, b, be = self.avg_signal_over_frames(self.frames[i])
+            signal_frames[:, 0, i] = s
+            signal_frames[:, 1, i] = se
+            bg_frames[:, 0, i] = b
+            bg_frames[:, 1, i] = be
 
-        return contrast_frames
+        contrast_frames[:, 0] = np.abs(signal_frames[:, 0] - bg_frames[:, 0])
+        contrast_frames[:, 1] = np.sqrt(signal_frames[:, 1]**2 + bg_frames[:, 1]**2)  # Error propagation
+
+        self.contrast = contrast_frames
+        self.bg_signal = bg_frames
+        self.signal = signal_frames
+
+        return contrast_frames, signal_frames, bg_frames
 
     def cnr_noise_vs_pixels(self):
         """ This function just transposes the cnr and noise data so that the values vs. pixels are the last two
