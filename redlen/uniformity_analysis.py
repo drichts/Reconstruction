@@ -12,17 +12,6 @@ class VisibilityError(Exception):
 
 class AnalyzeUniformity(RedlenAnalyze):
 
-    def __new__(cls, filepath=None, folder='', air_folder='', test_num=1, mm='M20358_D32',
-                load_dir=r'X:\TEST LOG\MINI MODULE\Canon', save_dir=r'C:\Users\10376\Documents\Phantom Data'):
-        if filepath:
-            with open(filepath) as f:
-                inst = pickle.load(f)
-            if not isinstance(inst, cls):
-                raise TypeError('Unpickled object is not of type {}'.format(cls))
-        else:
-            inst = super(AnalyzeUniformity, cls).__new__(cls)
-        return inst
-
     def __init__(self, folder, air_folder, test_num=1, mm='M20358_D32', load_dir=r'X:\TEST LOG\MINI MODULE\Canon',
                  save_dir=r'C:\Users\10376\Documents\Phantom Data'):
 
@@ -40,6 +29,8 @@ class AnalyzeUniformity(RedlenAnalyze):
 
         self.masks = []
         self.bg = []
+        self.small_phantom = False
+        self.visible_bin = 12
 
         if 'Masks.npz' in os.listdir(self.save_dir):
             self.masks = np.load(os.path.join(self.save_dir, 'Masks.npz'), allow_pickle=True)['mask']
@@ -47,14 +38,13 @@ class AnalyzeUniformity(RedlenAnalyze):
         else:
             self.get_masks()
 
-        # CNR vs. time, noise vs. time <pixels, time, bin, value or error (0 or 1)>
-        self.cnr_time, self.noise_time = self.analyze_cnr_noise()
-        # Reorganize to <pixels, bin, value or error, time>
-        self.cnr_time = np.transpose(self.cnr_time, axes=(0, 2, 3, 1))
-        self.noise_time = np.transpose(self.noise_time, axes=(0, 2, 3, 1))
-
-        # Save the object
-        self.save_object(self.filename)
+        self.cnr_time, self.noise_time = [], []
+        self.counts = []
+        self.rel_uniformity = []
+        self.air_noise = []
+        self.signal = []
+        self.bg_signal = []
+        self.contrast = []
 
     def get_masks(self):
         """This function gets the contrast mask and background mask for all pixel aggregations"""
@@ -167,6 +157,12 @@ class AnalyzeUniformity(RedlenAnalyze):
             # Collect the frames aggregated over, the noise and cnr and save
             cnr_vals[p], noise[p] = self.avg_cnr_noise_over_all_frames(data_pxp, air_pxp, self.masks[p], self.bg[p])
 
+        # CNR vs. time, noise vs. time <pixels, time, bin, value or error (0 or 1)>
+        self.cnr_time, self.noise_time = cnr_vals, noise
+        # Reorganize to <pixels, bin, value or error, time>
+        self.cnr_time = np.transpose(self.cnr_time, axes=(0, 2, 3, 1))
+        self.noise_time = np.transpose(self.noise_time, axes=(0, 2, 3, 1))
+
         return cnr_vals, noise
 
     def avg_cnr_noise_over_frames(self, data, airdata, mask, bg_mask, frame):
@@ -241,73 +237,72 @@ class AnalyzeUniformity(RedlenAnalyze):
 
         return cnr_frames, noise_frames
 
-    def avg_contrast_over_frames(self, data, airdata, mask, bg_mask, frame):
+    def avg_signal_over_frames(self, frame):
         """
-        This function will take the data and airscan and calculate the contrast as a fraction of mean background for
+        This function will take the data and airscan and calculate the signal of the contrast and the background for
         every number of frames and then avg
-        :param data: 4D ndarray, <counters, views, rows, columns>
-                    The phantom data
-        :param airdata: 4D ndarray, <counters, views, rows, columns>
-                    The airscan
-        :param mask: 2D ndarray
-                    The mask of the contrast area
-        :param bg_mask: 2D ndarray
-                    The mask of the background
         :param frame: int
                     The number of frames to avg together
-        :return: four lists with the cnr, cnr error, noise, and std of the noise in each of the bins
+        :return: four lists with the signal, signal error, background signal, and bg signal error in each of the bins
                     (usually 13 elements)
         """
         # Array to hold the cnr for the number of times it will be calculated
-        contrast = np.zeros([len(data), int(1000/frame)])
+        contrast_signal = np.zeros([self.num_bins, int(1000/frame)])
+        bg_signal = np.zeros([self.num_bins, int(1000 / frame)])
 
         # Go over the data views in jumps of the number of frames
         for i, data_idx in enumerate(np.arange(0, 1001-frame, frame)):
             if frame == 1:
-                tempdata = data[:, data_idx]  # Grab the next view
-                tempair = airdata[:, data_idx]
+                tempdata = self.data_a0[:, data_idx]  # Grab the next view
+                tempair = self.air_data.data_a0[:, data_idx]
             else:
-                tempdata = np.sum(data[:, data_idx:data_idx + frame], axis=1)  # Grab the sum of the next 'frames' views
-                tempair = np.sum(airdata[:, data_idx:data_idx + frame], axis=1)
+                # Grab the sum of the next 'frames' views
+                tempdata = np.sum(self.data_a0[:, data_idx:data_idx + frame], axis=1)
+                tempair = np.sum(self.air_data.data_a0[:, data_idx:data_idx + frame], axis=1)
 
             corr_data = self.intensity_correction(tempdata, tempair)  # Correct for air
 
             # Go through each bin and calculate CNR
             for j, img in enumerate(corr_data):
-                background = np.nanmean(img*bg_mask)
-                roi = np.nanmean(img*mask)
-                contrast[j, i] = abs(background - roi)
+                bg_signal[j, i] = np.nanmean(img*self.bg[0])
+                contrast_signal[j, i] = np.nanmean(img*self.masks[0])
 
         # Average over the frames
-        contrast_err = np.std(contrast, axis=1)
-        contrast = np.mean(contrast, axis=1)
+        contrast_signal_err = np.std(contrast_signal, axis=1)
+        contrast_signal = np.mean(contrast_signal, axis=1)
 
-        return contrast, contrast_err
+        bg_signal_err = np.std(bg_signal, axis=1)
+        bg_signal = np.mean(bg_signal, axis=1)
 
-    def avg_contrast_over_all_frames(self, data, airdata, mask, bg_mask):
+        return contrast_signal, contrast_signal_err, bg_signal, bg_signal_err
+
+    def avg_contrast_over_all_frames(self):
         """
         This function will take the data and airscan and calculate the contrast and contrast error over all the frames
-        in the list
-        :param data: 4D ndarray, <counters, views, rows, columns>
-                    The phantom data
-        :param airdata: 4D ndarray, <counters, views, rows, columns>
-                    The airscan
-        :param mask: 2D ndarray
-                    The mask of the contrast area
-        :param bg_mask: 2D ndarray
-                    The mask of the background
+        in the list, and the signal and background signal
         :return:
         """
         # The contrast and contrast error over frames in the list
-        contrast_frames = np.zeros([len(self.frames), len(data), 2])
+        contrast_frames = np.zeros([self.num_bins, 2, len(self.frames)])
+        signal_frames = np.zeros([self.num_bins, 2, len(self.frames)])
+        bg_frames = np.zeros([self.num_bins, 2, len(self.frames)])
 
         for i in np.arange(len(self.frames)):
             # Calculate the contrast
-            c, ce = self.avg_contrast_over_frames(data, airdata, mask, bg_mask, self.frames[i])
-            contrast_frames[i, :, 0] = c   # The ith frames, set first column equal to contrast
-            contrast_frames[i, :, 1] = ce  # The ith frames, set second column equal to contrast error
+            s, se, b, be = self.avg_signal_over_frames(self.frames[i])
+            signal_frames[:, 0, i] = s
+            signal_frames[:, 1, i] = se
+            bg_frames[:, 0, i] = b
+            bg_frames[:, 1, i] = be
 
-        return contrast_frames
+        contrast_frames[:, 0] = np.abs(signal_frames[:, 0] - bg_frames[:, 0])
+        contrast_frames[:, 1] = np.sqrt(signal_frames[:, 1]**2 + bg_frames[:, 1]**2)  # Error propagation
+
+        self.contrast = contrast_frames
+        self.bg_signal = bg_frames
+        self.signal = signal_frames
+
+        return contrast_frames, signal_frames, bg_frames
 
     def cnr_noise_vs_pixels(self):
         """ This function just transposes the cnr and noise data so that the values vs. pixels are the last two
@@ -316,13 +311,55 @@ class AnalyzeUniformity(RedlenAnalyze):
         noise_pixel = np.transpose(self.noise_time, axes=(0, 4, 2, 3, 1))
         return cnr_pixel, noise_pixel
 
-    def non_uniformity(self, pixel1, pixel2):
+    def mean_counts(self):
+        """This function gets the mean counts within the airscan for all times in frames for all bins"""
+        counts = np.zeros([self.num_bins, len(self.frames)])
+        for j, frame in enumerate(self.frames):
+            temp_cts = np.zeros([self.num_bins, int(1000 / frame)])  # Collect data for all bins
+            # Get every frame number of frames and sum, over the entire view range
+            for idx, data_idx in enumerate(np.arange(0, 1001 - frame, frame)):
+                if frame == 1:
+                    tempair = self.air_data.data_a0[:, data_idx]
+                else:
+                    tempair = np.sum(self.air_data.data_a0[:, data_idx:data_idx + frame], axis=1)
+
+                for i in np.arange(self.num_bins):
+                    temp_cts[i, idx] = np.nanmean(tempair[i]*self.bg[0])
+
+            # Add temp_cts to the counts results, averaging over all different frames
+            counts[:, j] = np.mean(temp_cts, axis=1)
+            self.counts = counts
+
+        return counts
+
+    def get_air_noise(self):
+        """This function will get the noise in the airscan image at all bins and all times in self.frames"""
+        # The results of the test
+        air_noise = np.zeros([self.num_bins, len(self.frames)])
+        # Go through each frame in frames
+        for j, frame in enumerate(self.frames):
+            temp_an = np.zeros([self.num_bins, int(1000 / frame)])  # Collect data for all bins
+            for idx, data_idx in enumerate(np.arange(0, 1001 - frame, frame)):
+                if frame == 1:
+                    tempair = self.air_data.data_a0[:, data_idx]
+                else:
+                    tempair = np.sum(self.air_data.data_a0[:, data_idx:data_idx + frame], axis=1)
+
+                for i in np.arange(self.num_bins):
+                    bg_img = self.bg[0]*tempair[i]
+                    temp_an[i, idx] = np.nanstd(bg_img) / np.nanmean(bg_img)
+
+            # Add temp_nu to the non-uniformity results data
+            air_noise[:, j] = np.mean(temp_an, axis=1)
+            self.air_noise = air_noise
+
+        return air_noise
+
+    def non_uniformity(self, pixel):
         """
         This function finds the relative difference between 2 pixels over time
-        :param pixel1: tuple
-                    The first pixel coordinates
-        :param pixel2: tuple
-                    The second pixel coordinates
+        :param pixel: tuple
+                    The pixel coordinates
         :return:
         """
         # The results of the test
@@ -337,12 +374,15 @@ class AnalyzeUniformity(RedlenAnalyze):
                     tempair = np.sum(self.air_data.data_a0[:, data_idx:data_idx + frame], axis=1)
 
                 for i in np.arange(self.num_bins):
-                    temp_nu[i, idx] = (tempair[(i, *pixel1)] - tempair[(i, *pixel2)])/np.nanmean(self.bg[0]*tempair[i])
+                    px_val = tempair[(i, *pixel)]
+                    diff = np.abs(np.subtract(tempair[i], px_val))
+                    temp_nu[i, idx] = np.nanmean(self.bg[0]*diff)/np.nanmean(self.bg[0]*tempair[i])
 
             # Add temp_nu to the non-uniformity results data
             nu_res[:, j] = np.mean(temp_nu, axis=1)
+            self.rel_uniformity = nu_res
 
-        return np.abs(nu_res)
+        return nu_res
 
     @staticmethod
     def intensity_correction(data, air_data):
