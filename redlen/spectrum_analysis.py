@@ -1,5 +1,6 @@
 import numpy as np
 from glob import glob
+import matplotlib.pyplot as plt
 from redlen.redlen_analysis import RedlenAnalyze
 import os
 
@@ -16,12 +17,12 @@ class AnalyzeSpectrum(RedlenAnalyze):
         self.save_dir = os.path.join(save_dir, 'Spectrum', folder)
         print(self.save_dir)
         os.makedirs(self.save_dir, exist_ok=True)
-        self.filename = f'Run{test_num}Spectrum.pk1'
+        self.filename = f'Run{test_num+1}Spectrum.pk1'
 
         self.num_pts = np.shape(self.data_a0)[1]
         self.au_to_kev = 0.72
 
-        self.energy = np.linspace(1, self.num_pts)*self.au_to_kev
+        self.energy = np.arange(1, self.num_pts+1)*self.au_to_kev
         self.spectrum = self.get_spectrum()
 
     def get_spectrum(self):
@@ -30,13 +31,12 @@ class AnalyzeSpectrum(RedlenAnalyze):
         :param data: The data matrix: form [bin, time, view, row, column])
         :return: Array of the counts at each AU value, sec counts and cc counts
         """
-        spectrum = np.zeros([self.num_bins, self.num_pts])
+        spectrum = np.zeros([self.num_pts])
 
         for i in np.arange(self.num_pts):
             # This finds the median pixel in each capture
-            temp = np.squeeze(np.median(self.data_a0[:, i], axis=[1, 2]))
+            temp = np.squeeze(np.median(np.sum(self.data_a0[6:11, i], axis=0)))
 
-            spectrum = np.add(spectrum, temp)
-
+            spectrum[i] = temp
         return spectrum
 
