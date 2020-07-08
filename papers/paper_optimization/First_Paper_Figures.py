@@ -354,18 +354,18 @@ def fig4(save=False):
 
     # Get Al data
     for i, folder in enumerate(folders[0:3]):
-        mean_2Al[i, :, :] = np.load(directory + folder + '/Mean_Signal.npy')
-        std_2Al[i, :, :] = np.load(directory + folder + '/Std_Signal.npy')
+        mean_2Al[i, :, :] = np.load(directory + folder + '/Mean_Signal_1Norm.npy')
+        std_2Al[i, :, :] = np.load(directory + folder + '/Std_Signal_1Norm.npy')
 
     # Get 0.5 Cu data
     for i, folder in enumerate(folders[3:6]):
-        mean_05Cu[i, :, :] = np.load(directory + folder + '/Mean_Signal.npy')
-        std_05Cu[i, :, :] = np.load(directory + folder + '/Std_Signal.npy')
+        mean_05Cu[i, :, :] = np.load(directory + folder + '/Mean_Signal_1Norm.npy')
+        std_05Cu[i, :, :] = np.load(directory + folder + '/Std_Signal_1Norm.npy')
 
     # Get 1.0 Cu data
     for i, folder in enumerate(folders[6:9]):
-        mean_1Cu[i, :, :] = np.load(directory + folder + '/Mean_Signal.npy')
-        std_1Cu[i, :, :] = np.load(directory + folder + '/Std_Signal.npy')
+        mean_1Cu[i, :, :] = np.load(directory + folder + '/Mean_Signal_1Norm.npy')
+        std_1Cu[i, :, :] = np.load(directory + folder + '/Std_Signal_1Norm.npy')
 
     # First plot 0.5 Cu 16-50 keV, Signal vs. Concentration
     zeros_mean = mean_05Cu[:, 0, 0]
@@ -514,14 +514,14 @@ def fig4(save=False):
         plt.close()
 
 
-def fig5(plus, save=False):
+def fig5(z, save=False):
     # Figure 5
     zed = '2-1'
-    m = 13
-    mmin, mmax = 0.3, 3.6
+    m = z
+    mmin, mmax = 0, 3.6
 
-    img5p = np.load(directory + folders[1] + '/Normed K-Edge/Bin' + zed + '_Slice' + str(m - plus) + '.npy')
-    img3p = np.load(directory + folders[4] + '/Normed K-Edge/Bin' + zed + '_Slice' + str(m) + '.npy')
+    img5p = np.load(directory + folders[1] + '/Normed K-Edge/Bin' + zed + '_Slice' + str(m) + '.npy')
+    img3p = np.load(directory + folders[4] + '/Normed K-Edge/Bin' + zed + '_Slice' + str(m-8) + '.npy')
     img1p = np.load(directory + folders[7] + '/Normed K-Edge/Bin' + zed + '_Slice' + str(m) + '.npy')
 
     fig, ax = plt.subplots(2, 3, figsize=(6.75, 5))
@@ -574,10 +574,9 @@ def fig5(plus, save=False):
 
     zed = '4-3'
 
-    mmin = 0.1
-    img5p = np.load(directory + folders[1] + '/Normed K-Edge/Bin' + zed + '_Slice' + str(m - plus) + '.npy')
-    img3p = np.load(directory + folders[4] + '/Normed K-Edge/Bin' + zed + '_Slice' + str(m - plus - 3) + '.npy')
-    img1p = np.load(directory + folders[7] + '/Normed K-Edge/Bin' + zed + '_Slice' + str(m - 1) + '.npy')
+    img5p = np.load(directory + folders[1] + '/Normed K-Edge/Bin' + zed + '_Slice' + str(m) + '.npy')
+    img3p = np.load(directory + folders[4] + '/Normed K-Edge/Bin' + zed + '_Slice' + str(m-6) + '.npy')
+    img1p = np.load(directory + folders[7] + '/Normed K-Edge/Bin' + zed + '_Slice' + str(m) + '.npy')
 
     im3 = ax[1, 0].imshow(img5p, cmap=cmap3, vmin=mmin, vmax=mmax)
     ax[1, 0].grid(False)
@@ -724,14 +723,14 @@ def fig6(save=False):
     plt.subplots_adjust(bottom=0.23, wspace=0.1, top=0.85, right=0.95)
     plt.show()
     if save:
-        plt.savefig(directory + 'Paper 1 Figures/Fig6.png', dpi=500)
+        plt.savefig(directory + 'Paper 1 Figures/Fig6_plot.png', dpi=500)
         plt.close()
 
 
-def fig6_img(save=False):
+def fig6_img(z, save=False):
     # Figure 6 Bin Width
-    m = 15
-    mmin, mmax = -0.1, 4
+    m = 14
+    mmin, mmax = 0, 3.5
 
     imgAu = np.load(directory + folders[21] + '/Normed K-Edge/Bin4-3_Slice' + str(m) + '.npy')
     imgGd = np.load(directory + folders[20] + '/Normed K-Edge/Bin1-0_Slice' + str(m) + '.npy')
@@ -743,7 +742,7 @@ def fig6_img(save=False):
     ax1.set_xticks([])
     ax1.set_yticks([])
 
-    im0 = ax[0].imshow(imgGd, cmap=cmap1, vmin=mmin, vmax=mmax)
+    im0 = ax[0].imshow(imgGd, cmap=cmap1, vmin=mmin+0.1, vmax=mmax)
     ax[0].grid(False)
     ax[0].set_xticks([])
     ax[0].set_yticks([])
@@ -762,13 +761,13 @@ def fig6_img(save=False):
     cax0 = d0.append_axes("right", size="5%", pad=0.05)
     cax0.tick_params(labelsize=15)
     plt.colorbar(im0, cax=cax0)
-    h0 = cax0.set_ylabel('Concentration', fontsize=16, labelpad=25)
-    h0.set_rotation(-90)
+    #h0 = cax0.set_ylabel('Concentration', fontsize=16, labelpad=25)
+    #h0.set_rotation(-90)
 
     cax1 = d1.append_axes("right", size="5%", pad=0.05)
     cax1.tick_params(labelsize=15)
     plt.colorbar(im1, cax=cax1)
-    h1 = cax1.set_ylabel('Concentration', fontsize=16, labelpad=25)
+    h1 = cax1.set_ylabel('Concentration (%)', fontsize=16, labelpad=25)
     h1.set_rotation(-90)
 
     plt.subplots_adjust(top=0.88,
@@ -776,10 +775,10 @@ def fig6_img(save=False):
                         left=0.025,
                         right=0.9,
                         hspace=0.2,
-                        wspace=0.2)
+                        wspace=0)
     plt.show()
     if save:
-        plt.savefig(directory + 'Paper 1 Figures/K-Edge-Bin.png', dpi=500)
+        plt.savefig(directory + 'Paper 1 Figures/Fig6_img.png', dpi=500)
         plt.close()
 
 
@@ -812,7 +811,7 @@ def fig7(save=False):
         ax[i].set_xticklabels(['Au', 'Lu', 'Dy', 'Gd'])
         ax[i].set_title(titles[i], fontsize=16)
         ax[i].tick_params(labelsize=15)
-        ax[i].set_ylim([0, 24])
+        #ax[i].set_ylim([0, 24])
 
         # Add pattern to the specific element bars
         for bar, texture in zip(bars, textures):
@@ -828,15 +827,15 @@ def fig7(save=False):
         plt.close()
 
 
-def fig7_img(save=False):
+def fig7_img(z, save=False):
     # Figure 7 Images
     ked = '4-3'
-    m = 17
-    mmin, mmax = 0, 4
+    m = z
+    mmin, mmax = 0.1, 3.5
 
-    img1s = np.load(directory + time_folders[2] + '/Normed K-Edge/Bin' + ked + '_Slice' + str(m + 1) + '.npy')
-    img05s = np.load(directory + time_folders[1] + '/Normed K-Edge/Bin' + ked + '_Slice' + str(m - 2) + '.npy')
-    img01s = np.load(directory + time_folders[0] + '/Normed K-Edge/Bin' + ked + '_Slice' + str(m) + '.npy')
+    img1s = np.load(directory + time_folders[2] + '/Normed K-Edge/Bin' + ked + '_Slice' + str(m) + '.npy')
+    img05s = np.load(directory + time_folders[1] + '/Normed K-Edge/Bin' + ked + '_Slice' + str(m) + '.npy')
+    img01s = np.load(directory + time_folders[0] + '/Normed K-Edge/Bin' + ked + '_Slice' + str(m - 1) + '.npy')
 
     fig, ax = plt.subplots(1, 3, figsize=(6.75, 3))
     ax1 = fig.add_subplot(111, frameon=False)
@@ -883,7 +882,7 @@ def fig7_img(save=False):
     cax2 = d2.append_axes("right", size="5%", pad=0.05)
     cax2.tick_params(labelsize=15)
     plt.colorbar(im2, cax=cax2)
-    h2 = cax2.set_ylabel('Concentration', fontsize=16, labelpad=25)
+    h2 = cax2.set_ylabel('Concentration (%)', fontsize=16, labelpad=25)
     h2.set_rotation(-90)
 
     plt.subplots_adjust(top=0.88,

@@ -10,7 +10,8 @@ class Analyze:
         self.save_dir = os.path.join(save_dir, folder)
         os.makedirs(save_dir, exist_ok=True)
 
-    def cnr(self, image, contrast_mask, background_mask):
+    @staticmethod
+    def cnr(image, contrast_mask, background_mask):
         """
         This function calculates the CNR of an ROI given the image, the ROI mask, and the background mask
         It also gives the CNR error

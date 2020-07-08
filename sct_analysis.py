@@ -9,30 +9,29 @@ import os
 from analysis import Analyze
 
 
-class PCCT_Analyze(Analyze):
+class AnalyzePCCT(Analyze):
     def __init__(self, folder, load_dir=r'D:\Research\sCT Scan Data', save_dir=r'D:\Research\Python Data\Spectral CT'):
         self.folder = folder
         self.load_dir = os.path.join(load_dir, folder)
         self.save_dir = os.path.join(save_dir, folder)
         os.makedirs(save_dir, exist_ok=True)
+        #self.mat_to_npy()
 
-    def main(self, folder, slice_num='15', directory='D:/Research/Python Data/Spectral CT/', cc=False, re_analyze=False):
+    def normal_analysis(self, slice_num='15', cc=False, reanalyze=False):
         """
-        Function takes the folder name, converts the .mat files to .npy files, gets the ROIs for all the vials, normalizes
-        the images, and calculates all k_edges
-        :param folder:
-        :param slice_num:
-        :param directory:
+        Function gets the ROIs for all the vials, normalizes the images, and calculates all k_edges
+        :param slice_num: The slice number to look at for getting the masks
         :param cc: True if collecting cc data as well
+        :param reanalyze: True if reanalyzing data using the same masks
         :return:
         """
-        mat_to_npy(folder, cc=cc)
-        image = np.load(directory + folder + '/RawSlices/Bin6_Slice' + slice_num + '.npy')
+
+        image = np.load(self.save_dir + '/RawSlices/Bin6_Slice' + slice_num + '.npy')
         continue_flag = True
-        if re_analyze:
+        if reanalyze:
             continue_flag = False
-            masks = np.load(directory + folder + '/Vial_Masks.npy')
-            phantom_mask = np.load(directory + folder + '/Phantom_Mask.npy')
+            masks = np.load(self.save_dir + '/Vial_Masks.npy')
+            phantom_mask = np.load(self.save_dir + '/Phantom_Mask.npy')
 
         while continue_flag:
             masks = grm.phantom_ROIs(image, radius=7)
@@ -40,12 +39,12 @@ class PCCT_Analyze(Analyze):
             if val is 'y':
                 continue_flag = False
 
-        np.save(directory + folder + '/Vial_Masks.npy', masks)
+        np.save(self.save_dir + '/Vial_Masks.npy', masks)
 
-        normalize(folder, cc=cc)
+        self.normalize(0.2, cc=cc)
 
         continue_flag = True
-        if re_analyze:
+        if reanalyze:
             continue_flag = False
 
         while continue_flag:
@@ -53,52 +52,40 @@ class PCCT_Analyze(Analyze):
             val = input('Were the ROIs acceptable? (y/n)')
             if val is 'y':
                 continue_flag = False
-        np.save(directory + folder + '/Phantom_Mask.npy', phantom_mask)
-        k_edge(folder, 4, 3)
-        k_edge(folder, 3, 2)
-        k_edge(folder, 2, 1)
-        k_edge(folder, 1, 0)
+        np.save(self.save_dir + '/Phantom_Mask.npy', phantom_mask)
+        self.k_edge(4, 3)
+        self.k_edge(3, 2)
+        self.k_edge(2, 1)
+        self.k_edge(1, 0)
 
         if cc:
-            k_edge(folder, 11, 10)  # CC 4, 3
-            k_edge(folder, 10, 9)  # CC 3, 2
-            k_edge(folder, 9, 8)  # CC 2, 1
-            k_edge(folder, 8, 7)  # CC 1, 0
+            self.k_edge(11, 10)  # CC 4, 3
+            self.k_edge(10, 9)  # CC 3, 2
+            self.k_edge(9, 8)  # CC 2, 1
+            self.k_edge(8, 7)  # CC 1, 0
 
 
     def mat_to_npy(self, old=False, cc=False):
         """
         This function takes the .mat files generated in Matlab and extracts each slice of each bin and saves it as an
         .npy file in the Python data folder
-        :param folder: The specific scan folder desired
-        :param load_directory: The directory where the specific folder with the .mat files is
-        :param save_directory: The directory where we want to save the .npy files
         :param old: This is just for reanalyzing the very first few scans I ever took, typically won't use it
         :param cc: True if you also want to collect the cc data
         :return: Nothing
         """
-
-        path = load_directory + folder
-        save_path = save_directory + folder
-
-        # Create the folder if necessary
-        gof.create_folder(folder_name=folder, directory_path=save_directory)
-
-        # Create the RawSlices folder within the folder
-        gof.create_folder(folder_name='RawSlices', directory_path=save_path)
-
-        # Update the save_path
-        save_path = save_path + '/RawSlices/'
+        path = self.load_dir
+        save_path = os.path.join(self.save_dir, 'RawSlices')
+        os.makedirs(save_path, exist_ok=True)
 
         if old:
             # This is just for the first couple scans I ever did, probably won't need this
-            s0 = loadmat(self.load_dir + '/binSEC0_multiplex_corrected2.mat')['Reconimg'] # bin 0
-            s1 = loadmat(self.load_dir + '/binSEC1_multiplex_corrected2.mat')['Reconimg']  # bin 1
-            s2 = loadmat(self.load_dir + '/binSEC2_multiplex_corrected2.mat')['Reconimg']  # bin 2
-            s3 = loadmat(self.load_dir + '/binSEC3_multiplex_corrected2.mat')['Reconimg']  # bin 3
-            s4 = loadmat(self.load_dir + '/binSEC4_multiplex_corrected2.mat')['Reconimg']  # bin 4
-            s5 = loadmat(self.load_dir + '/binSEC5_multiplex_corrected2.mat')['Reconimg']  # bin 5
-            s6 = loadmat(self.load_dir + '/binSEC6_multiplex_corrected2.mat')['Reconimg']  # bin 6 (summed bin)
+            s0 = loadmat(path + '/binSEC0_multiplex_corrected2.mat')['Reconimg'] # bin 0
+            s1 = loadmat(path + '/binSEC1_multiplex_corrected2.mat')['Reconimg']  # bin 1
+            s2 = loadmat(path + '/binSEC2_multiplex_corrected2.mat')['Reconimg']  # bin 2
+            s3 = loadmat(path + '/binSEC3_multiplex_corrected2.mat')['Reconimg']  # bin 3
+            s4 = loadmat(path + '/binSEC4_multiplex_corrected2.mat')['Reconimg']  # bin 4
+            s5 = loadmat(path + '/binSEC5_multiplex_corrected2.mat')['Reconimg']  # bin 5
+            s6 = loadmat(path + '/binSEC6_multiplex_corrected2.mat')['Reconimg']  # bin 6 (summed bin)
 
         else:
             s0 = loadmat(path + '/data/binSEC1_test_corrected2_revisit.mat')['Reconimg']  # bin 0
@@ -108,15 +95,6 @@ class PCCT_Analyze(Analyze):
             s4 = loadmat(path + '/data/binSEC5_test_corrected2_revisit.mat')['Reconimg']  # bin 4
             s5 = loadmat(path + '/data/binSEC6_test_corrected2_revisit.mat')['Reconimg']  # bin 5
             s6 = loadmat(path + '/data/binSEC13_test_corrected2_revisit.mat')['Reconimg']  # bin 6 (summed bin)
-
-        # Grab just the colormap matrices
-        s0 = s0['Reconimg']
-        s1 = s1['Reconimg']
-        s2 = s2['Reconimg']
-        s3 = s3['Reconimg']
-        s4 = s4['Reconimg']
-        s5 = s5['Reconimg']
-        s6 = s6['Reconimg']
 
         # Save each slice separately
         for i in np.arange(24):
@@ -137,20 +115,12 @@ class PCCT_Analyze(Analyze):
             np.save(save_path + '/Bin6_Slice' + str(i) + '.npy', bin6_slice)
 
         if cc:
-            s7 = loadmat(path + '/data/binSEC7_test_corrected2_revisit.mat')  # bin 7
-            s8 = loadmat(path + '/data/binSEC8_test_corrected2_revisit.mat')  # bin 8
-            s9 = loadmat(path + '/data/binSEC9_test_corrected2_revisit.mat')  # bin 9
-            s10 = loadmat(path + '/data/binSEC10_test_corrected2_revisit.mat')  # bin 10
-            s11 = loadmat(path + '/data/binSEC11_test_corrected2_revisit.mat')  # bin 11
-            s12 = loadmat(path + '/data/binSEC12_test_corrected2_revisit.mat')  # bin 12
-
-            # Grab just the colormap matrices
-            s7 = s7['Reconimg']
-            s8 = s8['Reconimg']
-            s9 = s9['Reconimg']
-            s10 = s10['Reconimg']
-            s11 = s11['Reconimg']
-            s12 = s12['Reconimg']
+            s7 = loadmat(path + '/data/binSEC7_test_corrected2_revisit.mat')['Reconimg']  # bin 7
+            s8 = loadmat(path + '/data/binSEC8_test_corrected2_revisit.mat')['Reconimg']  # bin 8
+            s9 = loadmat(path + '/data/binSEC9_test_corrected2_revisit.mat')['Reconimg']  # bin 9
+            s10 = loadmat(path + '/data/binSEC10_test_corrected2_revisit.mat')['Reconimg']  # bin 10
+            s11 = loadmat(path + '/data/binSEC11_test_corrected2_revisit.mat')['Reconimg']  # bin 11
+            s12 = loadmat(path + '/data/binSEC12_test_corrected2_revisit.mat')['Reconimg']  # bin 12
 
             # Save each slice separately
             for i in np.arange(24):
@@ -161,7 +131,6 @@ class PCCT_Analyze(Analyze):
                 bin11_slice = s11[:, :, i]
                 bin12_slice = s12[:, :, i]
 
-
                 np.save(save_path + '/Bin7_Slice' + str(i) + '.npy', bin7_slice)
                 np.save(save_path + '/Bin8_Slice' + str(i) + '.npy', bin8_slice)
                 np.save(save_path + '/Bin9_Slice' + str(i) + '.npy', bin9_slice)
@@ -171,24 +140,22 @@ class PCCT_Analyze(Analyze):
 
         return
 
-
-    def normalize(folder, directory='D:/Research/Python Data/Spectral CT/', cc=False):
+    def normalize(self, water=None, cc=False):
         """
         Normalizes the .npy matrices to HU based on the mean value in the water vial
-        :param folder: The folder where the mask matrices live
-        :param directory:
+        :param water: The water value to normalize to
         :param cc: True if wanting to collect cc data
         :return:
         """
-        path = directory+folder
-        masks = np.load(path + '/Vial_Masks.npy')
-        water_mask = masks[0]  # Water ROI matrix
+        path = self.save_dir
 
-        load_path = path + '/RawSlices/'
-        save_path = path + '/Slices/'
-
-        # Create the Slices folder within the save_path
-        gof.create_folder(folder_name='Slices', directory_path=path)
+        load_path = os.path.join(path, 'RawSlices')
+        water_mask = np.load(load_path + '/Vial_Masks.npy')[0]
+        if water:
+            save_path = os.path.join(path, 'OneNormSlices')
+        else:
+            save_path = os.path.join(path, 'Slices')
+        os.makedirs(save_path, exist_ok=True)
 
         if cc:
             num = 13
@@ -199,19 +166,13 @@ class PCCT_Analyze(Analyze):
             for j in np.arange(24):
                 # Load the specific slice
                 file = 'Bin' + str(i) + '_Slice' + str(j) + '.npy'
-                temp = np.load(load_path+file)
+                temp_img = np.load(load_path+file)
+                if not water:
+                    water = np.nanmean(temp_img*water_mask)
+                temp = self.norm_individual(temp_img, water)  # Normalize the image to HU
+                np.save(os.path.join(save_path, file), temp)  # Save the normalized matrices
 
-                # Get the mean value in the water vial
-                water = np.nanmean(temp * water_mask)
-
-                # Normalize the image to HU
-                temp = norm_individual(temp, water)
-
-                # Save the normalized matrices
-                np.save(save_path+file, temp)
-        return
-
-
+    @staticmethod
     def norm_individual(image, water_value):
         """
         Normalize an individual slice
@@ -226,18 +187,16 @@ class PCCT_Analyze(Analyze):
 
         return image
 
-
-    def image_noise(folder, method='water', directory='D:/Research/Python Data/Spectral CT/', BIN=7, SLICE=0):
+    ##
+    def image_noise(self, method='water', BIN=7, SLICE=0):
         """
         Calculates the image noise of each slice in each bin in either the water ROI or the phantom ROI
-        :param folder: folder where the masks live and the .npy Matrices folder is as well
         :param method: 'water' or 'phantom', whether you want the noise of the phantom or water
-        :param directory:
         :param BIN: optional, if you want a specific bins noise output
         :param SLICE: optional, if you want a specific slice in a bin output
         :return: noise array (7 x 24, bin x slice)
         """
-        path = directory+folder
+        path = self.save_dir
         masks = np.load(path + '/Vial_Masks.npy')
         if method is 'water':
             bg = masks[0]  # Water ROI matrix
@@ -262,24 +221,19 @@ class PCCT_Analyze(Analyze):
         np.save(path + '/Image_Noise_' + method, noise)
         return noise
 
-
-    def k_edge(folder, bin_high, bin_low, directory='D:/Research/Python Data/Spectral CT/'):
+    def k_edge(self, bin_high, bin_low):
         """
-        This function will take all the slices of the two bins and subtract them from one another to get the K-edge images
-        of each slice
-        :param folder: the current folder where the scan files live
+        This function will take all the slices of the two bins and subtract them from one another to get the K-edge
+        images of each slice
         :param bin_high: integer of the higher bin (1-4)
         :param bin_low: integer of the lower bin (0-3)
-        :param directory: shouldn't change, but the directory with all the different scan data
         :return: Nothing, saves the files needed
         """
-        path = directory + folder
+        path = self.save_dir
 
-        path_K = path + '/K-Edge/'
+        path_k = path + '/K-Edge/'
         path_slices = path + '/RawSlices/'
-
-        # Look for the K-Edge folder in the directory, and create it if it isn't there
-        gof.create_folder(folder_name='K-Edge', directory_path=path)
+        os.makedirs(path_slices, exist_ok=True)
 
         # Convert the bin numbers to strings
         bin_high = str(bin_high)
@@ -295,112 +249,33 @@ class PCCT_Analyze(Analyze):
             # Create the K-edge image
             kedge_image = np.subtract(image_high, image_low)
 
-            np.save(path_K + 'Bin' + bin_high + '-' + bin_low + '_Slice' + slice_num + '.npy', kedge_image)
+            np.save(path_k + 'Bin' + bin_high + '-' + bin_low + '_Slice' + slice_num + '.npy', kedge_image)
 
-        return
-
-
-    def airscan_flux(folder, load_directory='D:/Research/sCT Scan Data/',
-                     save_directory='D:/Research/Python Data/Spectral CT/'):
-        """
-        This function calculates the average total flux in the airscan over the detector in each bin and returns an array
-        with the flux in order of bin from SEC0-5, EC
-        :param folder:
-        :param load_directory:
-        :param save_directory:
-        :return:
-        """
-        # These are the bins corresponding to how the files are created in MATLAB
-        matlab_bins = ['1', '2', '3', '4', '5', '6', '13']
-
-        load_path = load_directory + folder + '/air_data/'
-        save_path = save_directory + folder + '/'
-
-        # Array to save the average total flux in each bin
-        total_flux = np.empty(7)
-
-        # Get the average total flux in each bin
-        for i, mbin in enumerate(matlab_bins):
-            files = glob.glob(load_path + '/Bin_' + mbin + '*.mat')
-
-            flux = 0
-            for file in files:
-                data_name = whosmat(file)
-                data = loadmat(file)
-                data = data[data_name[0][0]]
-                # Add the sum of the flux to the total
-                flux += np.nanmean(data)
-
-            # Take the average (half the number of files because there are two modules)
-            flux = flux/(len(files)/2)
-            total_flux[i] = flux
-
-            # Save the total flux array
-            np.save(save_path + 'Airscan_Flux.npy', total_flux)
-
-        return total_flux
-
-
-    def total_image_noise_stats(image, folder, load=False, directory='D:/Research/Python Data/Spectral CT/'):
-        """
-        This function takes the 5 ROI for noise from the directory and calculates the std. dev. in each of the ROIs
-        in the image
-        :param image:
-        :param folder:
-        :param directory:
-        :return:
-        """
-        if load:
-            masks = np.load(directory + folder + '/Noise_Masks.npy')
-        else:
-            continue_flag = True
-            while continue_flag:
-                masks = grm.noise_ROIs(image)
-                val = input('Were the ROIs acceptable? (y/n)')
-                if val is 'y':
-                    continue_flag = False
-
-            np.save(directory + folder + '/Noise_Masks.npy', masks)
-
-        # Initialize an array to hold the std dev from each of the noise ROIs
-        num_masks = len(masks)
-        noise = np.empty(num_masks)
-        for i in np.arange(num_masks):
-            noise_ROI = masks[i]
-
-            noise[i] = np.nanstd(noise_ROI*image)
-
-        # Save the noise matrix to the folder
-        mean_noise = np.mean(noise)
-        std_noise = np.std(noise)
-
-        return mean_noise, std_noise
-
-    def get_ct_cnr(self, z, type='water'):
+    ##
+    def get_ct_cnr(self, z, type_recon='water'):
         """
         Get the cnr for each of the vial ROIs in a specific slice
-        :param folder:
         :param z: Slice to look at
-        :param directory:
+        :param type_recon:
         :return:
         """
 
-        path = directory + folder + '/Slices/'
-        vials = np.load(directory + folder + '/Vial_Masks.npy')
-        back = np.load(directory + folder + '/Phantom_Mask.npy')
+        path = self.save_dir + '/Slices/'
+        vials = np.load(self.save_dir + '/Vial_Masks.npy')
+        back = np.load(self.save_dir + '/Phantom_Mask.npy')
         CNR = np.zeros(len(vials))
         CNR_err = np.zeros(len(vials))
 
         image = np.load(path + 'Bin6_Slice' + str(z) + '.npy')
         for i, vial in enumerate(vials):
-            if type is 'water':
-                CNR[i], CNR_err[i] = cnr(image, vial, vials[0])
+            if type_recon is 'water':
+                CNR[i], CNR_err[i] = self.cnr(image, vial, vials[0])
             else:
-                CNR[i], CNR_err[i] = cnr(image, vial, back)
+                CNR[i], CNR_err[i] = self.cnr(image, vial, back)
 
         return CNR, CNR_err
 
-
+    ##
     def find_least_noise(self, low_slice, high_slice, directory='D:/Research/Python Data/Spectral CT/'):
         """
         Find the slice with the least noise in the summed bin
@@ -411,8 +286,8 @@ class PCCT_Analyze(Analyze):
         :return:
         """
         subfolder = '/Slices/'
-        path = directory + folder + subfolder
-        vials = np.load(directory + folder + '/Vial_Masks.npy')
+        path = self.save_dir + subfolder
+        vials = np.load(self.save_dir + '/Vial_Masks.npy')
         noise_vals = np.zeros(high_slice-low_slice+1)
         for i in np.arange(low_slice, high_slice+1):
             img = np.load(path + 'Bin6_Slice' + str(i) + '.npy')
@@ -421,8 +296,8 @@ class PCCT_Analyze(Analyze):
         idx = np.argmin(noise_vals)
         return idx+low_slice, noise_vals[idx]
 
-
-    def open_ct_image(folder, b, z, show=True, directory='D:/Research/Python Data/Spectral CT/'):
+    ##
+    def open_ct_image(self, folder, b, z, show=True, directory='D:/Research/Python Data/Spectral CT/'):
 
         path = directory + folder + '/Slices/'
 
@@ -433,10 +308,10 @@ class PCCT_Analyze(Analyze):
 
         return img
 
+    ##
+    def open_kedge_image(self, folder, b, z, show=True, colormap=3, directory='D:/Research/Python Data/Spectral CT/'):
 
-    def open_kedge_image(folder, b, z, show=True, colormap=3, directory='D:/Research/Python Data/Spectral CT/'):
-
-        path = directory + folder + '/K-Edge/'
+        path = self.save_dir + '/K-Edge/'
 
         img = np.load(path + 'Bin' + b + '_Slice' + str(z) + '.npy')
         # Create the colormaps
@@ -467,8 +342,8 @@ class PCCT_Analyze(Analyze):
 
         return img
 
-
-    def mean_ROI_value(image, vial):
+    ##
+    def mean_ROI_value(self, image, vial):
 
         # Get the matrix with only the values in the ROI
         value = np.multiply(image, vial)
@@ -478,8 +353,8 @@ class PCCT_Analyze(Analyze):
 
         return mean_val
 
-
-    def find_norm_value(folder, good_slice, vial, edge, subtype=2, directory='D:/Research/Python Data/Spectral CT/'):
+    ##
+    def find_norm_value(self, folder, good_slice, vial, edge, subtype=2, directory='D:/Research/Python Data/Spectral CT/'):
         """
         Find the mean value of the highest concentration and of water to normalize images to concentration
         :param folder:
@@ -522,8 +397,8 @@ class PCCT_Analyze(Analyze):
 
         return water_value, norm_value
 
-
-    def linear_fit(zero_value, norm_value):
+    ##
+    def linear_fit(self, zero_value, norm_value):
         """
         Find a linear fit between 0 and 5% concentration
         :param zero_value: the water value (0%) concentration
@@ -534,15 +409,13 @@ class PCCT_Analyze(Analyze):
 
         return coeffs
 
-
-    def norm_kedge(folder, coeffs, edge, directory='D:/Research/Python Data/Spectral CT/'):
+    ##
+    def norm_kedge(self, coeffs, edge):
         """
         Normalize the k-edge images and save in a new folder (Normed K-Edge)
-        :param folder:
         :param coeffs:
         :param edge: int
                     The K-edge image to look at, 0 = 1-0, 1 = 2-1, 2 = 3-2, 4 = 4-3
-        :param directory:
         :return:
         """
         # Define the specific K-edge
@@ -551,13 +424,10 @@ class PCCT_Analyze(Analyze):
                     2: 'Bin3-2_',
                     3: 'Bin4-3_'}
 
-        path = directory + folder + '/'
-
-        # Create the folder /Normed K-Edge/ if necessary
-        gof.create_folder(folder_name='Normed K-Edge', directory_path=path)
-
-        load_path = path + 'K-Edge/'
-        save_path = path + 'Normed K-Edge/'
+        path = self.save_dir
+        load_path = os.path.join(path, 'K-Edge')
+        save_path = os.path.join(path, 'Normed K-Edge')
+        os.makedirs(save_path, exist_ok=True)
 
         # The linear fit
         l_fit = np.poly1d(coeffs)
@@ -573,6 +443,3 @@ class PCCT_Analyze(Analyze):
             image = l_fit(image)
             # Save the new image in the new location
             np.save(save_path + file, image)
-
-        return
-
