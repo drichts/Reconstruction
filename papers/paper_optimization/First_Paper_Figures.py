@@ -148,7 +148,7 @@ def fig2(save=False):
     energies = energies[:, 0]
     energies = 1000 * energies  # Convert from MeV to keV
 
-    fig, ax = plt.subplots(2, 1, figsize=(6.75, 10))
+    fig, ax = plt.subplots(1, 2, figsize=(12.5, 5))
     ax1 = fig.add_subplot(111, frameon=False)
     ax1.grid(False)
     # Hide axes ticks
@@ -174,11 +174,11 @@ def fig2(save=False):
     ax[0].plot(63.5 * ones, y_vals, color='black', ls='--')
     ax[0].plot(81 * ones, y_vals, color='black', ls='--')
 
-    ax[0].annotate('16 keV', (0.025, 0.83), xycoords='axes fraction', fontsize=15, rotation=90)
-    ax[0].annotate('50 keV', (0.29, 0.83), xycoords='axes fraction', fontsize=15, rotation=90)
-    ax[0].annotate('54 keV', (0.385, 0.83), xycoords='axes fraction', fontsize=15, rotation=90)
-    ax[0].annotate('64 keV', (0.475, 0.83), xycoords='axes fraction', fontsize=15, rotation=90)
-    ax[0].annotate('81 keV', (0.645, 0.83), xycoords='axes fraction', fontsize=15, rotation=90)
+    ax[0].annotate('16 keV', (0.025, 0.95), xycoords='axes fraction', fontsize=14, rotation=90)
+    ax[0].annotate('50 keV', (0.29, 0.95), xycoords='axes fraction', fontsize=14, rotation=90)
+    ax[0].annotate('54 keV', (0.385, 0.95), xycoords='axes fraction', fontsize=14, rotation=90)
+    ax[0].annotate('64 keV', (0.475, 0.95), xycoords='axes fraction', fontsize=14, rotation=90)
+    ax[0].annotate('81 keV', (0.645, 0.95), xycoords='axes fraction', fontsize=14, rotation=90)
 
     bluepatch = mlines.Line2D([0], [1], color='dodgerblue', label='I', linestyle=linesstyles[4], lw=2)
     purplepatch = mlines.Line2D([0], [0], color='darkorchid', label='Gd', linestyle=linesstyles[3], lw=2)
@@ -188,7 +188,7 @@ def fig2(save=False):
     blackpatch = mlines.Line2D([0], [0], color='black', label='H2O', linestyle='-', lw=2)
 
     ax[0].legend(handles=[bluepatch, purplepatch, redpatch, greenpatch, orangepatch, blackpatch], fancybox=True,
-                 shadow=False, fontsize=18, handlelength=2.8)
+                 shadow=False, fontsize=16, handlelength=2.8)
     ax[0].set_xlabel('Energy (keV)', fontsize=18, labelpad=5)
     ax[0].set_ylabel(r"$\mu$ $(cm^{-1})$", fontsize=18)
     ax[0].set_xlim([15, 120])
@@ -218,7 +218,7 @@ def fig2(save=False):
     dashpatch = mlines.Line2D([0], [0], color='black', lw=2, linestyle='--', label='0.5 mm Cu')
     dotpatch = mlines.Line2D([0], [0], color='black', lw=2, linestyle=':', label='1.0 mm Cu')
 
-    ax[1].legend(handles=[linepatch, dashpatch, dotpatch], fancybox=True, shadow=False, fontsize=18)
+    ax[1].legend(handles=[linepatch, dashpatch, dotpatch], fancybox=True, shadow=False, fontsize=16)
 
     ax[1].set_xlabel('Energy (keV)', fontsize=18, labelpad=5)
     ax[1].set_ylabel('Relative Weight', fontsize=18, labelpad=5)
@@ -228,12 +228,7 @@ def fig2(save=False):
     # plt.ylim([0, 3.2E-7])
     ax[1].tick_params(labelsize=16)
     ax[1].set_yticks([])
-    plt.subplots_adjust(top=0.965,
-                        bottom=0.1,
-                        left=0.145,
-                        right=0.96,
-                        hspace=0.27,
-                        wspace=0.2)
+    plt.subplots_adjust(bottom=0.15, left=0.1, right=0.95, wspace=0.15)
     plt.show()
     if save:
         plt.savefig(directory + 'Paper 1 Figures/Fig2.png', dpi=500)
