@@ -157,6 +157,7 @@
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
         <env name="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
       </envs>
       <option name="SDK_HOME" value="C:\Users\drich\Anaconda3\python.exe" />
@@ -498,7 +499,9 @@
       <workItem from="1594075913609" duration="7069000" />
       <workItem from="1594143681453" duration="4362000" />
       <workItem from="1594247084927" duration="2289000" />
-      <workItem from="1594249824224" duration="3813000" />
+      <workItem from="1594249824224" duration="3824000" />
+      <workItem from="1594327961713" duration="2070000" />
+      <workItem from="1594402040312" duration="2638000" />
     </task>
     <task id="LOCAL-00001" summary="Paper Edits">
       <created>1582153406007</created>
@@ -752,7 +755,14 @@
       <option name="project" value="LOCAL" />
       <updated>1594251747069</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="Paper 1 &amp; LDA updates (7/8/20)">
+      <created>1594284971016</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1594284971016</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -835,15 +845,15 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="0" y="165" key="#xdebugger.XInspectDialog/0.0.1536.824@0.0.1536.824" timestamp="1593735373713" />
-    <state x="285" y="14" key="CommitChangelistDialog2" timestamp="1594251745800">
+    <state x="285" y="14" key="CommitChangelistDialog2" timestamp="1594284969480">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="285" y="14" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1594251745800" />
+    <state x="285" y="14" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1594284969480" />
     <state x="585" y="157" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1587582091517" />
-    <state x="592" y="238" key="FileChooserDialogImpl" timestamp="1593821459007">
+    <state x="592" y="238" key="FileChooserDialogImpl" timestamp="1594404308470">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="592" y="238" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1593821459007" />
+    <state x="592" y="238" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1594404308470" />
     <state x="740" y="301" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1587581899942" />
     <state width="1493" height="261" key="GridCell.Tab.0.bottom" timestamp="1591654373305">
       <screen x="0" y="0" width="1536" height="824" />

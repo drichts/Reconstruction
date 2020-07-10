@@ -688,6 +688,11 @@ def fig6(save=False):
     p_Au = np.poly1d(Au_coeffs)
     p_Gd = np.poly1d(Gd_coeffs)
 
+    x1 = np.argmax(p_Au(xpts))
+    x2 = np.argmax(p_Gd(xpts))
+    print(xpts[x1])
+    print(xpts[x2])
+
     # Plot the points
     ax[1].plot(xpts, p_Au(xpts), color=colors[0], lw=2)
     ax[0].plot(xpts, p_Gd(xpts), color=colors[1], lw=2)
@@ -978,6 +983,7 @@ def fig8(save=False):
     plt.tick_params(labelsize=15)
     plt.subplots_adjust(top=0.95, bottom=0.135, left=0.125, right=0.945)
     plt.show()
+    print(stddev)
     if save:
         plt.savefig(directory + 'Paper 1 Figures/Fig8.png', dpi=500)
         plt.close()
