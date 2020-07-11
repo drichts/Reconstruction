@@ -11,19 +11,31 @@ class SizeError(Exception):
 
 class RedlenAnalyze(Analyze):
 
-    def __init__(self, folder, test_num, mm, acquire_type, load_dir):
+    def __init__(self, folder, test_num, mm, acquire_type, load_dir, save_dir):
 
         substring = os.path.join('Raw Test Data', mm, acquire_type)
         self.load_dir = os.path.join(load_dir, mm, folder, substring)
         del substring
 
-        self.mat_a0_files = glob(os.path.join(self.load_dir, '*A0*'))
-        self.mat_a1_files = glob(os.path.join(self.load_dir, '*A1*'))
+        self.save_dir = os.path.join(save_dir, acquire_type, folder)
+        print(self.save_dir)
+        os.makedirs(self.save_dir, exist_ok=True)
+        self.filename = f'TestNum{test_num + 1}.pk1'
 
-        self.data_a0 = np.squeeze(self.mat_to_npy(self.mat_a0_files[test_num-1]))
-        self.data_a1 = np.squeeze(self.mat_to_npy(self.mat_a1_files[test_num-1]))
+        self.data_a0 = os.path.join(self.save_dir, f'TestNum{test_num + 1}_DataA0.npy')
+        self.data_a1 = os.path.join(self.save_dir, f'TestNum{test_num + 1}_DataA1.npy')
 
-        self.data_shape = np.shape(self.data_a0)
+        if not os.path.exists(self.data_a0):
+            mat_a0_files = glob(os.path.join(self.load_dir, '*A0*'))
+            mat_a1_files = glob(os.path.join(self.load_dir, '*A1*'))
+
+            a0 = np.squeeze(self.mat_to_npy(mat_a0_files[test_num-1]))
+            a1 = np.squeeze(self.mat_to_npy(mat_a1_files[test_num-1]))
+
+            np.save(self.data_a0, a0)
+            np.save(self.data_a1, a1)
+
+        self.data_shape = np.shape(np.load(self.data_a0))
         self.num_bins = self.data_shape[0]
 
     @staticmethod
@@ -46,7 +58,8 @@ class RedlenAnalyze(Analyze):
         :param a1: The A1 data array
         :return: The combined array
         """
-        data_shape = np.array(np.shape(self.data_a0))  # Get the shape of the data files
+        data = np.load(self.data_a0)
+        data_shape = np.array(np.shape(data))  # Get the shape of the data files
         new_shape = list(data_shape)
         new_shape[-1] = 2*data_shape[-1]
 

@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import os
 from scipy.interpolate import make_interp_spline as spline
+from redlen.uniformity_analysis import AnalyzeUniformity
 
 
 class VisualizeUniformity:
@@ -27,11 +28,12 @@ class VisualizeUniformity:
     @staticmethod
     def smooth_data(xpts, ypts):
         xsmth = np.linspace(xpts[0], xpts[-1], 1000)
-        spl = spline(xpts, ypts)
-        ysmth = spl(xsmth)
+        coeffs = np.polyfit(xpts, ypts, 3)
+        p = np.poly1d(coeffs)
+        ysmth = p(xsmth)
         return xsmth, ysmth
 
-    def blank_vs_time_six_bins(self, cnr_or_noise, pixel=1, end_time=100, save=False):
+    def blank_vs_time_six_bins(self, cnr_or_noise=0, pixel=1, end_time=100, save=False):
         """
         This function plots CNR or noise over time (up to the end_time) for both CC and SEC bins
         :param cnr_or_noise: int
@@ -47,7 +49,7 @@ class VisualizeUniformity:
 
         pixel_path = f'{pixel}x{pixel} Data'
 
-        if cnr_or_noise == 1:
+        if cnr_or_noise == 0:
             cnr_vals = self.AnalyzeUniformity.cnr_time[px_idx]  # <pixels, bin, val, time>
             path = os.path.join(self.save_dir, 'Plots/CNR vs Time', pixel_path)
         else:
@@ -102,7 +104,7 @@ class VisualizeUniformity:
             plt.pause(5)
             plt.close()
 
-    def blank_vs_pixels_six_bins(self, cnr_or_noise, time=10, save=False):
+    def blank_vs_pixels_six_bins(self, cnr_or_noise=0, time=10, save=False):
         """
         This function plots the 6 energy bins with pixels vs. CNR or noise
         :param cnr_or_noise: int
@@ -114,7 +116,7 @@ class VisualizeUniformity:
         :return:
         """
         titles = self.titles
-        if cnr_or_noise == 1:
+        if cnr_or_noise == 0:
             cnr_vals = self.AnalyzeUniformity.cnr_time  # <pixels, bin, val, time>
             path = os.path.join(self.save_dir, 'Plots/CNR vs Time')
         else:
@@ -145,10 +147,10 @@ class VisualizeUniformity:
         for i, ax in enumerate(axes.flatten()):
             if i < 5:
                 ax.plot(pxs_smth, cnr_smth[i + 5], color='k')
-                ax.plot(pxs_smth, cnr_smth[i], color='r')
+                #ax.plot(pxs_smth, cnr_smth[i], color='r')
                 ax.errorbar(pixels, plot_cnr[i + 5, 0], yerr=plot_cnr[i + 5, 1], fmt='none', color='k')
-                ax.errorbar(pixels, plot_cnr[i, 0], yerr=plot_cnr[i, 1], fmt='none', color='r')
-                ax.legend(['CC', 'SEC'])
+                #ax.errorbar(pixels, plot_cnr[i, 0], yerr=plot_cnr[i, 1], fmt='none', color='r')
+                #ax.legend(['CC', 'SEC'])
             else:
                 ax.plot(pxs_smth, cnr_smth[i], color='k')
                 ax.errorbar(pixels, plot_cnr[-1, 0], yerr=plot_cnr[-1, 1], fmt='none', color='k')
@@ -161,6 +163,44 @@ class VisualizeUniformity:
             #ax.set_title(titles[i])
 
         plt.subplots_adjust(hspace=0.45, bottom=0.17)
+        plt.show()
+
+        if save:
+            plt.savefig(self.save_dir + 'blah.png', dpi=fig.dpi)
+            plt.close()
+        else:
+            plt.pause(5)
+            plt.close()
+
+    def cnr_bar_plot(self, time=10, pixel=1, save=False):
+        """
+        This function plots a bar plot with the CNR at a specific time in each of the six bins
+        :param time: int, optional
+                    The accumulated time to plot in ms, defaults to 10 ms
+        :param pixel: int, optional
+                    The number of aggregated pixels, defaults to 1
+        :param save: boolean, optional
+                    Whether or not to save the figure, defaults to False
+        :return:
+        """
+        fig = plt.figure(figsize=(6, 6))
+        #titles = np.delete(self.titles, 5)
+
+        time_idx = np.squeeze(np.argwhere(self.AnalyzeUniformity.frames == time))
+        pix_idx = np.squeeze(np.argwhere(self.AnalyzeUniformity.pxp == pixel))
+
+        vals = self.AnalyzeUniformity.cnr_time[pix_idx, 6:, 0, time_idx]
+        uncer = self.AnalyzeUniformity.cnr_time[pix_idx, 6:, 1, time_idx]
+
+        vals = np.delete(vals, 5)  # Delete the overflow bin
+        uncer = np.delete(uncer, 5)
+
+        pts = np.arange(6)
+        plt.bar(pts, vals, yerr=uncer, capsize=3)
+        plt.xlabel('Energy bins (keV)')
+        plt.ylabel('CNR')
+        #plt.xticks(pts, titles)
+
         plt.show()
 
         if save:
