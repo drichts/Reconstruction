@@ -4,6 +4,7 @@ import matplotlib.patches as mpatches
 import os
 from scipy.interpolate import make_interp_spline as spline
 from redlen.uniformity_analysis import AnalyzeUniformity
+from general_functions import load_object
 
 
 class VisualizeUniformity:
@@ -11,7 +12,7 @@ class VisualizeUniformity:
         self.AnalyzeUniformity = AnalyzeUniformity
         self.save_dir = os.path.join(self.AnalyzeUniformity.save_dir, 'Figures')
         os.makedirs(self.save_dir, exist_ok=True)
-        self.titles = self.find_titles()
+        self.titles = ['20-30 keV', '30-50 keV', '50-70 keV', '70-90 keV', '90-120 keV', 'EC']
 
     def find_titles(self):
         """Create the plot titles from the energy threshold values"""
@@ -26,11 +27,15 @@ class VisualizeUniformity:
         return titles
 
     @staticmethod
-    def smooth_data(xpts, ypts):
+    def smooth_data(xpts, ypts, cnr_or_noise):
         xsmth = np.linspace(xpts[0], xpts[-1], 1000)
-        coeffs = np.polyfit(xpts, ypts, 3)
-        p = np.poly1d(coeffs)
-        ysmth = p(xsmth)
+        if cnr_or_noise == 2:  # NOISE
+            coeffs = np.polyfit(xpts, ypts, 3)
+            p = np.poly1d(coeffs)
+            ysmth = p(xsmth)
+        else:  # CNR
+            p = spline(xpts, ypts)
+            ysmth = p(xsmth)
         return xsmth, ysmth
 
     def blank_vs_time_six_bins(self, cnr_or_noise=0, pixel=1, end_time=100, save=False):
@@ -60,45 +65,41 @@ class VisualizeUniformity:
         frames = self.AnalyzeUniformity.frames
         titles = self.titles
 
-        end_idx = np.squeeze(np.argwhere(frames == end_time)) + 1  # The index of the last time desired on the plots
-
-        frames = frames[0:end_idx]
-
         plot_cnr = np.zeros([11, 2, len(frames)])
-        plot_cnr[0:5] = cnr_vals[0:5, :, 0:end_idx]  # Get only SEC data up to the frame desired
-        plot_cnr[5:10] = cnr_vals[6:11, :, 0:end_idx]  # Get only CC data up to the frame desired
-        plot_cnr[10] = cnr_vals[12, :, 0:end_idx]  # Get EC bin for summed bin
+        plot_cnr[0:5] = cnr_vals[0:5]  # Get only SEC data up to the frame desired
+        plot_cnr[5:10] = cnr_vals[6:11]  # Get only CC data up to the frame desired
+        plot_cnr[10] = cnr_vals[12]  # Get EC bin for summed bin
 
         # Make some smooth data
         pc_shape = np.shape(plot_cnr)
         cnr_smth = np.zeros([pc_shape[0], 1000])
         for idx, ypts in enumerate(plot_cnr[:, 0]):
-            frms_smth, cnr_smth[idx] = self.smooth_data(frames, ypts)
+            frms_smth, cnr_smth[idx] = self.smooth_data(frames, ypts, cnr_or_noise)
 
         fig, axes = plt.subplots(2, 3, figsize=(8, 6), sharey=True)
         for i, ax in enumerate(axes.flatten()):
             if i < 5:
                 ax.plot(frms_smth, cnr_smth[i+5], color='k')
                 ax.plot(frms_smth, cnr_smth[i], color='r')
-                ax.errorbar(frames, plot_cnr[i+5, 0], yerr=plot_cnr[i+5, 1], fmt='none', color='k')
-                ax.errorbar(frames, plot_cnr[i, 0], yerr=plot_cnr[i, 1], fmt='none', color='r')
+                # ax.errorbar(frames, plot_cnr[i+5, 0], yerr=plot_cnr[i+5, 1], fmt='none', color='k')
+                # ax.errorbar(frames, plot_cnr[i, 0], yerr=plot_cnr[i, 1], fmt='none', color='r')
                 ax.legend(['CC', 'SEC'])
             else:
                 ax.plot(frms_smth, cnr_smth[-1], color='k')
-                ax.errorbar(frames, plot_cnr[-1, 0], yerr=plot_cnr[-1, 1], fmt='none', color='k')
+                # ax.errorbar(frames, plot_cnr[-1, 0], yerr=plot_cnr[-1, 1], fmt='none', color='k')
             ax.set_xlabel('Time (ms)')
-            if cnr_or_noise == 1:
+            if cnr_or_noise == 0:
                 ax.set_ylabel('CNR')
             else:
                 ax.set_ylabel('Noise')
             ax.set_xlim([0, end_time])
-            #ax.set_title(titles[i])
+            ax.set_title(titles[i])
 
         plt.subplots_adjust(hspace=0.45, bottom=0.17)
         plt.show()
 
         if save:
-            plt.savefig(self.save_dir + 'blah.png', dpi=fig.dpi)
+            plt.savefig(path + f'/TestNum{0}.png', dpi=fig.dpi)
             plt.close()
         else:
             plt.pause(5)
@@ -141,16 +142,16 @@ class VisualizeUniformity:
         pc_shape = np.shape(plot_cnr)
         cnr_smth = np.zeros([pc_shape[0], 1000])
         for idx, ypts in enumerate(plot_cnr[:, 0]):
-            pxs_smth, cnr_smth[idx] = self.smooth_data(pixels, ypts)
+            pxs_smth, cnr_smth[idx] = self.smooth_data(pixels, ypts, cnr_or_noise)
 
         fig, axes = plt.subplots(2, 3, figsize=(8, 6), sharey=True)
         for i, ax in enumerate(axes.flatten()):
             if i < 5:
                 ax.plot(pxs_smth, cnr_smth[i + 5], color='k')
-                #ax.plot(pxs_smth, cnr_smth[i], color='r')
+                # ax.plot(pxs_smth, cnr_smth[i], color='r')
                 ax.errorbar(pixels, plot_cnr[i + 5, 0], yerr=plot_cnr[i + 5, 1], fmt='none', color='k')
-                #ax.errorbar(pixels, plot_cnr[i, 0], yerr=plot_cnr[i, 1], fmt='none', color='r')
-                #ax.legend(['CC', 'SEC'])
+                # ax.errorbar(pixels, plot_cnr[i, 0], yerr=plot_cnr[i, 1], fmt='none', color='r')
+                # ax.legend(['CC', 'SEC'])
             else:
                 ax.plot(pxs_smth, cnr_smth[i], color='k')
                 ax.errorbar(pixels, plot_cnr[-1, 0], yerr=plot_cnr[-1, 1], fmt='none', color='k')
@@ -160,13 +161,13 @@ class VisualizeUniformity:
             else:
                 ax.set_ylabel('Noise')
             ax.set_xlim([0, pixels[-1]+0.5])
-            #ax.set_title(titles[i])
+            ax.set_title(titles[i])
 
         plt.subplots_adjust(hspace=0.45, bottom=0.17)
         plt.show()
 
         if save:
-            plt.savefig(self.save_dir + 'blah.png', dpi=fig.dpi)
+            plt.savefig(self.save_dir + f'/TestNum{0}.png', dpi=fig.dpi)
             plt.close()
         else:
             plt.pause(5)

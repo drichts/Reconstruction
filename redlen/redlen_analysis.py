@@ -13,6 +13,7 @@ class RedlenAnalyze(Analyze):
 
     def __init__(self, folder, test_num, mm, acquire_type, load_dir, save_dir):
 
+        self.test_num = test_num
         substring = os.path.join('Raw Test Data', mm, acquire_type)
         self.load_dir = os.path.join(load_dir, mm, folder, substring)
         del substring
@@ -20,10 +21,10 @@ class RedlenAnalyze(Analyze):
         self.save_dir = os.path.join(save_dir, acquire_type, folder)
         print(self.save_dir)
         os.makedirs(self.save_dir, exist_ok=True)
-        self.filename = f'TestNum{test_num + 1}.pk1'
+        self.filename = f'TestNum{test_num}.pk1'
 
-        self.data_a0 = os.path.join(self.save_dir, f'TestNum{test_num + 1}_DataA0.npy')
-        self.data_a1 = os.path.join(self.save_dir, f'TestNum{test_num + 1}_DataA1.npy')
+        self.data_a0 = os.path.join(self.save_dir, f'TestNum{test_num}_DataA0.npy')
+        self.data_a1 = os.path.join(self.save_dir, f'TestNum{test_num}_DataA1.npy')
 
         if not os.path.exists(self.data_a0):
             mat_a0_files = glob(os.path.join(self.load_dir, '*A0*'))
