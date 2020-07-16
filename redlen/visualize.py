@@ -38,7 +38,7 @@ class VisualizeUniformity:
             ysmth = p(xsmth)
         return xsmth, ysmth
 
-    def blank_vs_time_six_bins(self, cnr_or_noise=0, pixel=1, end_time=100, save=False):
+    def blank_vs_time_six_bins(self, cnr_or_noise=0, pixel=1, end_time=25, save=False):
         """
         This function plots CNR or noise over time (up to the end_time) for both CC and SEC bins
         :param cnr_or_noise: int
@@ -81,12 +81,12 @@ class VisualizeUniformity:
             if i < 5:
                 ax.plot(frms_smth, cnr_smth[i+5], color='k')
                 ax.plot(frms_smth, cnr_smth[i], color='r')
-                # ax.errorbar(frames, plot_cnr[i+5, 0], yerr=plot_cnr[i+5, 1], fmt='none', color='k')
-                # ax.errorbar(frames, plot_cnr[i, 0], yerr=plot_cnr[i, 1], fmt='none', color='r')
+                #ax.errorbar(frames, plot_cnr[i+5, 0], yerr=plot_cnr[i+5, 1], fmt='none', color='k')
+                #ax.errorbar(frames, plot_cnr[i, 0], yerr=plot_cnr[i, 1], fmt='none', color='r')
                 ax.legend(['CC', 'SEC'])
             else:
                 ax.plot(frms_smth, cnr_smth[-1], color='k')
-                # ax.errorbar(frames, plot_cnr[-1, 0], yerr=plot_cnr[-1, 1], fmt='none', color='k')
+                #ax.errorbar(frames, plot_cnr[-1, 0], yerr=plot_cnr[-1, 1], fmt='none', color='k')
             ax.set_xlabel('Time (ms)')
             if cnr_or_noise == 0:
                 ax.set_ylabel('CNR')
@@ -99,7 +99,7 @@ class VisualizeUniformity:
         plt.show()
 
         if save:
-            plt.savefig(path + f'/TestNum{0}.png', dpi=fig.dpi)
+            plt.savefig(path + f'/TestNum{self.AnalyzeUniformity.test_num}_2.png', dpi=fig.dpi)
             plt.close()
         else:
             plt.pause(5)

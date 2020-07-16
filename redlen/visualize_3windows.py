@@ -18,7 +18,7 @@ class Visualize3Windows(VisualizeUniformity):
         os.makedirs(self.save_dir, exist_ok=True)
         self.titles = ['20-30 keV', '30-50 keV', '50-70 keV', '70-90 keV', '90-120 keV', 'EC']
 
-    def plot_cnr_vs_time(self, cnr_or_noise=0, pixel=1, end_time=100, windows=['1w', '3w', '8w'], save=False):
+    def plot_cnr_vs_time(self, cnr_or_noise=0, pixel=1, end_time=25, windows=['1w', '3w', '8w'], save=False):
         """
         This function plots CNR or noise over time (up to the end_time) for CC bins at all 3 CC window widths
         :param cnr_or_noise: int

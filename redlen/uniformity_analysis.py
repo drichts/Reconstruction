@@ -167,8 +167,6 @@ class AnalyzeUniformity(RedlenAnalyze):
         self.cnr_time = np.transpose(self.cnr_time, axes=(0, 2, 3, 1))
         self.noise_time = np.transpose(self.noise_time, axes=(0, 2, 3, 1))
 
-        return cnr_vals, noise
-
     def avg_cnr_noise_over_frames(self, data, airdata, mask, bg_mask, frame):
         """
         This function will take the data and airscan and calculate the CNR every number of frames and then avg, will
@@ -208,10 +206,10 @@ class AnalyzeUniformity(RedlenAnalyze):
                 noise[j, i] = np.nanstd(img*bg_mask)  # Get noise as fraction of mean background
 
         # Average over the frames
-        cnr_val = np.mean(cnr_val, axis=1)
-        cnr_err = np.mean(cnr_err, axis=1)
-        noise_std = np.std(noise, axis=1)
-        noise = np.mean(noise, axis=1)
+        cnr_val = np.nanmean(cnr_val, axis=1)
+        cnr_err = np.nanmean(cnr_err, axis=1)
+        noise_std = np.nanstd(noise, axis=1)
+        noise = np.nanmean(noise, axis=1)
 
         return cnr_val, cnr_err, noise, noise_std
 
