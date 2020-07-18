@@ -12,7 +12,7 @@ class VisualizeUniformity:
         self.AnalyzeUniformity = AnalyzeUniformity
         self.save_dir = os.path.join(self.AnalyzeUniformity.save_dir, 'Figures')
         os.makedirs(self.save_dir, exist_ok=True)
-        self.titles = ['20-30 keV', '30-50 keV', '50-70 keV', '70-90 keV', '90-120 keV', 'EC']
+        self.titles = ['20-30 keV', '30-40 keV', '40-50 keV', '50-60 keV', '60-70 keV', 'EC']
 
     def find_titles(self):
         """Create the plot titles from the energy threshold values"""
@@ -46,7 +46,7 @@ class VisualizeUniformity:
         :param pixel: int, optional
                     The number of pixels along one direction that were aggregated, defaults to 1
         :param end_time: int, optional
-                    The end time on the plot (x-axis) in ms, defaults to 100 ms
+                    The end time on the plot (x-axis) in ms, defaults to 25 ms
         :param save: boolean, optional
                     Whether or not to save the figure, defaults to False
         """
@@ -99,7 +99,7 @@ class VisualizeUniformity:
         plt.show()
 
         if save:
-            plt.savefig(path + f'/TestNum{self.AnalyzeUniformity.test_num}_2.png', dpi=fig.dpi)
+            plt.savefig(path + f'/TestNum{self.AnalyzeUniformity.test_num}.png', dpi=fig.dpi)
             plt.close()
         else:
             plt.pause(5)

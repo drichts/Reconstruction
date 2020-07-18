@@ -17,7 +17,8 @@ class AnalyzeUniformity(RedlenAnalyze):
 
         super().__init__(folder, test_num, mm, 'UNIFORMITY', load_dir, save_dir)
         self.thresholds = []
-        self.pxp = np.array([1, 2, 3, 4, 6, 8, 12])
+        # self.pxp = np.array([1, 2, 3, 4, 6, 8, 12])
+        self.pxp = np.array([1])
         self.frames = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 50, 100, 250, 500, 1000])
         self.air_data = RedlenAnalyze(air_folder, test_num, mm, 'UNIFORMITY', load_dir, save_dir)
 
@@ -406,28 +407,4 @@ class AnalyzeUniformity(RedlenAnalyze):
         :return: The corrected data array
         """
         return np.log(np.divide(air_data, data))
-
-    @staticmethod
-    def add_adj_bins(data, bins):
-        """
-        This function takes the adjacent bins given in bins and sums along the bin axis, can sum multiple bins
-        :param data: 4D numpy array
-                    Data array with shape <counters, views, rows, columns
-        :param bins: 1D array
-                    Bin numbers (as python indices, i.e the 1st bin would be 0) to sum
-                    Form: [Starting bin, Ending bin]
-                    Ex. for the 2nd through 5th bins, bins = [1, 4]
-        :return: The summed data with the summed bins added together and the rest of the data intact
-                    shape <counters, views, rows, columns>
-        """
-        data_shape = np.array(np.shape(data))
-        data_shape[0] = data_shape[0] - (
-                    bins[1] - bins[0])  # The new data will have the number of added bins - 1 new counters
-        new_data = np.zeros(data_shape)
-
-        new_data[0:bins[0]] = data[0:bins[0]]
-        new_data[bins[0]] = np.sum(data[bins[0]:bins[-1] + 1], axis=0)
-        new_data[bins[0] + 1:] = data[bins[1] + 1:]
-
-        return new_data
 
