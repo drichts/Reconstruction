@@ -26,8 +26,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e941e18b-2940-48ac-a2bc-ba92ca5d083f" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/redlen/attenuation_figure.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/papers/paper_optimization/First_Paper_Figures.py" beforeDir="false" afterPath="$PROJECT_DIR$/papers/paper_optimization/First_Paper_Figures.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -128,7 +128,7 @@
       <recent name="C:\Users\drich\PycharmProjects\Reconstruction\saarp_cbct" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.First_Paper_Figures">
+  <component name="RunManager" selected="Python.attenuation_figure">
     <configuration name="First_Paper_Analysis" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Reconstruction" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -221,6 +221,28 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="attenuation_figure" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Reconstruction" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\drich\Anaconda3\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/redlen" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/redlen/attenuation_figure.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="contrast_model" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Reconstruction" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -244,43 +266,20 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="spectrum_analysis" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="Reconstruction" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-        <env name="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
-      </envs>
-      <option name="SDK_HOME" value="C:\Users\drich\Anaconda3\python.exe" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/redlen" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/redlen/spectrum_analysis.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="true" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <list>
       <item itemvalue="Python.contrast_model" />
-      <item itemvalue="Python.spectrum_analysis" />
       <item itemvalue="Python.analysis_2d" />
       <item itemvalue="Python.First_Paper_Figures" />
       <item itemvalue="Python.First_Paper_Analysis" />
+      <item itemvalue="Python.attenuation_figure" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.attenuation_figure" />
         <item itemvalue="Python.First_Paper_Figures" />
         <item itemvalue="Python.First_Paper_Analysis" />
         <item itemvalue="Python.analysis_2d" />
         <item itemvalue="Python.contrast_model" />
-        <item itemvalue="Python.spectrum_analysis" />
       </list>
     </recent_temporary>
   </component>
@@ -501,7 +500,8 @@
       <workItem from="1594247084927" duration="2289000" />
       <workItem from="1594249824224" duration="3824000" />
       <workItem from="1594327961713" duration="2070000" />
-      <workItem from="1594402040312" duration="2638000" />
+      <workItem from="1594402040312" duration="4063000" />
+      <workItem from="1595437431128" duration="6311000" />
     </task>
     <task id="LOCAL-00001" summary="Paper Edits">
       <created>1582153406007</created>
@@ -762,7 +762,14 @@
       <option name="project" value="LOCAL" />
       <updated>1594284971016</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="Paper 1 &amp; LDA updates (7/10/20)">
+      <created>1594409075661</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1594409075661</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -808,7 +815,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Analysis update for Redlen (5/7/2020)" />
     <MESSAGE value="Analysis update for Redlen (5/11/2020)&#10;Changed the location of the Redlen files to their own directory" />
     <MESSAGE value="Analysis update for Redlen (5/12/2020)" />
     <MESSAGE value="Analysis update for Redlen (5/13/2020)" />
@@ -833,7 +839,8 @@
     <MESSAGE value="Models for noise (7/3/2020)" />
     <MESSAGE value="Models for contrast (7/6/2020)" />
     <MESSAGE value="Paper 1 &amp; LDA updates (7/8/20)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Paper 1 &amp; LDA updates (7/8/20)" />
+    <MESSAGE value="Paper 1 &amp; LDA updates (7/10/20)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Paper 1 &amp; LDA updates (7/10/20)" />
   </component>
   <component name="WindowStateProjectService">
     <state x="572" y="257" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1593132320390">
@@ -845,10 +852,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="0" y="165" key="#xdebugger.XInspectDialog/0.0.1536.824@0.0.1536.824" timestamp="1593735373713" />
-    <state x="285" y="14" key="CommitChangelistDialog2" timestamp="1594284969480">
+    <state x="294" y="14" key="CommitChangelistDialog2" timestamp="1594409074665">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="285" y="14" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1594284969480" />
+    <state x="294" y="14" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1594409074665" />
     <state x="585" y="157" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1587582091517" />
     <state x="592" y="238" key="FileChooserDialogImpl" timestamp="1594404308470">
       <screen x="0" y="0" width="1536" height="824" />
