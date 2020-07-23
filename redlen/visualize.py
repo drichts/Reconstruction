@@ -148,13 +148,13 @@ class VisualizeUniformity:
         for i, ax in enumerate(axes.flatten()):
             if i < 5:
                 ax.plot(pxs_smth, cnr_smth[i + 5], color='k')
-                # ax.plot(pxs_smth, cnr_smth[i], color='r')
-                ax.errorbar(pixels, plot_cnr[i + 5, 0], yerr=plot_cnr[i + 5, 1], fmt='none', color='k')
+                ax.plot(pxs_smth, cnr_smth[i], color='r')
+                #ax.errorbar(pixels, plot_cnr[i + 5, 0], yerr=plot_cnr[i + 5, 1], fmt='none', color='k')
                 # ax.errorbar(pixels, plot_cnr[i, 0], yerr=plot_cnr[i, 1], fmt='none', color='r')
                 # ax.legend(['CC', 'SEC'])
             else:
                 ax.plot(pxs_smth, cnr_smth[i], color='k')
-                ax.errorbar(pixels, plot_cnr[-1, 0], yerr=plot_cnr[-1, 1], fmt='none', color='k')
+                #ax.errorbar(pixels, plot_cnr[-1, 0], yerr=plot_cnr[-1, 1], fmt='none', color='k')
             ax.set_xlabel('Pixels')
             if cnr_or_noise == 1:
                 ax.set_ylabel('CNR')

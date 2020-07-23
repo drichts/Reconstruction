@@ -12,13 +12,13 @@ class VisibilityError(Exception):
 
 class AnalyzeUniformity(RedlenAnalyze):
 
-    def __init__(self, folder, air_folder, test_num=1, mm='M20358_D32', load_dir=r'X:\TEST LOG\MINI MODULE\Canon',
+    def __init__(self, folder, air_folder, test_num=1, mm='M20358_Q20', load_dir=r'X:\TEST LOG\MINI MODULE\Canon',
                  save_dir=r'C:\Users\10376\Documents\Phantom Data'):
 
         super().__init__(folder, test_num, mm, 'UNIFORMITY', load_dir, save_dir)
         self.thresholds = []
-        # self.pxp = np.array([1, 2, 3, 4, 6, 8, 12])
-        self.pxp = np.array([1])
+        self.pxp = np.array([1, 2, 3, 4, 6, 8, 12])
+        #self.pxp = np.array([1])
         self.frames = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 50, 100, 250, 500, 1000])
         self.air_data = RedlenAnalyze(air_folder, test_num, mm, 'UNIFORMITY', load_dir, save_dir)
 
@@ -144,29 +144,43 @@ class AnalyzeUniformity(RedlenAnalyze):
         of different acquisition times
         :return:
         """
-        data = np.load(self.data_a0)
-        airdata = np.load(self.air_data.data_a0)
 
-        cnr_vals = np.zeros([len(self.pxp), len(self.frames), self.num_bins, 2])
-        noise = np.zeros([len(self.pxp), len(self.frames), self.num_bins, 2])
+        cnr_file = os.path.join(self.save_dir, f'TestNum{self.test_num}_cnr_time.npy')
+        noise_file = os.path.join(self.save_dir, f'TestNum{self.test_num}_noise_time.npy')
 
-        # Aggregate the number of pixels in pxp squared
-        for p, pix in enumerate(self.pxp):
-            if pix == 1:
-                data_pxp = np.squeeze(data)
-                air_pxp = np.squeeze(airdata)
-            else:
-                data_pxp = np.squeeze(self.sumpxp(data, pix))  # Aggregate the pixels
-                air_pxp = np.squeeze(self.sumpxp(airdata, pix))
+        if os.path.exists(cnr_file) and os.path.exists(noise_file):
+            print('Loaded.')
+            self.cnr_time = np.load(cnr_file)
+            self.noise_time = np.load(noise_file)
 
-            # Collect the frames aggregated over, the noise and cnr and save
-            cnr_vals[p], noise[p] = self.avg_cnr_noise_over_all_frames(data_pxp, air_pxp, self.masks[p], self.bg[p])
+        else:
+            print('Creating...')
+            data = np.load(self.data_a0)
+            airdata = np.load(self.air_data.data_a0)
 
-        # CNR vs. time, noise vs. time <pixels, time, bin, value or error (0 or 1)>
-        self.cnr_time, self.noise_time = cnr_vals, noise
-        # Reorganize to <pixels, bin, value or error, time>
-        self.cnr_time = np.transpose(self.cnr_time, axes=(0, 2, 3, 1))
-        self.noise_time = np.transpose(self.noise_time, axes=(0, 2, 3, 1))
+            cnr_vals = np.zeros([len(self.pxp), len(self.frames), self.num_bins, 2])
+            noise = np.zeros([len(self.pxp), len(self.frames), self.num_bins, 2])
+
+            # Aggregate the number of pixels in pxp squared
+            for p, pix in enumerate(self.pxp):
+                if pix == 1:
+                    data_pxp = np.squeeze(data)
+                    air_pxp = np.squeeze(airdata)
+                else:
+                    data_pxp = np.squeeze(self.sumpxp(data, pix))  # Aggregate the pixels
+                    air_pxp = np.squeeze(self.sumpxp(airdata, pix))
+
+                # Collect the frames aggregated over, the noise and cnr and save
+                cnr_vals[p], noise[p] = self.avg_cnr_noise_over_all_frames(data_pxp, air_pxp, self.masks[p], self.bg[p])
+
+            # CNR vs. time, noise vs. time <pixels, time, bin, value or error (0 or 1)>
+            self.cnr_time, self.noise_time = cnr_vals, noise
+            # Reorganize to <pixels, bin, value or error, time>
+            self.cnr_time = np.transpose(self.cnr_time, axes=(0, 2, 3, 1))
+            self.noise_time = np.transpose(self.noise_time, axes=(0, 2, 3, 1))
+
+            np.save(cnr_file, self.cnr_time)
+            np.save(noise_file, self.noise_time)
 
     def avg_cnr_noise_over_frames(self, data, airdata, mask, bg_mask, frame):
         """
