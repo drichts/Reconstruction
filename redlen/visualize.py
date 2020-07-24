@@ -38,6 +38,68 @@ class VisualizeUniformity:
             ysmth = p(xsmth)
         return xsmth, ysmth
 
+    def blank_vs_time_single_bin(self, bin_num, cnr_or_noise=0, pixel=1, end_time=25, save=False):
+        """
+                This function plots CNR or noise over time (up to the end_time) for both CC and SEC bins
+                :param cnr_or_noise: int
+                            0 for CNR, 1 for noise
+                :param pixel: int, optional
+                            The number of pixels along one direction that were aggregated, defaults to 1
+                :param end_time: int, optional
+                            The end time on the plot (x-axis) in ms, defaults to 25 ms
+                :param save: boolean, optional
+                            Whether or not to save the figure, defaults to False
+                """
+        px_idx = np.squeeze(np.argwhere(self.AnalyzeUniformity.pxp == pixel))  # Find the index of the pixel value
+
+        pixel_path = f'{pixel}x{pixel} Data'
+
+        if cnr_or_noise == 0:
+            cnr_vals = self.AnalyzeUniformity.cnr_time[px_idx]  # <pixels, bin, val, time>
+            path = os.path.join(self.save_dir, 'Plots/CNR vs Time', pixel_path)
+        else:
+            cnr_vals = self.AnalyzeUniformity.noise_time[px_idx]  # <pixels, bin, val, time>
+            path = os.path.join(self.save_dir, 'Plots/Noise vs Time', pixel_path)
+        os.makedirs(path, exist_ok=True)
+
+        frames = self.AnalyzeUniformity.frames
+        titles = self.titles
+
+        plot_cnr = np.zeros([2, 2, len(frames)])
+        plot_cnr[0] = cnr_vals[bin_num]  # Get only SEC data up to the frame desired
+        plot_cnr[1] = cnr_vals[bin_num + 6]  # Get only CC data up to the frame desired
+
+        # Make some smooth data
+        pc_shape = np.shape(plot_cnr)
+        cnr_smth = np.zeros([pc_shape[0], 1000])
+        for idx, ypts in enumerate(plot_cnr[:, 0]):
+            frms_smth, cnr_smth[idx] = self.smooth_data(frames, ypts, cnr_or_noise)
+
+        fig = plt.figure(figsize=(3, 3))
+
+        plt.plot(frms_smth, cnr_smth[1], color='k')
+        plt.plot(frms_smth, cnr_smth[0], color='r')
+        # plt.errorbar(frames, plot_cnr[1, 0], yerr=plot_cnr[1, 1], fmt='none', color='k')
+        # plt.errorbar(frames, plot_cnr[0, 0], yerr=plot_cnr[0, 1], fmt='none', color='r')
+        plt.legend(['CC', 'SEC'])
+
+        if cnr_or_noise == 0:
+            plt.ylabel('CNR')
+        else:
+            plt.set_ylabel('Noise')
+            plt.set_xlim([0, end_time])
+            plt.set_title(titles[bin_num] + ' keV')
+
+        #plt.subplots_adjust(hspace=0.45, bottom=0.17)
+        plt.show()
+
+        if save:
+            plt.savefig(path + f'/TestNum{self.AnalyzeUniformity.test_num}_Bin{bin_num}.png', dpi=fig.dpi)
+            plt.close()
+        else:
+            plt.pause(5)
+            plt.close()
+
     def blank_vs_time_six_bins(self, cnr_or_noise=0, pixel=1, end_time=25, save=False):
         """
         This function plots CNR or noise over time (up to the end_time) for both CC and SEC bins
@@ -93,7 +155,7 @@ class VisualizeUniformity:
             else:
                 ax.set_ylabel('Noise')
             ax.set_xlim([0, end_time])
-            ax.set_title(titles[i])
+            ax.set_title(titles[i] + ' keV')
 
         plt.subplots_adjust(hspace=0.45, bottom=0.17)
         plt.show()
@@ -105,13 +167,15 @@ class VisualizeUniformity:
             plt.pause(5)
             plt.close()
 
-    def blank_vs_pixels_six_bins(self, cnr_or_noise=0, time=10, save=False):
+    def blank_vs_pixels_six_bins(self, cnr_or_noise=0, time=10, y_lim=None, save=False):
         """
         This function plots the 6 energy bins with pixels vs. CNR or noise
         :param cnr_or_noise: int
                     0 for CNR, 1 for noise
         :param time: int, optional
                     The accumulated time to plot in ms, defaults to 10 ms
+        :param y_lim: float, optional
+                    If there is an outlier, you may set the upper y-limit to your desired number
         :param save: boolean, optional
                     Whether or not to save the figure, defaults to False
         :return:
@@ -119,10 +183,10 @@ class VisualizeUniformity:
         titles = self.titles
         if cnr_or_noise == 0:
             cnr_vals = self.AnalyzeUniformity.cnr_time  # <pixels, bin, val, time>
-            path = os.path.join(self.save_dir, 'Plots/CNR vs Time')
+            path = os.path.join(self.save_dir, 'Plots/CNR vs Pixels')
         else:
             cnr_vals = self.AnalyzeUniformity.noise_time  # <pixels, bin, val, time>
-            path = os.path.join(self.save_dir, 'Plots/Noise vs Time')
+            path = os.path.join(self.save_dir, 'Plots/Noise vs Pixels')
         os.makedirs(path, exist_ok=True)
 
         pixels = self.AnalyzeUniformity.pxp
@@ -147,27 +211,29 @@ class VisualizeUniformity:
         fig, axes = plt.subplots(2, 3, figsize=(8, 6), sharey=True)
         for i, ax in enumerate(axes.flatten()):
             if i < 5:
-                ax.plot(pxs_smth, cnr_smth[i + 5], color='k')
-                ax.plot(pxs_smth, cnr_smth[i], color='r')
-                #ax.errorbar(pixels, plot_cnr[i + 5, 0], yerr=plot_cnr[i + 5, 1], fmt='none', color='k')
-                # ax.errorbar(pixels, plot_cnr[i, 0], yerr=plot_cnr[i, 1], fmt='none', color='r')
-                # ax.legend(['CC', 'SEC'])
+                #ax.plot(pxs_smth, cnr_smth[i + 5], color='k')
+                #ax.plot(pxs_smth, cnr_smth[i], color='r')
+                ax.errorbar(pixels, plot_cnr[i + 5, 0], yerr=plot_cnr[i + 5, 1], fmt='none', capsize=3, color='k')
+                ax.errorbar(pixels, plot_cnr[i, 0], yerr=plot_cnr[i, 1], fmt='none', capsize=3, color='r')
+                ax.legend(['CC', 'SEC'])
             else:
-                ax.plot(pxs_smth, cnr_smth[i], color='k')
-                #ax.errorbar(pixels, plot_cnr[-1, 0], yerr=plot_cnr[-1, 1], fmt='none', color='k')
+                #ax.plot(pxs_smth, cnr_smth[i], color='k')
+                ax.errorbar(pixels, plot_cnr[-1, 0], yerr=plot_cnr[-1, 1], fmt='none', capsize=3, color='k')
             ax.set_xlabel('Pixels')
-            if cnr_or_noise == 1:
+            if cnr_or_noise == 0:
                 ax.set_ylabel('CNR')
             else:
                 ax.set_ylabel('Noise')
             ax.set_xlim([0, pixels[-1]+0.5])
-            ax.set_title(titles[i])
+            if y_lim:
+                ax.set_ylim([0, y_lim])
+            ax.set_title(titles[i] + ' keV')
 
         plt.subplots_adjust(hspace=0.45, bottom=0.17)
         plt.show()
 
         if save:
-            plt.savefig(self.save_dir + f'/TestNum{0}.png', dpi=fig.dpi)
+            plt.savefig(path + f'/2_TestNum{self.AnalyzeUniformity.test_num}_Time{time}ms.png', dpi=fig.dpi)
             plt.close()
         else:
             plt.pause(5)
@@ -210,6 +276,42 @@ class VisualizeUniformity:
         else:
             plt.pause(5)
             plt.close()
+
+    def pixel_images(self, save=False):
+        """
+
+        :param time:
+        :param save:
+        :return:
+        """
+        path = os.path.join(self.save_dir, 'Pixel Images')
+        os.makedirs(path, exist_ok=True)
+
+        data = np.load(self.AnalyzeUniformity.data_a0)
+        airdata = np.load(self.AnalyzeUniformity.air_data.data_a0)
+
+        for p, pix in enumerate(self.AnalyzeUniformity.pxp):
+            if pix == 1:
+                data_pxp = np.sum(data[12], axis=0)
+                air_pxp = np.sum(airdata[12], axis=0)
+            else:
+                data_pxp = np.squeeze(self.AnalyzeUniformity.sumpxp(data, pix))  # Aggregate the pixels
+                air_pxp = np.squeeze(self.AnalyzeUniformity.sumpxp(airdata, pix))
+                data_pxp = np.sum(data_pxp[12], axis=0)
+                air_pxp = np.sum(air_pxp[12], axis=0)
+
+            fig = plt.figure(figsize=(3, 3))
+            plt.imshow(-1*np.log(data_pxp/air_pxp))
+            plt.title(f'{pix}x{pix} pixels', fontsize=16)
+            plt.tick_params(labelcolor='none', top=False, bottom=False, left=False, right=False)
+
+            if save:
+                plt.savefig(path + f'/Pixel{pix}.png', dpi=fig.dpi)
+                plt.close()
+            else:
+                plt.pause(5)
+                plt.close()
+
 
     # titles_all = [['20-30', '30-50', '50-70', '70-90', '90-120', 'EC'],
     #               ['20-50', '50-70', '70-90', '90-100', '100-120', 'EC'],

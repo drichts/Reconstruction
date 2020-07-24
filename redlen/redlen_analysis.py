@@ -3,6 +3,7 @@ import numpy as np
 import os
 from glob import glob
 from analysis import Analyze
+from natsort import natural_keys
 
 
 class SizeError(Exception):
@@ -28,8 +29,11 @@ class RedlenAnalyze(Analyze):
 
         if not os.path.exists(self.data_a0):
             mat_a0_files = glob(os.path.join(self.load_dir, '*A0*'))
+            mat_a0_files.sort(key=natural_keys)
             mat_a1_files = glob(os.path.join(self.load_dir, '*A1*'))
+            mat_a1_files.sort(key=natural_keys)
 
+            print(mat_a0_files[test_num-1][-43:-1])
             a0 = np.squeeze(self.mat_to_npy(mat_a0_files[test_num-1]))
             a1 = np.squeeze(self.mat_to_npy(mat_a1_files[test_num-1]))
 
@@ -59,13 +63,14 @@ class RedlenAnalyze(Analyze):
         :param a1: The A1 data array
         :return: The combined array
         """
-        data = np.load(self.data_a0)
-        data_shape = np.array(np.shape(data))  # Get the shape of the data files
+        a0 = np.load(self.data_a0)
+        a1 = np.load(self.data_a1)
+        data_shape = np.array(np.shape(a0))  # Get the shape of the data files
         new_shape = list(data_shape)
         new_shape[-1] = 2*data_shape[-1]
 
-        a0 = self.data_a0[..., :, :, ::-1]  # Flip horizontally
-        a1 = self.data_a1[..., :, ::-1, :]  # Flip vertically
+        a0 = a0[..., :, :, ::-1]  # Flip horizontally
+        a1 = a1[..., :, ::-1, :]  # Flip vertically
         both_mods = np.zeros(new_shape)
 
         both_mods[..., :, :, 0:36] = a0

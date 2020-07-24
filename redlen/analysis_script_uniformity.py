@@ -16,6 +16,11 @@ airfolder = 'many_thresholds_airscan'
 #airfolder = 'energy_bin_check_airscan'
 
 mm = 'M20358_Q20'
-for folder in folders:
-    for i in np.arange(1, 18):
-        a = AnalyzeUniformity(folder, airfolder, test_num=i)
+#for folder in folders:
+#for i in np.arange(1, 18):
+a = AnalyzeUniformity(folders[-1], airfolder)
+x = a.stitch_a0a1()
+y = a.air_data.stitch_a0a1()
+corr = -1*np.log(x/y)
+
+plt.imshow(np.sum(corr[12], axis=0))
