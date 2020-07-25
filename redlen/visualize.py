@@ -146,22 +146,24 @@ class VisualizeUniformity:
                 #ax.errorbar(frames, plot_cnr[i+5, 0], yerr=plot_cnr[i+5, 1], fmt='none', color='k')
                 #ax.errorbar(frames, plot_cnr[i, 0], yerr=plot_cnr[i, 1], fmt='none', color='r')
                 ax.legend(['CC', 'SEC'])
+                ax.set_title(titles[i] + ' keV')
             else:
                 ax.plot(frms_smth, cnr_smth[-1], color='k')
                 #ax.errorbar(frames, plot_cnr[-1, 0], yerr=plot_cnr[-1, 1], fmt='none', color='k')
+                ax.set_title(titles[i])
             ax.set_xlabel('Time (ms)')
             if cnr_or_noise == 0:
                 ax.set_ylabel('CNR')
             else:
                 ax.set_ylabel('Noise')
             ax.set_xlim([0, end_time])
-            ax.set_title(titles[i] + ' keV')
+
 
         plt.subplots_adjust(hspace=0.45, bottom=0.17)
         plt.show()
 
         if save:
-            plt.savefig(path + f'/TestNum{self.AnalyzeUniformity.test_num}.png', dpi=fig.dpi)
+            plt.savefig(path + f'/2_TestNum{self.AnalyzeUniformity.test_num}.png', dpi=fig.dpi)
             plt.close()
         else:
             plt.pause(5)
@@ -216,9 +218,11 @@ class VisualizeUniformity:
                 ax.errorbar(pixels, plot_cnr[i + 5, 0], yerr=plot_cnr[i + 5, 1], fmt='none', capsize=3, color='k')
                 ax.errorbar(pixels, plot_cnr[i, 0], yerr=plot_cnr[i, 1], fmt='none', capsize=3, color='r')
                 ax.legend(['CC', 'SEC'])
+                ax.set_title(titles[i] + ' keV')
             else:
                 #ax.plot(pxs_smth, cnr_smth[i], color='k')
                 ax.errorbar(pixels, plot_cnr[-1, 0], yerr=plot_cnr[-1, 1], fmt='none', capsize=3, color='k')
+                ax.set_title(titles[i])
             ax.set_xlabel('Pixels')
             if cnr_or_noise == 0:
                 ax.set_ylabel('CNR')
@@ -227,7 +231,7 @@ class VisualizeUniformity:
             ax.set_xlim([0, pixels[-1]+0.5])
             if y_lim:
                 ax.set_ylim([0, y_lim])
-            ax.set_title(titles[i] + ' keV')
+
 
         plt.subplots_adjust(hspace=0.45, bottom=0.17)
         plt.show()

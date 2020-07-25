@@ -47,6 +47,8 @@ class AnalyzeUniformity(RedlenAnalyze):
         self.visible_bin = self.test_visibility()
         data = np.load(self.data_a0)
         airdata = np.load(self.air_data.data_a0)
+        self.masks = []
+        self.bg = []
 
         val = input('Is the phantom small? (y/n)')
         if val is 'y':
@@ -138,7 +140,7 @@ class AnalyzeUniformity(RedlenAnalyze):
 
         return mask, bg
 
-    def analyze_cnr_noise(self):
+    def analyze_cnr_noise(self, redo=False):
         """
         This function calculates the CNR and noise in each bin at each of the pixel aggregations values and at a number
         of different acquisition times
@@ -148,11 +150,10 @@ class AnalyzeUniformity(RedlenAnalyze):
         cnr_file = os.path.join(self.save_dir, f'TestNum{self.test_num}_cnr_time.npy')
         noise_file = os.path.join(self.save_dir, f'TestNum{self.test_num}_noise_time.npy')
 
-        if os.path.exists(cnr_file) and os.path.exists(noise_file):
+        if os.path.exists(cnr_file) and os.path.exists(noise_file) and not redo:
             print('Loaded.')
             self.cnr_time = np.load(cnr_file)
             self.noise_time = np.load(noise_file)
-
         else:
             print('Creating...')
             data = np.load(self.data_a0)

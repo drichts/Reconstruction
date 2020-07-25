@@ -9,16 +9,16 @@ from general_functions import load_object
 
 
 class Visualize3Windows(VisualizeUniformity):
-    def __init__(self, AnalyzeUniformity1, AnalyzeUniformity2, AnalyzeUniformity3):
+    def __init__(self, AnalyzeUniformity1, AnalyzeUniformity2):  #, AnalyzeUniformity3):
         self.AnalyzeUniformity = []
         self.AnalyzeUniformity.append(AnalyzeUniformity1)
         self.AnalyzeUniformity.append(AnalyzeUniformity2)
-        self.AnalyzeUniformity.append(AnalyzeUniformity3)
+        #self.AnalyzeUniformity.append(AnalyzeUniformity3)
         self.save_dir = os.path.join(self.AnalyzeUniformity[0].save_dir, 'Figures')
         os.makedirs(self.save_dir, exist_ok=True)
         self.titles = ['20-30 keV', '30-50 keV', '50-70 keV', '70-90 keV', '90-120 keV', 'EC']
 
-    def plot_cnr_vs_time(self, cnr_or_noise=0, pixel=1, end_time=25, windows=['1w', '3w', '8w'], save=False):
+    def plot_cnr_vs_time(self, cnr_or_noise=0, pixel=1, end_time=25, windows=['1w', '3w'], save=False):
         """
         This function plots CNR or noise over time (up to the end_time) for CC bins at all 3 CC window widths
         :param cnr_or_noise: int
@@ -45,7 +45,7 @@ class Visualize3Windows(VisualizeUniformity):
         titles = self.titles
 
         fig, axes = plt.subplots(2, 3, figsize=(8, 6), sharey=True)
-        for au in np.arange(3):
+        for au in np.arange(len(self.AnalyzeUniformity)):
             if cnr_or_noise == 0:
                 cnr_vals = self.AnalyzeUniformity[au].cnr_time[px_idx]  # <pixels, bin, val, time>
             else:
@@ -65,7 +65,7 @@ class Visualize3Windows(VisualizeUniformity):
             for i, ax in enumerate(axes.flatten()):
                 ax.plot(frms_smth, cnr_smth[i], color=colors[au])
                 # ax.errorbar(frames, plot_cnr[i, 0], yerr=plot_cnr[i, 1], fmt='none', color=colors[au])
-                if au == 2:
+                if au == 1:
                     ax.legend(windows)
                     ax.set_xlabel('Time (ms)')
                     if cnr_or_noise == 0:

@@ -47,23 +47,48 @@ folders = ['many_thresholds_BB4mm', 'many_thresholds_BB2mm', 'many_thresholds_BB
            'many_thresholds_PP']
 airfolder = 'many_thresholds_airscan'
 
-# for folder in folders:
+folders2 = ['many_thresholds_BB4mm', 'many_thresholds_BB2mm', 'many_thresholds_BB1mm', 'many_thresholds_glass1mm']
+
+folders3 = ['multiple_energy_thresholds_1w', 'multiple_energy_thresholds_3w']
+airfolders3 = ['multiple_energy_thresholds_flatfield_1w', 'multiple_energy_thresholds_flatfield_3w']
+
+
+a1 = AnalyzeUniformity(folders3[0], airfolders3[0])
+a2 = AnalyzeUniformity(folders3[1], airfolders3[1])
+a1.analyze_cnr_noise()
+a2.analyze_cnr_noise()
+
+v = Visualize3Windows(a1, a2)
+v.plot_cnr_vs_time(cnr_or_noise=1, save=True)
+v.plot_cnr_vs_time(save=True)
+
+# for j, folder in enumerate(folders3):
+#     for i in [1]:
 #     #for i in np.arange(1, 18):
-#     i = 1
-#     a1 = AnalyzeUniformity(folder, airfolder, test_num=i)
-#     a1.analyze_cnr_noise()
-#     v1 = VisualizeUniformity(a1)
-#     v1.titles = titles_many[i-1]
-#     if folder is folders[5]:
-#         v1.blank_vs_pixels_six_bins(time=5, y_lim=80, save=True)
-#     else:
-#         v1.blank_vs_pixels_six_bins(time=5, save=True)
+#     #i = 1
+#         a1 = AnalyzeUniformity(folder, airfolders3[j], test_num=i)
+#         a1.analyze_cnr_noise()
+#         v1 = VisualizeUniformity(a1)
+#         v1.titles = titles_many[i-1]
+#         v1.blank_vs_time_six_bins(cnr_or_noise=0, save=True)
+#         v1.blank_vs_time_six_bins(cnr_or_noise=1, save=True)
+        # if i == 1:
+        #     # if folder is folders[5]:
+        #     #     v1.blank_vs_pixels_six_bins(time=2, y_lim=80, save=True)
+        #     #     v1.blank_vs_pixels_six_bins(time=5, y_lim=80, save=True)
+        #     #     v1.blank_vs_pixels_six_bins(time=10, y_lim=80, save=True)
+        #     #     v1.blank_vs_pixels_six_bins(time=25, y_lim=80, save=True)
+        #     # else:
+        #     v1.blank_vs_pixels_six_bins(cnr_or_noise=0, time=2, save=True)
+        #     v1.blank_vs_pixels_six_bins(cnr_or_noise=0, time=5, save=True)
+        #     v1.blank_vs_pixels_six_bins(cnr_or_noise=0, time=10, save=True)
+        #     v1.blank_vs_pixels_six_bins(cnr_or_noise=0, time=25, save=True)
 
 #%%
 
-a1 = AnalyzeUniformity(folders[5], airfolder)
-v1 = VisualizeUniformity(a1)
-v1.pixel_images(save=True)
+#a1 = AnalyzeUniformity('many_thresholds_BB4mm', airfolder, test_num=11)
+#v1 = VisualizeUniformity(a1)
+#v1.pixel_images(save=True)
 
 # a1 = AnalyzeUniformity('many_thresholds_BB4mm', 'many_thresholds_airscan')
 # a2 = AnalyzeUniformity('many_thresholds_BB2mm', 'many_thresholds_airscan')
