@@ -53,14 +53,20 @@ folders3 = ['multiple_energy_thresholds_1w', 'multiple_energy_thresholds_3w']
 airfolders3 = ['multiple_energy_thresholds_flatfield_1w', 'multiple_energy_thresholds_flatfield_3w']
 
 
-a1 = AnalyzeUniformity(folders3[0], airfolders3[0])
-a2 = AnalyzeUniformity(folders3[1], airfolders3[1])
+a1 = AnalyzeUniformity(folders[6], airfolder)
+a2 = AnalyzeUniformity(folders[7], airfolder)
 a1.analyze_cnr_noise()
 a2.analyze_cnr_noise()
 
-v = Visualize3Windows(a1, a2)
-v.plot_cnr_vs_time(cnr_or_noise=1, save=True)
-v.plot_cnr_vs_time(save=True)
+v1 = VisualizeUniformity(a1)
+v2 = VisualizeUniformity(a2)
+
+v1.noise_vs_counts_six_bins(save=True)
+v2.noise_vs_counts_six_bins(save=True)
+
+#v = Visualize3Windows(a1, a2)
+#v.plot_cnr_vs_time(cnr_or_noise=1, save=True)
+#v.plot_cnr_vs_time(save=True)
 
 # for j, folder in enumerate(folders3):
 #     for i in [1]:

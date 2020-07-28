@@ -12,7 +12,8 @@ class VisualizeUniformity:
         self.AnalyzeUniformity = AnalyzeUniformity
         self.save_dir = os.path.join(self.AnalyzeUniformity.save_dir, 'Figures')
         os.makedirs(self.save_dir, exist_ok=True)
-        self.titles = ['20-30 keV', '30-40 keV', '40-50 keV', '50-60 keV', '60-70 keV', 'EC']
+        self.titles = np.array(['20-30', '30-50', '50-70', '70-90', '90-120', 'EC'])
+        self.counts = np.array([1920, 3785, 2454, 1238, 629, 126, 2370, 4549, 2922, 1480, 755, 153, 13319])
 
     def find_titles(self):
         """Create the plot titles from the energy threshold values"""
@@ -169,6 +170,76 @@ class VisualizeUniformity:
             plt.pause(5)
             plt.close()
 
+    def noise_vs_counts_six_bins(self, pixel=1, end_time=25, save=False):
+        """
+        This function plots noise over counts (up to the end_time) for both CC and SEC bins
+        :param pixel: int, optional
+                    The number of pixels along one direction that were aggregated, defaults to 1
+        :param end_time: int, optional
+                    The end time on the plot (x-axis) in ms, defaults to 25 ms
+        :param save: boolean, optional
+                    Whether or not to save the figure, defaults to False
+        """
+        px_idx = np.squeeze(np.argwhere(self.AnalyzeUniformity.pxp == pixel))  # Find the index of the pixel value
+
+        pixel_path = f'{pixel}x{pixel} Data'
+
+        cnr_vals = self.AnalyzeUniformity.noise_time[px_idx]  # <pixels, bin, val, time>
+        path = os.path.join(self.save_dir, 'Plots/Noise vs Counts', pixel_path)
+        os.makedirs(path, exist_ok=True)
+
+        frames = self.AnalyzeUniformity.frames
+        titles = self.titles
+
+        # Get the correct counts at each time point in each bin
+        cts = np.reshape(np.tile(self.AnalyzeUniformity.frames, 13), [13, len(self.AnalyzeUniformity.frames)])
+        for r, row in enumerate(cts):
+            cts[r] = row*self.counts[r]
+        cts = np.delete(cts, 5, axis=0)
+        cts = np.delete(cts, 10, axis=0)
+
+        plot_cnr = np.zeros([11, 2, len(frames)])
+        plot_cnr[0:5] = cnr_vals[0:5]  # Get only SEC data up to the frame desired
+        plot_cnr[5:10] = cnr_vals[6:11]  # Get only CC data up to the frame desired
+        plot_cnr[10] = cnr_vals[12]  # Get EC bin for summed bin
+
+        # Make some smooth data
+        pc_shape = np.shape(plot_cnr)
+        cnr_smth = np.zeros([pc_shape[0], 1000])
+        frms_smth = np.zeros([pc_shape[0], 1000])
+        for idx, ypts in enumerate(plot_cnr[:, 0]):
+            frms_smth[idx], cnr_smth[idx] = self.smooth_data(cts[idx], ypts, cnr_or_noise=1)
+
+        fig, axes = plt.subplots(2, 3, figsize=(8, 6), sharey=True)
+        for i, ax in enumerate(axes.flatten()):
+            if i < 5:
+                ax.semilogx(frms_smth[i+5], cnr_smth[i+5], color='k')
+                ax.semilogx(frms_smth[i], cnr_smth[i], color='r')
+                #ax.errorbar(frames, plot_cnr[i+5, 0], yerr=plot_cnr[i+5, 1], fmt='none', color='k')
+                #ax.errorbar(frames, plot_cnr[i, 0], yerr=plot_cnr[i, 1], fmt='none', color='r')
+                ax.legend(['CC', 'SEC'])
+                ax.set_title(titles[i] + ' keV')
+                #ax.set_xlim([cts[i+5][0], cts[i+5][-1]])
+                ax.set_xlim([cts[i][0], cts[i][-1]])
+            else:
+                ax.semilogx(frms_smth[-1], cnr_smth[-1], color='k')
+                #ax.errorbar(frames, plot_cnr[-1, 0], yerr=plot_cnr[-1, 1], fmt='none', color='k')
+                ax.set_title(titles[i])
+                ax.set_xlim([cts[-1][0], cts[-1][-1]])
+
+            ax.set_xlabel('Counts')
+            ax.set_ylabel('Noise')
+
+        plt.subplots_adjust(hspace=0.45, bottom=0.17)
+        plt.show()
+
+        if save:
+            plt.savefig(path + f'/TestNum{self.AnalyzeUniformity.test_num}.png', dpi=fig.dpi)
+            plt.close()
+        else:
+            plt.pause(5)
+            plt.close()
+
     def blank_vs_pixels_six_bins(self, cnr_or_noise=0, time=10, y_lim=None, save=False):
         """
         This function plots the 6 energy bins with pixels vs. CNR or noise
@@ -231,7 +302,6 @@ class VisualizeUniformity:
             ax.set_xlim([0, pixels[-1]+0.5])
             if y_lim:
                 ax.set_ylim([0, y_lim])
-
 
         plt.subplots_adjust(hspace=0.45, bottom=0.17)
         plt.show()
