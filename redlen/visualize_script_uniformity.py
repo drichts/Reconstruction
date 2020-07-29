@@ -52,32 +52,46 @@ folders2 = ['many_thresholds_BB4mm', 'many_thresholds_BB2mm', 'many_thresholds_B
 folders3 = ['multiple_energy_thresholds_1w', 'multiple_energy_thresholds_3w']
 airfolders3 = ['multiple_energy_thresholds_flatfield_1w', 'multiple_energy_thresholds_flatfield_3w']
 
-
-a1 = AnalyzeUniformity(folders[6], airfolder)
-a2 = AnalyzeUniformity(folders[7], airfolder)
+f = 0
+t = 1
+b = 1
+a1 = AddBinsUniformity(folders[f], airfolder, test_num=t)
+# a2 = AddBinsUniformity(folders[7], airfolder)
+a1.add_adj_bins([1, 3])
 a1.analyze_cnr_noise()
-a2.analyze_cnr_noise()
 
-v1 = VisualizeUniformity(a1)
-v2 = VisualizeUniformity(a2)
+# a2.analyze_cnr_noise()
+v = VisualizeUniformity(a1)
+v.titles = titles_many[t-1]
+for p in [1, 2, 3]:
+    v.blank_vs_time_single_bin(b, pixel=p, save=True)
+# v = AddBinsVisualize('30-90', a2, AnalyzeUniformity=a1)
+# v.plot_comparison(1, 1, save=True)
 
-v1.noise_vs_counts_six_bins(save=True)
-v2.noise_vs_counts_six_bins(save=True)
+# a1 = AnalyzeUniformity(folders[6], airfolder)
+# a2 = AnalyzeUniformity(folders[7], airfolder)
+# a1.analyze_cnr_noise()
+# a2.analyze_cnr_noise()
+#
+# v1 = VisualizeUniformity(a1)
+# v2 = VisualizeUniformity(a2)
+#
+# v1.noise_vs_counts_six_bins(save=True)
+# v2.noise_vs_counts_six_bins(save=True)
 
 #v = Visualize3Windows(a1, a2)
 #v.plot_cnr_vs_time(cnr_or_noise=1, save=True)
 #v.plot_cnr_vs_time(save=True)
 
-# for j, folder in enumerate(folders3):
-#     for i in [1]:
-#     #for i in np.arange(1, 18):
-#     #i = 1
-#         a1 = AnalyzeUniformity(folder, airfolders3[j], test_num=i)
+# for j, folder in enumerate(folders[1:]):
+#     for i in np.arange(1, 18):
+#         a1 = AnalyzeUniformity(folder, airfolder, test_num=i)
 #         a1.analyze_cnr_noise()
 #         v1 = VisualizeUniformity(a1)
 #         v1.titles = titles_many[i-1]
-#         v1.blank_vs_time_six_bins(cnr_or_noise=0, save=True)
-#         v1.blank_vs_time_six_bins(cnr_or_noise=1, save=True)
+#         for p in a1.pxp[0:6]:
+#             v1.blank_vs_time_six_bins(cnr_or_noise=0, pixel=p, save=True)
+#             v1.blank_vs_time_six_bins(cnr_or_noise=1, pixel=p, save=True)
         # if i == 1:
         #     # if folder is folders[5]:
         #     #     v1.blank_vs_pixels_six_bins(time=2, y_lim=80, save=True)
@@ -89,93 +103,4 @@ v2.noise_vs_counts_six_bins(save=True)
         #     v1.blank_vs_pixels_six_bins(cnr_or_noise=0, time=5, save=True)
         #     v1.blank_vs_pixels_six_bins(cnr_or_noise=0, time=10, save=True)
         #     v1.blank_vs_pixels_six_bins(cnr_or_noise=0, time=25, save=True)
-
-#%%
-
-#a1 = AnalyzeUniformity('many_thresholds_BB4mm', airfolder, test_num=11)
-#v1 = VisualizeUniformity(a1)
-#v1.pixel_images(save=True)
-
-# a1 = AnalyzeUniformity('many_thresholds_BB4mm', 'many_thresholds_airscan')
-# a2 = AnalyzeUniformity('many_thresholds_BB2mm', 'many_thresholds_airscan')
-# a3 = AnalyzeUniformity('many_thresholds_BB1mm', 'many_thresholds_airscan')
-# a4 = AnalyzeUniformity('many_thresholds_glass2mm', 'many_thresholds_airscan')
-# a5 = AnalyzeUniformity('many_thresholds_glass1mm', 'many_thresholds_airscan')
-# a6 = AnalyzeUniformity('many_thresholds_steel2mm', 'many_thresholds_airscan')
-# a7 = AnalyzeUniformity('many_thresholds_steel07mm', 'many_thresholds_airscan')
-#
-# a8 = AnalyzeUniformity('many_thresholds_PP', 'many_thresholds_airscan')
-# a9 = AnalyzeUniformity('energy_bin_check_PP', 'energy_bin_check_airscan')
-# a10 = AnalyzeUniformity('multiple_energy_thresholds_1w', 'multiple_energy_thresholds_flatfield_1w')
-#
-# a11 = AnalyzeUniformity('energy_bin_check_PP', 'energy_bin_check_airscan', test_num=2)
-# a12 = AnalyzeUniformity('energy_bin_check_PP', 'energy_bin_check_airscan', test_num=3)
-#
-# a1.analyze_cnr_noise()
-# a2.analyze_cnr_noise()
-# a3.analyze_cnr_noise()
-# a4.analyze_cnr_noise()
-# a5.analyze_cnr_noise()
-# a6.analyze_cnr_noise()
-# a7.analyze_cnr_noise()
-# a8.analyze_cnr_noise()
-# a9.analyze_cnr_noise()
-# a10.analyze_cnr_noise()
-#
-# a11.analyze_cnr_noise()
-# a12.analyze_cnr_noise()
-
-# v1 = VisualizeUniformity(a1)
-# v1.titles = titles_all[0]
-# v2 = VisualizeUniformity(a2)
-# v2.titles = titles_all[0]
-# v3 = VisualizeUniformity(a3)
-# v3.titles = titles_all[0]
-# v4 = VisualizeUniformity(a4)
-# v4.titles = titles_all[0]
-# v5 = VisualizeUniformity(a5)
-# v5.titles = titles_all[0]
-# v6 = VisualizeUniformity(a6)
-# v6.titles = titles_all[0]
-# v7 = VisualizeUniformity(a7)
-# v7.titles = titles_all[0]
-# v8 = VisualizeUniformity(a8)
-# v8.titles = titles_all[0]
-# v9 = VisualizeUniformity(a9)
-# v9.titles = titles_all[0]
-# v10 = VisualizeUniformity(a10)
-# v10.titles = titles_all[0]
-#
-# v11 = VisualizeUniformity(a11)
-# v11.titles = titles_all[0]
-# v12 = VisualizeUniformity(a12)
-# v12.titles = titles_all[0]
-
-# v1.blank_vs_time_six_bins()
-# v2.blank_vs_time_six_bins()
-# v3.blank_vs_time_six_bins()
-# v4.blank_vs_time_six_bins()
-# v5.blank_vs_time_six_bins()
-# v6.blank_vs_time_six_bins()
-# v7.blank_vs_time_six_bins()
-# v8.blank_vs_time_six_bins()
-# v9.blank_vs_time_six_bins()
-# v10.blank_vs_time_six_bins()
-#v11.blank_vs_time_six_bins()
-#v12.blank_vs_time_six_bins()
-
-
-# v3 = VisualizeUniformity(a3)
-#
-# v = Visualize3Windows(a1, a2, a3)
-#
-# v.plot_cnr_vs_time(save=True)
-# v.plot_cnr_vs_time(cnr_or_noise=1, save=True)
-# v1.blank_vs_time_six_bins()
-# v2.plot_bin(1)
-# v2.blank_vs_time_six_bins(save=True)
-# v3.blank_vs_time_six_bins(save=True)
-# v1.blank_vs_time_six_bins(cnr_or_noise=1, save=True)
-# v2.blank_vs_time_six_bins(cnr_or_noise=1, save=True)
-# v3.blank_vs_time_six_bins(cnr_or_noise=1, save=True)
 

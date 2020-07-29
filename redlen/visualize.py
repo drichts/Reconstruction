@@ -31,7 +31,7 @@ class VisualizeUniformity:
     def smooth_data(xpts, ypts, cnr_or_noise):
         xsmth = np.linspace(xpts[0], xpts[-1], 1000)
         if cnr_or_noise == 2:  # NOISE
-            coeffs = np.polyfit(xpts, ypts, 3)
+            coeffs = np.polyfit(xpts, ypts, 2)
             p = np.poly1d(coeffs)
             ysmth = p(xsmth)
         else:  # CNR
@@ -41,7 +41,7 @@ class VisualizeUniformity:
 
     def blank_vs_time_single_bin(self, bin_num, cnr_or_noise=0, pixel=1, end_time=25, save=False):
         """
-                This function plots CNR or noise over time (up to the end_time) for both CC and SEC bins
+                This function plots CNR or noise over time (up to the end_time) for CC and the EC bin
                 :param cnr_or_noise: int
                             0 for CNR, 1 for noise
                 :param pixel: int, optional
@@ -57,17 +57,17 @@ class VisualizeUniformity:
 
         if cnr_or_noise == 0:
             cnr_vals = self.AnalyzeUniformity.cnr_time[px_idx]  # <pixels, bin, val, time>
-            path = os.path.join(self.save_dir, 'Plots/CNR vs Time', pixel_path)
+            path = os.path.join(self.save_dir, 'Plots/Combo')
         else:
             cnr_vals = self.AnalyzeUniformity.noise_time[px_idx]  # <pixels, bin, val, time>
-            path = os.path.join(self.save_dir, 'Plots/Noise vs Time', pixel_path)
+            path = os.path.join(self.save_dir, 'Plots/Combo')
         os.makedirs(path, exist_ok=True)
 
         frames = self.AnalyzeUniformity.frames
         titles = self.titles
 
         plot_cnr = np.zeros([2, 2, len(frames)])
-        plot_cnr[0] = cnr_vals[bin_num]  # Get only SEC data up to the frame desired
+        plot_cnr[0] = cnr_vals[-1]  # Get EC data up to the frame desired
         plot_cnr[1] = cnr_vals[bin_num + 6]  # Get only CC data up to the frame desired
 
         # Make some smooth data
@@ -76,30 +76,32 @@ class VisualizeUniformity:
         for idx, ypts in enumerate(plot_cnr[:, 0]):
             frms_smth, cnr_smth[idx] = self.smooth_data(frames, ypts, cnr_or_noise)
 
-        fig = plt.figure(figsize=(3, 3))
+        fig = plt.figure(figsize=(3.5, 3.5))
 
         plt.plot(frms_smth, cnr_smth[1], color='k')
-        plt.plot(frms_smth, cnr_smth[0], color='r')
+        plt.plot(frms_smth, cnr_smth[0], color='b')
         # plt.errorbar(frames, plot_cnr[1, 0], yerr=plot_cnr[1, 1], fmt='none', color='k')
         # plt.errorbar(frames, plot_cnr[0, 0], yerr=plot_cnr[0, 1], fmt='none', color='r')
-        plt.legend(['CC', 'SEC'])
+        plt.legend([titles[bin_num] + ' keV CC', 'EC'])
 
         if cnr_or_noise == 0:
             plt.ylabel('CNR')
         else:
-            plt.set_ylabel('Noise')
-            plt.set_xlim([0, end_time])
-            plt.set_title(titles[bin_num] + ' keV')
+            plt.ylabel('Noise')
+        plt.xlabel('Time (ms)')
+        plt.xlim([0, end_time])
+        plt.title(pixel_path[:-4] + 'Pixels')
 
-        #plt.subplots_adjust(hspace=0.45, bottom=0.17)
+        plt.subplots_adjust(left=0.18, right=0.95, bottom=0.13, top=0.9)
         plt.show()
 
         if save:
-            plt.savefig(path + f'/TestNum{self.AnalyzeUniformity.test_num}_Bin{bin_num}.png', dpi=fig.dpi)
+            plt.savefig(path + f'/TestNum{self.AnalyzeUniformity.test_num}_' + titles[bin_num] + '_' + pixel_path[:-5] +
+                        '.png', dpi=fig.dpi)
             plt.close()
-        else:
-            plt.pause(5)
-            plt.close()
+        # else:
+        #     plt.pause(5)
+        #     plt.close()
 
     def blank_vs_time_six_bins(self, cnr_or_noise=0, pixel=1, end_time=25, save=False):
         """

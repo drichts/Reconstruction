@@ -10,7 +10,7 @@ from redlen.visualize import VisualizeUniformity
 
 class AddBinsVisualize(VisualizeUniformity):
 
-    def __init__(self, title, AddBinsUniformity, AnalyzeUniformity=None):
+    def __init__(self, label, AddBinsUniformity, AnalyzeUniformity=None):
         self.AddBinsUniformity = AddBinsUniformity
         self.AnalyzeUniformity = None
         self.save_dir = self.AddBinsUniformity.save_dir
@@ -19,7 +19,7 @@ class AddBinsVisualize(VisualizeUniformity):
             self.save_dir = self.AnalyzeUniformity.save_dir
         os.makedirs(self.save_dir, exist_ok=True)
         self.titles = ['20-30', '30-50', '50-70', '70-90', '90-120', 'EC']
-        self.title = title
+        self.label = label
 
     def plot_comparison(self, bin_num_add, bin_num_reg, cnr_or_noise=0, pixel=1, end_time=25, save=False):
         """
@@ -35,6 +35,7 @@ class AddBinsVisualize(VisualizeUniformity):
         :param save: boolean, optional
                    Whether or not to save the figure, defaults to False
         """
+        label = self.label
         px_idx = np.squeeze(np.argwhere(self.AddBinsUniformity.pxp == pixel))  # Find the index of the pixel value
 
         if cnr_or_noise == 0:
@@ -57,6 +58,8 @@ class AddBinsVisualize(VisualizeUniformity):
         plot_cnr_reg[0] = cnr_vals_reg[bin_num_reg]  # Get only SEC data up to the frame desired
         plot_cnr_reg[1] = cnr_vals_reg[bin_num_reg + 6]  # Get only CC data up to the frame desired
 
+        print(np.sum(plot_cnr_add - plot_cnr_reg))
+
         # Make some smooth data
         cnr_smth_add = np.zeros([2, 1000])
         for idx, ypts in enumerate(plot_cnr_add[:, 0]):
@@ -66,7 +69,7 @@ class AddBinsVisualize(VisualizeUniformity):
         for idx, ypts in enumerate(plot_cnr_reg[:, 0]):
             frms_smth, cnr_smth_reg[idx] = self.smooth_data(frames, ypts, cnr_or_noise)
 
-        fig, ax = plt.subplots(1, 2, figsize=(7, 4))
+        fig, ax = plt.subplots(1, 2, figsize=(6, 3))
 
         ax[0].plot(frms_smth, cnr_smth_reg[1], color='k')
         ax[0].plot(frms_smth, cnr_smth_reg[0], color='r')
@@ -78,7 +81,7 @@ class AddBinsVisualize(VisualizeUniformity):
         else:
             ax[0].set_ylabel('Noise')
         ax[0].set_xlim([0, end_time])
-        ax[0].title(self.title + ' keV (Actual bin)')
+        ax[0].set_title(label + ' keV (Actual bin)')
 
         ax[1].plot(frms_smth, cnr_smth_add[1], color='k')
         ax[1].plot(frms_smth, cnr_smth_add[0], color='r')
@@ -90,12 +93,12 @@ class AddBinsVisualize(VisualizeUniformity):
         else:
             ax[1].set_ylabel('Noise')
         ax[1].set_xlim([0, end_time])
-        ax[1].ttitle(self.title + ' keV (Added bins)')
-
+        ax[1].set_title(label + ' keV (Added bins)')
+        plt.subplots_adjust(left=0.12, bottom=0.15, right=0.95, top=0.9, wspace=0.32)
         plt.show()
 
         if save:
-            plt.savefig(path + f'/TestNum{self.AddBinsUniformity.test_num}_Comparison_' + 'title.png', dpi=fig.dpi)
+            plt.savefig(path + f'/TestNum{self.AddBinsUniformity.test_num}_Comparison_' + label + '.png', dpi=fig.dpi)
             plt.close()
         else:
             plt.pause(5)
