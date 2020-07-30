@@ -52,21 +52,25 @@ folders2 = ['many_thresholds_BB4mm', 'many_thresholds_BB2mm', 'many_thresholds_B
 folders3 = ['multiple_energy_thresholds_1w', 'multiple_energy_thresholds_3w']
 airfolders3 = ['multiple_energy_thresholds_flatfield_1w', 'multiple_energy_thresholds_flatfield_3w']
 
-f = 0
-t = 1
-b = 1
-a1 = AddBinsUniformity(folders[f], airfolder, test_num=t)
-# a2 = AddBinsUniformity(folders[7], airfolder)
-a1.add_adj_bins([1, 3])
+# f = 0
+# t = 1
+# b = 1
+a1 = AnalyzeUniformity(folders[6], airfolder, test_num=12)
+a2 = AddBinsUniformity(folders[6], airfolder)
+a2.add_adj_bins([1, 2])
+a2.analyze_cnr_noise()
+#a1.avg_contrast_over_all_frames()
 a1.analyze_cnr_noise()
-
-# a2.analyze_cnr_noise()
-v = VisualizeUniformity(a1)
-v.titles = titles_many[t-1]
-for p in [1, 2, 3]:
-    v.blank_vs_time_single_bin(b, pixel=p, save=True)
-# v = AddBinsVisualize('30-90', a2, AnalyzeUniformity=a1)
-# v.plot_comparison(1, 1, save=True)
+v = AddBinsVisualize('30-70', a2, AnalyzeUniformity=a1)
+#v.contrast_vs_time()
+#v.blank_vs_time_six_bins(save=True)
+v.plot_comparison(1, 1, save=True)
+#v.blank_vs_time_six_bins(cnr_or_noise=0, end_time=100)
+# v.titles = titles_many[t-1]
+# for p in [1, 2, 3]:
+#     v.blank_vs_time_single_bin(b, pixel=p, save=True)
+# v = AddBinsVisualize('30-70', a2, AnalyzeUniformity=a1)
+# v.plot_comparison(1, 1, cnr_or_noise=1, end_time=1000)
 
 # a1 = AnalyzeUniformity(folders[6], airfolder)
 # a2 = AnalyzeUniformity(folders[7], airfolder)
@@ -74,7 +78,7 @@ for p in [1, 2, 3]:
 # a2.analyze_cnr_noise()
 #
 # v1 = VisualizeUniformity(a1)
-# v2 = VisualizeUniformity(a2)
+#v2 = VisualizeUniformity(a2)
 #
 # v1.noise_vs_counts_six_bins(save=True)
 # v2.noise_vs_counts_six_bins(save=True)

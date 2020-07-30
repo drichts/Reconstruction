@@ -323,8 +323,6 @@ class AnalyzeUniformity(RedlenAnalyze):
         self.bg_signal = bg_frames
         self.signal = signal_frames
 
-        return contrast_frames, signal_frames, bg_frames
-
     def cnr_noise_vs_pixels(self):
         """ This function just transposes the cnr and noise data so that the values vs. pixels are the last two
             axes in the array"""

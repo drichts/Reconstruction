@@ -388,87 +388,52 @@ class VisualizeUniformity:
                 plt.pause(5)
                 plt.close()
 
+    def contrast_vs_time(self, end_time=25, save=False):
 
-    # titles_all = [['20-30', '30-50', '50-70', '70-90', '90-120', 'EC'],
-    #               ['20-50', '50-70', '70-90', '90-100', '100-120', 'EC'],
-    #               ['20-55', '55-70', '70-90', '90-100', '100-120', 'EC'],
-    #               ['20-60', '60-75', '75-90', '90-100', '100-120', 'EC'],
-    #               ['20-65', '65-80', '80-90', '90-100', '100-120', 'EC'],
-    #               ['20-70', '70-80', '80-90', '90-100', '100-120', 'EC'],
-    #               ['20-80', '80-90', '90-100', '100-110', '110-120', 'EC'],
-    #               ['20-90', '90-100', '100-105', '105-110', '110-120', 'EC']]
+        contrast = self.AnalyzeUniformity.contrast[:, 0, :]  # <bin, val, time>
+        bg_signal = self.AnalyzeUniformity.bg_signal[:, 0, :]
+        #contrast = np.divide(contrast, bg_signal)
+        frames = self.AnalyzeUniformity.frames
+        path = os.path.join(self.save_dir, 'Plots/Contrast vs Time/')
+        os.makedirs(path, exist_ok=True)
 
- # def contrast_vs_time(folder, test_num, pixel, time, titles, ws=['1w', '3w', '8w'], CC='CC', save=False,
-    #                 directory='C:/Users/10376/Documents/Phantom Data/'):
-    #
-    #     colors = ['black', 'red', 'blue', 'green']
-    #     path = directory + folder + '/'
-    #     w_folders = glob(path + '*w*/')  # Get each of the different w folders
-    #
-    #     gof.create_folder('Plots', path) # Create the folder
-    #     path = path + 'Plots/'
-    #     gof.create_folder('Contrast vs Time', path)
-    #     path = path + 'Contrast vs Time/'
-    #
-    #     fig, axes = plt.subplots(2, 3, figsize=(8, 6), sharey=True)
-    #     pixel_path = str(pixel) + 'x' + str(pixel) + ' Data/'
-    #     gof.create_folder(pixel_path, path)
-    #     path = path + pixel_path
-    #
-    #     for c, fold in enumerate(w_folders):
-    #         contrast_path = fold + pixel_path + '/*' + str(test_num) + '_Avg_contrast.npy'
-    #         frames_path = fold + pixel_path + '/*' + str(test_num) + '_Frames.npy'
-    #
-    #         contrast = np.load(glob(contrast_path)[0])
-    #         frames = np.load(glob(frames_path)[0])
-    #         full_frames = frames
-    #
-    #         stop_idx = int(np.argwhere(frames == time) + 1)
-    #         frames = frames[0:stop_idx]
-    #
-    #         plot_contrast = np.zeros([len(frames), 6, 2])
-    #         if CC == 'CC':
-    #             plot_contrast[:, 0:5] = contrast[0:stop_idx, 6:11]  # Get only CC data up to the frame desired
-    #         else:
-    #             plot_contrast[:, 0:5] = contrast[0:stop_idx, 0:5]  # Get only SEC data up to the frame desired
-    #         plot_contrast[:, 5] = contrast[0:stop_idx, 12]  # Get EC bin for summed bin
-    #         contrast = np.abs(contrast)
-    #         for i, ax in enumerate(axes.flatten()):
-    #             # Make some smooth data
-    #             xnew = np.linspace(0, 1000, 1000)
-    #             if i == 5:
-    #                 spl = spline(full_frames, contrast[:, 12, 0])
-    #             elif CC == 'CC':
-    #                 spl = spline(full_frames, contrast[:, i+6, 0])
-    #             else:
-    #                 spl = spline(full_frames, contrast[:, i, 0])
-    #             contrast_smth = spl(xnew)
-    #
-    #             ax.plot(xnew, contrast_smth, color=colors[c])
-    #             #ax.errorbar(frames, plot_contrast[:, i, 0], yerr=plot_contrast[:, i, 1], fmt='none', color=colors[c])
-    #             ax.set_xlabel('Time (ms)')
-    #             ax.set_ylabel('Contrast')
-    #             ax.set_xlim([0, time])
-    #             if i == 5:
-    #                 ax.set_title(titles[i] + ' Bin')
-    #             else:
-    #                 ax.set_title(titles[i] + ' keV ' + CC)
-    #
-    #     ax1 = fig.add_subplot(111, frameon=False)
-    #     ax1.grid(False)
-    #     # Hide axes ticks
-    #     ax1.set_xticks([])
-    #     ax1.set_yticks([])
-    #     blackpatch = mpatches.Patch(color=colors[0], label=ws[0])
-    #     redpatch = mpatches.Patch(color=colors[1], label=ws[1])
-    #     bluepatch = mpatches.Patch(color=colors[2], label=ws[2])
-    #     leg = plt.legend(handles=[blackpatch, redpatch, bluepatch], loc='lower center', bbox_to_anchor=(0.5, -0.19), ncol=3,
-    #                      fancybox=True)
-    #     ax1.add_artist(leg)
-    #     plt.subplots_adjust(hspace=0.45, bottom=0.17)
-    #
-    #     if save:
-    #         plt.savefig(path + 'TestNum_' + str(test_num) + '_' + CC + '.png', dpi=fig.dpi)
-    #         plt.close()
-    #     else:
-    #         plt.show()
+        titles = self.titles
+
+        plot_contrast = np.zeros([11, len(frames)])
+        plot_contrast[0:5] = contrast[0:5]  # Get only SEC data up to the frame desired
+        plot_contrast[5:10] = contrast[6:11]  # Get only CC data up to the frame desired
+        plot_contrast[10] = contrast[12]  # Get EC bin for summed bin
+
+        # Make some smooth data
+        pc_shape = np.shape(plot_contrast)
+        contrast_smth = np.zeros([pc_shape[0], 1000])
+        for idx, ypts in enumerate(plot_contrast):
+            frms_smth, contrast_smth[idx] = self.smooth_data(frames, ypts, 1)
+
+        fig, axes = plt.subplots(2, 3, figsize=(8, 6), sharey=True)
+
+        for i, ax in enumerate(axes.flatten()):
+            if i < 5:
+                ax.plot(frms_smth, contrast_smth[i + 5], color='k')
+                ax.plot(frms_smth, contrast_smth[i], color='r')
+                # ax.errorbar(frames, plot_cnr[i+5, 0], yerr=plot_cnr[i+5, 1], fmt='none', color='k')
+                # ax.errorbar(frames, plot_cnr[i, 0], yerr=plot_cnr[i, 1], fmt='none', color='r')
+                ax.legend(['CC', 'SEC'])
+                ax.set_title(titles[i] + ' keV')
+            else:
+                ax.plot(frms_smth, contrast_smth[-1], color='k')
+                # ax.errorbar(frames, plot_cnr[-1, 0], yerr=plot_cnr[-1, 1], fmt='none', color='k')
+                ax.set_title(titles[i])
+            ax.set_xlabel('Time (ms)')
+            ax.set_ylabel('Contrast')
+            ax.set_xlim([0, end_time])
+
+        plt.subplots_adjust(hspace=0.45, bottom=0.17)
+        plt.show()
+
+        if save:
+            plt.savefig(path + f'/TestNum{self.AnalyzeUniformity.test_num}.png', dpi=fig.dpi)
+            plt.close()
+        else:
+            plt.pause(5)
+            plt.close()
