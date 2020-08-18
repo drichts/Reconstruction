@@ -71,7 +71,39 @@ class AnalyzeUniformity(RedlenAnalyze):
             self.masks.append(tempmask)
             self.bg.append(tempbg)
 
-        np.savez(os.path.join(self.save_dir + '/Masks.npz'), mask=self.masks, bg=self.bg)
+        np.savez(os.path.join(self.save_dir, 'Masks.npz'), mask=self.masks, bg=self.bg)
+
+    def redo_masks(self, pixels=[1, 2, 3, 4, 6, 8, 12]):
+        masks = np.load(os.path.join(self.save_dir, 'Masks.npz'), allow_pickle=True)
+        self.small_phantom = True
+
+        bg = masks['bg']
+        masks = masks['mask']
+
+        data = np.load(self.data_a0)
+        airdata = np.load(self.air_data.data_a0)
+
+        for pixel in pixels:
+            idx = np.squeeze(np.argwhere(self.pxp == pixel))
+
+            if pixel == 1:
+                tempdata = data
+                tempair = airdata
+            else:
+                tempdata = self.sumpxp(data, pixel)
+                tempair = self.sumpxp(airdata, pixel)
+
+            image = self.intensity_correction(tempdata, tempair)
+            image = np.sum(image, axis=1)
+            tempmask, tempbg = self.choose_mask_types(image[self.visible_bin], pixel)
+
+            masks[idx] = tempmask
+            bg[idx] = tempbg
+
+        self.masks = masks
+        self.bg = bg
+
+        np.savez(os.path.join(self.save_dir, 'Masks.npz'), mask=self.masks, bg=self.bg)
 
     def test_visibility(self):
         """
@@ -222,8 +254,9 @@ class AnalyzeUniformity(RedlenAnalyze):
                 noise[j, i] = np.nanstd(img*bg_mask)  # Get noise as fraction of mean background
 
         # Average over the frames
+        cnr_err = np.nanstd(cnr_val, axis=1)
         cnr_val = np.nanmean(cnr_val, axis=1)
-        cnr_err = np.nanmean(cnr_err, axis=1)
+        # cnr_err = np.nanmean(cnr_err, axis=1)
         noise_std = np.nanstd(noise, axis=1)
         noise = np.nanmean(noise, axis=1)
 

@@ -96,7 +96,7 @@ class VisualizeUniformity:
         plt.show()
 
         if save:
-            plt.savefig(path + f'/TestNum{self.AnalyzeUniformity.test_num}_' + titles[bin_num] + '_' + pixel_path[:-5] +
+            plt.savefig(path + f'/2_TestNum{self.AnalyzeUniformity.test_num}_' + titles[bin_num] + '_' + pixel_path[:-5] +
                         '.png', dpi=fig.dpi)
             plt.close()
         # else:
@@ -139,27 +139,30 @@ class VisualizeUniformity:
         pc_shape = np.shape(plot_cnr)
         cnr_smth = np.zeros([pc_shape[0], 1000])
         for idx, ypts in enumerate(plot_cnr[:, 0]):
-            frms_smth, cnr_smth[idx] = self.smooth_data(frames, ypts, cnr_or_noise)
+            ypts = np.concatenate((np.array([0]), ypts))
+            xpts = np.concatenate((np.array([0]), frames))
+            frms_smth, cnr_smth[idx] = self.smooth_data(xpts, ypts, cnr_or_noise)
 
         fig, axes = plt.subplots(2, 3, figsize=(8, 6), sharey=True)
         for i, ax in enumerate(axes.flatten()):
             if i < 5:
                 ax.plot(frms_smth, cnr_smth[i+5], color='k')
-                ax.plot(frms_smth, cnr_smth[i], color='r')
-                #ax.errorbar(frames, plot_cnr[i+5, 0], yerr=plot_cnr[i+5, 1], fmt='none', color='k')
+                #ax.plot(frms_smth, cnr_smth[i], color='r')
+                ax.errorbar(frames, plot_cnr[i+5, 0], yerr=plot_cnr[i+5, 1], fmt='none', color='k', capsize=3)
                 #ax.errorbar(frames, plot_cnr[i, 0], yerr=plot_cnr[i, 1], fmt='none', color='r')
-                ax.legend(['CC', 'SEC'])
+                #ax.legend(['CC', 'SEC'])
                 ax.set_title(titles[i] + ' keV')
             else:
                 ax.plot(frms_smth, cnr_smth[-1], color='k')
-                #ax.errorbar(frames, plot_cnr[-1, 0], yerr=plot_cnr[-1, 1], fmt='none', color='k')
+                ax.errorbar(frames, plot_cnr[-1, 0], yerr=plot_cnr[-1, 1], fmt='none', color='k', capsize=3)
                 ax.set_title(titles[i])
             ax.set_xlabel('Time (ms)')
             if cnr_or_noise == 0:
                 ax.set_ylabel('CNR')
             else:
                 ax.set_ylabel('Noise')
-            ax.set_xlim([0, end_time])
+            ax.set_ylim(bottom=0, auto=True)
+            ax.set_xlim([0, end_time+5])
 
 
         plt.subplots_adjust(hspace=0.45, bottom=0.17)
@@ -289,8 +292,8 @@ class VisualizeUniformity:
                 #ax.plot(pxs_smth, cnr_smth[i + 5], color='k')
                 #ax.plot(pxs_smth, cnr_smth[i], color='r')
                 ax.errorbar(pixels, plot_cnr[i + 5, 0], yerr=plot_cnr[i + 5, 1], fmt='none', capsize=3, color='k')
-                ax.errorbar(pixels, plot_cnr[i, 0], yerr=plot_cnr[i, 1], fmt='none', capsize=3, color='r')
-                ax.legend(['CC', 'SEC'])
+                #ax.errorbar(pixels, plot_cnr[i, 0], yerr=plot_cnr[i, 1], fmt='none', capsize=3, color='r')
+                #ax.legend(['CC', 'SEC'])
                 ax.set_title(titles[i] + ' keV')
             else:
                 #ax.plot(pxs_smth, cnr_smth[i], color='k')
@@ -309,7 +312,7 @@ class VisualizeUniformity:
         plt.show()
 
         if save:
-            plt.savefig(path + f'/2_TestNum{self.AnalyzeUniformity.test_num}_Time{time}ms.png', dpi=fig.dpi)
+            plt.savefig(path + f'/3_TestNum{self.AnalyzeUniformity.test_num}_Time{time}ms.png', dpi=fig.dpi)
             plt.close()
         else:
             plt.pause(5)

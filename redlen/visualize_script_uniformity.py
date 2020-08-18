@@ -41,7 +41,7 @@ titles_many = [['20-30', '30-50', '50-70', '70-90', '90-120', 'EC'],
                ['20-40', '40-90', '90-100', '100-110', '110-120', 'EC'],
                ['20-50', '50-90', '90-100', '100-110', '110-120', 'EC']]
 
-folders = ['many_thresholds_BB4mm', 'many_thresholds_BB2mm', 'many_thresholds_BB1mm',
+folders = ['many_thresholds_BB4mm', 'many_thresholds_BB2mm',
            'many_thresholds_glass2mm', 'many_thresholds_glass1mm',
            'many_thresholds_steel07mm', 'many_thresholds_steel2mm',
            'many_thresholds_PP']
@@ -55,16 +55,40 @@ airfolders3 = ['multiple_energy_thresholds_flatfield_1w', 'multiple_energy_thres
 # f = 0
 # t = 1
 # b = 1
-a1 = AnalyzeUniformity(folders[6], airfolder, test_num=12)
-a2 = AddBinsUniformity(folders[6], airfolder)
-a2.add_adj_bins([1, 2])
-a2.analyze_cnr_noise()
-#a1.avg_contrast_over_all_frames()
-a1.analyze_cnr_noise()
-v = AddBinsVisualize('30-70', a2, AnalyzeUniformity=a1)
-#v.contrast_vs_time()
+# a1 = AnalyzeUniformity('polyprop_1w_deadtime_32ns', 'airscan_1w_deadtime_32ns')
+# a2 = AnalyzeUniformity('polyprop_3w_deadtime_32ns', 'airscan_3w_deadtime_32ns')
+# a3 = AnalyzeUniformity('polyprop_8w_deadtime_32ns', 'airscan_8w_deadtime_32ns')
+# #a2 = AddBinsUniformity(folders[6], airfolder)
+# #a2.add_adj_bins([1, 2])
+# #a2.analyze_cnr_noise()
+# a1.avg_contrast_over_all_frames()
+# a2.avg_contrast_over_all_frames()
+# a3.avg_contrast_over_all_frames()
+#
+# fig, axes = plt.subplots(2, 3, figsize=(8, 6), sharey=True)
+# for i, ax in enumerate(axes.flatten()):
+#     if i == 5:
+#         ax.plot(a1.frames, a1.contrast[12, 0], 'k')
+#         ax.plot(a2.frames, a2.contrast[12, 0], 'r')
+#         ax.plot(a3.frames, a3.contrast[12, 0], 'b')
+#         ax.set_title('EC')
+#     else:
+#         ax.plot(a1.frames, a1.contrast[i+6, 0], 'k')
+#         ax.plot(a2.frames, a2.contrast[i + 6, 0], 'r')
+#         ax.plot(a3.frames, a3.contrast[i + 6, 0], 'b')
+#         ax.set_title(titles_many[0][i] + ' keV')
+#     ax.legend(['1w', '3w', '8w'])
+#     ax.set_xlabel('Time (ms)')
+#     ax.set_ylabel('Contrast')
+#     plt.subplots_adjust(hspace=0.45)
+#
+#     plt.show()
+#     plt.savefig(r'C:\Users\10376\Documents\Phantom Data\Report\Contrast_3wind.png', dpi=fig.dpi)
+#a1.analyze_cnr_noise()
+#v = VisualizeUniformity(a1)
+#v.contrast_vs_time(save=True)
 #v.blank_vs_time_six_bins(save=True)
-v.plot_comparison(1, 1, save=True)
+#v.plot_comparison(1, 1, save=True)
 #v.blank_vs_time_six_bins(cnr_or_noise=0, end_time=100)
 # v.titles = titles_many[t-1]
 # for p in [1, 2, 3]:
@@ -87,24 +111,26 @@ v.plot_comparison(1, 1, save=True)
 #v.plot_cnr_vs_time(cnr_or_noise=1, save=True)
 #v.plot_cnr_vs_time(save=True)
 
-# for j, folder in enumerate(folders[1:]):
-#     for i in np.arange(1, 18):
-#         a1 = AnalyzeUniformity(folder, airfolder, test_num=i)
-#         a1.analyze_cnr_noise()
-#         v1 = VisualizeUniformity(a1)
-#         v1.titles = titles_many[i-1]
-#         for p in a1.pxp[0:6]:
-#             v1.blank_vs_time_six_bins(cnr_or_noise=0, pixel=p, save=True)
-#             v1.blank_vs_time_six_bins(cnr_or_noise=1, pixel=p, save=True)
-        # if i == 1:
-        #     # if folder is folders[5]:
-        #     #     v1.blank_vs_pixels_six_bins(time=2, y_lim=80, save=True)
-        #     #     v1.blank_vs_pixels_six_bins(time=5, y_lim=80, save=True)
-        #     #     v1.blank_vs_pixels_six_bins(time=10, y_lim=80, save=True)
-        #     #     v1.blank_vs_pixels_six_bins(time=25, y_lim=80, save=True)
-        #     # else:
-        #     v1.blank_vs_pixels_six_bins(cnr_or_noise=0, time=2, save=True)
-        #     v1.blank_vs_pixels_six_bins(cnr_or_noise=0, time=5, save=True)
-        #     v1.blank_vs_pixels_six_bins(cnr_or_noise=0, time=10, save=True)
-        #     v1.blank_vs_pixels_six_bins(cnr_or_noise=0, time=25, save=True)
+for j, folder in enumerate(folders):
+    for i in np.arange(1, 18):
+
+        a1 = AnalyzeUniformity(folder, airfolder, test_num=i)
+        a1.analyze_cnr_noise()
+        v1 = VisualizeUniformity(a1)
+        v1.titles = titles_many[i-1]
+
+        v1.blank_vs_time_six_bins(cnr_or_noise=0, save=True)
+        v1.blank_vs_time_six_bins(cnr_or_noise=1, save=True)
+
+        if i == 1:
+
+            v1.blank_vs_pixels_six_bins(cnr_or_noise=0, time=2, save=True)
+            v1.blank_vs_pixels_six_bins(cnr_or_noise=0, time=5, save=True)
+            v1.blank_vs_pixels_six_bins(cnr_or_noise=0, time=10, save=True)
+            v1.blank_vs_pixels_six_bins(cnr_or_noise=0, time=25, save=True)
+
+            v1.blank_vs_pixels_six_bins(cnr_or_noise=1, time=2, save=True)
+            v1.blank_vs_pixels_six_bins(cnr_or_noise=1, time=5, save=True)
+            v1.blank_vs_pixels_six_bins(cnr_or_noise=1, time=10, save=True)
+            v1.blank_vs_pixels_six_bins(cnr_or_noise=1, time=25, save=True)
 
