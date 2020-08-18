@@ -139,8 +139,10 @@ class VisualizeUniformity:
         pc_shape = np.shape(plot_cnr)
         cnr_smth = np.zeros([pc_shape[0], 1000])
         for idx, ypts in enumerate(plot_cnr[:, 0]):
-            ypts = np.concatenate((np.array([0]), ypts))
-            xpts = np.concatenate((np.array([0]), frames))
+            xpts = frames
+            if cnr_or_noise == 0:
+                ypts = np.concatenate((np.array([0]), ypts))
+                xpts = np.concatenate((np.array([0]), frames))
             frms_smth, cnr_smth[idx] = self.smooth_data(xpts, ypts, cnr_or_noise)
 
         fig, axes = plt.subplots(2, 3, figsize=(8, 6), sharey=True)

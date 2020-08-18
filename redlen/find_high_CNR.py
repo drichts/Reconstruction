@@ -29,7 +29,7 @@ titles_many = [['20-30', '30-50', '50-70', '70-90', '90-120', 'EC'],
                ['20-50', '50-90', '90-100', '100-110', '110-120', 'EC']]
 
 
-def plot_values(time_val=25):
+def plot_values(pixel, time_val=25):
 
     time_values = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 50, 100, 250, 500, 1000])
     time_idx = np.squeeze(np.argwhere(time_values == time_val))
@@ -39,7 +39,7 @@ def plot_values(time_val=25):
     ax = axes.flatten()
 
     for idx, folder in enumerate([folders[0], folders[3], folders[6], folders[7]]):
-        data = np.load(direct + folder + '/AHighCNR.npz')
+        data = np.load(direct + folder + f'/AHighCNR_pixel{pixel}.npz')
         ec = np.mean(data['ec_cnr'][time_idx, 0])
 
         temp_titles = np.ndarray.flatten(np.array(titles_many)[:, 0:5])
@@ -85,12 +85,14 @@ def plot_values(time_val=25):
     fig.text(0.5, 0.02, 'Energy bins (keV)', ha='center', fontsize=16)
     fig.text(0.02, 0.5, 'CNR', va='center', rotation='vertical', fontsize=16)
     plt.plot()
-    plt.savefig(r'C:\Users\10376\Documents\Phantom Data\Report\Ranges/' + f'_{time_values[time_idx]}ms.png', dpi=fig.dpi)
-    plt.close()
+    #plt.savefig(r'C:\Users\10376\Documents\Phantom Data\Report\Ranges/' + f'_{time_values[time_idx]}ms.png', dpi=fig.dpi)
+    #plt.close()
 
 
-def get_values():
-    sns.set(style='white')
+def get_values(pixel):
+
+    pxp = np.array([1, 2, 3, 4, 6, 8, 12])
+    p_idx = np.squeeze(np.argwhere(pxp == pixel))
     for folder in folders:
         cnr = np.zeros([13, 2, 85])  # Form: <time, value and error, test_num + bin>
         noise = np.zeros([13, 2, 85])
@@ -102,8 +104,8 @@ def get_values():
             noise_path = direct + folder + f'/TestNum{i}_noise_time.npy'
 
             # Both of the form <pixels, bin, value or error, time>
-            temp_cnr = np.load(cnr_path)[0]  # Only 1x1 pixels
-            temp_noise = np.load(noise_path)[0]
+            temp_cnr = np.load(cnr_path)[p_idx]
+            temp_noise = np.load(noise_path)[p_idx]
 
             ec_cnr[:, :, i-1] = np.transpose(temp_cnr[12, :, 0:13], axes=(1, 0))
             ec_noise[:, :, i-1] = np.transpose(temp_noise[12, :, 0:13], axes=(1, 0))
@@ -111,8 +113,11 @@ def get_values():
             cnr[:, :, (i-1)*5:(i-1)*5+5] = np.transpose(temp_cnr[6:11, :, 0:13], axes=(2, 1, 0))
             noise[:, :, (i-1)*5:(i-1)*5+5] = np.transpose(temp_noise[6:11, :, 0:13], axes=(2, 1, 0))
 
-        np.savez(direct+folder+'/AHighCNR.npz', cnr=cnr, noise=noise, ec_cnr=ec_cnr, ec_noise=ec_noise)
+        np.savez(direct+folder+f'/AHighCNR_pixel{pixel}.npz', cnr=cnr, noise=noise, ec_cnr=ec_cnr, ec_noise=ec_noise)
 
 # for idx, folder in enumerate(folders):
 #     for t in [0, 4, 9, 10]:
 #         plot_values(folder, names[idx], time_idx=t)
+
+get_values(3)
+plot_values(3)
