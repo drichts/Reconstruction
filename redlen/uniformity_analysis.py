@@ -172,7 +172,7 @@ class AnalyzeUniformity(RedlenAnalyze):
 
         return mask, bg
 
-    def analyze_cnr_noise(self, redo=False):
+    def analyze_cnr_noise(self, pixels=None, redo=False):
         """
         This function calculates the CNR and noise in each bin at each of the pixel aggregations values and at a number
         of different acquisition times
@@ -187,31 +187,49 @@ class AnalyzeUniformity(RedlenAnalyze):
             self.cnr_time = np.load(cnr_file)
             self.noise_time = np.load(noise_file)
         else:
-            print('Creating...')
             data = np.load(self.data_a0)
             airdata = np.load(self.air_data.data_a0)
 
-            cnr_vals = np.zeros([len(self.pxp), len(self.frames), self.num_bins, 2])
-            noise = np.zeros([len(self.pxp), len(self.frames), self.num_bins, 2])
+            if pixels:
+                print('Modifying...')
+                self.cnr_time = np.load(cnr_file)
+                self.noise_time = np.load(noise_file)
+                pixels = np.array(pixels)
+                p_idx = np.zeros(len(pixels), dtype=int)
+                for j in np.arange(len(pixels)):
+                    p_idx[j] = int(np.squeeze(np.argwhere(self.pxp == pixels[j])))
+
+            else:
+                print('Creating...')
+                self.cnr_time = np.zeros([self.pxp, self.num_bins, 2, len(self.frames)])
+                self.noise_time = np.zeros([self.pxp, self.num_bins, 2, len(self.frames)])
+                pixels = self.pxp
+                p_idx = np.arange(len(pixels))
+
+            cnr_vals = np.zeros([len(pixels), len(self.frames), self.num_bins, 2])
+            noise = np.zeros([len(pixels), len(self.frames), self.num_bins, 2])
 
             # Aggregate the number of pixels in pxp squared
-            for p, pix in enumerate(self.pxp):
+            for p, pix in enumerate(pixels):
                 if pix == 1:
                     data_pxp = np.squeeze(data)
                     air_pxp = np.squeeze(airdata)
                 else:
                     data_pxp = np.squeeze(self.sumpxp(data, pix))  # Aggregate the pixels
+                    print(np.shape(data_pxp))
                     air_pxp = np.squeeze(self.sumpxp(airdata, pix))
 
                 # Collect the frames aggregated over, the noise and cnr and save
-                cnr_vals[p], noise[p] = self.avg_cnr_noise_over_all_frames(data_pxp, air_pxp, self.masks[p], self.bg[p])
+                cnr_vals[p], noise[p] = self.avg_cnr_noise_over_all_frames(data_pxp, air_pxp, self.masks[p_idx[p]],
+                                                                           self.bg[p_idx[p]])
 
             # CNR vs. time, noise vs. time <pixels, time, bin, value or error (0 or 1)>
-            self.cnr_time, self.noise_time = cnr_vals, noise
             # Reorganize to <pixels, bin, value or error, time>
-            self.cnr_time = np.transpose(self.cnr_time, axes=(0, 2, 3, 1))
-            self.noise_time = np.transpose(self.noise_time, axes=(0, 2, 3, 1))
+            cnr_vals = np.transpose(cnr_vals, axes=(0, 2, 3, 1))
+            noise = np.transpose(noise, axes=(0, 2, 3, 1))
 
+            self.cnr_time[p_idx[0]:p_idx[-1]+1] = cnr_vals
+            self.noise_time[p_idx[0]:p_idx[-1]+1] = noise
             np.save(cnr_file, self.cnr_time)
             np.save(noise_file, self.noise_time)
 
@@ -287,6 +305,72 @@ class AnalyzeUniformity(RedlenAnalyze):
             noise_frames[i, :, 1] = ne  # Noise error, 2nd column
 
         return cnr_frames, noise_frames
+
+    def mean_signal_all_pixels(self, pixels=None, redo=False):
+        signal_file = os.path.join(self.save_dir, f'TestNum{self.test_num}_signal.npy')
+
+        if os.path.exists(signal_file) and not redo:
+            print('Loaded.')
+            self.signal = np.load(signal_file)
+        else:
+            data = np.load(self.data_a0)
+            airdata = np.load(self.air_data.data_a0)
+
+            if pixels:
+                print('Modifying...')
+                self.signal = np.load(signal_file)
+
+                pixels = np.array(pixels)
+                p_idx = np.zeros(len(pixels), dtype=int)
+                for j in np.arange(len(pixels)):
+                    p_idx[j] = int(np.squeeze(np.argwhere(self.pxp == pixels[j])))
+
+            else:
+                print('Creating...')
+                self.signal = np.zeros([len(self.pxp), self.num_bins, 2, len(self.frames)])
+                self.signal = np.zeros([len(self.pxp), self.num_bins, 2, len(self.frames)])
+                pixels = self.pxp
+                p_idx = np.arange(len(pixels))
+
+            signal_vals = np.zeros([len(pixels), len(self.frames), self.num_bins, 2])
+
+            # Aggregate the number of pixels in pxp squared
+            for p, pix in enumerate(pixels):
+                if pix == 1:
+                    data_pxp = np.squeeze(data)
+                    air_pxp = np.squeeze(airdata)
+                else:
+                    data_pxp = np.squeeze(self.sumpxp(data, pix))  # Aggregate the pixels
+                    air_pxp = np.squeeze(self.sumpxp(airdata, pix))
+
+                for f_idx, frame in enumerate(self.frames):
+                    bg_signal = np.zeros([self.num_bins, int(1000 / frame)])
+                    # Go over the data views in jumps of the number of frames
+                    for i, data_idx in enumerate(np.arange(0, 1001 - frame, frame)):
+                        if frame == 1:
+                            tempdata = data_pxp[:, data_idx]  # Grab the next view
+                            tempair = air_pxp[:, data_idx]
+                        else:
+                            # Grab the sum of the next 'frames' views
+                            tempdata = np.sum(data_pxp[:, data_idx:data_idx + frame], axis=1)
+                            tempair = np.sum(air_pxp[:, data_idx:data_idx + frame], axis=1)
+
+                        corr_data = self.intensity_correction(tempdata, tempair)  # Correct for air
+
+                        # Go through each bin and calculate signal
+                        for j, img in enumerate(corr_data):
+                            bg_signal[j, i] = np.nanmean(img * self.bg[p])
+
+                    # Average over the frames
+                    signal_vals[p, f_idx, :, 0] = np.mean(bg_signal, axis=1)
+                    signal_vals[p, f_idx, :, 1] = np.std(bg_signal, axis=1)
+
+            # CNR vs. time, noise vs. time <pixels, time, bin, value or error (0 or 1)>
+            # Reorganize to <pixels, bin, value or error, time>
+            signal_vals = np.transpose(signal_vals, axes=(0, 2, 3, 1))
+
+            self.signal[p_idx[0]:p_idx[-1] + 1] = signal_vals
+            np.save(signal_file, self.signal)
 
     def avg_signal_over_frames(self, frame):
         """

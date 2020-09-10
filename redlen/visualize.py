@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
+import seaborn as sns
 import os
 from scipy.interpolate import make_interp_spline as spline
 from redlen.uniformity_analysis import AnalyzeUniformity
@@ -115,6 +116,7 @@ class VisualizeUniformity:
         :param save: boolean, optional
                     Whether or not to save the figure, defaults to False
         """
+        sns.set_style('whitegrid')
         px_idx = np.squeeze(np.argwhere(self.AnalyzeUniformity.pxp == pixel))  # Find the index of the pixel value
 
         pixel_path = f'{pixel}x{pixel} Data'
@@ -148,15 +150,15 @@ class VisualizeUniformity:
         fig, axes = plt.subplots(2, 3, figsize=(8, 6), sharey=True)
         for i, ax in enumerate(axes.flatten()):
             if i < 5:
-                ax.plot(frms_smth, cnr_smth[i+5], color='k')
+                ax.plot(frms_smth, cnr_smth[i+5], color='mediumblue')
                 #ax.plot(frms_smth, cnr_smth[i], color='r')
-                ax.errorbar(frames, plot_cnr[i+5, 0], yerr=plot_cnr[i+5, 1], fmt='none', color='k', capsize=3)
+                ax.errorbar(frames, plot_cnr[i+5, 0], yerr=plot_cnr[i+5, 1], fmt='none', color='mediumblue', capsize=3)
                 #ax.errorbar(frames, plot_cnr[i, 0], yerr=plot_cnr[i, 1], fmt='none', color='r')
                 #ax.legend(['CC', 'SEC'])
                 ax.set_title(titles[i] + ' keV')
             else:
-                ax.plot(frms_smth, cnr_smth[-1], color='k')
-                ax.errorbar(frames, plot_cnr[-1, 0], yerr=plot_cnr[-1, 1], fmt='none', color='k', capsize=3)
+                ax.plot(frms_smth, cnr_smth[-1], color='mediumblue')
+                ax.errorbar(frames, plot_cnr[-1, 0], yerr=plot_cnr[-1, 1], fmt='none', color='mediumblue', capsize=3)
                 ax.set_title(titles[i])
             ax.set_xlabel('Time (ms)')
             if cnr_or_noise == 0:
@@ -171,7 +173,7 @@ class VisualizeUniformity:
         plt.show()
 
         if save:
-            plt.savefig(path + f'/2_TestNum{self.AnalyzeUniformity.test_num}.png', dpi=fig.dpi)
+            plt.savefig(path + f'/0_TestNum{self.AnalyzeUniformity.test_num}.png', dpi=fig.dpi)
             plt.close()
         else:
             plt.pause(5)
@@ -260,21 +262,28 @@ class VisualizeUniformity:
                     Whether or not to save the figure, defaults to False
         :return:
         """
+        sns.set_style('whitegrid')
         titles = self.titles
         if cnr_or_noise == 0:
             cnr_vals = self.AnalyzeUniformity.cnr_time  # <pixels, bin, val, time>
             path = os.path.join(self.save_dir, 'Plots/CNR vs Pixels')
         else:
             cnr_vals = self.AnalyzeUniformity.noise_time  # <pixels, bin, val, time>
+            signal = self.AnalyzeUniformity.signal
+            signal[:, :, 1, :] = np.power(np.divide(signal[:, :, 1, :], signal[:, :, 0, :]), 2)
+            cnr_vals[:, :, 1, :] = np.power(np.divide(cnr_vals[:, :, 1, :], cnr_vals[:, :, 0, :]), 2)
+
+            cnr_vals[:, :, 0, :] = cnr_vals[:, :, 0, :] / signal[:, :, 0, :]
+            cnr_vals[:, :, 1, :] = np.multiply(cnr_vals[:, :, 0, :], np.sqrt(np.add(cnr_vals[:, :, 1, :], signal[:, :, 1, :])))
             path = os.path.join(self.save_dir, 'Plots/Noise vs Pixels')
         os.makedirs(path, exist_ok=True)
 
-        pixels = self.AnalyzeUniformity.pxp
+        pixels = self.AnalyzeUniformity.pxp[0:-1]
         time_idx = np.squeeze(np.argwhere(self.AnalyzeUniformity.frames == time))
 
         # Grab only the pixel values at the time value and rearrange to <bin, val, pixels>
 
-        cnr_vals = np.transpose(cnr_vals[:, :, :, time_idx], axes=(1, 2, 0))
+        cnr_vals = np.transpose(cnr_vals[:, :, :, time_idx], axes=(1, 2, 0))[:, :, 0:-1]
 
         # Cut out overflow bins
         plot_cnr = np.zeros([11, 2, len(pixels)])
@@ -283,38 +292,40 @@ class VisualizeUniformity:
         plot_cnr[10] = cnr_vals[12]  # Get EC bin for summed bin
 
         # Make some smooth data
-        pc_shape = np.shape(plot_cnr)
-        cnr_smth = np.zeros([pc_shape[0], 1000])
-        for idx, ypts in enumerate(plot_cnr[:, 0]):
-            pxs_smth, cnr_smth[idx] = self.smooth_data(pixels, ypts, cnr_or_noise)
+        # pc_shape = np.shape(plot_cnr)
+        # cnr_smth = np.zeros([pc_shape[0], 1000])
+        # for idx, ypts in enumerate(plot_cnr[:, 0]):
+        #     pxs_smth, cnr_smth[idx] = self.smooth_data(pixels, ypts, cnr_or_noise)
 
         fig, axes = plt.subplots(2, 3, figsize=(8, 6), sharey=True)
         for i, ax in enumerate(axes.flatten()):
             if i < 5:
                 #ax.plot(pxs_smth, cnr_smth[i + 5], color='k')
                 #ax.plot(pxs_smth, cnr_smth[i], color='r')
-                ax.errorbar(pixels, plot_cnr[i + 5, 0], yerr=plot_cnr[i + 5, 1], fmt='none', capsize=3, color='k')
+                ax.errorbar(pixels, plot_cnr[i + 5, 0], yerr=plot_cnr[i + 5, 1], fmt='none', capsize=3, color='mediumblue')
                 #ax.errorbar(pixels, plot_cnr[i, 0], yerr=plot_cnr[i, 1], fmt='none', capsize=3, color='r')
                 #ax.legend(['CC', 'SEC'])
                 ax.set_title(titles[i] + ' keV')
             else:
-                #ax.plot(pxs_smth, cnr_smth[i], color='k')
-                ax.errorbar(pixels, plot_cnr[-1, 0], yerr=plot_cnr[-1, 1], fmt='none', capsize=3, color='k')
+                #ax.plot(pxs_smth, cnr_smth[-1], color='k')
+                ax.errorbar(pixels, plot_cnr[-1, 0], yerr=plot_cnr[-1, 1], fmt='none', capsize=3, color='mediumblue')
                 ax.set_title(titles[i])
-            ax.set_xlabel('Pixels')
+            ax.set_xlabel('Binning')
             if cnr_or_noise == 0:
                 ax.set_ylabel('CNR')
             else:
                 ax.set_ylabel('Noise')
-            ax.set_xlim([0, pixels[-1]+0.5])
+            ax.set_xlim([0, pixels[-1]+1])
             if y_lim:
                 ax.set_ylim([0, y_lim])
+            ax.set_xticks([2, 4, 6, 8])
+            ax.set_xticklabels([r'2$\times$2', r'4$\times$4', r'6$\times$6', r'8$\times$8'])
 
         plt.subplots_adjust(hspace=0.45, bottom=0.17)
         plt.show()
 
         if save:
-            plt.savefig(path + f'/3_TestNum{self.AnalyzeUniformity.test_num}_Time{time}ms.png', dpi=fig.dpi)
+            plt.savefig(path + f'/0_TestNum{self.AnalyzeUniformity.test_num}_Time{time}ms.png', dpi=fig.dpi)
             plt.close()
         else:
             plt.pause(5)
