@@ -27,9 +27,7 @@
   <component name="ChangeListManager">
     <list default="true" id="e941e18b-2940-48ac-a2bc-ba92ca5d083f" name="Default Changelist" comment="NDT paper updates (9/10/2020)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/redlen/analysis_script_uniformity.py" beforeDir="false" afterPath="$PROJECT_DIR$/redlen/analysis_script_uniformity.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/redlen/find_high_CNR.py" beforeDir="false" afterPath="$PROJECT_DIR$/redlen/find_high_CNR.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/redlen/uniformity_analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/redlen/uniformity_analysis.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/redlen/visualize_script_uniformity.py" beforeDir="false" afterPath="$PROJECT_DIR$/redlen/visualize_script_uniformity.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -134,6 +132,7 @@
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
         <env name="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
       </envs>
       <option name="SDK_HOME" value="C:\Users\drich\Anaconda3\python.exe" />
@@ -178,6 +177,7 @@
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
         <env name="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
       </envs>
       <option name="SDK_HOME" value="C:\Users\drich\Anaconda3\python.exe" />
@@ -200,6 +200,7 @@
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
         <env name="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
       </envs>
       <option name="SDK_HOME" value="C:\Users\drich\Anaconda3\python.exe" />
@@ -222,6 +223,7 @@
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
         <env name="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
       </envs>
       <option name="SDK_HOME" value="C:\Users\drich\Anaconda3\python.exe" />
@@ -499,6 +501,7 @@
       <workItem from="1599671334068" duration="2828000" />
       <workItem from="1599757226791" duration="9794000" />
       <workItem from="1599767396566" duration="13605000" />
+      <workItem from="1599845196972" duration="3714000" />
     </task>
     <task id="LOCAL-00001" summary="Paper Edits">
       <created>1582153406007</created>

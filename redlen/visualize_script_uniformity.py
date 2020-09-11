@@ -187,9 +187,9 @@ def noisebinning_multiple_one_plot(fs=None, save=False):
         signal = np.load(rf'C:\Users\10376\Documents\Phantom Data\UNIFORMITY\{folder}\TestNum1_signal.npy')
 
         signal[:, :, 1, :] = np.power(np.divide(signal[:, :, 1, :], signal[:, :, 0, :]), 2)
-        noise_vals[:, :, 1, :] = np.power(np.divide(noise_vals[:, :, 1, :], noise_vals[:, :, 0, :]), 2)
+        noise_vals[:, :, 1, :] = np.power(np.divide(noise_vals[:, :, 1, :], noise_vals[:, :, 0, :]), 2) # Square rel. error
 
-        noise_vals[:, :, 0, :] = noise_vals[:, :, 0, :] / signal[:, :, 0, :]
+        noise_vals[:, :, 0, :] = noise_vals[:, :, 0, :] / signal[:, :, 0, :]  # Get relative noise mean values
         noise_vals[:, :, 1, :] = np.multiply(noise_vals[:, :, 0, :],
                                            np.sqrt(np.add(noise_vals[:, :, 1, :], signal[:, :, 1, :])))
 

@@ -60,18 +60,21 @@ def plot_values(pixel, time_val=25):
         titles = np.array(titles)
 
         sort_idx = np.argsort(vals)
+        print(vals[sort_idx][-4:])
+        print(uncer[sort_idx[-4:]])
+        print(ec)
+        print()
         uncer = np.power(np.divide(uncer, vals), 2)
-        vals = (vals[sort_idx] / ec )
+        vals = (vals / ec - 1)
         uncer = np.multiply(np.sqrt(np.add(uncer, ec_uncer)), vals)
-        vals = vals - 1
-        #vals = vals * 100
-        #uncer = uncer * 100
+        vals = vals[sort_idx] * 100
+        uncer = uncer[sort_idx] * 100
 
         uncer = uncer[sort_idx]
         titles = titles[sort_idx]
         if len(vals) < 3:
             pts = np.arange(1, 3)
-            ax[idx].bar(pts, vals[-2:], yerr=uncer[-2:], capsize=6, color='lightseagreen')
+            ax[idx].bar(pts, vals[-2:], yerr=uncer[-2:], capsize=6)
             ax[idx].set_xticks(pts)
             ax[idx].set_xticklabels(titles[-2:])
             ax[idx].set_xlim([0, 3])
@@ -90,10 +93,10 @@ def plot_values(pixel, time_val=25):
         ax[idx].set_title(plot_titles[idx], fontsize=14)
     plt.subplots_adjust(top=0.95, wspace=0.29, hspace=0.37)
     fig.text(0.5, 0.02, 'Energy bins (keV)', ha='center', fontsize=16)
-    fig.text(0.02, 0.5, 'CNR', va='center', rotation='vertical', fontsize=16)
+    fig.text(0.02, 0.5, 'CNR gain (%)', va='center', rotation='vertical', fontsize=16)
     plt.plot()
-    # plt.savefig(r'C:\Users\10376\Documents\Phantom Data\Report\Ranges/' + f'_{time_values[time_idx]}ms.png', dpi=fig.dpi)
-    # plt.close()
+    plt.savefig(r'C:\Users\10376\Documents\Phantom Data\Report\Ranges/' + f'_{time_values[time_idx]}ms.png', dpi=fig.dpi)
+    plt.close()
 
 
 def get_values(pixel):
