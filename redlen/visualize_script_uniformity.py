@@ -49,13 +49,18 @@ folders = ['many_thresholds_BB4mm', 'many_thresholds_BB2mm',
            'many_thresholds_PP']
 airfolder = 'many_thresholds_airscan'
 
-conts = ['4 mm belt', '2 mm belt', '2 mm glass', '1 mm glass', '0.7 mm steel', '2 mm steel', '3 mm polypropylene']
+conts = ['4 mm TPU', '2 mm TPU', '2 mm glass', '1 mm glass', '0.7 mm steel', '2 mm steel', '3 mm polypropylene']
 
 folders2 = ['many_thresholds_BB4mm', 'many_thresholds_BB2mm', 'many_thresholds_BB1mm', 'many_thresholds_glass1mm']
 
 folders3 = ['multiple_energy_thresholds_1w', 'multiple_energy_thresholds_3w']
 airfolders3 = ['multiple_energy_thresholds_flatfield_1w', 'multiple_energy_thresholds_flatfield_3w']
 
+u_folders = ['NDT_BB4mm', 'NDT_BB2mm',
+             'NDT_glass2mm',
+             'NDT_steel07mm', 'NDT_steel2mm']
+u_airfolder = 'NDT_airscan'
+u_directory = r'C:\Users\10376\Documents\Phantom Data\UVic'
 
 def smooth_data(xpts, ypts, cnr_or_noise):
     xsmth = np.linspace(xpts[0], xpts[-1], 1000)
@@ -72,26 +77,27 @@ def smooth_data(xpts, ypts, cnr_or_noise):
 def run_cnr_noise_time_pixels():
     for folder in folders:
         for i in np.arange(1, 2):
+            #a1 = AnalyzeUniformity(folder, u_airfolder, test_num=i, mm='M15691')
             a1 = AnalyzeUniformity(folder, airfolder, test_num=i)
             a1.analyze_cnr_noise()
             a1.mean_signal_all_pixels()
             v1 = VisualizeUniformity(a1)
             v1.titles = titles_many[i - 1]
 
-            v1.blank_vs_time_six_bins(cnr_or_noise=0, end_time=1000, save=True)
-            v1.blank_vs_time_six_bins(cnr_or_noise=1, end_time=1000, save=True)
+            v1.blank_vs_time_six_bins(cnr_or_noise=0, end_time=25, save=True)
+            v1.blank_vs_time_six_bins(cnr_or_noise=1, end_time=25, save=True)
 
             if i == 1:
                 #
                 # v1.blank_vs_pixels_six_bins(cnr_or_noise=0, time=2, save=True)
                 # v1.blank_vs_pixels_six_bins(cnr_or_noise=0, time=5, save=True)
                 # v1.blank_vs_pixels_six_bins(cnr_or_noise=0, time=10, save=True)
-                v1.blank_vs_pixels_six_bins(cnr_or_noise=0, time=1000, save=True)
+                v1.blank_vs_pixels_six_bins(cnr_or_noise=0, time=25, save=True)
 
                 # v1.blank_vs_pixels_six_bins(cnr_or_noise=1, time=2, save=True)
                 # v1.blank_vs_pixels_six_bins(cnr_or_noise=1, time=5, save=True)
                 # v1.blank_vs_pixels_six_bins(cnr_or_noise=1, time=10, save=True)
-                v1.blank_vs_pixels_six_bins(cnr_or_noise=1, time=1000, save=True)
+                v1.blank_vs_pixels_six_bins(cnr_or_noise=1, time=25, save=True)
 
 
 def cnrbinning_multiple_one_plot(fs=None, save=False):
@@ -309,68 +315,8 @@ def add_bins_one_figure():
 
 
 if __name__ == '__main__':
-    run_cnr_noise_time_pixels()
-    #cnrbinning_multiple_one_plot(fs=[4, 5, 0], save=True)
+    #run_cnr_noise_time_pixels()
+    cnrbinning_multiple_one_plot(fs=[4, 5, 0], save=True)
+    noisebinning_multiple_one_plot(fs=[4, 5, 0], save=True)
     #all_images_pixels(3)
     #all_images_pixels(3)
-
-# f = 0
-# t = 1
-# b = 1
-# a1 = AnalyzeUniformity('polyprop_1w_deadtime_32ns', 'airscan_1w_deadtime_32ns')
-# a2 = AnalyzeUniformity('polyprop_3w_deadtime_32ns', 'airscan_3w_deadtime_32ns')
-# a3 = AnalyzeUniformity('polyprop_8w_deadtime_32ns', 'airscan_8w_deadtime_32ns')
-# #a2 = AddBinsUniformity(folders[6], airfolder)
-# #a2.add_adj_bins([1, 2])
-# #a2.analyze_cnr_noise()
-# a1.avg_contrast_over_all_frames()
-# a2.avg_contrast_over_all_frames()
-# a3.avg_contrast_over_all_frames()
-#
-# fig, axes = plt.subplots(2, 3, figsize=(8, 6), sharey=True)
-# for i, ax in enumerate(axes.flatten()):
-#     if i == 5:
-#         ax.plot(a1.frames, a1.contrast[12, 0], 'k')
-#         ax.plot(a2.frames, a2.contrast[12, 0], 'r')
-#         ax.plot(a3.frames, a3.contrast[12, 0], 'b')
-#         ax.set_title('TC')
-#     else:
-#         ax.plot(a1.frames, a1.contrast[i+6, 0], 'k')
-#         ax.plot(a2.frames, a2.contrast[i + 6, 0], 'r')
-#         ax.plot(a3.frames, a3.contrast[i + 6, 0], 'b')
-#         ax.set_title(titles_many[0][i] + ' keV')
-#     ax.legend(['1w', '3w', '8w'])
-#     ax.set_xlabel('Time (ms)')
-#     ax.set_ylabel('Contrast')
-#     plt.subplots_adjust(hspace=0.45)
-#
-#     plt.show()
-#     plt.savefig(r'C:\Users\10376\Documents\Phantom Data\Report\Contrast_3wind.png', dpi=fig.dpi)
-#a1.analyze_cnr_noise()
-#v = VisualizeUniformity(a1)
-#v.contrast_vs_time(save=True)
-#v.blank_vs_time_six_bins(save=True)
-#v.plot_comparison(1, 1, save=True)
-#v.blank_vs_time_six_bins(cnr_or_noise=0, end_time=100)
-# v.titles = titles_many[t-1]
-# for p in [1, 2, 3]:
-#     v.blank_vs_time_single_bin(b, pixel=p, save=True)
-# v = AddBinsVisualize('30-70', a2, AnalyzeUniformity=a1)
-# v.plot_comparison(1, 1, cnr_or_noise=1, end_time=1000)
-
-# a1 = AnalyzeUniformity(folders[6], airfolder)
-# a2 = AnalyzeUniformity(folders[7], airfolder)
-# a1.analyze_cnr_noise()
-# a2.analyze_cnr_noise()
-#
-# v1 = VisualizeUniformity(a1)
-#v2 = VisualizeUniformity(a2)
-#
-# v1.noise_vs_counts_six_bins(save=True)
-# v2.noise_vs_counts_six_bins(save=True)
-
-#v = Visualize3Windows(a1, a2)
-#v.plot_cnr_vs_time(cnr_or_noise=1, save=True)
-#v.plot_cnr_vs_time(save=True)
-
-

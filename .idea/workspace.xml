@@ -25,13 +25,11 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e941e18b-2940-48ac-a2bc-ba92ca5d083f" name="Default Changelist" comment="Report updates (8/18/2020)">
+    <list default="true" id="e941e18b-2940-48ac-a2bc-ba92ca5d083f" name="Default Changelist" comment="NDT paper updates (9/10/2020)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/redlen/analysis_script_uniformity.py" beforeDir="false" afterPath="$PROJECT_DIR$/redlen/analysis_script_uniformity.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/redlen/find_high_CNR.py" beforeDir="false" afterPath="$PROJECT_DIR$/redlen/find_high_CNR.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/redlen/run_analysis_multipleprocesses.py" beforeDir="false" afterPath="$PROJECT_DIR$/redlen/obsolete/run_analysis_multipleprocesses.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/redlen/uniformity_analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/redlen/uniformity_analysis.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/redlen/visualize.py" beforeDir="false" afterPath="$PROJECT_DIR$/redlen/visualize.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/redlen/visualize_script_uniformity.py" beforeDir="false" afterPath="$PROJECT_DIR$/redlen/visualize_script_uniformity.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -107,7 +105,7 @@
       <recent name="C:\Users\drich\OneDrive\Documents\GitHub\desktop-tutorial" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.visualize_script_uniformity">
+  <component name="RunManager" selected="Python.find_high_CNR">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <module name="Reconstruction" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -136,7 +134,6 @@
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
         <env name="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
       </envs>
       <option name="SDK_HOME" value="C:\Users\drich\Anaconda3\python.exe" />
@@ -176,12 +173,11 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="run_analysis_multipleprocesses" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Reconstruction" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
         <env name="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
       </envs>
       <option name="SDK_HOME" value="C:\Users\drich\Anaconda3\python.exe" />
@@ -190,7 +186,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="C:\Users\10376\PycharmProjects\Reconstruction\redlen\obsolete\run_analysis_multipleprocesses.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/redlen/test.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -204,7 +200,6 @@
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
         <env name="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
       </envs>
       <option name="SDK_HOME" value="C:\Users\drich\Anaconda3\python.exe" />
@@ -214,29 +209,6 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/redlen/uniformity_analysis.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="true" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="visualize" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="Reconstruction" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-        <env name="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
-      </envs>
-      <option name="SDK_HOME" value="C:\Users\drich\Anaconda3\python.exe" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/redlen" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/redlen/visualize.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -268,18 +240,17 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.run_analysis_multipleprocesses" />
       <item itemvalue="Python.visualize_script_uniformity" />
       <item itemvalue="Python.analysis_script_uniformity" />
       <item itemvalue="Python.find_high_CNR" />
+      <item itemvalue="Python.test" />
       <item itemvalue="Python.uniformity_analysis" />
-      <item itemvalue="Python.visualize" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.visualize_script_uniformity" />
         <item itemvalue="Python.find_high_CNR" />
-        <item itemvalue="Python.visualize" />
+        <item itemvalue="Python.test" />
+        <item itemvalue="Python.visualize_script_uniformity" />
         <item itemvalue="Python.analysis_script_uniformity" />
         <item itemvalue="Python.uniformity_analysis" />
       </list>
@@ -526,7 +497,8 @@
       <workItem from="1598912105781" duration="4145000" />
       <workItem from="1599603387711" duration="8639000" />
       <workItem from="1599671334068" duration="2828000" />
-      <workItem from="1599757226791" duration="1410000" />
+      <workItem from="1599757226791" duration="9794000" />
+      <workItem from="1599767396566" duration="13605000" />
     </task>
     <task id="LOCAL-00001" summary="Paper Edits">
       <created>1582153406007</created>
@@ -857,7 +829,14 @@
       <option name="project" value="LOCAL" />
       <updated>1597793923108</updated>
     </task>
-    <option name="localTasksCounter" value="48" />
+    <task id="LOCAL-00048" summary="NDT paper updates (9/10/2020)">
+      <created>1599758663092</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1599758663092</updated>
+    </task>
+    <option name="localTasksCounter" value="49" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -893,7 +872,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Mult. Thresh. Analysis (6/8/2020)" />
     <MESSAGE value="Any num pixel aggregate (6/8/2020)" />
     <MESSAGE value="More pixel x pixel (6/9/2020)" />
     <MESSAGE value="More pixel x pixel (6/10/2020)" />
@@ -918,7 +896,8 @@
     <MESSAGE value="Report updates (7/29/2020)" />
     <MESSAGE value="Report updates (8/17/2020)" />
     <MESSAGE value="Report updates (8/18/2020)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Report updates (8/18/2020)" />
+    <MESSAGE value="NDT paper updates (9/10/2020)" />
+    <option name="LAST_COMMIT_MESSAGE" value="NDT paper updates (9/10/2020)" />
   </component>
   <component name="WindowStateProjectService">
     <state x="572" y="257" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1595523175678">
@@ -981,11 +960,11 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="394" y="84" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1597431436417" />
-    <state x="442" y="201" key="Vcs.Push.Dialog.v2" timestamp="1597716018392">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state x="552" y="254" key="Vcs.Push.Dialog.v2" timestamp="1599758666664">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="442" y="201" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1597716018392" />
-    <state x="552" y="254" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1593564547599" />
+    <state x="552" y="254" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1599758666664" />
     <state x="609" y="134" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1592241701057">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -994,6 +973,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="731" y="202" width="585" height="801" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1599604314665" />
+    <state x="741" y="419" key="git4idea.ui.GitStashDialog" timestamp="1599758703892">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="741" y="419" key="git4idea.ui.GitStashDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1599758703892" />
     <state x="539" y="183" width="840" height="856" key="search.everywhere.popup" timestamp="1599605063466">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

@@ -18,7 +18,6 @@ class AnalyzeUniformity(RedlenAnalyze):
         super().__init__(folder, test_num, mm, 'UNIFORMITY', load_dir, save_dir)
         self.thresholds = []
         self.pxp = np.array([1, 2, 3, 4, 6, 8, 12])
-        #self.pxp = np.array([1])
         self.frames = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 50, 100, 250, 500, 1000])
         self.air_data = RedlenAnalyze(air_folder, test_num, mm, 'UNIFORMITY', load_dir, save_dir)
 
@@ -201,8 +200,8 @@ class AnalyzeUniformity(RedlenAnalyze):
 
             else:
                 print('Creating...')
-                self.cnr_time = np.zeros([self.pxp, self.num_bins, 2, len(self.frames)])
-                self.noise_time = np.zeros([self.pxp, self.num_bins, 2, len(self.frames)])
+                self.cnr_time = np.zeros([len(self.pxp), self.num_bins, 2, len(self.frames)])
+                self.noise_time = np.zeros([len(self.pxp), self.num_bins, 2, len(self.frames)])
                 pixels = self.pxp
                 p_idx = np.arange(len(pixels))
 
@@ -216,7 +215,6 @@ class AnalyzeUniformity(RedlenAnalyze):
                     air_pxp = np.squeeze(airdata)
                 else:
                     data_pxp = np.squeeze(self.sumpxp(data, pix))  # Aggregate the pixels
-                    print(np.shape(data_pxp))
                     air_pxp = np.squeeze(self.sumpxp(airdata, pix))
 
                 # Collect the frames aggregated over, the noise and cnr and save
@@ -256,13 +254,14 @@ class AnalyzeUniformity(RedlenAnalyze):
 
         # Go over the data views in jumps of the number of frames
         for i, data_idx in enumerate(np.arange(0, 1001-frame, frame)):
+            tempair = np.divide(np.sum(airdata, axis=1), 1000/frame)
             if frame == 1:
                 tempdata = data[:, data_idx]  # Grab the next view
-                tempair = airdata[:, data_idx]
+                # tempair = airdata[:, data_idx]
             else:
                 # Grab the sum of the next 'frames' views
                 tempdata = np.sum(data[:, data_idx:data_idx + frame], axis=1)
-                tempair = np.sum(airdata[:, data_idx:data_idx + frame], axis=1)
+                # tempair = np.sum(airdata[:, data_idx:data_idx + frame], axis=1)
 
             corr_data = self.intensity_correction(tempdata, tempair)  # Correct for air
 
@@ -347,13 +346,14 @@ class AnalyzeUniformity(RedlenAnalyze):
                     bg_signal = np.zeros([self.num_bins, int(1000 / frame)])
                     # Go over the data views in jumps of the number of frames
                     for i, data_idx in enumerate(np.arange(0, 1001 - frame, frame)):
+                        tempair = np.divide(np.sum(air_pxp, axis=1), 1000/frame)
                         if frame == 1:
                             tempdata = data_pxp[:, data_idx]  # Grab the next view
-                            tempair = air_pxp[:, data_idx]
+                            # tempair = air_pxp[:, data_idx]
                         else:
                             # Grab the sum of the next 'frames' views
                             tempdata = np.sum(data_pxp[:, data_idx:data_idx + frame], axis=1)
-                            tempair = np.sum(air_pxp[:, data_idx:data_idx + frame], axis=1)
+                            # tempair = np.sum(air_pxp[:, data_idx:data_idx + frame], axis=1)
 
                         corr_data = self.intensity_correction(tempdata, tempair)  # Correct for air
 
@@ -390,13 +390,14 @@ class AnalyzeUniformity(RedlenAnalyze):
 
         # Go over the data views in jumps of the number of frames
         for i, data_idx in enumerate(np.arange(0, 1001-frame, frame)):
+            tempair = np.divide(np.sum(airdata, axis=1), 1000/frame)
             if frame == 1:
                 tempdata = data[:, data_idx]  # Grab the next view
-                tempair = airdata[:, data_idx]
+                # tempair = airdata[:, data_idx]
             else:
                 # Grab the sum of the next 'frames' views
                 tempdata = np.sum(data[:, data_idx:data_idx + frame], axis=1)
-                tempair = np.sum(airdata[:, data_idx:data_idx + frame], axis=1)
+                # tempair = np.sum(airdata[:, data_idx:data_idx + frame], axis=1)
 
             corr_data = self.intensity_correction(tempdata, tempair)  # Correct for air
 

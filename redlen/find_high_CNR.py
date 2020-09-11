@@ -34,13 +34,14 @@ def plot_values(pixel, time_val=25):
     time_values = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 50, 100, 250, 500, 1000])
     time_idx = np.squeeze(np.argwhere(time_values == time_val))
     fig, axes = plt.subplots(2, 2, figsize=(7, 6))
-    plot_titles = ['Conveyor belt', 'Glass', 'Steel', 'Polypropylene']
+    plot_titles = ['TPU', 'Glass', 'Steel', 'Polypropylene']
 
     ax = axes.flatten()
 
     for idx, folder in enumerate([folders[0], folders[3], folders[6], folders[7]]):
         data = np.load(direct + folder + f'/AHighCNR_pixel{pixel}.npz')
         ec = np.mean(data['ec_cnr'][time_idx, 0])
+        ec_uncer = (np.std(data['ec_cnr'][time_idx, 0])/ec)**2
 
         temp_titles = np.ndarray.flatten(np.array(titles_many)[:, 0:5])
         temp_vals = data['cnr'][time_idx, 0]
@@ -59,12 +60,18 @@ def plot_values(pixel, time_val=25):
         titles = np.array(titles)
 
         sort_idx = np.argsort(vals)
-        vals = vals[sort_idx]
+        uncer = np.power(np.divide(uncer, vals), 2)
+        vals = (vals[sort_idx] / ec )
+        uncer = np.multiply(np.sqrt(np.add(uncer, ec_uncer)), vals)
+        vals = vals - 1
+        #vals = vals * 100
+        #uncer = uncer * 100
+
         uncer = uncer[sort_idx]
         titles = titles[sort_idx]
         if len(vals) < 3:
             pts = np.arange(1, 3)
-            ax[idx].bar(pts, vals[-2:], yerr=uncer[-2:], capsize=6)
+            ax[idx].bar(pts, vals[-2:], yerr=uncer[-2:], capsize=6, color='lightseagreen')
             ax[idx].set_xticks(pts)
             ax[idx].set_xticklabels(titles[-2:])
             ax[idx].set_xlim([0, 3])
@@ -76,9 +83,9 @@ def plot_values(pixel, time_val=25):
             ax[idx].set_xlim([0, 4])
 
 
-        ax[idx].plot(np.arange(-2, 5), ec * np.ones(7), color='r')
-        ax[idx].legend(['TC CNR'], fontsize=13)
-        ax[idx].set_ylim([0, np.max(vals)*1.5])
+        # ax[idx].plot(np.arange(-2, 5), ec * np.ones(7), color='r')
+        # ax[idx].legend(['TC CNR'], fontsize=13)
+        # ax[idx].set_ylim([0, np.max(vals)*1.5])
         ax[idx].tick_params(labelsize=13)
         ax[idx].set_title(plot_titles[idx], fontsize=14)
     plt.subplots_adjust(top=0.95, wspace=0.29, hspace=0.37)
