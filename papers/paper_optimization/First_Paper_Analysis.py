@@ -1,5 +1,5 @@
 import numpy as np
-import sct_analysis as sct
+import general_functions as sct
 import mask_functions as grm
 import os
 
@@ -243,13 +243,15 @@ def figure_six(folds=folders[19:]):
                     mean_CNR[j - low_z, idx] = cnr1
                     std_CNR[j - low_z, idx] = cnr1_err
 
+        print(mean_CNR[:, 1])
+        print(mean_CNR[:, -2])
         # Average over all slices
         mean_CNR = np.mean(mean_CNR, axis=0)
         std_CNR = np.mean(std_CNR, axis=0)
 
         # Save the matrices if desired
-        np.save(directory + folder + '/Mean_Signal_BinWidth_CNR.npy', mean_CNR)
-        np.save(directory + folder + '/Std_Signal_BinWidth_CNR.npy', std_CNR)
+        #np.save(directory + folder + '/Mean_Signal_BinWidth_CNR.npy', mean_CNR)
+        #np.save(directory + folder + '/Std_Signal_BinWidth_CNR.npy', std_CNR)
 
 
 def figure_seven():

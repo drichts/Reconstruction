@@ -729,8 +729,8 @@ def fig6(save=False):
 
 def fig6_img(z, save=False):
     # Figure 6 Bin Width
-    m = 14
-    mmin, mmax = 0, 3.5
+    m = z
+    mmin, mmax = 0, 2
 
     imgAu = np.load(directory + folders[21] + '/Normed K-Edge/Bin4-3_Slice' + str(m) + '.npy')
     imgGd = np.load(directory + folders[20] + '/Normed K-Edge/Bin1-0_Slice' + str(m) + '.npy')
