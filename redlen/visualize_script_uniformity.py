@@ -62,6 +62,7 @@ u_folders = ['NDT_BB4mm', 'NDT_BB2mm',
 u_airfolder = 'NDT_airscan'
 u_directory = r'C:\Users\10376\Documents\Phantom Data\UVic'
 
+
 def smooth_data(xpts, ypts, cnr_or_noise):
     xsmth = np.linspace(xpts[0], xpts[-1], 1000)
     if cnr_or_noise == 2:  # NOISE
@@ -72,6 +73,28 @@ def smooth_data(xpts, ypts, cnr_or_noise):
         p = spline(xpts, ypts)
         ysmth = p(xsmth)
     return xsmth, ysmth
+
+
+def see_ROIs(folder_num, pixel):
+    a1 = AnalyzeUniformity(folders[folder_num], airfolder)
+    a1.analyze_cnr_noise()
+    a1.mean_signal_all_pixels()
+
+    pixel = np.squeeze(np.argwhere(a1.pxp == pixel))
+    mask = a1.masks[pixel]
+    bg = a1.bg[pixel]
+
+    plt.imshow()
+
+    plt.imshow(mask)
+    plt.show()
+    plt.pause(2)
+    plt.close()
+
+    plt.imshow(bg)
+    plt.show()
+    plt.pause(2)
+    plt.close()
 
 
 def run_cnr_noise_time_pixels():
@@ -315,8 +338,9 @@ def add_bins_one_figure():
 
 
 if __name__ == '__main__':
-    #run_cnr_noise_time_pixels()
-    cnrbinning_multiple_one_plot(fs=[4, 5, 0], save=True)
-    noisebinning_multiple_one_plot(fs=[4, 5, 0], save=True)
+    #see_ROIs(0, 6)
+    run_cnr_noise_time_pixels()
+    #cnrbinning_multiple_one_plot(fs=[4, 5, 0], save=True)
+    #noisebinning_multiple_one_plot(fs=[4, 5, 0], save=True)
     #all_images_pixels(3)
     #all_images_pixels(3)

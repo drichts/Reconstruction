@@ -85,12 +85,10 @@ def plot_values(pixel, time_val=25):
             ax[idx].set_xticklabels(titles[-3:])
             ax[idx].set_xlim([0, 4])
 
-
-        # ax[idx].plot(np.arange(-2, 5), ec * np.ones(7), color='r')
-        # ax[idx].legend(['TC CNR'], fontsize=13)
-        # ax[idx].set_ylim([0, np.max(vals)*1.5])
         ax[idx].tick_params(labelsize=13)
         ax[idx].set_title(plot_titles[idx], fontsize=14)
+
+    ax[2].set_yticks([0, 2, 4, 6, 8, 10, 12])
     plt.subplots_adjust(top=0.95, wspace=0.29, hspace=0.37)
     fig.text(0.5, 0.02, 'Energy bins (keV)', ha='center', fontsize=16)
     fig.text(0.02, 0.5, 'CNR gain (%)', va='center', rotation='vertical', fontsize=16)

@@ -126,6 +126,14 @@ class VisualizeUniformity:
             path = os.path.join(self.save_dir, 'Plots/CNR vs Time', pixel_path)
         else:
             cnr_vals = self.AnalyzeUniformity.noise_time[px_idx]  # <pixels, bin, val, time>
+            signal = self.AnalyzeUniformity.signal[px_idx]
+
+            signal[:, 1, :] = np.power(np.divide(signal[:, 1, :], signal[:, 0, :]), 2)
+            cnr_vals[:, 1, :] = np.power(np.divide(cnr_vals[:, 1, :], cnr_vals[:, 0, :]), 2)
+
+            cnr_vals[:, 0, :] = cnr_vals[:, 0, :] / signal[:, 0, :]
+            cnr_vals[:, 1, :] = np.multiply(cnr_vals[:, 0, :], np.sqrt(np.add(cnr_vals[:, 1, :], signal[:, 1, :])))
+
             path = os.path.join(self.save_dir, 'Plots/Noise vs Time', pixel_path)
         os.makedirs(path, exist_ok=True)
 

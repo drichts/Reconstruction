@@ -32,23 +32,23 @@ def redo_cnr_noise(num, pixels=None):
 
 if __name__ == '__main__':
 
-    # for folder in u_folders[1:]:
-    #     a1 = AnalyzeUniformity(folder, u_airfolder, mm='M15691', load_dir=u_directory)
-    #     #a1.redo_masks(pixels=[8])
+    for folder in [folders[4], folders[5]]:
+        a1 = AnalyzeUniformity(folder, airfolder)  #, mm='M15691', load_dir=u_directory)
+        a1.redo_masks(pixels=[8])
 
-    process = [mp.Process(target=redo_cnr_noise, args=(0, ), kwargs={'pixels': [1, 2, 3, 4, 6, 8]}),
-               mp.Process(target=redo_cnr_noise, args=(1, ), kwargs={'pixels': [1, 2, 3, 4, 6, 8]}),
-               mp.Process(target=redo_cnr_noise, args=(2, ), kwargs={'pixels': [1, 2, 3, 4, 6, 8]}),
-               mp.Process(target=redo_cnr_noise, args=(3, ), kwargs={'pixels': [1, 2, 3, 4, 6, 8]})]
+    process = [mp.Process(target=redo_cnr_noise, args=(4, ), kwargs={'pixels': [8]}),
+               mp.Process(target=redo_cnr_noise, args=(5, ), kwargs={'pixels': [8]})]
+               #mp.Process(target=redo_cnr_noise, args=(5, ), kwargs={'pixels': [1, 2, 3, 4, 6, 8]})]
+               # mp.Process(target=redo_cnr_noise, args=(3, ), kwargs={'pixels': [1, 2, 3, 4, 6, 8]})]
     r1 = map(lambda p: p.start(), process)
     r2 = map(lambda p: p.join(), process)
     r1 = list(r1)
     r1 = list(r2)
 
-    process = [mp.Process(target=redo_cnr_noise, args=(4, ), kwargs={'pixels': [1, 2, 3, 4, 6, 8]}),
-               mp.Process(target=redo_cnr_noise, args=(5, ), kwargs={'pixels': [1, 2, 3, 4, 6, 8]}),
-               mp.Process(target=redo_cnr_noise, args=(6, ), kwargs={'pixels': [1, 2, 3, 4, 6, 8]})]
-    r1 = map(lambda p: p.start(), process)
-    r2 = map(lambda p: p.join(), process)
-    r1 = list(r1)
-    r1 = list(r2)
+    # process = [mp.Process(target=redo_cnr_noise, args=(4, ), kwargs={'pixels': [1, 2, 3, 4, 6, 8]}),
+    #            mp.Process(target=redo_cnr_noise, args=(5, ), kwargs={'pixels': [1, 2, 3, 4, 6, 8]}),
+    #            mp.Process(target=redo_cnr_noise, args=(6, ), kwargs={'pixels': [1, 2, 3, 4, 6, 8]})]
+    # r1 = map(lambda p: p.start(), process)
+    # r2 = map(lambda p: p.join(), process)
+    # r1 = list(r1)
+    # r1 = list(r2)

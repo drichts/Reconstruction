@@ -74,7 +74,13 @@ class AnalyzeUniformity(RedlenAnalyze):
 
     def redo_masks(self, pixels=[1, 2, 3, 4, 6, 8, 12]):
         masks = np.load(os.path.join(self.save_dir, 'Masks.npz'), allow_pickle=True)
-        self.small_phantom = True
+        self.visible_bin = self.test_visibility()
+
+        val = input('Is the phantom small? (y/n)')
+        if val is 'y':
+            self.small_phantom = True
+        else:
+            self.small_phantom = False
 
         bg = masks['bg']
         masks = masks['mask']
