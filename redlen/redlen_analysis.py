@@ -104,27 +104,3 @@ class RedlenAnalyze(Analyze):
                 else:
                     return SizeError('Size of input array in sumpxp.py is not 4 or 5 dimensions.')
         return ndata
-
-    # def stitch_MMs(self, test_type=3):
-    #     """
-    #     This function is meant to stitch together multiple MMs after the A0 and A1 modules have been combined
-    #     :param folder: path for the test folder (i.e. Test03, or whatever you named it)
-    #     :param subpath:
-    #     :return:
-    #     """
-    #     tests = {1: '/DYNAMIC/',
-    #              2: '/SPECTRUM/',
-    #              3: '/UNIFORMITY/'}
-    #     subpath = tests[test_type]
-    #     subfolders = glob.glob(folder + '/Raw Test Data/*/')
-    #
-    #     mm0 = stitch_a0a1(subfolders[0] + subpath)
-    #     data_shape = np.array(np.shape(mm0))  # Shape of the combined A0 A1 data matrix
-    #     ax = len(data_shape) - 1  # Axis to concatenate along
-    #
-    #     for i, sub in enumerate(subfolders[1:]):
-    #         file_path = sub + subpath
-    #         curr_mm = stitch_a0a1(file_path)
-    #         final_module = np.concatenate((mm0, curr_mm), axis=ax)
-    #
-    #     return final_module

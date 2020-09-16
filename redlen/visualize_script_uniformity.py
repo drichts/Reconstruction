@@ -84,7 +84,7 @@ def see_ROIs(folder_num, pixel):
     mask = a1.masks[pixel]
     bg = a1.bg[pixel]
 
-    plt.imshow()
+    #plt.imshow()
 
     plt.imshow(mask)
     plt.show()
@@ -142,10 +142,10 @@ def cnrbinning_multiple_one_plot(fs=None, save=False):
         titles = titles_many[0]
         cnr_vals = np.load(rf'C:\Users\10376\Documents\Phantom Data\UNIFORMITY\{folder}\TestNum1_cnr_time.npy')  # <pixels, bin, val, time>
 
-        pixels = np.array([1, 2, 3, 4, 6, 8])
+        pixels = np.array([1, 2, 3, 4, 6])
 
         # Grab only the pixel values at the 25 ms and rearrange to <bin, val, pixels> and cut out 12x12 data
-        cnr_vals = np.transpose(cnr_vals[:, :, :, 12], axes=(1, 2, 0))[:, :, 0:-1]
+        cnr_vals = np.transpose(cnr_vals[:, :, :, 12], axes=(1, 2, 0))
 
         # Cut out overflow bins
         plot_cnr = np.zeros([11, 2, len(pixels)])
@@ -160,18 +160,22 @@ def cnrbinning_multiple_one_plot(fs=None, save=False):
         #     pxs_smth, cnr_smth[idx] = smooth_data(pixels, ypts, cnr_or_noise=0)
 
         for i, ax in enumerate(axes.flatten()):
-            ax.set_yscale('log')
+            #ax.set_yscale('log')
             if i < 5:
                 # ax.plot(pxs_smth, cnr_smth[i + 5], color='k')
                 ax.errorbar(pixels, plot_cnr[i + 5, 0], yerr=plot_cnr[i + 5, 1], capsize=3, color=colors[j])
+                if j == 2:
+                    print(plot_cnr[i + 5, 1])
                 ax.set_title(titles[i] + ' keV')
             else:
                 # ax.plot(pxs_smth, cnr_smth[-1], color='k')
                 ax.errorbar(pixels, plot_cnr[-1, 0], yerr=plot_cnr[-1, 1], capsize=3, color=colors[j])
                 ax.set_title(titles[i])
             ax.set_xlim([0, pixels[-1] + 1])
-            ax.set_xticks([2, 4, 6, 8])
-            ax.set_xticklabels([r'2$\times$2', r'4$\times$4', r'6$\times$6', r'8$\times$8'])
+            ax.set_xticks([2, 4, 6])
+            ax.set_xticklabels([r'2$\times$2', r'4$\times$4', r'6$\times$6'])
+            #ax.set_ylim([1E0, 2E3])
+        break
 
     fig.text(0.5, 0.09, 'Binning', ha='center', fontsize=14)
     fig.text(0.06, 0.52, 'CNR', va='center', rotation='vertical', fontsize=14)
@@ -216,10 +220,12 @@ def noisebinning_multiple_one_plot(fs=None, save=False):
         noise_vals[:, :, 1, :] = np.multiply(noise_vals[:, :, 0, :],
                                            np.sqrt(np.add(noise_vals[:, :, 1, :], signal[:, :, 1, :])))
 
-        pixels = np.array([1, 2, 3, 4, 6, 8])
+        noise_vals = noise_vals * 100
+
+        pixels = np.array([1, 2, 3, 4, 6])
 
         # Grab only the pixel values at the 25 ms and rearrange to <bin, val, pixels> and cut out 12x12 data
-        noise_vals = np.transpose(noise_vals[:, :, :, 12], axes=(1, 2, 0))[:, :, 0:-1]
+        noise_vals = np.transpose(noise_vals[:, :, :, 12], axes=(1, 2, 0))
 
         # Cut out overflow bins
         plot_cnr = np.zeros([11, 2, len(pixels)])
@@ -243,11 +249,11 @@ def noisebinning_multiple_one_plot(fs=None, save=False):
                 ax.errorbar(pixels, plot_cnr[-1, 0], yerr=plot_cnr[-1, 1], capsize=3, color=colors[j])
                 ax.set_title(titles[i])
             ax.set_xlim([0, pixels[-1] + 1])
-            ax.set_xticks([2, 4, 6, 8])
-            ax.set_xticklabels([r'2$\times$2', r'4$\times$4', r'6$\times$6', r'8$\times$8'])
+            ax.set_xticks([2, 4, 6])
+            ax.set_xticklabels([r'2$\times$2', r'4$\times$4', r'6$\times$6'])
 
     fig.text(0.5, 0.09, 'Binning', ha='center', fontsize=14)
-    fig.text(0.05, 0.52, 'Noise', va='center', rotation='vertical', fontsize=14)
+    fig.text(0.05, 0.52, 'Relative noise (%)', va='center', rotation='vertical', fontsize=14)
     leg = plt.legend(handles=patches, loc='lower center', bbox_to_anchor=(-0.7, -0.55), fancybox=True, shadow=False,
                      ncol=len(fs), fontsize=12)
     fig.add_artist(leg)
@@ -338,9 +344,9 @@ def add_bins_one_figure():
 
 
 if __name__ == '__main__':
-    #see_ROIs(0, 6)
-    run_cnr_noise_time_pixels()
-    #cnrbinning_multiple_one_plot(fs=[4, 5, 0], save=True)
+    #see_ROIs(0, 3)
+    #run_cnr_noise_time_pixels()
+    cnrbinning_multiple_one_plot(fs=[0])#, save=True)
     #noisebinning_multiple_one_plot(fs=[4, 5, 0], save=True)
     #all_images_pixels(3)
     #all_images_pixels(3)

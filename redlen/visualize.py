@@ -134,6 +134,8 @@ class VisualizeUniformity:
             cnr_vals[:, 0, :] = cnr_vals[:, 0, :] / signal[:, 0, :]
             cnr_vals[:, 1, :] = np.multiply(cnr_vals[:, 0, :], np.sqrt(np.add(cnr_vals[:, 1, :], signal[:, 1, :])))
 
+            cnr_vals = cnr_vals * 100
+
             path = os.path.join(self.save_dir, 'Plots/Noise vs Time', pixel_path)
         os.makedirs(path, exist_ok=True)
 
@@ -172,7 +174,7 @@ class VisualizeUniformity:
             if cnr_or_noise == 0:
                 ax.set_ylabel('CNR')
             else:
-                ax.set_ylabel('Noise')
+                ax.set_ylabel('Relative noise (%)')
             ax.set_ylim(bottom=0, auto=True)
             ax.set_xlim([0, end_time+5])
 

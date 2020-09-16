@@ -17,7 +17,7 @@ class AnalyzeUniformity(RedlenAnalyze):
 
         super().__init__(folder, test_num, mm, 'UNIFORMITY', load_dir, save_dir)
         self.thresholds = []
-        self.pxp = np.array([1, 2, 3, 4, 6, 8, 12])
+        self.pxp = np.array([1, 2, 3, 4, 6])
         self.frames = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 50, 100, 250, 500, 1000])
         self.air_data = RedlenAnalyze(air_folder, test_num, mm, 'UNIFORMITY', load_dir, save_dir)
 
@@ -276,6 +276,12 @@ class AnalyzeUniformity(RedlenAnalyze):
                 cnr_val[j, i], cnr_err[j, i] = self.cnr(img, mask, bg_mask)
                 noise[j, i] = np.nanstd(img*bg_mask)  # Get noise as fraction of mean background
 
+        if 'BB4mm' in self.save_dir:
+            if np.shape(data)[2] == 4:
+                if frame == 25:
+                    print('GOTIM')
+                    cnr_val[8, 26] = np.nan
+
         # Average over the frames
         cnr_err = np.nanstd(cnr_val, axis=1)
         cnr_val = np.nanmean(cnr_val, axis=1)
@@ -365,7 +371,7 @@ class AnalyzeUniformity(RedlenAnalyze):
 
                         # Go through each bin and calculate signal
                         for j, img in enumerate(corr_data):
-                            bg_signal[j, i] = np.nanmean(img * self.bg[p])
+                            bg_signal[j, i] = np.nanmean(img * self.bg[p_idx[p]])
 
                     # Average over the frames
                     signal_vals[p, f_idx, :, 0] = np.mean(bg_signal, axis=1)

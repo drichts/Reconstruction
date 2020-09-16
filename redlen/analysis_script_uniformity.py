@@ -22,32 +22,33 @@ u_airfolder = 'NDT_airscan'
 u_directory = r'C:\Users\10376\Documents\Phantom Data\UVic'
 
 
-def redo_cnr_noise(num, pixels=None):
+def redo_cnr_noise(num, pixels):
     for i in np.arange(1, 2):
         # a = AnalyzeUniformity(u_folders[num], u_airfolder, mm='M15691', test_num=i, load_dir=u_directory)
+        print(i)
         a = AnalyzeUniformity(folders[num], airfolder, test_num=i)
-        a.analyze_cnr_noise(redo=True)
-        a.mean_signal_all_pixels(redo=True)
+        a.analyze_cnr_noise(redo=True, pixels=pixels)
+        a.mean_signal_all_pixels(redo=True, pixels=pixels)
 
 
 if __name__ == '__main__':
 
-    for folder in [folders[4], folders[5]]:
-        a1 = AnalyzeUniformity(folder, airfolder)  #, mm='M15691', load_dir=u_directory)
-        a1.redo_masks(pixels=[8])
+    # for folder in [folders[0], folders[4], folders[5]]:
+    #     a1 = AnalyzeUniformity(folder, airfolder)  #, mm='M15691', load_dir=u_directory)
+    #     a1.redo_masks(pixels=[6])
 
-    process = [mp.Process(target=redo_cnr_noise, args=(4, ), kwargs={'pixels': [8]}),
-               mp.Process(target=redo_cnr_noise, args=(5, ), kwargs={'pixels': [8]})]
-               #mp.Process(target=redo_cnr_noise, args=(5, ), kwargs={'pixels': [1, 2, 3, 4, 6, 8]})]
-               # mp.Process(target=redo_cnr_noise, args=(3, ), kwargs={'pixels': [1, 2, 3, 4, 6, 8]})]
+    process = [mp.Process(target=redo_cnr_noise, args=(0, [6])),
+               mp.Process(target=redo_cnr_noise, args=(4, [6])),
+               mp.Process(target=redo_cnr_noise, args=(5, [6]))]
+               #mp.Process(target=redo_cnr_noise, args=(3, [1, 2, 3, 4, 6]))]
     r1 = map(lambda p: p.start(), process)
     r2 = map(lambda p: p.join(), process)
     r1 = list(r1)
     r1 = list(r2)
 
-    # process = [mp.Process(target=redo_cnr_noise, args=(4, ), kwargs={'pixels': [1, 2, 3, 4, 6, 8]}),
-    #            mp.Process(target=redo_cnr_noise, args=(5, ), kwargs={'pixels': [1, 2, 3, 4, 6, 8]}),
-    #            mp.Process(target=redo_cnr_noise, args=(6, ), kwargs={'pixels': [1, 2, 3, 4, 6, 8]})]
+    # process = [mp.Process(target=redo_cnr_noise, args=(4, [1, 2, 3, 4, 6])),
+    #            mp.Process(target=redo_cnr_noise, args=(5, [1, 2, 3, 4, 6]))]
+    #            #mp.Process(target=redo_cnr_noise, args=(6, [1, 2, 3, 4, 6]))]
     # r1 = map(lambda p: p.start(), process)
     # r2 = map(lambda p: p.join(), process)
     # r1 = list(r1)
