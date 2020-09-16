@@ -160,7 +160,7 @@ def cnrbinning_multiple_one_plot(fs=None, save=False):
         #     pxs_smth, cnr_smth[idx] = smooth_data(pixels, ypts, cnr_or_noise=0)
 
         for i, ax in enumerate(axes.flatten()):
-            #ax.set_yscale('log')
+            ax.set_yscale('log')
             if i < 5:
                 # ax.plot(pxs_smth, cnr_smth[i + 5], color='k')
                 ax.errorbar(pixels, plot_cnr[i + 5, 0], yerr=plot_cnr[i + 5, 1], capsize=3, color=colors[j])
@@ -175,7 +175,6 @@ def cnrbinning_multiple_one_plot(fs=None, save=False):
             ax.set_xticks([2, 4, 6])
             ax.set_xticklabels([r'2$\times$2', r'4$\times$4', r'6$\times$6'])
             #ax.set_ylim([1E0, 2E3])
-        break
 
     fig.text(0.5, 0.09, 'Binning', ha='center', fontsize=14)
     fig.text(0.06, 0.52, 'CNR', va='center', rotation='vertical', fontsize=14)
@@ -346,7 +345,7 @@ def add_bins_one_figure():
 if __name__ == '__main__':
     #see_ROIs(0, 3)
     #run_cnr_noise_time_pixels()
-    cnrbinning_multiple_one_plot(fs=[0])#, save=True)
-    #noisebinning_multiple_one_plot(fs=[4, 5, 0], save=True)
+    cnrbinning_multiple_one_plot(fs=[4, 5, 0], save=True)
+    noisebinning_multiple_one_plot(fs=[4, 5, 0], save=True)
     #all_images_pixels(3)
     #all_images_pixels(3)

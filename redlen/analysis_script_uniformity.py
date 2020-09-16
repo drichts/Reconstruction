@@ -37,9 +37,9 @@ if __name__ == '__main__':
     #     a1 = AnalyzeUniformity(folder, airfolder)  #, mm='M15691', load_dir=u_directory)
     #     a1.redo_masks(pixels=[6])
 
-    process = [mp.Process(target=redo_cnr_noise, args=(0, [6])),
-               mp.Process(target=redo_cnr_noise, args=(4, [6])),
-               mp.Process(target=redo_cnr_noise, args=(5, [6]))]
+    process = [mp.Process(target=redo_cnr_noise, args=(0, [1, 2, 3, 4])),
+               mp.Process(target=redo_cnr_noise, args=(4, [1, 2, 3, 4])),
+               mp.Process(target=redo_cnr_noise, args=(5, [1, 2, 3, 4]))]
                #mp.Process(target=redo_cnr_noise, args=(3, [1, 2, 3, 4, 6]))]
     r1 = map(lambda p: p.start(), process)
     r2 = map(lambda p: p.join(), process)
