@@ -267,6 +267,77 @@ def noisebinning_multiple_one_plot(fs=None, save=False):
         plt.close()
 
 
+def noise_vs_counts(fs=None, save=False):
+    sns.set_style('whitegrid')
+    path = r'C:\Users\10376\Documents\Phantom Data\Report\CNR Binning/'
+    colors = ['mediumblue', 'orangered', 'mediumseagreen']
+    folds = folders
+    cs = conts
+    if fs:
+        folds = []
+        cs = []
+        for f in fs:
+            folds.append(folders[f])
+            cs.append(conts[f])
+    fig = plt.figure(figsize=(8, 6))
+    legs = titles_many[0]
+    for j, folder in enumerate(folds):
+        noise_vals = np.load(rf'C:\Users\10376\Documents\Phantom Data\UNIFORMITY\{folder}\TestNum1_noise_time.npy')  # <pixels, bin, val, time>
+        signal = np.load(rf'C:\Users\10376\Documents\Phantom Data\UNIFORMITY\{folder}\TestNum1_signal.npy')
+        counts = np.load(r'C:\Users\10376\Documents\Phantom Data\redlen.npy')
+
+        signal[:, :, 1, :] = np.power(np.divide(signal[:, :, 1, :], signal[:, :, 0, :]), 2)
+        noise_vals[:, :, 1, :] = np.power(np.divide(noise_vals[:, :, 1, :], noise_vals[:, :, 0, :]), 2) # Square rel. error
+
+        noise_vals[:, :, 0, :] = noise_vals[:, :, 0, :] / signal[:, :, 0, :]  # Get relative noise mean values
+        noise_vals[:, :, 1, :] = np.multiply(noise_vals[:, :, 0, :],
+                                           np.sqrt(np.add(noise_vals[:, :, 1, :], signal[:, :, 1, :])))
+
+        noise_vals = noise_vals * 100
+
+        counts = counts[:, 13]
+        noise_vals = noise_vals[0, :, 0, 13]
+        legs = ['20-30 keV', '30-50 keV', '50-70 keV', '70-90 keV', '90-120 keV', '>120 keV', 'EC']
+        for i in [0, 1, 2, 3, 4, 5, 12]:
+            plt.scatter(counts[i], noise_vals[i], s=100)
+        plt.xscale('log')
+        plt.xlabel('Counts', fontsize=16)
+        plt.xticks(fontsize=12)
+        plt.ylabel('Relative Noise (%)', fontsize=16)
+        plt.yticks(fontsize=12)
+        plt.legend(legs, fontsize=12)
+        plt.ylim([0, 11])
+        plt.xlim([0, 1000000])
+        plt.title('Noise vs. Counts (CC Bins)', fontsize=17)
+        # for i, ax in enumerate(axes.flatten()):
+        #     if i < 5:
+        #         ax.plot(pxs_smth, cnr_smth[i + 5], color='k')
+        #         ax.errorbar(pixels, plot_cnr[i + 5, 0], yerr=plot_cnr[i + 5, 1], capsize=3, color=colors[j])
+        #         ax.set_title(titles[i] + ' keV')
+        #     else:
+        #         # ax.plot(pxs_smth, cnr_smth[-1], color='k')
+        #         ax.errorbar(pixels, plot_cnr[-1, 0], yerr=plot_cnr[-1, 1], capsize=3, color=colors[j])
+        #         ax.set_title(titles[i])
+        #     ax.set_xlim([0, pixels[-1] + 1])
+        #     ax.set_xticks([2, 4, 6])
+        #     ax.set_xticklabels([r'2$\times$2', r'4$\times$4', r'6$\times$6'])
+
+    # fig.text(0.5, 0.09, 'Counts', ha='center', fontsize=14)
+    # fig.text(0.05, 0.52, 'Relative noise (%)', va='center', rotation='vertical', fontsize=14)
+    # leg = plt.legend(handles=patches, loc='lower center', bbox_to_anchor=(-0.7, -0.55), fancybox=True, shadow=False,
+    #                  ncol=len(fs), fontsize=12)
+    # fig.add_artist(leg)
+    # plt.subplots_adjust(hspace=0.45, bottom=0.17)
+    plt.show()
+
+    # if save:
+    #     plt.savefig(path + 'three_noise.png', dpi=fig.dpi)
+    #     plt.close()
+    # else:
+    #     plt.pause(5)
+    #     plt.close()
+
+
 def all_images_pixels(folder_num):
     a1 = AnalyzeUniformity(folders[folder_num], airfolder)
     data = np.load(a1.data_a0)
@@ -345,7 +416,8 @@ def add_bins_one_figure():
 if __name__ == '__main__':
     #see_ROIs(0, 3)
     #run_cnr_noise_time_pixels()
-    cnrbinning_multiple_one_plot(fs=[4, 5, 0], save=True)
-    noisebinning_multiple_one_plot(fs=[4, 5, 0], save=True)
+    # cnrbinning_multiple_one_plot(fs=[4, 5, 0], save=True)
+    # noisebinning_multiple_one_plot(fs=[4, 5, 0], save=True)
+    noise_vs_counts([4])
     #all_images_pixels(3)
     #all_images_pixels(3)
