@@ -460,7 +460,7 @@ class AnalyzeUniformity(RedlenAnalyze):
         noise_pixel = np.transpose(self.noise_time, axes=(0, 4, 2, 3, 1))
         return cnr_pixel, noise_pixel
 
-    def mean_counts(self, choice='data'):
+    def mean_counts(self, choice='air'):
         """This function gets the mean counts within the airscan for all times in frames for all bins"""
 
         if choice == 'data':
