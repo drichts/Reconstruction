@@ -12,20 +12,14 @@ class VisibilityError(Exception):
 
 class AnalyzeUniformity(RedlenAnalyze):
 
-    def __init__(self, folder, air_folder, test_num=1, mm='M20358_D32', load_dir=r'X:\TEST LOG\MINI MODULE\Canon',
+    def __init__(self, folder, air_folder, test_num=1, mm='M20358_Q20', load_dir=r'X:\TEST LOG\MINI MODULE\Canon',
                  save_dir=r'C:\Users\10376\Documents\Phantom Data'):
 
-        super().__init__(folder, test_num, mm, 'UNIFORMITY', load_dir)
+        super().__init__(folder, test_num, mm, 'UNIFORMITY', load_dir, save_dir)
         self.thresholds = []
-        self.pxp = np.array([1, 2, 3, 4, 6, 8, 12])
+        self.pxp = np.array([1, 2, 3, 4, 6])
         self.frames = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 50, 100, 250, 500, 1000])
-
-        self.air_data = RedlenAnalyze(air_folder, test_num, mm, 'UNIFORMITY', load_dir)
-
-        self.save_dir = os.path.join(save_dir, 'Uniformity', folder)
-        print(self.save_dir)
-        os.makedirs(self.save_dir, exist_ok=True)
-        self.filename = f'Run{test_num}Data.pk1'
+        self.air_data = RedlenAnalyze(air_folder, test_num, mm, 'UNIFORMITY', load_dir, save_dir)
 
         self.masks = []
         self.bg = []
@@ -48,7 +42,13 @@ class AnalyzeUniformity(RedlenAnalyze):
 
     def get_masks(self):
         """This function gets the contrast mask and background mask for all pixel aggregations"""
+
         self.visible_bin = self.test_visibility()
+        data = np.load(self.data_a0)
+        airdata = np.load(self.air_data.data_a0)
+        self.masks = []
+        self.bg = []
+
         val = input('Is the phantom small? (y/n)')
         if val is 'y':
             self.small_phantom = True
@@ -57,11 +57,12 @@ class AnalyzeUniformity(RedlenAnalyze):
 
         for i, pixel in enumerate(self.pxp):
             if pixel == 1:
-                tempdata = self.data_a0
-                tempair = self.air_data.data_a0
+                tempdata = data
+                tempair = airdata
             else:
-                tempdata = self.sumpxp(self.data_a0, pixel)
-                tempair = self.sumpxp(self.air_data.data_a0, pixel)
+                tempdata = self.sumpxp(data, pixel)
+                tempair = self.sumpxp(airdata, pixel)
+
             image = self.intensity_correction(tempdata, tempair)
             image = np.sum(image, axis=1)
             tempmask, tempbg = self.choose_mask_types(image[self.visible_bin], pixel)
@@ -69,15 +70,55 @@ class AnalyzeUniformity(RedlenAnalyze):
             self.masks.append(tempmask)
             self.bg.append(tempbg)
 
-        np.savez(os.path.join(self.save_dir + '/Masks.npz'), mask=self.masks, bg=self.bg)
+        np.savez(os.path.join(self.save_dir, 'Masks.npz'), mask=self.masks, bg=self.bg)
+
+    def redo_masks(self, pixels=[1, 2, 3, 4, 6, 8, 12]):
+        masks = np.load(os.path.join(self.save_dir, 'Masks.npz'), allow_pickle=True)
+        self.visible_bin = self.test_visibility()
+
+        val = input('Is the phantom small? (y/n)')
+        if val is 'y':
+            self.small_phantom = True
+        else:
+            self.small_phantom = False
+
+        bg = masks['bg']
+        masks = masks['mask']
+
+        data = np.load(self.data_a0)
+        airdata = np.load(self.air_data.data_a0)
+
+        for pixel in pixels:
+            idx = np.squeeze(np.argwhere(self.pxp == pixel))
+
+            if pixel == 1:
+                tempdata = data
+                tempair = airdata
+            else:
+                tempdata = self.sumpxp(data, pixel)
+                tempair = self.sumpxp(airdata, pixel)
+
+            image = self.intensity_correction(tempdata, tempair)
+            image = np.sum(image, axis=1)
+            tempmask, tempbg = self.choose_mask_types(image[self.visible_bin], pixel)
+
+            masks[idx] = tempmask
+            bg[idx] = tempbg
+
+        self.masks = masks
+        self.bg = bg
+
+        np.savez(os.path.join(self.save_dir, 'Masks.npz'), mask=self.masks, bg=self.bg)
 
     def test_visibility(self):
         """
         This function will test if your contrast area is visible in the one of the energy bins
         :return: The bin to use
         """
+        data = np.load(self.data_a0)
+        airdata = np.load(self.air_data.data_a0)
 
-        image = np.squeeze(self.intensity_correction(self.data_a0, self.air_data.data_a0))
+        image = np.squeeze(self.intensity_correction(data, airdata))
         image = np.sum(image, axis=1)  # Sum all views
 
         bins = np.arange(len(image)-1, -1, -1)  # The bin options from EC down
@@ -136,34 +177,65 @@ class AnalyzeUniformity(RedlenAnalyze):
 
         return mask, bg
 
-    def analyze_cnr_noise(self):
+    def analyze_cnr_noise(self, pixels=None, redo=False):
         """
         This function calculates the CNR and noise in each bin at each of the pixel aggregations values and at a number
         of different acquisition times
         :return:
         """
-        cnr_vals = np.zeros([len(self.pxp), len(self.frames), self.num_bins, 2])
-        noise = np.zeros([len(self.pxp), len(self.frames), self.num_bins, 2])
 
-        # Aggregate the number of pixels in pxp squared
-        for p, pix in enumerate(self.pxp):
-            if pix == 1:
-                data_pxp = np.squeeze(self.data_a0)
-                air_pxp = np.squeeze(self.air_data.data_a0)
+        cnr_file = os.path.join(self.save_dir, f'TestNum{self.test_num}_cnr_time.npy')
+        noise_file = os.path.join(self.save_dir, f'TestNum{self.test_num}_noise_time.npy')
+
+        if os.path.exists(cnr_file) and os.path.exists(noise_file) and not redo:
+            print('Loaded.')
+            self.cnr_time = np.load(cnr_file)
+            self.noise_time = np.load(noise_file)
+        else:
+            data = np.load(self.data_a0)
+            airdata = np.load(self.air_data.data_a0)
+
+            if pixels:
+                print('Modifying...')
+                self.cnr_time = np.load(cnr_file)
+                self.noise_time = np.load(noise_file)
+                pixels = np.array(pixels)
+                p_idx = np.zeros(len(pixels), dtype=int)
+                for j in np.arange(len(pixels)):
+                    p_idx[j] = int(np.squeeze(np.argwhere(self.pxp == pixels[j])))
+
             else:
-                data_pxp = np.squeeze(self.sumpxp(self.data_a0, pix))  # Aggregate the pixels
-                air_pxp = np.squeeze(self.sumpxp(self.air_data.data_a0, pix))
+                print('Creating...')
+                self.cnr_time = np.zeros([len(self.pxp), self.num_bins, 2, len(self.frames)])
+                self.noise_time = np.zeros([len(self.pxp), self.num_bins, 2, len(self.frames)])
+                pixels = self.pxp
+                p_idx = np.arange(len(pixels))
 
-            # Collect the frames aggregated over, the noise and cnr and save
-            cnr_vals[p], noise[p] = self.avg_cnr_noise_over_all_frames(data_pxp, air_pxp, self.masks[p], self.bg[p])
+            cnr_vals = np.zeros([len(pixels), len(self.frames), self.num_bins, 2])
+            noise = np.zeros([len(pixels), len(self.frames), self.num_bins, 2])
 
-        # CNR vs. time, noise vs. time <pixels, time, bin, value or error (0 or 1)>
-        self.cnr_time, self.noise_time = cnr_vals, noise
-        # Reorganize to <pixels, bin, value or error, time>
-        self.cnr_time = np.transpose(self.cnr_time, axes=(0, 2, 3, 1))
-        self.noise_time = np.transpose(self.noise_time, axes=(0, 2, 3, 1))
+            # Aggregate the number of pixels in pxp squared
+            for p, pix in enumerate(pixels):
+                if pix == 1:
+                    data_pxp = np.squeeze(data)
+                    air_pxp = np.squeeze(airdata)
+                else:
+                    data_pxp = np.squeeze(self.sumpxp(data, pix))  # Aggregate the pixels
+                    air_pxp = np.squeeze(self.sumpxp(airdata, pix))
 
-        return cnr_vals, noise
+                # Collect the frames aggregated over, the noise and cnr and save
+                cnr_vals[p], noise[p] = self.avg_cnr_noise_over_all_frames(data_pxp, air_pxp, self.masks[p_idx[p]],
+                                                                           self.bg[p_idx[p]])
+
+            # CNR vs. time, noise vs. time <pixels, time, bin, value or error (0 or 1)>
+            # Reorganize to <pixels, bin, value or error, time>
+            cnr_vals = np.transpose(cnr_vals, axes=(0, 2, 3, 1))
+            noise = np.transpose(noise, axes=(0, 2, 3, 1))
+
+            self.cnr_time[p_idx[0]:p_idx[-1]+1] = cnr_vals
+            self.noise_time[p_idx[0]:p_idx[-1]+1] = noise
+            np.save(cnr_file, self.cnr_time)
+            np.save(noise_file, self.noise_time)
 
     def avg_cnr_noise_over_frames(self, data, airdata, mask, bg_mask, frame):
         """
@@ -188,13 +260,14 @@ class AnalyzeUniformity(RedlenAnalyze):
 
         # Go over the data views in jumps of the number of frames
         for i, data_idx in enumerate(np.arange(0, 1001-frame, frame)):
+            tempair = np.divide(np.sum(airdata, axis=1), 1000/frame)
             if frame == 1:
                 tempdata = data[:, data_idx]  # Grab the next view
-                tempair = airdata[:, data_idx]
+                # tempair = airdata[:, data_idx]
             else:
                 # Grab the sum of the next 'frames' views
                 tempdata = np.sum(data[:, data_idx:data_idx + frame], axis=1)
-                tempair = np.sum(airdata[:, data_idx:data_idx + frame], axis=1)
+                # tempair = np.sum(airdata[:, data_idx:data_idx + frame], axis=1)
 
             corr_data = self.intensity_correction(tempdata, tempair)  # Correct for air
 
@@ -203,11 +276,18 @@ class AnalyzeUniformity(RedlenAnalyze):
                 cnr_val[j, i], cnr_err[j, i] = self.cnr(img, mask, bg_mask)
                 noise[j, i] = np.nanstd(img*bg_mask)  # Get noise as fraction of mean background
 
+        if 'BB4mm' in self.save_dir:
+            if np.shape(data)[2] == 4:
+                if frame == 25:
+                    print('GOTIM')
+                    cnr_val[8, 26] = np.nan
+
         # Average over the frames
-        cnr_val = np.mean(cnr_val, axis=1)
-        cnr_err = np.mean(cnr_err, axis=1)
-        noise_std = np.std(noise, axis=1)
-        noise = np.mean(noise, axis=1)
+        cnr_err = np.nanstd(cnr_val, axis=1)
+        cnr_val = np.nanmean(cnr_val, axis=1)
+        # cnr_err = np.nanmean(cnr_err, axis=1)
+        noise_std = np.nanstd(noise, axis=1)
+        noise = np.nanmean(noise, axis=1)
 
         return cnr_val, cnr_err, noise, noise_std
 
@@ -237,6 +317,73 @@ class AnalyzeUniformity(RedlenAnalyze):
 
         return cnr_frames, noise_frames
 
+    def mean_signal_all_pixels(self, pixels=None, redo=False):
+        signal_file = os.path.join(self.save_dir, f'TestNum{self.test_num}_signal.npy')
+
+        if os.path.exists(signal_file) and not redo:
+            print('Loaded.')
+            self.signal = np.load(signal_file)
+        else:
+            data = np.load(self.data_a0)
+            airdata = np.load(self.air_data.data_a0)
+
+            if pixels:
+                print('Modifying...')
+                self.signal = np.load(signal_file)
+
+                pixels = np.array(pixels)
+                p_idx = np.zeros(len(pixels), dtype=int)
+                for j in np.arange(len(pixels)):
+                    p_idx[j] = int(np.squeeze(np.argwhere(self.pxp == pixels[j])))
+
+            else:
+                print('Creating...')
+                self.signal = np.zeros([len(self.pxp), self.num_bins, 2, len(self.frames)])
+                self.signal = np.zeros([len(self.pxp), self.num_bins, 2, len(self.frames)])
+                pixels = self.pxp
+                p_idx = np.arange(len(pixels))
+
+            signal_vals = np.zeros([len(pixels), len(self.frames), self.num_bins, 2])
+
+            # Aggregate the number of pixels in pxp squared
+            for p, pix in enumerate(pixels):
+                if pix == 1:
+                    data_pxp = np.squeeze(data)
+                    air_pxp = np.squeeze(airdata)
+                else:
+                    data_pxp = np.squeeze(self.sumpxp(data, pix))  # Aggregate the pixels
+                    air_pxp = np.squeeze(self.sumpxp(airdata, pix))
+
+                for f_idx, frame in enumerate(self.frames):
+                    bg_signal = np.zeros([self.num_bins, int(1000 / frame)])
+                    # Go over the data views in jumps of the number of frames
+                    for i, data_idx in enumerate(np.arange(0, 1001 - frame, frame)):
+                        tempair = np.divide(np.sum(air_pxp, axis=1), 1000/frame)
+                        if frame == 1:
+                            tempdata = data_pxp[:, data_idx]  # Grab the next view
+                            # tempair = air_pxp[:, data_idx]
+                        else:
+                            # Grab the sum of the next 'frames' views
+                            tempdata = np.sum(data_pxp[:, data_idx:data_idx + frame], axis=1)
+                            # tempair = np.sum(air_pxp[:, data_idx:data_idx + frame], axis=1)
+
+                        corr_data = self.intensity_correction(tempdata, tempair)  # Correct for air
+
+                        # Go through each bin and calculate signal
+                        for j, img in enumerate(corr_data):
+                            bg_signal[j, i] = np.nanmean(img * self.bg[p_idx[p]])
+
+                    # Average over the frames
+                    signal_vals[p, f_idx, :, 0] = np.mean(bg_signal, axis=1)
+                    signal_vals[p, f_idx, :, 1] = np.std(bg_signal, axis=1)
+
+            # CNR vs. time, noise vs. time <pixels, time, bin, value or error (0 or 1)>
+            # Reorganize to <pixels, bin, value or error, time>
+            signal_vals = np.transpose(signal_vals, axes=(0, 2, 3, 1))
+
+            self.signal[p_idx[0]:p_idx[-1] + 1] = signal_vals
+            np.save(signal_file, self.signal)
+
     def avg_signal_over_frames(self, frame):
         """
         This function will take the data and airscan and calculate the signal of the contrast and the background for
@@ -246,19 +393,23 @@ class AnalyzeUniformity(RedlenAnalyze):
         :return: four lists with the signal, signal error, background signal, and bg signal error in each of the bins
                     (usually 13 elements)
         """
+        data = np.load(self.data_a0)
+        airdata = np.load(self.air_data.data_a0)
+
         # Array to hold the cnr for the number of times it will be calculated
         contrast_signal = np.zeros([self.num_bins, int(1000/frame)])
         bg_signal = np.zeros([self.num_bins, int(1000 / frame)])
 
         # Go over the data views in jumps of the number of frames
         for i, data_idx in enumerate(np.arange(0, 1001-frame, frame)):
+            tempair = np.divide(np.sum(airdata, axis=1), 1000/frame)
             if frame == 1:
-                tempdata = self.data_a0[:, data_idx]  # Grab the next view
-                tempair = self.air_data.data_a0[:, data_idx]
+                tempdata = data[:, data_idx]  # Grab the next view
+                # tempair = airdata[:, data_idx]
             else:
                 # Grab the sum of the next 'frames' views
-                tempdata = np.sum(self.data_a0[:, data_idx:data_idx + frame], axis=1)
-                tempair = np.sum(self.air_data.data_a0[:, data_idx:data_idx + frame], axis=1)
+                tempdata = np.sum(data[:, data_idx:data_idx + frame], axis=1)
+                # tempair = np.sum(airdata[:, data_idx:data_idx + frame], axis=1)
 
             corr_data = self.intensity_correction(tempdata, tempair)  # Correct for air
 
@@ -302,8 +453,6 @@ class AnalyzeUniformity(RedlenAnalyze):
         self.bg_signal = bg_frames
         self.signal = signal_frames
 
-        return contrast_frames, signal_frames, bg_frames
-
     def cnr_noise_vs_pixels(self):
         """ This function just transposes the cnr and noise data so that the values vs. pixels are the last two
             axes in the array"""
@@ -311,17 +460,22 @@ class AnalyzeUniformity(RedlenAnalyze):
         noise_pixel = np.transpose(self.noise_time, axes=(0, 4, 2, 3, 1))
         return cnr_pixel, noise_pixel
 
-    def mean_counts(self):
+    def mean_counts(self, choice='data'):
         """This function gets the mean counts within the airscan for all times in frames for all bins"""
+
+        if choice == 'data':
+            data = np.load(self.data_a0)
+        else:
+            data = np.load(self.air_data.data_a0)
         counts = np.zeros([self.num_bins, len(self.frames)])
         for j, frame in enumerate(self.frames):
             temp_cts = np.zeros([self.num_bins, int(1000 / frame)])  # Collect data for all bins
             # Get every frame number of frames and sum, over the entire view range
             for idx, data_idx in enumerate(np.arange(0, 1001 - frame, frame)):
                 if frame == 1:
-                    tempair = self.air_data.data_a0[:, data_idx]
+                    tempair = data[:, data_idx]
                 else:
-                    tempair = np.sum(self.air_data.data_a0[:, data_idx:data_idx + frame], axis=1)
+                    tempair = np.sum(data[:, data_idx:data_idx + frame], axis=1)
 
                 for i in np.arange(self.num_bins):
                     temp_cts[i, idx] = np.nanmean(tempair[i]*self.bg[0])
@@ -334,6 +488,7 @@ class AnalyzeUniformity(RedlenAnalyze):
 
     def get_air_noise(self):
         """This function will get the noise in the airscan image at all bins and all times in self.frames"""
+        airdata = np.load(self.air_data.data_a0)
         # The results of the test
         air_noise = np.zeros([self.num_bins, len(self.frames)])
         # Go through each frame in frames
@@ -341,9 +496,9 @@ class AnalyzeUniformity(RedlenAnalyze):
             temp_an = np.zeros([self.num_bins, int(1000 / frame)])  # Collect data for all bins
             for idx, data_idx in enumerate(np.arange(0, 1001 - frame, frame)):
                 if frame == 1:
-                    tempair = self.air_data.data_a0[:, data_idx]
+                    tempair = airdata[:, data_idx]
                 else:
-                    tempair = np.sum(self.air_data.data_a0[:, data_idx:data_idx + frame], axis=1)
+                    tempair = np.sum(airdata[:, data_idx:data_idx + frame], axis=1)
 
                 for i in np.arange(self.num_bins):
                     bg_img = self.bg[0]*tempair[i]
@@ -362,6 +517,7 @@ class AnalyzeUniformity(RedlenAnalyze):
                     The pixel coordinates
         :return:
         """
+        airdata = np.load(self.air_data.data_a0)
         # The results of the test
         nu_res = np.zeros([self.num_bins, len(self.frames)])
         # Go through each frame in frames
@@ -369,9 +525,9 @@ class AnalyzeUniformity(RedlenAnalyze):
             temp_nu = np.zeros([self.num_bins, int(1000/frame)])  # Collect data for all bins
             for idx, data_idx in enumerate(np.arange(0, 1001 - frame, frame)):
                 if frame == 1:
-                    tempair = self.air_data.data_a0[:, data_idx]
+                    tempair = airdata[:, data_idx]
                 else:
-                    tempair = np.sum(self.air_data.data_a0[:, data_idx:data_idx + frame], axis=1)
+                    tempair = np.sum(airdata[:, data_idx:data_idx + frame], axis=1)
 
                 for i in np.arange(self.num_bins):
                     px_val = tempair[(i, *pixel)]
@@ -394,28 +550,4 @@ class AnalyzeUniformity(RedlenAnalyze):
         :return: The corrected data array
         """
         return np.log(np.divide(air_data, data))
-
-    @staticmethod
-    def add_adj_bins(data, bins):
-        """
-        This function takes the adjacent bins given in bins and sums along the bin axis, can sum multiple bins
-        :param data: 4D numpy array
-                    Data array with shape <counters, views, rows, columns
-        :param bins: 1D array
-                    Bin numbers (as python indices, i.e the 1st bin would be 0) to sum
-                    Form: [Starting bin, Ending bin]
-                    Ex. for the 2nd through 5th bins, bins = [1, 4]
-        :return: The summed data with the summed bins added together and the rest of the data intact
-                    shape <counters, views, rows, columns>
-        """
-        data_shape = np.array(np.shape(data))
-        data_shape[0] = data_shape[0] - (
-                    bins[1] - bins[0])  # The new data will have the number of added bins - 1 new counters
-        new_data = np.zeros(data_shape)
-
-        new_data[0:bins[0]] = data[0:bins[0]]
-        new_data[bins[0]] = np.sum(data[bins[0]:bins[-1] + 1], axis=0)
-        new_data[bins[0] + 1:] = data[bins[1] + 1:]
-
-        return new_data
 
