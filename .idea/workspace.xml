@@ -26,9 +26,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e941e18b-2940-48ac-a2bc-ba92ca5d083f" name="Default Changelist" comment="NDT paper updates (9/16/2020)">
+      <change afterPath="$PROJECT_DIR$/Collaborations/Adriaan/t1_t2_fits.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/redlen/uniformity_analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/redlen/uniformity_analysis.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/redlen/visualize_script_uniformity.py" beforeDir="false" afterPath="$PROJECT_DIR$/redlen/visualize_script_uniformity.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,7 +62,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../lda" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -104,7 +103,7 @@
       <recent name="C:\Users\drich\OneDrive\Documents\GitHub\desktop-tutorial" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.visualize_script_uniformity">
+  <component name="RunManager" selected="Python.t1_t2_fits">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <module name="Reconstruction" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -151,7 +150,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="t1_t2_fits" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Reconstruction" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -160,12 +159,12 @@
         <env name="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
       </envs>
       <option name="SDK_HOME" value="C:\Users\drich\Anaconda3\python.exe" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/redlen" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Collaborations/Adriaan" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/redlen/test.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Collaborations/Adriaan/t1_t2_fits.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -246,20 +245,21 @@
     <list>
       <item itemvalue="Python.visualize_script_uniformity" />
       <item itemvalue="Python.analysis_script_uniformity" />
-      <item itemvalue="Python.test" />
       <item itemvalue="Python.test2" />
       <item itemvalue="Python.uniformity_analysis" />
+      <item itemvalue="Python.t1_t2_fits" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.t1_t2_fits" />
         <item itemvalue="Python.visualize_script_uniformity" />
         <item itemvalue="Python.uniformity_analysis" />
         <item itemvalue="Python.analysis_script_uniformity" />
         <item itemvalue="Python.test2" />
-        <item itemvalue="Python.test" />
       </list>
     </recent_temporary>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -513,6 +513,13 @@
       <workItem from="1600273030345" duration="11752000" />
       <workItem from="1600302056715" duration="906000" />
       <workItem from="1600358065240" duration="3192000" />
+      <workItem from="1600798582025" duration="11000" />
+      <workItem from="1600883553562" duration="6000" />
+      <workItem from="1602615116463" duration="3660000" />
+      <workItem from="1602619726397" duration="2433000" />
+      <workItem from="1602695472522" duration="1195000" />
+      <workItem from="1602702561936" duration="6198000" />
+      <workItem from="1602713934353" duration="585000" />
     </task>
     <task id="LOCAL-00004" summary="Slight revisions for WesCan talk figures">
       <created>1584474885061</created>
@@ -861,7 +868,7 @@
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="2" />
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -869,11 +876,6 @@
         <entry key="MAIN">
           <value>
             <State>
-              <option name="CUSTOM_BOOLEAN_PROPERTIES">
-                <map>
-                  <entry key="Show.Git.Branches" value="true" />
-                </map>
-              </option>
               <option name="FILTERS">
                 <map>
                   <entry key="branch">
@@ -933,10 +935,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="285" y="14" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1593153056679" />
-    <state x="592" y="238" key="FileChooserDialogImpl" timestamp="1593821459007">
+    <state x="592" y="238" key="FileChooserDialogImpl" timestamp="1600883558313">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="592" y="238" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1593821459007" />
+    <state x="592" y="238" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1600883558313" />
     <state width="1877" height="347" key="GridCell.Tab.0.bottom" timestamp="1600230493880">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -986,10 +988,6 @@
     </state>
     <state x="442" y="201" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1600230477623" />
     <state x="552" y="254" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1600146027776" />
-    <state x="609" y="134" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1592241701057">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="609" y="134" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1592241701057" />
     <state x="731" y="202" width="585" height="801" key="find.popup" timestamp="1599604314665">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -1001,18 +999,17 @@
     <state x="539" y="183" width="840" height="856" key="search.everywhere.popup" timestamp="1599605063466">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1591638364906" />
     <state x="539" y="183" width="840" height="856" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1599605063466" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Reconstruction$Pixel_analysis.coverage" NAME="Pixel_analysis Coverage Results" MODIFIED="1591654364430" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Redlen" />
-    <SUITE FILE_PATH="coverage/Reconstruction$find_high_CNR.coverage" NAME="find_high_CNR Coverage Results" MODIFIED="1600128285551" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/redlen" />
-    <SUITE FILE_PATH="coverage/Reconstruction$visualize_script_uniformity.coverage" NAME="visualize_script_uniformity Coverage Results" MODIFIED="1599671571936" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/redlen" />
-    <SUITE FILE_PATH="coverage/Reconstruction$CBCT_EvsE_Cylinder.coverage" NAME="CBCT_EvsE_Cylinder Coverage Results" MODIFIED="1563824975017" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Reconstruction$MatDeComp_Retry.coverage" NAME="MatDeComp_Retry Coverage Results" MODIFIED="1565652238991" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Reconstruction$generate_sinogram.coverage" NAME="generate_sinogram Coverage Results" MODIFIED="1558931035306" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Reconstruction$find_high_CNR.coverage" NAME="find_high_CNR Coverage Results" MODIFIED="1600128285551" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/redlen" />
+    <SUITE FILE_PATH="coverage/Reconstruction$MatDeComp_Retry.coverage" NAME="MatDeComp_Retry Coverage Results" MODIFIED="1565652238991" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Reconstruction$CBCT_MaterialDecomp.coverage" NAME="CBCT_MaterialDecomp Coverage Results" MODIFIED="1560808633057" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Reconstruction$visualize_script_uniformity.coverage" NAME="visualize_script_uniformity Coverage Results" MODIFIED="1599671571936" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/redlen" />
     <SUITE FILE_PATH="coverage/Reconstruction$analysis_script_uniformity.coverage" NAME="analysis_script_uniformity Coverage Results" MODIFIED="1600216169865" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/redlen" />
+    <SUITE FILE_PATH="coverage/Reconstruction$Pixel_analysis.coverage" NAME="Pixel_analysis Coverage Results" MODIFIED="1591654364430" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Redlen" />
+    <SUITE FILE_PATH="coverage/Reconstruction$CBCT_EvsE_Cylinder.coverage" NAME="CBCT_EvsE_Cylinder Coverage Results" MODIFIED="1563824975017" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Reconstruction$K_Edge.coverage" NAME="K-Edge Coverage Results" MODIFIED="1589222762247" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Reconstruction$CBCT_EnergyVSEnergy_Mouse.coverage" NAME="CBCT_EnergyVSEnergy_Mouse Coverage Results" MODIFIED="1562705634648" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
