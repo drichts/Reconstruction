@@ -357,5 +357,3 @@ def rectangular_mask(coords, img_dim):
     arr[arr == 0] = np.nan
 
     return arr
-
-#m1 = square_ROI(np.squeeze(np.sum(np.load('C:/Users/10376/Documents/Phantom Data/Uniformity/m20358_q20_al_bluebelt_acryl_1w/Corrected Data/Run002_a0.npy'), axis=2))[12])
