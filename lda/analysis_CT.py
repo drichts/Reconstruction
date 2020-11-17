@@ -1,23 +1,23 @@
+import os
 import numpy as np
 import matplotlib.pyplot as plt
-from os import path
+
 from glob import glob
 from analysis import Analyze
-import
 
 
 class AnalyzeCT(Analyze):
 
     def __init__(self, folder, directory='D:/Research/LDA Data/'):
         self.folder = folder
-        self.directory = path.join(directory, folder)
+        self.directory = os.path.join(directory, folder)
 
-        self.data = path.join(self.directory, 'raw_data.npy')
-        self.airdata = path.join(self.directory, 'airscan.npy')
+        self.data = os.path.join(self.directory, 'raw_data.npy')
+        self.airdata = os.path.join(self.directory, 'airscan.npy')
 
-        self.proj = path.join(self.directory, 'projections.npy')
+        self.proj = os.path.join(self.directory, 'projections.npy')
 
-        if not path.exists(self.proj):
+        if not os.path.exists(self.proj):
             np.save(self.proj, self.intensity_correction(np.load(self.data), np.load(self.airdata)))
 
     @staticmethod

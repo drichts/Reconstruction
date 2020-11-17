@@ -78,22 +78,22 @@ proj1 = np.transpose(np.roll(proj1, 20, axis=0))
 # plt.show()
 # plt.savefig(os.path.join(directory, data_folder[:-5], 'fig', 'darkscans.png'), dpi=fig.dpi)
 
-slices = [12, 14, 15]
-
-fig, ax = plt.subplots(2, 3, figsize=(12, 8))
-ax[0, 0].imshow(x1[6, 85:200, 85:200, slices[0]], vmin=0.01, vmax=0.1, cmap='gray')
-ax[0, 1].imshow(x1[6, 85:200, 85:200, slices[1]], vmin=0.01, vmax=0.1, cmap='gray')
-ax[0, 2].imshow(x1[6, 85:200, 85:200, slices[2]], vmin=0.01, vmax=0.1, cmap='gray')
-ax[1, 0].imshow(x60[6, 85:200, 85:200, slices[0]], vmin=0.01, vmax=0.1, cmap='gray')
-ax[1, 1].imshow(x60[6, 85:200, 85:200, slices[1]], vmin=0.01, vmax=0.1, cmap='gray')
-ax[1, 2].imshow(x60[6, 85:200, 85:200, slices[2]], vmin=0.01, vmax=0.1, cmap='gray')
-ax[0, 0].set_title(f'1s Slice {slices[0]}', fontsize=13)
-ax[0, 1].set_title(f'1s Slice {slices[1]}', fontsize=13)
-ax[0, 2].set_title(f'1s Slice {slices[2]}', fontsize=13)
-ax[1, 0].set_title(f'60s Slice {slices[0]}', fontsize=13)
-ax[1, 1].set_title(f'60s Slice {slices[1]}', fontsize=13)
-ax[1, 2].set_title(f'60s Slice {slices[2]}', fontsize=13)
-
-plt.show()
-plt.savefig(os.path.join(directory, data_folder[:-5], 'fig', 'ct_images.png'), dpi=fig.dpi)
+# slices = [12, 14, 15]
+#
+# fig, ax = plt.subplots(2, 3, figsize=(12, 8))
+# ax[0, 0].imshow(x1[6, 85:200, 85:200, slices[0]], vmin=0.01, vmax=0.1, cmap='gray')
+# ax[0, 1].imshow(x1[6, 85:200, 85:200, slices[1]], vmin=0.01, vmax=0.1, cmap='gray')
+# ax[0, 2].imshow(x1[6, 85:200, 85:200, slices[2]], vmin=0.01, vmax=0.1, cmap='gray')
+# ax[1, 0].imshow(x60[6, 85:200, 85:200, slices[0]], vmin=0.01, vmax=0.1, cmap='gray')
+# ax[1, 1].imshow(x60[6, 85:200, 85:200, slices[1]], vmin=0.01, vmax=0.1, cmap='gray')
+# ax[1, 2].imshow(x60[6, 85:200, 85:200, slices[2]], vmin=0.01, vmax=0.1, cmap='gray')
+# ax[0, 0].set_title(f'1s Slice {slices[0]}', fontsize=13)
+# ax[0, 1].set_title(f'1s Slice {slices[1]}', fontsize=13)
+# ax[0, 2].set_title(f'1s Slice {slices[2]}', fontsize=13)
+# ax[1, 0].set_title(f'60s Slice {slices[0]}', fontsize=13)
+# ax[1, 1].set_title(f'60s Slice {slices[1]}', fontsize=13)
+# ax[1, 2].set_title(f'60s Slice {slices[2]}', fontsize=13)
+#
+# plt.show()
+# plt.savefig(os.path.join(directory, data_folder[:-5], 'fig', 'ct_images.png'), dpi=fig.dpi)
 

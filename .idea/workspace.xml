@@ -26,17 +26,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e941e18b-2940-48ac-a2bc-ba92ca5d083f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/attenuation/plot_soft_tissues.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/attenuation/txt_to_npy.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lda/comparison_1s_60s.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/terminal.xml" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/lda/analyze_airscans.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/deadpixel_mask.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/general_functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/general_functions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lda/analysis_2d.py" beforeDir="false" afterPath="$PROJECT_DIR$/lda/analysis_CT.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mask_functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/mask_functions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/redlen/attenuation_figure.py" beforeDir="false" afterPath="$PROJECT_DIR$/redlen/attenuation_figure.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lda/analysis_CT.py" beforeDir="false" afterPath="$PROJECT_DIR$/lda/analysis_CT.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lda/comparison_1s_60s.py" beforeDir="false" afterPath="$PROJECT_DIR$/lda/comparison_1s_60s.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -112,7 +105,7 @@
       <recent name="C:\Users\drich\OneDrive\Documents\GitHub\desktop-tutorial" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.comparison_1s_60s (1)">
+  <component name="RunManager" selected="Python.analyze_airscans">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <module name="Reconstruction" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -128,6 +121,28 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="analyze_airscans" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Reconstruction" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\drich\Anaconda3\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/lda" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/lda/analyze_airscans.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -205,29 +220,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="t1_t2_fits" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="Reconstruction" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-        <env name="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
-      </envs>
-      <option name="SDK_HOME" value="C:\Users\drich\Anaconda3\python.exe" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Collaborations/Adriaan" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Collaborations/Adriaan/t1_t2_fits.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="true" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="txt_to_npy" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Reconstruction" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -252,19 +244,19 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.t1_t2_fits" />
       <item itemvalue="Python.txt_to_npy" />
       <item itemvalue="Python.plot_soft_tissues" />
       <item itemvalue="Python.comparison_1s_60s" />
       <item itemvalue="Python.comparison_1s_60s (1)" />
+      <item itemvalue="Python.analyze_airscans" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.analyze_airscans" />
         <item itemvalue="Python.comparison_1s_60s (1)" />
         <item itemvalue="Python.comparison_1s_60s" />
         <item itemvalue="Python.plot_soft_tissues" />
         <item itemvalue="Python.txt_to_npy" />
-        <item itemvalue="Python.t1_t2_fits" />
       </list>
     </recent_temporary>
   </component>
@@ -546,14 +538,8 @@
       <workItem from="1605214359789" duration="422000" />
       <workItem from="1605227132837" duration="2000000" />
       <workItem from="1605288533286" duration="1233000" />
-      <workItem from="1605317492121" duration="2463000" />
-    </task>
-    <task id="LOCAL-00005" summary="Updates since last push (Date: 4/22/20)">
-      <created>1587582093140</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1587582093140</updated>
+      <workItem from="1605317492121" duration="2487000" />
+      <workItem from="1605566644558" duration="6074000" />
     </task>
     <task id="LOCAL-00006" summary="redlen-analysis.py update (4/29/2020)">
       <created>1588198294531</created>
@@ -891,7 +877,14 @@
       <option name="project" value="LOCAL" />
       <updated>1602714559873</updated>
     </task>
-    <option name="localTasksCounter" value="54" />
+    <task id="LOCAL-00054" summary="Saving">
+      <created>1605338812027</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1605338812027</updated>
+    </task>
+    <option name="localTasksCounter" value="55" />
     <servers />
   </component>
   <component name="TerminalProjectNonSharedOptionsProvider">
@@ -927,7 +920,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Major update for non-specific analysis (6/15/2020)" />
     <MESSAGE value="Major update for organization (6/24/2020)" />
     <MESSAGE value="Start on class implementation (6/25/2020)" />
     <MESSAGE value="Class implem. Re-analysis (6/30/2020)" />
@@ -952,7 +944,8 @@
     <MESSAGE value="NDT paper updates (9/15/2020)" />
     <MESSAGE value="NDT paper updates (9/16/2020)" />
     <MESSAGE value="Curve fits for Adriaan (10/14/20)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Curve fits for Adriaan (10/14/20)" />
+    <MESSAGE value="Saving" />
+    <option name="LAST_COMMIT_MESSAGE" value="Saving" />
   </component>
   <component name="WindowStateProjectService">
     <state x="552" y="161" key="#Plugins" timestamp="1604715613006">
@@ -963,15 +956,15 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="640" y="256" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1604715432530" />
-    <state x="393" y="0" key="CommitChangelistDialog2" timestamp="1602714557995">
+    <state x="393" y="0" key="CommitChangelistDialog2" timestamp="1605338810336">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="393" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1602714557995" />
-    <state x="740" y="300" key="FileChooserDialogImpl" timestamp="1605288573290">
+    <state x="393" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1605338810336" />
+    <state x="740" y="300" key="FileChooserDialogImpl" timestamp="1605577647291">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="592" y="238" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1604448041970" />
-    <state x="740" y="300" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1605288573290" />
+    <state x="740" y="300" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1605577647291" />
     <state x="740" y="335" key="FileChooserDialogImpl/0.0.1920.1160/-1920.116.1536.824@0.0.1920.1160" timestamp="1604967760550" />
     <state width="1877" height="347" key="GridCell.Tab.0.bottom" timestamp="1600230493880">
       <screen x="0" y="0" width="1536" height="824" />
@@ -1018,10 +1011,10 @@
     </state>
     <state x="394" y="84" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1597431436417" />
     <state x="493" y="106" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1605229440459" />
-    <state x="442" y="201" key="Vcs.Push.Dialog.v2" timestamp="1602714565653">
+    <state x="442" y="201" key="Vcs.Push.Dialog.v2" timestamp="1605338815768">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="442" y="201" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1602714565653" />
+    <state x="442" y="201" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1605338815768" />
     <state x="552" y="254" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1600146027776" />
     <state x="731" y="202" width="585" height="801" key="find.popup" timestamp="1599604314665">
       <screen x="0" y="0" width="1920" height="1040" />
