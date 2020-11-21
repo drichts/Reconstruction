@@ -1,11 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import csv
-import os
-import sys
 import glob
 import mask_functions as grm
-import sct_analysis as sct
+from obsolete import sct_analysis as sct
+
 
 def read_csv():
     directory = r'D:\Research\Python Data\Redlen\Attenuation/'

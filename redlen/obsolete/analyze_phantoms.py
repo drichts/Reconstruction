@@ -2,10 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import glob
-from obsolete import general_OS_functions as gof
-import sct_analysis as sct
-
-
+from obsolete import general_OS_functions as gof, sct_analysis as sct
 
 
 def get_CNR_over_1s_sum_adj_bin(folder, bins, corr3x3=False, CC=False,

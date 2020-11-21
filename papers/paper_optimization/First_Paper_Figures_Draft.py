@@ -1,9 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import sct_analysis as sct
-import mask_functions as grm
 import seaborn as sns
-import matplotlib.patches as mpatches
 import matplotlib.lines as mlines
 
 directory = 'D:/Research/Python Data/Spectral CT/'
@@ -290,8 +287,6 @@ plt.show()
 #plt.savefig(directory + 'Paper 1 Figures/Figure2_CNR.png', dpi=1000)
 
 #%% Figure 3 CNR
-
-import matplotlib.patches as mpatches
 
 xpts = np.array([1, 2, 3, 4, 5])
 # Calculate y points from the fit above

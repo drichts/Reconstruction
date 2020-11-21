@@ -2,7 +2,7 @@ from scipy.io import loadmat
 import numpy as np
 import os
 from glob import glob
-from analysis import Analyze
+from obsolete.analysis import Analyze
 from natsort import natural_keys
 
 

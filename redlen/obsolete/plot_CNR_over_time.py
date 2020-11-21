@@ -1,10 +1,7 @@
 import numpy as np
-import sct_analysis as sct
+from obsolete import sct_analysis as sct
 import matplotlib.pyplot as plt
 import seaborn as sns
-from scipy.optimize import curve_fit
-from sklearn.metrics import r2_score
-from datetime import datetime as dt
 
 
 def plot_CNR_over_time_1s(time_pts, CNR_pts, CNR_err_mean, CC='CC', title='n/a', save=False,

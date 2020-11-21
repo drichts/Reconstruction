@@ -3,38 +3,25 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 from scipy.io import savemat, loadmat
+import mask_functions as mf
 
 directory = r'D:\OneDrive - University of Victoria\Research\LDA Data'
 
-data_folder = r'ct_test_110920\Data'
-air_folder_60 = r'airscan_120kVP_1mA_1mmAl_3x8coll_60s\Data'
-dark_folder_60 = r'darkscan_60s\Data'
-air_folder_1 = r'airscan_120kVP_1mA_1mmAl_3x8coll_1s\Data'
-dark_folder_1 = r'darkscan_1s\Data'
+data_folder = r'ct_720frames_0.25sproj_111220'
 
-# x60 = loadmat(os.path.join(directory, data_folder, 'ct_60s.mat'))['ct_img']
-# x1 = loadmat(os.path.join(directory, data_folder, 'ct_1s.mat'))['ct_img']
+data = loadmat(os.path.join(directory, data_folder, 'CT', 'CT_proj180_1-60s.mat'))['ct_img']
 #
-# np.save(os.path.join(directory, data_folder, 'ct_60s.npy'), x60)
-# np.save(os.path.join(directory, data_folder, 'ct_1s.npy'), x1)
+mask = mf.single_circular_ROI(data[6, :, :, 14])
+np.save(os.path.join(directory, 'mask.npy'), mask)
 
-x60 = np.load(os.path.join(directory, data_folder, 'ct_60s.npy'))
-x1 = np.load(os.path.join(directory, data_folder, 'ct_1s.npy'))
-
-data = np.load(os.path.join(directory, data_folder, 'data.npy'))
-air60 = np.load(os.path.join(directory, air_folder_60, 'data.npy'))/60
-dark60 = np.load(os.path.join(directory, dark_folder_60, 'data.npy'))/60
-
-air1 = np.load(os.path.join(directory, air_folder_1, 'data.npy'))
-dark1 = np.load(os.path.join(directory, dark_folder_1, 'data.npy'))
-
-proj60 = np.log(np.subtract(air60, dark60)) - np.log(np.subtract(data, dark60))
-proj60 = proj60[:, 13, 50:250, 6]
-proj60 = np.transpose(np.roll(proj60, 20, axis=0))
-
-proj1 = np.log(np.subtract(air1, dark1)) - np.log(np.subtract(data, dark1))
-proj1 = proj1[:, 13, 50:250, 6]
-proj1 = np.transpose(np.roll(proj1, 20, axis=0))
+# for i in np.arange(1, 6):
+#     data = loadmat(os.path.join(directory, data_folder, 'CT', 'proj360_' + str(i) + '-60s.mat'))['data']
+#     fig = plt.figure(figsize=(8, 10))
+#     plt.imshow(np.transpose(np.roll(data[6, :, 12, :], 20, axis=0)), vmin=0.1, vmax=1)
+#     plt.title(str(i), fontsize=14)
+#     plt.show()
+#     plt.savefig(rf'D:\OneDrive - University of Victoria\Research\LDA Data\fig\sinogram\360_{i}_60s.png', dpi=fig.dpi)
+#     plt.close()
 
 # fig, ax = plt.subplots(1, 2, figsize=(14, 8))
 # ax[0].imshow(proj1, vmin=0, vmax=1)
@@ -78,22 +65,24 @@ proj1 = np.transpose(np.roll(proj1, 20, axis=0))
 # plt.show()
 # plt.savefig(os.path.join(directory, data_folder[:-5], 'fig', 'darkscans.png'), dpi=fig.dpi)
 
-# slices = [12, 14, 15]
-#
-# fig, ax = plt.subplots(2, 3, figsize=(12, 8))
-# ax[0, 0].imshow(x1[6, 85:200, 85:200, slices[0]], vmin=0.01, vmax=0.1, cmap='gray')
-# ax[0, 1].imshow(x1[6, 85:200, 85:200, slices[1]], vmin=0.01, vmax=0.1, cmap='gray')
-# ax[0, 2].imshow(x1[6, 85:200, 85:200, slices[2]], vmin=0.01, vmax=0.1, cmap='gray')
-# ax[1, 0].imshow(x60[6, 85:200, 85:200, slices[0]], vmin=0.01, vmax=0.1, cmap='gray')
-# ax[1, 1].imshow(x60[6, 85:200, 85:200, slices[1]], vmin=0.01, vmax=0.1, cmap='gray')
-# ax[1, 2].imshow(x60[6, 85:200, 85:200, slices[2]], vmin=0.01, vmax=0.1, cmap='gray')
-# ax[0, 0].set_title(f'1s Slice {slices[0]}', fontsize=13)
-# ax[0, 1].set_title(f'1s Slice {slices[1]}', fontsize=13)
-# ax[0, 2].set_title(f'1s Slice {slices[2]}', fontsize=13)
-# ax[1, 0].set_title(f'60s Slice {slices[0]}', fontsize=13)
-# ax[1, 1].set_title(f'60s Slice {slices[1]}', fontsize=13)
-# ax[1, 2].set_title(f'60s Slice {slices[2]}', fontsize=13)
-#
-# plt.show()
-# plt.savefig(os.path.join(directory, data_folder[:-5], 'fig', 'ct_images.png'), dpi=fig.dpi)
+
+fig, ax = plt.subplots(2, 3, figsize=(12, 8))
+nums = [0.25, 0.5, 1]
+fram = 360
+mask = np.load(os.path.join(directory, 'mask.npy'))
+for i, folder in enumerate(['ct_720frames_0.25sproj_111220', 'ct_720frames_0.5sproj_111220', 'ct_720frames_1sproj_111220']):
+    data60 = loadmat(os.path.join(directory, folder, 'CT', f'CT_proj{fram//2}_5-60s.mat'))['ct_img']
+    data300 = loadmat(os.path.join(directory, folder, 'CT', f'CT_proj{fram}_5-60s.mat'))['ct_img']
+    ax[0, i].imshow(data60[3, 90:200, 90:200, 8], vmin=0.01, vmax=0.03, cmap='gray')
+    ax[1, i].imshow(data300[3, 90:200, 90:200, 8], vmin=0.01, vmax=0.03, cmap='gray')
+
+    ax[0, i].set_title(f'{fram//2} frames, {nums[i]*4}s per frame,\n 60 s airscan', fontsize=13)
+    ax[1, i].set_title(f'{fram} frames, {nums[i]*2}s per frame,\n 60 s airscan', fontsize=13)
+
+    ax[0, i].set_xlabel(f'Noise: {np.nanstd(data60[3, :, :, 8]*mask)/np.nanmean(data60[6, :, :, 14]*mask)*100:.3f}', fontsize=11)
+    ax[1, i].set_xlabel(f'Noise: {np.nanstd(data300[3, :, :, 8]*mask)/np.nanmean(data300[6, :, :, 14]*mask)*100:.3f}', fontsize=11)
+
+plt.subplots_adjust(wspace=0.4, bottom=0.1, top=0.95)
+plt.show()
+# plt.savefig(os.path.join(directory, 'fig', 'CT', f'frame_comp.png'), dpi=fig.dpi)
 
