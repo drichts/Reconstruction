@@ -1,6 +1,7 @@
 import _pickle as pickle
 import numpy as np
 import os
+import matplotlib.pyplot as plt
 
 
 def save_object(obj, filepath):
@@ -42,7 +43,9 @@ def intensity_correction(data, air_data, dark_data):
     :param dark_data: The darkscan data (must be the same shape as airdata)
     :return: The corrected data array
     """
-    return np.log(np.subtract(air_data, dark_data)) - np.log(np.subtract(data, dark_data))
+    with np.errstate(invalid='ignore'):
+        data = np.log(np.subtract(air_data, dark_data)) - np.log(np.subtract(data, dark_data))
+    return data
 
 
 def cnr(image, contrast_mask, background_mask):
@@ -86,14 +89,21 @@ def correct_dead_pixels(data, dead_pixel_mask):
     dead_pixels = np.array(np.argwhere(np.isnan(dead_pixel_mask)), dtype='int')
 
     data_shape = np.shape(data)
+    while len(data_shape) < 4:
+        if len(data_shape) == 3:
+            data = np.expand_dims(data, axis=0)
+        else:
+            data = np.expand_dims(data, axis=3)
+        data_shape = np.shape(data)
+
     for pixel in dead_pixels:
         for i in np.arange(data_shape[0]):
-            for j in np.arange(data_shape[1]):
+            for j in np.arange(data_shape[-1]):
                 # Pixel is corrected in every counter and capture
-                avg_val = get_average_pixel_value(data[i, j], pixel, dead_pixel_mask)
-                data[i, j, pixel[0], pixel[1]] = avg_val  # Set the new value in the 4D array
+                avg_val = get_average_pixel_value(data[i, :, :, j], pixel, dead_pixel_mask)
+                data[i, pixel[0], pixel[1], j] = avg_val  # Set the new value in the 4D array
 
-    return data
+    return np.squeeze(data)
 
 
 def get_average_pixel_value(img, pixel, dead_pixel_mask):
@@ -155,3 +165,24 @@ def get_average_pixel_value(img, pixel, dead_pixel_mask):
     avg = np.nanmean(np.array([n1, n2, n3, n4, n5, n6, n7, n8]))
 
     return avg
+
+
+def reshape(data):
+    new_shape = (data.shape[0] // 2, 2, *data.shape[1:])
+    data_sum = np.sum(np.reshape(data, new_shape), axis=1)
+    np.save(r'D:\OneDrive - University of Victoria\Research\LDA Data\ct_180frames_1sproj_111220 - Synth\Data\data.npy', data_sum)
+    return data_sum
+
+
+# air = np.load(r'D:\OneDrive - University of Victoria\Research\LDA Data\airscan_120kVP_1mA_1mmAl_3x8coll_360s_6frames\Data\data.npy')
+# dark = np.load(r'D:\OneDrive - University of Victoria\Research\LDA Data\darkscan_360s_6frames\Data\data.npy')
+# dpm = np.load(r'D:\OneDrive - University of Victoria\Research\LDA Data\mod1_deadpixelmask.npy')
+# air = correct_dead_pixels(air, dpm)
+# dark = np.sum(dark[1:], axis=0)
+# dark = correct_dead_pixels(dark, dpm)
+#
+# plt.imshow(air[4, :, :, 6], vmin=1E5, vmax=1E9)
+# plt.show()
+
+# np.save(r'D:\OneDrive - University of Victoria\Research\LDA Data\airscan_120kVP_1mA_1mmAl_3x8coll_360s_6frames\Data\data_corr.npy', air)
+# np.save(r'D:\OneDrive - University of Victoria\Research\LDA Data\darkscan_360s_6frames\Data\data_corr_300s.npy', dark)

@@ -7,15 +7,26 @@ import mask_functions as mf
 
 directory = r'D:\OneDrive - University of Victoria\Research\LDA Data'
 
-data_folder = r'darkscan_360s_6frames'
+data_folder = 'airscan_120kVP_1mA_1mmAl_3x8coll_360s_6frames'
 
-data = np.load(os.path.join(directory, data_folder, 'Data', 'data.npy'))
+data = np.load(os.path.join(directory, data_folder, 'Data', 'data_corr.npy'))
 
 # for i in np.arange(7):
 #     fig = plt.figure(figsize=(10, 4))
 #     plt.imshow(data[100, :, :, i])
 #     plt.show()
 
+
+data1 = data[2, :, :, 6]
+data2 = data[3, :, :, 6]
+
+corr = np.abs((np.log(data1) - np.log(data2)) * 100)
+
+plt.imshow(corr, vmin=0, vmax=0.5)
+plt.show()
+
+# plt.imshow(corr, vmin=0, vmax=1)
+# plt.show()
 
 def compare_dark(dark1, dark2, name):
     fig = plt.figure(figsize=(10, 4))
@@ -35,6 +46,6 @@ def compare_dark(dark1, dark2, name):
     plt.close()
 
 
-for j in np.arange(1, 6):
-    for i in np.arange(1, 6):
-        compare_dark(data[i, :, :, 6], data[j, :, :, 6], f'{i} over {j}')
+#for j in np.arange(1, 6):
+# for i in np.arange(1, 6):
+#     compare_dark(data[i, :, :, 6]/60, np.sum(data[1:, :, :, 6], axis=0)/300, f'{i} minus 300 s')

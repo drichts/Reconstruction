@@ -1,16 +1,23 @@
+import os
 import numpy as np
 
 DIRECTORY = r'D:\OneDrive - University of Victoria\Research\LDA Data'
 
-NUM_ASICS = 8  # Number of ASICs (2 per module)
+AIR_FOLDER = 'airscan_120kVP_1mA_1mmAl_3x8coll_360s_6frames'
+DARK_FOLDER = 'darkscan_360s_6frames'
+
+AIR = np.load(os.path.join(DIRECTORY, AIR_FOLDER, 'Data', 'data_corr.npy'))[3] / 60
+DARK = np.load(os.path.join(DIRECTORY, DARK_FOLDER, 'Data', 'data_corr_300s.npy')) / 300
 
 # Dead pixel mask <row, column>
 # Set: dead_pixel_mask[r, c] = np.nan
-DEAD_PIXEL_MASK = np.ones([24, 288])
+DEAD_PIXEL_MASK = np.load(os.path.join(DIRECTORY, 'mod1_deadpixelmask.npy'))
 
 """
 CT Reconstruction Parameters
 """
+
+NUM_ASICS = 8  # Number of ASICs (2 per module)
 
 PS = 0.330  # Pixel size of the physical detector
 
@@ -40,6 +47,7 @@ DIRECTION = 1  # Rotation direction (gantry rotation direction) (1 or -1)
 DANG = 2  # Angle between captures (degrees)
 DEG = np.arange(0, 359, DANG)  # List of all capture angles (0-359 by steps of dang)
 DEG = DEG * DIRECTION  # Move along angles in the correct rotation direction
+NUM_PROJ = len(DEG)
 
 # filter options: 'ram-lak', 'cosine', 'hamming', 'hann'
 FILTER = 'hamming'  # High-pass filter

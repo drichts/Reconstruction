@@ -11,7 +11,7 @@ def filtering(projections):
                 The projection data. Shape: <counters, captures, rows, columns>
 
     :return: 4D numpy array
-                The filtered projection data. Shape: <counters, captures, rows, columns>
+                The filtered projection data. Shape: <counters, frame, rows, columns>
 
     Adapted from:  Kyungsang Kim (2020). 3D Cone beam CT (CBCT) projection backprojection FDK, iterative reconstruction
     Matlab examples (https://www.mathworks.com/matlabcentral/fileexchange/35548-3d-cone-beam-ct-cbct-projection-
@@ -45,7 +45,8 @@ def filtering(projections):
             filt_proj[:, int(filt_len/2-param.NU/2):int(filt_len/2+param.NU/2)] = proj
             filt_proj = fft(filt_proj, axis=1)  # Compute the Fourier transform along each column
 
-            filt_proj = filt_proj * filt  # Apply the filter to the Fourier transform of the data
+            with np.errstate(invalid='ignore'):
+                filt_proj = filt_proj * filt  # Apply the filter to the Fourier transform of the data
             filt_proj = np.real(ifft(filt_proj, axis=1))  # Get only the real portion of the inverse Fourier transform
 
             # Apply a correction factor based on the number of projections and system geometry

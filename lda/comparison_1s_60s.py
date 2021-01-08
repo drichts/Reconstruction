@@ -11,8 +11,8 @@ data_folder = r'ct_720frames_0.25sproj_111220'
 
 data = loadmat(os.path.join(directory, data_folder, 'CT', 'CT_proj180_1-60s.mat'))['ct_img']
 #
-mask = mf.single_circular_ROI(data[6, :, :, 14])
-np.save(os.path.join(directory, 'mask.npy'), mask)
+# mask = mf.single_circular_ROI(data[6, :, :, 14])
+# np.save(os.path.join(directory, 'mask.npy'), mask)
 
 # for i in np.arange(1, 6):
 #     data = loadmat(os.path.join(directory, data_folder, 'CT', 'proj360_' + str(i) + '-60s.mat'))['data']
@@ -65,24 +65,139 @@ np.save(os.path.join(directory, 'mask.npy'), mask)
 # plt.show()
 # plt.savefig(os.path.join(directory, data_folder[:-5], 'fig', 'darkscans.png'), dpi=fig.dpi)
 
+# fig, ax = plt.subplots(2, 3, figsize=(12, 8))
+# slices = [8, 9, 14]
+# folder = 'ct_180frames_1sproj_111220 - Synth'
+# for i in range(3):
+#     data60 = loadmat(os.path.join(directory, folder, 'CT', 'CT_proj_filt_no_dpc.mat'))['ct_img']
+#     data300 = loadmat(os.path.join(directory, folder, 'CT', 'CT_proj_filt.mat'))['ct_img']
+#     ax[0, i].imshow(data60[6, 90:200, 90:200, slices[i]], vmin=0.01, vmax=0.03, cmap='gray')
+#     ax[1, i].imshow(data300[6, 90:200, 90:200, slices[i]], vmin=0.01, vmax=0.03, cmap='gray')
+#
+#     ax[0, i].set_title(f'With no dead pixel corr, Slice {slices[i]}', fontsize=13)
+#     ax[1, i].set_title(f'With dead pixel corr, Slice {slices[i]}', fontsize=13)
+#
+# plt.subplots_adjust(wspace=0.4, bottom=0.1, top=0.95)
+# plt.show()
+# plt.savefig(os.path.join(directory, 'fig', 'CT', f'dpcorr11.png'), dpi=fig.dpi)
+
+# fig, ax = plt.subplots(2, 3, figsize=(12, 8))
+# slices = [8, 9, 14]
+# folder = 'ct_180frames_1sproj_111220 - Synth2'
+# for i in range(3):
+#     data60 = loadmat(os.path.join(directory, folder, 'CT', 'CT_proj_filt_no_dpc.mat'))['ct_img']
+#     data300 = loadmat(os.path.join(directory, folder, 'CT', 'CT_proj_filt.mat'))['ct_img']
+#     ax[0, i].imshow(data60[6, 90:200, 90:200, slices[i]], vmin=0.01, vmax=0.03, cmap='gray')
+#     ax[1, i].imshow(data300[6, 90:200, 90:200, slices[i]], vmin=0.01, vmax=0.03, cmap='gray')
+#
+#     ax[0, i].set_title(f'With no dead pixel corr, Slice {slices[i]}', fontsize=13)
+#     ax[1, i].set_title(f'With dead pixel corr, Slice {slices[i]}', fontsize=13)
+#
+# plt.subplots_adjust(wspace=0.4, bottom=0.1, top=0.95)
+# plt.show()
+# plt.savefig(os.path.join(directory, 'fig', 'CT', f'dpcorr2.png'), dpi=fig.dpi)
+
+#
+# slices = [8, 9, 14]
+# folder = 'ct_180frames_1sproj_111220 - Synth3'
+# data = loadmat(os.path.join(directory, folder, 'CT', 'CT_proj_filt.mat'))['ct_img']
+# # mask = mf.entire_phantom(data[2, :, :, 14], 10)
+# # np.save(os.path.join(directory, 'mask.npy'), mask)
+# mask = np.load(os.path.join(directory, 'mask.npy'))
+#
+# fig, ax = plt.subplots(2, 3, figsize=(12, 8))
+# for i in range(3):
+#
+#     ax[0, i].imshow(data[2, 90:200, 90:200, slices[i]], vmin=0.01, vmax=0.03, cmap='gray')
+#     ax[1, i].imshow(data[1, 90:200, 90:200, slices[i]], vmin=0.01, vmax=0.03, cmap='gray')
+#
+#     ax[0, i].set_title(f'20-120 keV, Slice {slices[i]}', fontsize=13)
+#     ax[1, i].set_title(f'30-120 keV, Slice {slices[i]}', fontsize=13)
+#
+#     ax[0, i].set_xlabel(f'Rel. Noise: {np.nanstd(data[2, :, :, slices[i]] * mask) / np.nanmean(data[2, :, :, slices[i]] * mask) * 100:.3f}', fontsize=11)
+#     ax[1, i].set_xlabel(f'Rel. Noise: {np.nanstd(data[1, :, :, slices[i]] * mask) / np.nanmean(data[1, :, :, slices[i]] * mask) * 100:.3f}', fontsize=11)
+#
+# plt.subplots_adjust(wspace=0.4, bottom=0.1, top=0.95)
+# plt.show()
+# plt.savefig(os.path.join(directory, 'fig', 'CT', f'add_bins1.png'), dpi=fig.dpi)
+
+
+slices = [8, 9, 14]
+folder = 'ct_180frames_1sproj_111220 - Synth4'
+data = loadmat(os.path.join(directory, folder, 'CT', 'CT_proj_filt.mat'))['ct_img']
+# mask = mf.entire_phantom(data[2, :, :, 14], 10)
+# np.save(os.path.join(directory, 'mask.npy'), mask)
+mask = np.load(os.path.join(directory, 'mask.npy'))
 
 fig, ax = plt.subplots(2, 3, figsize=(12, 8))
-nums = [0.25, 0.5, 1]
-fram = 360
-mask = np.load(os.path.join(directory, 'mask.npy'))
-for i, folder in enumerate(['ct_720frames_0.25sproj_111220', 'ct_720frames_0.5sproj_111220', 'ct_720frames_1sproj_111220']):
-    data60 = loadmat(os.path.join(directory, folder, 'CT', f'CT_proj{fram//2}_5-60s.mat'))['ct_img']
-    data300 = loadmat(os.path.join(directory, folder, 'CT', f'CT_proj{fram}_5-60s.mat'))['ct_img']
-    ax[0, i].imshow(data60[3, 90:200, 90:200, 8], vmin=0.01, vmax=0.03, cmap='gray')
-    ax[1, i].imshow(data300[3, 90:200, 90:200, 8], vmin=0.01, vmax=0.03, cmap='gray')
+for i in range(3):
 
-    ax[0, i].set_title(f'{fram//2} frames, {nums[i]*4}s per frame,\n 60 s airscan', fontsize=13)
-    ax[1, i].set_title(f'{fram} frames, {nums[i]*2}s per frame,\n 60 s airscan', fontsize=13)
+    ax[0, i].imshow(data[3, 90:200, 90:200, slices[i]], vmin=0.01, vmax=0.08, cmap='gray')
+    ax[1, i].imshow(data[2, 90:200, 90:200, slices[i]], vmin=0.01, vmax=0.08, cmap='gray')
 
-    ax[0, i].set_xlabel(f'Noise: {np.nanstd(data60[3, :, :, 8]*mask)/np.nanmean(data60[6, :, :, 14]*mask)*100:.3f}', fontsize=11)
-    ax[1, i].set_xlabel(f'Noise: {np.nanstd(data300[3, :, :, 8]*mask)/np.nanmean(data300[6, :, :, 14]*mask)*100:.3f}', fontsize=11)
+    ax[0, i].set_title(f'20-120 keV, Slice {slices[i]}', fontsize=13)
+    ax[1, i].set_title(f'50-120 keV, Slice {slices[i]}', fontsize=13)
+
+    ax[0, i].set_xlabel(f'Rel. Noise: {np.nanstd(data[3, :, :, slices[i]] * mask) / np.nanmean(data[3, :, :, slices[i]] * mask) * 100:.3f}', fontsize=11)
+    ax[1, i].set_xlabel(f'Rel. Noise: {np.nanstd(data[2, :, :, slices[i]] * mask) / np.nanmean(data[2, :, :, slices[i]] * mask) * 100:.3f}', fontsize=11)
 
 plt.subplots_adjust(wspace=0.4, bottom=0.1, top=0.95)
 plt.show()
-# plt.savefig(os.path.join(directory, 'fig', 'CT', f'frame_comp.png'), dpi=fig.dpi)
+# plt.savefig(os.path.join(directory, 'fig', 'CT', f'add_bins2.png'), dpi=fig.dpi)
+
+# slices = [8, 9, 14]
+# folder1 = 'ct_180frames_1sproj_111220 - Synth6'
+# folder2 = 'ct_180frames_1sproj_111220 - Synth5'
+# data1 = loadmat(os.path.join(directory, folder1, 'CT', 'CT_proj_filt.mat'))['ct_img']
+# print(data1.shape)
+# data2 = loadmat(os.path.join(directory, folder2, 'CT', 'CT_proj_filt.mat'))['ct_img']
+# print(data2.shape)
+# # mask = mf.entire_phantom(data[2, :, :, 14], 10)
+# # np.save(os.path.join(directory, 'mask.npy'), mask)
+# mask = np.load(os.path.join(directory, 'mask.npy'))
+
+# fig, ax = plt.subplots(2, 3, figsize=(12, 8))
+# for i in range(3):
+#
+#     ax[0, i].imshow(data2[1, 90:200, 90:200, slices[i]], vmin=0.01, vmax=0.03, cmap='gray')
+#     ax[1, i].imshow(data1[2, 90:200, 90:200, slices[i]], vmin=0.01, vmax=0.03, cmap='gray')
+#
+#     ax[0, i].set_title(f'30-120 keV, Slice {slices[i]}', fontsize=13)
+#     ax[1, i].set_title(f'50-120 keV, Slice {slices[i]}', fontsize=13)
+#
+#     ax[0, i].set_xlabel(f'Rel. Noise: {np.nanstd(data2[1, :, :, slices[i]] * mask) / np.nanmean(data2[1, :, :, slices[i]] * mask) * 100:.3f}', fontsize=11)
+#     ax[1, i].set_xlabel(f'Rel. Noise: {np.nanstd(data1[2, :, :, slices[i]] * mask) / np.nanmean(data1[2, :, :, slices[i]] * mask) * 100:.3f}', fontsize=11)
+#
+# plt.subplots_adjust(wspace=0.4, bottom=0.1, top=0.95)
+# plt.show()
+# plt.savefig(os.path.join(directory, 'fig', 'CT', f'add_bins3_nopileup.png'), dpi=fig.dpi)
+
+
+# slices = [8, 9, 14]
+# folder1 = 'ct_180frames_1sproj_111220 - wwo dead pixel corr diff air and dark'
+# folder2 = 'ct_180frames_1sproj_111220 - long darkscan'
+# data1 = loadmat(os.path.join(directory, folder1, 'CT', 'CT_proj_filt.mat'))['ct_img']
+# print(data1.shape)
+# data2 = loadmat(os.path.join(directory, folder2, 'CT', 'CT_proj_filt.mat'))['ct_img']
+# print(data2.shape)
+# # mask = mf.entire_phantom(data[2, :, :, 14], 10)
+# # np.save(os.path.join(directory, 'mask.npy'), mask)
+# mask = np.load(os.path.join(directory, 'mask.npy'))
+#
+# fig, ax = plt.subplots(2, 3, figsize=(12, 8))
+# for i in range(3):
+#
+#     ax[0, i].imshow(data1[6, 90:200, 90:200, slices[i]], vmin=0.01, vmax=0.03, cmap='gray')
+#     ax[1, i].imshow(data2[6, 90:200, 90:200, slices[i]], vmin=0.01, vmax=0.03, cmap='gray')
+#
+#     ax[0, i].set_title(f'Short darkscan, Slice {slices[i]}', fontsize=13)
+#     ax[1, i].set_title(f'Long darkscan, Slice {slices[i]}', fontsize=13)
+#
+#     ax[0, i].set_xlabel(f'Rel. Noise: {np.nanstd(data1[6, :, :, slices[i]] * mask) / np.nanmean(data1[6, :, :, slices[i]] * mask) * 100:.3f}', fontsize=11)
+#     ax[1, i].set_xlabel(f'Rel. Noise: {np.nanstd(data2[6, :, :, slices[i]] * mask) / np.nanmean(data2[6, :, :, slices[i]] * mask) * 100:.3f}', fontsize=11)
+#
+# plt.subplots_adjust(wspace=0.4, bottom=0.1, top=0.95)
+# plt.show()
+# plt.savefig(os.path.join(directory, 'fig', 'CT', f'long_vs_short_darkscan.png'), dpi=fig.dpi)
+
 
