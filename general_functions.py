@@ -1,5 +1,6 @@
 import _pickle as pickle
 import numpy as np
+from scipy.io import savemat, loadmat
 import os
 import matplotlib.pyplot as plt
 
@@ -172,6 +173,12 @@ def reshape(data):
     data_sum = np.sum(np.reshape(data, new_shape), axis=1)
     np.save(r'D:\OneDrive - University of Victoria\Research\LDA Data\ct_180frames_1sproj_111220 - Synth\Data\data.npy', data_sum)
     return data_sum
+
+
+def save_mat(path, data):
+    savemat(path, {'data': data, 'label': 'central-ish sinogram'})
+
+
 
 
 # air = np.load(r'D:\OneDrive - University of Victoria\Research\LDA Data\airscan_120kVP_1mA_1mmAl_3x8coll_360s_6frames\Data\data.npy')

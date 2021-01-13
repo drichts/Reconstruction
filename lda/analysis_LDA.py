@@ -6,25 +6,25 @@ from lda.parameters import *
 
 class AnalyzeLDA:
 
-    def __init__(self, folder, directory=DIRECTORY):
+    def __init__(self, folder, reanalyze=False, directory=DIRECTORY):
         self.folder = os.path.join(directory, folder)
+        self.air_folder = os.path.join(directory, AIR_FOLDER)
+        self.dark_folder = os.path.join(directory, DARK_FOLDER)
+
+        self.reanalyze = reanalyze
+        self.correct_air_and_dark_scans()
 
         self.raw_data = os.path.join(self.folder, 'Data', 'data.npy')
-        self.air_data = AIR
-        self.dark_data = DARK
+        self.air_data = np.load(os.path.join(self.air_folder, 'Data', 'data_corr.npy')) / 60
+        self.dark_data = np.load(os.path.join(self.dark_folder, 'Data', 'data_corr.npy')) / 60
 
         self.corr_data = os.path.join(self.folder, 'Data', 'data_corr.npy')
+        self.corr_data_mat = os.path.join(self.folder, 'Data', 'data_corr.mat')
 
-        # temp_data = self.sum_bins(np.load(self.raw_data), 1, 4)
-        # np.save(self.raw_data, temp_data)
-        # self.air_data = self.sum_bins(self.air_data, 1, 4)
-        # print(np.shape(self.air_data))
-        # self.dark_data = self.sum_bins(self.dark_data, 1, 4)
-        # print(np.shape(self.dark_data))
-
-        if not os.path.exists(self.corr_data):
+        if not os.path.exists(self.corr_data) or reanalyze:
             temp_data = self.intensity_correction(self.correct_dead_pixels())
             np.save(self.corr_data, temp_data)
+            savemat(self.corr_data_mat, {'data': temp_data, 'label': 'corrected_data'})
 
         self.bg_mask = None
 
@@ -51,6 +51,22 @@ class AnalyzeLDA:
         :return: The data array corrected for the dead pixels
         """
         return gen.correct_dead_pixels(np.load(self.raw_data), DEAD_PIXEL_MASK)
+
+    def correct_air_and_dark_scans(self):
+        """
+        This corrects the air and dark data for known dead pixels.
+        """
+        airpath = os.path.join(self.air_folder, 'Data', 'data_corr.npy')
+        darkpath = os.path.join(self.dark_folder, 'Data', 'data_corr.npy')
+
+        raw_air = np.load(os.path.join(self.air_folder, 'Data', 'data.npy'))
+        raw_dark = np.load(os.path.join(self.dark_folder, 'Data', 'data.npy'))
+
+        if not os.path.exists(airpath) or self.reanalyze:
+            np.save(airpath, gen.correct_dead_pixels(raw_air, dead_pixel_mask=DEAD_PIXEL_MASK))
+
+        if not os.path.exists(darkpath) or self.reanalyze:
+            np.save(darkpath, gen.correct_dead_pixels(raw_dark, dead_pixel_mask=DEAD_PIXEL_MASK))
 
     @staticmethod
     def sum_bins(data, bin1, bin2):
@@ -88,8 +104,8 @@ class AnalyzeLDA:
 
 class AnalyzeCT(AnalyzeLDA):
 
-    def __init__(self, folder, num_proj, directory=r'D:\OneDrive - University of Victoria\Research\LDA Data'):
-        super().__init__(folder, directory=directory)
+    def __init__(self, folder, num_proj, reanalyze=False, directory=DIRECTORY):
+        super().__init__(folder, reanalyze=reanalyze, directory=directory)
 
         self.num_proj = num_proj
 
@@ -102,7 +118,7 @@ class AnalyzeCT(AnalyzeLDA):
             diff = abs(num_proj - len(temp_data))
             np.save(self.corr_data, temp_data[int(np.ceil(diff / 2)):len(temp_data) - diff // 2])
 
-        if not os.path.exists(self.filt_data):
+        if not os.path.exists(self.filt_data) or reanalyze:
             temp_data = self.reorganize(np.load(self.corr_data))
             temp_data = ct.filtering(temp_data)
             np.save(self.filt_data, temp_data)

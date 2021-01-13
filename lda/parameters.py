@@ -3,21 +3,18 @@ import numpy as np
 
 DIRECTORY = r'D:\OneDrive - University of Victoria\Research\LDA Data'
 
-AIR_FOLDER = 'airscan_120kVP_1mA_1mmAl_3x8coll_360s_6frames'
-DARK_FOLDER = 'darkscan_360s_6frames'
-
-AIR = np.load(os.path.join(DIRECTORY, AIR_FOLDER, 'Data', 'data_corr.npy'))[3] / 60
-DARK = np.load(os.path.join(DIRECTORY, DARK_FOLDER, 'Data', 'data_corr_300s.npy')) / 300
+AIR_FOLDER = 'airscan_120kVp_1mA_1mmAl_60s'
+DARK_FOLDER = 'darkscan_60s'
 
 # Dead pixel mask <row, column>
 # Set: dead_pixel_mask[r, c] = np.nan
-DEAD_PIXEL_MASK = np.load(os.path.join(DIRECTORY, 'mod1_deadpixelmask.npy'))
+DEAD_PIXEL_MASK = np.load(os.path.join(DIRECTORY, 'dead_pixel_mask.npy'))
 
 """
 CT Reconstruction Parameters
 """
 
-NUM_ASICS = 8  # Number of ASICs (2 per module)
+NUM_ASICS = 16  # Number of ASICs (2 per module)
 
 PS = 0.330  # Pixel size of the physical detector
 
@@ -31,7 +28,7 @@ SX = NX*PS  # x-dir (mm)
 SY = NY*PS  # y-dir (mm)
 SZ = 8  # Axial direction (z) (mm)
 
-# Number of pixels the physical detector along each direction
+# Number of pixels of the physical detector along each direction
 NU = 36*NUM_ASICS  # Longer (horizontal) direction
 NV = 24  # Shorter (vertical) direction
 
@@ -39,8 +36,9 @@ NV = 24  # Shorter (vertical) direction
 SU = NU*PS  # mm (horizontal dir)
 SV = NV*PS  # mm (vertical dir)
 
-DSD = 578  # Distance from the x-ray source to detector (mm)
+DSD = 578  # Distance from the x-ray source to detector (mm)  (At horiz. x-ray = 0, DSD = 578; x-ray = 300, DSD = 876)
 DSO = 322  # Distance from x-ray source to the axis of rotation (isocenter) (mm)
+           # (At horiz. x-ray = 0, DSO = 322; x-ray = 300, DSO = 625
 
 # Angle settings
 DIRECTION = 1  # Rotation direction (gantry rotation direction) (1 or -1)
@@ -58,7 +56,7 @@ DY = SY/NY  # Reconstructed image y-dir voxel
 DZ = SZ/NZ  # Reconstructed image z-dir (axial) voxel
 
 # This is correction for the detector rotation shift (real size, i.e. mm)
-OFF_U, OFF_V = -1.7, 0  # Horizontal, vertical
+OFF_U, OFF_V = 0, 0  # Horizontal, vertical
 
 # Spline interpolation order for remapping in backprojection (function numpy.ndimage.map_coordinates)
 SPLINE_ORDER = 1  # Options: 0-5  CAUTION: reconstruction time increases significantly with order > 3
