@@ -3,12 +3,12 @@ import numpy as np
 
 DIRECTORY = r'D:\OneDrive - University of Victoria\Research\LDA Data'
 
-AIR_FOLDER = 'airscan_120kVp_1mA_1mmAl_60s'
+AIR_FOLDER = 'air_60s_120kVp_1mA_1mmAl_x_ray_at_0'
 DARK_FOLDER = 'darkscan_60s'
 
 # Dead pixel mask <row, column>
 # Set: dead_pixel_mask[r, c] = np.nan
-DEAD_PIXEL_MASK = np.load(os.path.join(DIRECTORY, 'dead_pixel_mask.npy'))
+DEAD_PIXEL_MASK = np.load(os.path.join(DIRECTORY, 'dead_pixel_mask_greater1per.npy'))
 
 """
 CT Reconstruction Parameters
@@ -41,7 +41,7 @@ DSO = 322  # Distance from x-ray source to the axis of rotation (isocenter) (mm)
            # (At horiz. x-ray = 0, DSO = 322; x-ray = 300, DSO = 625
 
 # Angle settings
-DIRECTION = 1  # Rotation direction (gantry rotation direction) (1 or -1)
+DIRECTION = -1  # Rotation direction (gantry rotation direction) (1 or -1)
 DANG = 2  # Angle between captures (degrees)
 DEG = np.arange(0, 359, DANG)  # List of all capture angles (0-359 by steps of dang)
 DEG = DEG * DIRECTION  # Move along angles in the correct rotation direction
@@ -56,7 +56,7 @@ DY = SY/NY  # Reconstructed image y-dir voxel
 DZ = SZ/NZ  # Reconstructed image z-dir (axial) voxel
 
 # This is correction for the detector rotation shift (real size, i.e. mm)
-OFF_U, OFF_V = 0, 0  # Horizontal, vertical
+OFF_U, OFF_V = 4.62, 0  # Horizontal, vertical
 
 # Spline interpolation order for remapping in backprojection (function numpy.ndimage.map_coordinates)
 SPLINE_ORDER = 1  # Options: 0-5  CAUTION: reconstruction time increases significantly with order > 3

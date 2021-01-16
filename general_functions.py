@@ -119,8 +119,7 @@ def get_average_pixel_value(img, pixel, dead_pixel_mask):
                 The problem pixel (is a 2-tuple)
 
     :param dead_pixel_mask: 2D numpy array
-                Mask with 1 at good pixel coordinates and nan at bad pixel coordinates
-                dead_pixel_mask of the specific asic in question
+                Mask with 1 at good pixel coordinates and np.nan at bad pixel coordinates
 
     :return: the average value of the surrounding pixels
     """

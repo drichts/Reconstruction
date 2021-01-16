@@ -6,17 +6,17 @@ directory = r'D:\OneDrive - University of Victoria\Research\LDA Data\New airscan
 
 folder1 = 'airscan_60s_1'
 folder2 = 'airscan_60s_2'
-dark = np.load(r'D:\OneDrive - University of Victoria\Research\LDA Data\darkscan_60s\Data\data.npy')
+# dark = np.load(r'D:\OneDrive - University of Victoria\Research\LDA Data\darkscan_60s\Data\data.npy')
 
 air1 = np.load(os.path.join(directory, folder1, 'Data', 'data.npy'))
 air2 = np.load(os.path.join(directory, folder2, 'Data', 'data.npy'))
 
-air1 = air1 - dark
-air2 = air2 - dark
+# air1 = air1 - dark
+# air2 = air2 - dark
 
 corr = np.abs(np.log(air1) - np.log(air2)) * 100
 
-coords = np.argwhere(corr[:, :, 6] > 2)
+coords = np.argwhere(corr[:, :, 6] > 0.75)
 nancoord = np.argwhere(np.isnan(corr[:, :, 6]))
 
 folder = r'D:\OneDrive - University of Victoria\Research\LDA Data'
@@ -65,4 +65,4 @@ mask[23, 181] = np.nan
 mask[23, 182] = np.nan
 
 
-np.save(r'D:\OneDrive - University of Victoria\Research\LDA Data\dead_pixel_mask.npy', mask)
+np.save(r'D:\OneDrive - University of Victoria\Research\LDA Data\dead_pixel_mask_greater0.75per.npy', mask)

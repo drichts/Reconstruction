@@ -16,13 +16,14 @@ class AnalyzeLDA:
 
         self.raw_data = os.path.join(self.folder, 'Data', 'data.npy')
         self.air_data = np.load(os.path.join(self.air_folder, 'Data', 'data_corr.npy')) / 60
-        self.dark_data = np.load(os.path.join(self.dark_folder, 'Data', 'data_corr.npy')) / 60
+        self.dark_data = np.load(os.path.join(self.dark_folder, 'Data', 'data.npy')) / 60
 
         self.corr_data = os.path.join(self.folder, 'Data', 'data_corr.npy')
         self.corr_data_mat = os.path.join(self.folder, 'Data', 'data_corr.mat')
 
         if not os.path.exists(self.corr_data) or reanalyze:
             temp_data = self.intensity_correction(self.correct_dead_pixels())
+            print(len(np.argwhere(np.isnan(temp_data))))
             np.save(self.corr_data, temp_data)
             savemat(self.corr_data_mat, {'data': temp_data, 'label': 'corrected_data'})
 
@@ -50,7 +51,17 @@ class AnalyzeLDA:
         Could implement a more sophisticated algorithm here if needed.
         :return: The data array corrected for the dead pixels
         """
-        return gen.correct_dead_pixels(np.load(self.raw_data), DEAD_PIXEL_MASK)
+        temp_data = gen.correct_dead_pixels(np.load(self.raw_data), DEAD_PIXEL_MASK)
+        if len(np.shape(temp_data)) == 3:
+            temp_data = np.expand_dims(temp_data, axis=0)
+        data_nan = np.argwhere(np.isnan(temp_data))
+        for nan_coords in data_nan:
+            nan_coords = tuple(nan_coords)
+            frame = nan_coords[0]
+            img_bin = nan_coords[-1]
+            pixel = nan_coords[-3:-1]
+            temp_data[nan_coords] = gen.get_average_pixel_value(temp_data[frame, :, :, img_bin], pixel, np.ones((24, 576)))
+        return temp_data
 
     def correct_air_and_dark_scans(self):
         """
@@ -63,10 +74,24 @@ class AnalyzeLDA:
         raw_dark = np.load(os.path.join(self.dark_folder, 'Data', 'data.npy'))
 
         if not os.path.exists(airpath) or self.reanalyze:
-            np.save(airpath, gen.correct_dead_pixels(raw_air, dead_pixel_mask=DEAD_PIXEL_MASK))
+            temp_air = gen.correct_dead_pixels(raw_air, dead_pixel_mask=DEAD_PIXEL_MASK)
+            air_nan = np.argwhere(np.isnan(temp_air))
+            for nan_coords in air_nan:
+                nan_coords = tuple(nan_coords)
+                img_bin = nan_coords[-1]
+                pixel = nan_coords[0:-1]
+                temp_air[nan_coords] = gen.get_average_pixel_value(temp_air[:, :, img_bin], pixel, np.ones((24, 576)))
+            np.save(airpath, temp_air)
 
         if not os.path.exists(darkpath) or self.reanalyze:
-            np.save(darkpath, gen.correct_dead_pixels(raw_dark, dead_pixel_mask=DEAD_PIXEL_MASK))
+            temp_dark = gen.correct_dead_pixels(raw_dark, dead_pixel_mask=DEAD_PIXEL_MASK)
+            dark_nan = np.argwhere(np.isnan(temp_dark))
+            for nan_coords in dark_nan:
+                nan_coords = tuple(nan_coords)
+                img_bin = nan_coords[-1]
+                pixel = nan_coords[0:-1]
+                temp_dark[nan_coords] = gen.get_average_pixel_value(temp_dark[:, :, img_bin], pixel, np.ones((24, 576)))
+            np.save(darkpath, temp_dark)
 
     @staticmethod
     def sum_bins(data, bin1, bin2):
@@ -116,10 +141,7 @@ class AnalyzeCT(AnalyzeLDA):
         # This will cut the projection down to the correct number if there are more than necessary
         if num_proj != len(temp_data):
             diff = abs(num_proj - len(temp_data))
-            np.save(self.corr_data, temp_data[int(np.ceil(diff / 2)):len(temp_data) - diff // 2])
+            new_data = temp_data[int(np.ceil(diff / 2)):len(temp_data) - diff // 2]
+            np.save(self.corr_data, new_data)
+            savemat(self.corr_data_mat, {'data': new_data, 'label': 'data_corr'})
 
-        if not os.path.exists(self.filt_data) or reanalyze:
-            temp_data = self.reorganize(np.load(self.corr_data))
-            temp_data = ct.filtering(temp_data)
-            np.save(self.filt_data, temp_data)
-            savemat(self.filt_data_mat, {'data': temp_data, 'label': 'filt_data'})
