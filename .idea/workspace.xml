@@ -26,12 +26,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e941e18b-2940-48ac-a2bc-ba92ca5d083f" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/lda/sum_projections.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/saarp_cbct/analysis_cbct.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/single_pixel/esf_calcs.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/single_pixel/esf_fast_graph.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/single_pixel/mtf_calc.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/single_pixel/single_line.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/general_functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/general_functions.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lda/analysis_LDA.py" beforeDir="false" afterPath="$PROJECT_DIR$/lda/analysis_LDA.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lda/find_dead_pixels.py" beforeDir="false" afterPath="$PROJECT_DIR$/lda/find_dead_pixels.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lda/parameters.py" beforeDir="false" afterPath="$PROJECT_DIR$/lda/parameters.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lda/view_CT.py" beforeDir="false" afterPath="$PROJECT_DIR$/lda/view_CT.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lda/view_images.py" beforeDir="false" afterPath="$PROJECT_DIR$/lda/view_images.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/presentations/Transfer_Report_Figures.py" beforeDir="false" afterPath="$PROJECT_DIR$/presentations/Transfer_Report_Figures.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/saarp_cbct/CBCT_Analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/saarp_cbct/CBCT_Analysis.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,7 +74,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="D:/OneDrive - University of Victoria/Research/Jupyter Notebook" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -107,7 +115,7 @@
       <recent name="C:\Users\drich\PycharmProjects\Reconstruction\saarp_cbct" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.view_images">
+  <component name="RunManager" selected="Python.sum_projections">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <module name="Reconstruction" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -136,7 +144,6 @@
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
         <env name="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
       </envs>
       <option name="SDK_HOME" value="C:\Users\drich\Anaconda3\python.exe" />
@@ -154,21 +161,20 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="find_dead_pixels" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="esf_fast_graph" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Reconstruction" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
         <env name="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
       </envs>
       <option name="SDK_HOME" value="C:\Users\drich\Anaconda3\python.exe" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/lda" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/single_pixel" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/lda/find_dead_pixels.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/single_pixel/esf_fast_graph.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -177,21 +183,20 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="general_functions" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="sum_projections" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Reconstruction" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
         <env name="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
       </envs>
       <option name="SDK_HOME" value="C:\Users\drich\Anaconda3\python.exe" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/lda" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/general_functions.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/lda/sum_projections.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -205,7 +210,6 @@
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
         <env name="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
       </envs>
       <option name="SDK_HOME" value="C:\Users\drich\Anaconda3\python.exe" />
@@ -228,7 +232,6 @@
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
         <env name="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
       </envs>
       <option name="SDK_HOME" value="C:\Users\drich\Anaconda3\python.exe" />
@@ -247,19 +250,19 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.analysis_LDA" />
       <item itemvalue="Python.view_images" />
+      <item itemvalue="Python.esf_fast_graph" />
+      <item itemvalue="Python.analysis_LDA" />
       <item itemvalue="Python.view_CT" />
-      <item itemvalue="Python.find_dead_pixels" />
-      <item itemvalue="Python.general_functions" />
+      <item itemvalue="Python.sum_projections" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.view_images" />
-        <item itemvalue="Python.analysis_LDA" />
-        <item itemvalue="Python.find_dead_pixels" />
-        <item itemvalue="Python.general_functions" />
+        <item itemvalue="Python.sum_projections" />
         <item itemvalue="Python.view_CT" />
+        <item itemvalue="Python.analysis_LDA" />
+        <item itemvalue="Python.view_images" />
+        <item itemvalue="Python.esf_fast_graph" />
       </list>
     </recent_temporary>
   </component>
@@ -564,13 +567,15 @@
       <workItem from="1610645866143" duration="8728000" />
       <workItem from="1610735695089" duration="3726000" />
       <workItem from="1610752447053" duration="7436000" />
-    </task>
-    <task id="LOCAL-00010" summary="IEEE Abstract Update (5/4/2020)">
-      <created>1588632547912</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1588632547912</updated>
+      <workItem from="1610770336977" duration="619000" />
+      <workItem from="1611015777723" duration="6232000" />
+      <workItem from="1611024577398" duration="2321000" />
+      <workItem from="1611078121287" duration="8470000" />
+      <workItem from="1611273718415" duration="2347000" />
+      <workItem from="1611354000607" duration="2153000" />
+      <workItem from="1611620235041" duration="3232000" />
+      <workItem from="1611684359135" duration="14313000" />
+      <workItem from="1611788986888" duration="24504000" />
     </task>
     <task id="LOCAL-00011" summary="IEEE Abstract Update (5/4/2020)">
       <created>1588812318335</created>
@@ -908,7 +913,14 @@
       <option name="project" value="LOCAL" />
       <updated>1610571035885</updated>
     </task>
-    <option name="localTasksCounter" value="59" />
+    <task id="LOCAL-00059" summary="running save">
+      <created>1610770389476</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1610770389476</updated>
+    </task>
+    <option name="localTasksCounter" value="60" />
     <servers />
   </component>
   <component name="TerminalProjectNonSharedOptionsProvider">
@@ -980,32 +992,36 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="640" y="256" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1604715432530" />
-    <state x="393" y="0" key="CommitChangelistDialog2" timestamp="1610570996708">
+    <state x="393" y="0" key="CommitChangelistDialog2" timestamp="1610770350200">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="393" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1610570996708" />
+    <state x="393" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1610770350200" />
     <state x="491" y="0" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1605578503746" />
-    <state x="592" y="238" key="FileChooserDialogImpl" timestamp="1608240825297">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state x="740" y="300" key="FileChooserDialogImpl" timestamp="1611863769990">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="592" y="238" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1608240825297" />
-    <state x="740" y="300" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1606159889023" />
+    <state x="592" y="238" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1611274270514" />
+    <state x="740" y="300" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1611863769990" />
     <state x="740" y="335" key="FileChooserDialogImpl/0.0.1920.1160/-1920.116.1536.824@0.0.1920.1160" timestamp="1604967760550" />
     <state x="740" y="335" key="FileChooserDialogImpl/0.0.1920.1160@0.0.1920.1160" timestamp="1607125976660" />
-    <state x="458" y="117" width="981" height="707" key="SettingsEditor" timestamp="1610135092622">
+    <state x="458" y="117" width="981" height="707" key="SettingsEditor" timestamp="1611688162080">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="458" y="117" width="981" height="707" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1610135092622" />
+    <state x="458" y="117" width="981" height="707" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1611688162080" />
     <state x="493" y="106" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1606158494339" />
-    <state x="442" y="201" key="Vcs.Push.Dialog.v2" timestamp="1605940469587">
+    <state x="442" y="201" key="Vcs.Push.Dialog.v2" timestamp="1610777671301">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="442" y="201" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1605940469587" />
+    <state x="442" y="201" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1610777671301" />
     <state x="552" y="254" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1605578509644" />
     <state x="923" y="148" width="549" height="635" key="find.popup" timestamp="1606244363355">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="923" y="148" width="549" height="635" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1606244363355" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1611016832206">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1611016832206" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Reconstruction$generate_sinogram.coverage" NAME="generate_sinogram Coverage Results" MODIFIED="1558931035306" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
