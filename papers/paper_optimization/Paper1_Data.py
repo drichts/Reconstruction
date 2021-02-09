@@ -1,13 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import sct_analysis as sct
-import seaborn as sns
+from obsolete import sct_analysis as sct
 import matplotlib.patches as mpatches
 import matplotlib.lines as mlines
-import matplotlib.image as mpimg
-import matplotlib.gridspec as gridspec
-import matplotlib.colors as colors
-from mpl_toolkits.axes_grid1 import make_axes_locatable
 
 directory = 'D:/Research/Python Data/Spectral CT/'
 folders = ['Al_2.0_8-14-19', 'Al_2.0_10-17-19_3P', 'Al_2.0_10-17-19_1P',
@@ -255,8 +250,6 @@ plt.subplots_adjust(left=0.145, right=0.92)
 plt.show()
 
 #%% Compare the two Cu 0.5 spectra
-
-import matplotlib.lines as mlines
 
 folder = 'D:/Research/Bin Optimization/'
 folder1 = folder + '/Npy Attenuation/'

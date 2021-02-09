@@ -212,7 +212,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 sns.set_style('whitegrid')
-directory = 'D:/Research/Bin Optimization/'
+directory = r'D:\OneDrive - University of Victoria\Research/Bin Optimization/'
 file = np.load(directory + '/corrected-spectrum_120kV.npy')
 energies = file[:, 0]
 weights = file[:, 1]
@@ -227,21 +227,22 @@ ones = np.ones(50)
 y_vals = np.linspace(0, 20000, 50)
 
 fig, ax = plt.subplots(figsize=(12, 7))
-ax.plot(energies, weights, color='midnightblue')
-ax.plot(16*ones, y_vals, color='crimson', ls='--')
-ax.plot(33*ones, y_vals, color='crimson', ls='--')
-ax.plot(50*ones, y_vals, color='crimson', ls='--')
-ax.plot(71*ones, y_vals, color='crimson', ls='--')
-ax.plot(81*ones, y_vals, color='crimson', ls='--')
-ax.plot(120*ones, y_vals, color='crimson', ls='--')
-ax.set_ylabel('Relative Weight', fontsize=20)
-ax.set_xlabel('Energy (keV)', fontsize=20)
+ax.plot(energies, weights, color='midnightblue', lw=3)
+ax.plot(16*ones, y_vals, color='crimson', ls='--', lw=2)
+ax.plot(33*ones, y_vals, color='crimson', ls='--', lw=2)
+ax.plot(50*ones, y_vals, color='crimson', ls='--', lw=2)
+ax.plot(71*ones, y_vals, color='crimson', ls='--', lw=2)
+ax.plot(81*ones, y_vals, color='crimson', ls='--', lw=2)
+ax.plot(120*ones, y_vals, color='crimson', ls='--', lw=2)
+ax.set_ylabel('Relative number of x-rays', fontsize=24)
+ax.set_xlabel('Energy (keV)', fontsize=24)
 labels = [item.get_text() for item in ax.get_xticklabels()]
 empty_string_labels = ['']*len(labels)
 ax.set_yticklabels(empty_string_labels)
 ax.set_xlim([10, 120.5])
 ax.set_ylim([0, 10500])
-ax.tick_params(labelsize=18)
-plt.legend(['Spectrum', 'Energy thresholds'], fontsize=18, fancybox=True, shadow=True)
+ax.tick_params(labelsize=22)
+ax.set_title('Spectrum with energy thresholds', fontsize=28)
+# plt.legend(['Spectrum', 'Energy thresholds'], fontsize=22, fancybox=True, shadow=True)
 plt.show()
 

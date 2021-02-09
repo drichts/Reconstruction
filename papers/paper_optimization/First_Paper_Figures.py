@@ -148,7 +148,7 @@ def fig2(save=False):
     energies = energies[:, 0]
     energies = 1000 * energies  # Convert from MeV to keV
 
-    fig, ax = plt.subplots(2, 1, figsize=(6.75, 10))
+    fig, ax = plt.subplots(1, 2, figsize=(12.5, 5))
     ax1 = fig.add_subplot(111, frameon=False)
     ax1.grid(False)
     # Hide axes ticks
@@ -174,11 +174,11 @@ def fig2(save=False):
     ax[0].plot(63.5 * ones, y_vals, color='black', ls='--')
     ax[0].plot(81 * ones, y_vals, color='black', ls='--')
 
-    ax[0].annotate('16 keV', (0.025, 0.83), xycoords='axes fraction', fontsize=15, rotation=90)
-    ax[0].annotate('50 keV', (0.29, 0.83), xycoords='axes fraction', fontsize=15, rotation=90)
-    ax[0].annotate('54 keV', (0.385, 0.83), xycoords='axes fraction', fontsize=15, rotation=90)
-    ax[0].annotate('64 keV', (0.475, 0.83), xycoords='axes fraction', fontsize=15, rotation=90)
-    ax[0].annotate('81 keV', (0.645, 0.83), xycoords='axes fraction', fontsize=15, rotation=90)
+    ax[0].annotate('16 keV', (0.025, 0.95), xycoords='axes fraction', fontsize=14, rotation=90)
+    ax[0].annotate('50 keV', (0.29, 0.95), xycoords='axes fraction', fontsize=14, rotation=90)
+    ax[0].annotate('54 keV', (0.385, 0.95), xycoords='axes fraction', fontsize=14, rotation=90)
+    ax[0].annotate('64 keV', (0.475, 0.95), xycoords='axes fraction', fontsize=14, rotation=90)
+    ax[0].annotate('81 keV', (0.645, 0.95), xycoords='axes fraction', fontsize=14, rotation=90)
 
     bluepatch = mlines.Line2D([0], [1], color='dodgerblue', label='I', linestyle=linesstyles[4], lw=2)
     purplepatch = mlines.Line2D([0], [0], color='darkorchid', label='Gd', linestyle=linesstyles[3], lw=2)
@@ -188,7 +188,7 @@ def fig2(save=False):
     blackpatch = mlines.Line2D([0], [0], color='black', label='H2O', linestyle='-', lw=2)
 
     ax[0].legend(handles=[bluepatch, purplepatch, redpatch, greenpatch, orangepatch, blackpatch], fancybox=True,
-                 shadow=False, fontsize=18, handlelength=2.8)
+                 shadow=False, fontsize=16, handlelength=2.8)
     ax[0].set_xlabel('Energy (keV)', fontsize=18, labelpad=5)
     ax[0].set_ylabel(r"$\mu$ $(cm^{-1})$", fontsize=18)
     ax[0].set_xlim([15, 120])
@@ -218,7 +218,7 @@ def fig2(save=False):
     dashpatch = mlines.Line2D([0], [0], color='black', lw=2, linestyle='--', label='0.5 mm Cu')
     dotpatch = mlines.Line2D([0], [0], color='black', lw=2, linestyle=':', label='1.0 mm Cu')
 
-    ax[1].legend(handles=[linepatch, dashpatch, dotpatch], fancybox=True, shadow=False, fontsize=18)
+    ax[1].legend(handles=[linepatch, dashpatch, dotpatch], fancybox=True, shadow=False, fontsize=16)
 
     ax[1].set_xlabel('Energy (keV)', fontsize=18, labelpad=5)
     ax[1].set_ylabel('Relative Weight', fontsize=18, labelpad=5)
@@ -228,12 +228,7 @@ def fig2(save=False):
     # plt.ylim([0, 3.2E-7])
     ax[1].tick_params(labelsize=16)
     ax[1].set_yticks([])
-    plt.subplots_adjust(top=0.965,
-                        bottom=0.1,
-                        left=0.145,
-                        right=0.96,
-                        hspace=0.27,
-                        wspace=0.2)
+    plt.subplots_adjust(bottom=0.15, left=0.1, right=0.95, wspace=0.15)
     plt.show()
     if save:
         plt.savefig(directory + 'Paper 1 Figures/Fig2.png', dpi=500)
@@ -354,18 +349,18 @@ def fig4(save=False):
 
     # Get Al data
     for i, folder in enumerate(folders[0:3]):
-        mean_2Al[i, :, :] = np.load(directory + folder + '/Mean_Signal.npy')
-        std_2Al[i, :, :] = np.load(directory + folder + '/Std_Signal.npy')
+        mean_2Al[i, :, :] = np.load(directory + folder + '/Mean_Signal_1Norm.npy')
+        std_2Al[i, :, :] = np.load(directory + folder + '/Std_Signal_1Norm.npy')
 
     # Get 0.5 Cu data
     for i, folder in enumerate(folders[3:6]):
-        mean_05Cu[i, :, :] = np.load(directory + folder + '/Mean_Signal.npy')
-        std_05Cu[i, :, :] = np.load(directory + folder + '/Std_Signal.npy')
+        mean_05Cu[i, :, :] = np.load(directory + folder + '/Mean_Signal_1Norm.npy')
+        std_05Cu[i, :, :] = np.load(directory + folder + '/Std_Signal_1Norm.npy')
 
     # Get 1.0 Cu data
     for i, folder in enumerate(folders[6:9]):
-        mean_1Cu[i, :, :] = np.load(directory + folder + '/Mean_Signal.npy')
-        std_1Cu[i, :, :] = np.load(directory + folder + '/Std_Signal.npy')
+        mean_1Cu[i, :, :] = np.load(directory + folder + '/Mean_Signal_1Norm.npy')
+        std_1Cu[i, :, :] = np.load(directory + folder + '/Std_Signal_1Norm.npy')
 
     # First plot 0.5 Cu 16-50 keV, Signal vs. Concentration
     zeros_mean = mean_05Cu[:, 0, 0]
@@ -514,14 +509,14 @@ def fig4(save=False):
         plt.close()
 
 
-def fig5(plus, save=False):
+def fig5(z, save=False):
     # Figure 5
     zed = '2-1'
-    m = 13
-    mmin, mmax = 0.3, 3.6
+    m = z
+    mmin, mmax = 0, 3.6
 
-    img5p = np.load(directory + folders[1] + '/Normed K-Edge/Bin' + zed + '_Slice' + str(m - plus) + '.npy')
-    img3p = np.load(directory + folders[4] + '/Normed K-Edge/Bin' + zed + '_Slice' + str(m) + '.npy')
+    img5p = np.load(directory + folders[1] + '/Normed K-Edge/Bin' + zed + '_Slice' + str(m) + '.npy')
+    img3p = np.load(directory + folders[4] + '/Normed K-Edge/Bin' + zed + '_Slice' + str(m-8) + '.npy')
     img1p = np.load(directory + folders[7] + '/Normed K-Edge/Bin' + zed + '_Slice' + str(m) + '.npy')
 
     fig, ax = plt.subplots(2, 3, figsize=(6.75, 5))
@@ -574,10 +569,9 @@ def fig5(plus, save=False):
 
     zed = '4-3'
 
-    mmin = 0.1
-    img5p = np.load(directory + folders[1] + '/Normed K-Edge/Bin' + zed + '_Slice' + str(m - plus) + '.npy')
-    img3p = np.load(directory + folders[4] + '/Normed K-Edge/Bin' + zed + '_Slice' + str(m - plus - 3) + '.npy')
-    img1p = np.load(directory + folders[7] + '/Normed K-Edge/Bin' + zed + '_Slice' + str(m - 1) + '.npy')
+    img5p = np.load(directory + folders[1] + '/Normed K-Edge/Bin' + zed + '_Slice' + str(m) + '.npy')
+    img3p = np.load(directory + folders[4] + '/Normed K-Edge/Bin' + zed + '_Slice' + str(m-6) + '.npy')
+    img1p = np.load(directory + folders[7] + '/Normed K-Edge/Bin' + zed + '_Slice' + str(m) + '.npy')
 
     im3 = ax[1, 0].imshow(img5p, cmap=cmap3, vmin=mmin, vmax=mmax)
     ax[1, 0].grid(False)
@@ -694,6 +688,11 @@ def fig6(save=False):
     p_Au = np.poly1d(Au_coeffs)
     p_Gd = np.poly1d(Gd_coeffs)
 
+    x1 = np.argmax(p_Au(xpts))
+    x2 = np.argmax(p_Gd(xpts))
+    print(xpts[x1])
+    print(xpts[x2])
+
     # Plot the points
     ax[1].plot(xpts, p_Au(xpts), color=colors[0], lw=2)
     ax[0].plot(xpts, p_Gd(xpts), color=colors[1], lw=2)
@@ -724,14 +723,14 @@ def fig6(save=False):
     plt.subplots_adjust(bottom=0.23, wspace=0.1, top=0.85, right=0.95)
     plt.show()
     if save:
-        plt.savefig(directory + 'Paper 1 Figures/Fig6.png', dpi=500)
+        plt.savefig(directory + 'Paper 1 Figures/Fig6_plot.png', dpi=500)
         plt.close()
 
 
-def fig6_img(save=False):
+def fig6_img(z, save=False):
     # Figure 6 Bin Width
-    m = 15
-    mmin, mmax = -0.1, 4
+    m = z
+    mmin, mmax = 0, 2
 
     imgAu = np.load(directory + folders[21] + '/Normed K-Edge/Bin4-3_Slice' + str(m) + '.npy')
     imgGd = np.load(directory + folders[20] + '/Normed K-Edge/Bin1-0_Slice' + str(m) + '.npy')
@@ -743,7 +742,7 @@ def fig6_img(save=False):
     ax1.set_xticks([])
     ax1.set_yticks([])
 
-    im0 = ax[0].imshow(imgGd, cmap=cmap1, vmin=mmin, vmax=mmax)
+    im0 = ax[0].imshow(imgGd, cmap=cmap1, vmin=mmin+0.1, vmax=mmax)
     ax[0].grid(False)
     ax[0].set_xticks([])
     ax[0].set_yticks([])
@@ -762,13 +761,13 @@ def fig6_img(save=False):
     cax0 = d0.append_axes("right", size="5%", pad=0.05)
     cax0.tick_params(labelsize=15)
     plt.colorbar(im0, cax=cax0)
-    h0 = cax0.set_ylabel('Concentration', fontsize=16, labelpad=25)
-    h0.set_rotation(-90)
+    #h0 = cax0.set_ylabel('Concentration', fontsize=16, labelpad=25)
+    #h0.set_rotation(-90)
 
     cax1 = d1.append_axes("right", size="5%", pad=0.05)
     cax1.tick_params(labelsize=15)
     plt.colorbar(im1, cax=cax1)
-    h1 = cax1.set_ylabel('Concentration', fontsize=16, labelpad=25)
+    h1 = cax1.set_ylabel('Concentration (%)', fontsize=16, labelpad=25)
     h1.set_rotation(-90)
 
     plt.subplots_adjust(top=0.88,
@@ -776,10 +775,10 @@ def fig6_img(save=False):
                         left=0.025,
                         right=0.9,
                         hspace=0.2,
-                        wspace=0.2)
+                        wspace=0)
     plt.show()
     if save:
-        plt.savefig(directory + 'Paper 1 Figures/K-Edge-Bin.png', dpi=500)
+        plt.savefig(directory + 'Paper 1 Figures/Fig6_img.png', dpi=500)
         plt.close()
 
 
@@ -812,7 +811,7 @@ def fig7(save=False):
         ax[i].set_xticklabels(['Au', 'Lu', 'Dy', 'Gd'])
         ax[i].set_title(titles[i], fontsize=16)
         ax[i].tick_params(labelsize=15)
-        ax[i].set_ylim([0, 24])
+        #ax[i].set_ylim([0, 24])
 
         # Add pattern to the specific element bars
         for bar, texture in zip(bars, textures):
@@ -828,15 +827,15 @@ def fig7(save=False):
         plt.close()
 
 
-def fig7_img(save=False):
+def fig7_img(z, save=False):
     # Figure 7 Images
     ked = '4-3'
-    m = 17
-    mmin, mmax = 0, 4
+    m = z
+    mmin, mmax = 0.1, 3.5
 
-    img1s = np.load(directory + time_folders[2] + '/Normed K-Edge/Bin' + ked + '_Slice' + str(m + 1) + '.npy')
-    img05s = np.load(directory + time_folders[1] + '/Normed K-Edge/Bin' + ked + '_Slice' + str(m - 2) + '.npy')
-    img01s = np.load(directory + time_folders[0] + '/Normed K-Edge/Bin' + ked + '_Slice' + str(m) + '.npy')
+    img1s = np.load(directory + time_folders[2] + '/Normed K-Edge/Bin' + ked + '_Slice' + str(m) + '.npy')
+    img05s = np.load(directory + time_folders[1] + '/Normed K-Edge/Bin' + ked + '_Slice' + str(m) + '.npy')
+    img01s = np.load(directory + time_folders[0] + '/Normed K-Edge/Bin' + ked + '_Slice' + str(m - 1) + '.npy')
 
     fig, ax = plt.subplots(1, 3, figsize=(6.75, 3))
     ax1 = fig.add_subplot(111, frameon=False)
@@ -883,7 +882,7 @@ def fig7_img(save=False):
     cax2 = d2.append_axes("right", size="5%", pad=0.05)
     cax2.tick_params(labelsize=15)
     plt.colorbar(im2, cax=cax2)
-    h2 = cax2.set_ylabel('Concentration', fontsize=16, labelpad=25)
+    h2 = cax2.set_ylabel('Concentration (%)', fontsize=16, labelpad=25)
     h2.set_rotation(-90)
 
     plt.subplots_adjust(top=0.88,
@@ -984,6 +983,7 @@ def fig8(save=False):
     plt.tick_params(labelsize=15)
     plt.subplots_adjust(top=0.95, bottom=0.135, left=0.125, right=0.945)
     plt.show()
+    print(stddev)
     if save:
         plt.savefig(directory + 'Paper 1 Figures/Fig8.png', dpi=500)
         plt.close()

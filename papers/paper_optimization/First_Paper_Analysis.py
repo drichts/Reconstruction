@@ -1,6 +1,7 @@
 import numpy as np
-import sct_analysis as sct
+import general_functions as sct
 import mask_functions as grm
+import os
 
 directory = 'D:/Research/Python Data/Spectral CT/'
 
@@ -31,6 +32,33 @@ def run_sct_main(reanalyze=False):
     figure_six()
     figure_seven()
     figure_eight()
+
+
+def find_norm_to1_vals(folder, lz, hz):
+    path = directory + folder + '/RawSlices/'
+    water_vals = np.zeros(7)
+    mask = np.load(directory + folder + '/Vial_Masks.npy')[0]
+
+    for b in np.arange(7):
+        temp = np.zeros(hz-lz)
+        for i in np.arange(lz, hz):
+            img = np.load(path + f'Bin{b}_Slice{i}.npy')
+            temp[i-lz] = np.nanmean(img*mask)
+        water_vals[b] = np.mean(temp)
+
+    return water_vals
+
+
+def norm_to_1(folder, norm_vals):
+    path = directory + folder + '/RawSlices/'
+    save_path = directory + folder + '/1NormSlices/'
+    os.makedirs(save_path, exist_ok=True)
+
+    for b in np.arange(7):
+        for i in np.arange(24):
+            img = np.load(path + f'Bin{b}_Slice{i}.npy')
+            new_img = 1000*np.divide((np.subtract(img, norm_vals[b])), norm_vals[b])
+            np.save(save_path + f'Bin{b}_Slice{i}.npy', new_img)
 
 
 def get_background_mask():
@@ -107,7 +135,7 @@ def figure_four():
         for b in np.arange(5):
             # Go through each of the good slices
             for j in np.arange(low_z, high_z+1):
-                image = np.load(directory + folder + '/Slices/Bin' + str(b) + '_Slice' + str(j) + '.npy')  # Load the image
+                image = np.load(directory + folder + '/1NormSlices/Bin' + str(b) + '_Slice' + str(j) + '.npy')  # Load the image
                 # Go through each of the 6 vials (0-5)
                 for k, vial in enumerate(vials):
                     mult_img = np.multiply(vial, image)  # Multiply the image by the specific vial mask
@@ -119,11 +147,11 @@ def figure_four():
         std_signal = np.mean(std_signal, axis=1)
 
         # Save the matrices if desired
-        np.save(directory + folder + '/Mean_Signal.npy', mean_signal)
-        np.save(directory + folder + '/Std_Signal.npy', std_signal)
+        np.save(directory + folder + '/Mean_Signal_1Norm.npy', mean_signal)
+        np.save(directory + folder + '/Std_Signal_1Norm.npy', std_signal)
 
 
-def table_one(z):
+def table_one():
     # Table 1 K-Edge CNR
 
     # Get the K-Edge CNR in the first 9 folders
@@ -134,7 +162,6 @@ def table_one(z):
     # Go through each of the folders
     for i, folder in enumerate(folders[0:9]):
         low_z, high_z = good_slices[i][0], good_slices[i][1]  # Get the specific good slices for this folder
-        #low_z, high_z = z, z
         vials = np.load(directory + folder + '/Vial_Masks.npy')  # Load the vial masks
         background = np.load(directory + folder + '/Phantom_Mask.npy')  # Load the background mask for the entire phantom
 
@@ -155,24 +182,27 @@ def table_one(z):
             image10 = np.load(directory + folder + '/K-Edge/Bin' + edges[3] + '_Slice' + str(z) + '.npy')
 
             # Calculate the mean and std of the CNR for the water vial in each of the images
-            mean_kedge[0, z - low_z], std_kedge[0, z - low_z] = sct.cnr(image43, vials[0], background)
-            mean_kedge[1, z - low_z], std_kedge[1, z - low_z] = sct.cnr(image32, vials[0], background)
-            mean_kedge[2, z - low_z], std_kedge[2, z - low_z] = sct.cnr(image21, vials[0], background)
-            mean_kedge[3, z - low_z], std_kedge[3, z - low_z] = sct.cnr(image10, vials[0], background)
+            mean_kedge[0, z - low_z], std_kedge[0, z - low_z] = cnr(image43, vials[0], background)
+            mean_kedge[1, z - low_z], std_kedge[1, z - low_z] = cnr(image32, vials[0], background)
+            mean_kedge[2, z - low_z], std_kedge[2, z - low_z] = cnr(image21, vials[0], background)
+            mean_kedge[3, z - low_z], std_kedge[3, z - low_z] = cnr(image10, vials[0], background)
 
             # Calculate the mean and std of the CNR in the element's specific vial
-            mean_kedge[4, z - low_z], std_kedge[4, z - low_z] = sct.cnr(image43, vials[1], background)
-            mean_kedge[5, z - low_z], std_kedge[5, z - low_z] = sct.cnr(image32, vials[3], background)
-            mean_kedge[6, z - low_z], std_kedge[6, z - low_z] = sct.cnr(image21, vials[2], background)
-            mean_kedge[7, z - low_z], std_kedge[7, z - low_z] = sct.cnr(image10, vials[4], background)
+            mean_kedge[4, z - low_z], std_kedge[4, z - low_z] = cnr(image43, vials[1], background)
+            mean_kedge[5, z - low_z], std_kedge[5, z - low_z] = cnr(image32, vials[3], background)
+            mean_kedge[6, z - low_z], std_kedge[6, z - low_z] = cnr(image21, vials[2], background)
+            mean_kedge[7, z - low_z], std_kedge[7, z - low_z] = cnr(image10, vials[4], background)
 
         # Take the mean over all the slices
         mean_kedge = np.mean(mean_kedge, axis=1)
         std_kedge = np.mean(std_kedge, axis=1)
-
+        if i == 1 or i == 4 or i == 7:
+            print(folder)
+            print(np.flip(mean_kedge[4:]))
+            print(np.flip(std_kedge[4:]))
         # Save the matrices if desired
-        np.save(directory + folder + '/Mean_Kedge_CNR_Filter.npy', mean_kedge)
-        np.save(directory + folder + '/Std_Kedge_CNR_Filter.npy', std_kedge)
+        #np.save(directory + folder + '/Mean_Kedge_CNR_Filter.npy', mean_kedge)
+        #np.save(directory + folder + '/Std_Kedge_CNR_Filter.npy', std_kedge)
 
 
 def figure_six(folds=folders[19:]):
@@ -213,13 +243,15 @@ def figure_six(folds=folders[19:]):
                     mean_CNR[j - low_z, idx] = cnr1
                     std_CNR[j - low_z, idx] = cnr1_err
 
+        print(mean_CNR[:, 1])
+        print(mean_CNR[:, -2])
         # Average over all slices
         mean_CNR = np.mean(mean_CNR, axis=0)
         std_CNR = np.mean(std_CNR, axis=0)
 
         # Save the matrices if desired
-        np.save(directory + folder + '/Mean_Signal_BinWidth_CNR.npy', mean_CNR)
-        np.save(directory + folder + '/Std_Signal_BinWidth_CNR.npy', std_CNR)
+        #np.save(directory + folder + '/Mean_Signal_BinWidth_CNR.npy', mean_CNR)
+        #np.save(directory + folder + '/Std_Signal_BinWidth_CNR.npy', std_CNR)
 
 
 def figure_seven():
@@ -377,3 +409,27 @@ def normed_kedge():
         sct.norm_kedge(folders[20], coeffs_Cu05, i, directory=directory)  # 10, 10
         sct.norm_kedge(folders[21], coeffs_Cu05, i, directory=directory)  # 14, 14
         sct.norm_kedge(folders[22], coeffs_Cu05, i, directory=directory)  # 8, 20
+
+
+def cnr(image, contrast_mask, background_mask):
+    """
+    This function calculates the CNR of an ROI given the image, the ROI mask, and the background mask
+    It also gives the CNR error
+    :param image: The image to be analyzed as a 2D numpy array
+    :param contrast_mask: The mask of the contrast area as a 2D numpy array
+    :param background_mask: The mask of the background as a 2D numpy array
+    :return CNR, CNR_error: The CNR and error of the contrast area
+    """
+    # The mean signal within the contrast area
+    mean_roi = np.nanmean(image * contrast_mask)
+    std_roi = np.nanstd(image * contrast_mask)
+
+    # Mean and std. dev. of the background
+    bg = np.multiply(image, background_mask)
+    mean_bg = np.nanmean(bg)
+    std_bg = np.nanstd(bg)
+
+    cnr_val = abs(mean_roi - mean_bg) / std_bg
+    cnr_err = np.sqrt(std_roi ** 2 + std_bg ** 2) / std_bg
+
+    return cnr_val, cnr_err

@@ -1,34 +1,24 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import csv
-import os
-import sys
 import glob
 import mask_functions as grm
-import sct_analysis as sct
+from obsolete import sct_analysis as sct
+
 
 def read_csv():
-    directory = 'C:/Users/10376/Documents/ndt_excel/'
+    directory = r'D:\Research\Python Data\Redlen\Attenuation/'
 
-    files = glob.glob(directory + '*.csv')
+    files = glob.glob(directory + '*.txt')
     print(files)
     for filename in files:
         savename = filename.replace(filename[-3:], 'npy')
         print(savename)
 
-        data = np.zeros([24, 36])
+        data = np.loadtxt(filename)
 
-        with open(filename, 'rt') as csvfile:
-            spamreader = csv.reader(csvfile, delimiter=',')
-            i = 0
-            for csv_row in spamreader:
-                if csv_row[0] == 'Pixel':
-                    continue
-                data[int(csv_row[1]), int(csv_row[2])] = float(csv_row[3])
-                i += 1
+        print(np.shape(data))
 
         np.save(savename, data)
-        print(i)
         print()
 
 def show_fig():
@@ -69,4 +59,6 @@ def show_fig():
     plt.show()
     plt.savefig(directory + title + '.png', dpi=fig.dpi)
 
-show_fig()
+
+if __name__ == '__main__':
+    read_csv()

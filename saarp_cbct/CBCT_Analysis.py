@@ -7,7 +7,8 @@ import matplotlib.pyplot as plt
 
 
 def dcm_to_npy(folder, start=1, stop=280, mid_slice=190, dim=120, energies=['40kVp', '80kVp'],
-               load_directory='D:/Research/CBCT Scans/', save_directory='D:/Research/Python Data/CBCT/'):
+               load_directory=r'D:\OneDrive - University of Victoria\Research/CBCT/',
+               save_directory=r'D:\OneDrive - University of Victoria\Research/CBCT/'):
     """
     This function takes the dcm files from the SARRP and converts them to .npy matrices ( Also crops the images to the
     dim (dimension) desired

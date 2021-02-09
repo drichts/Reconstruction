@@ -1,15 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import sct_analysis as sct
+from obsolete import sct_analysis as sct
 import seaborn as sns
 from scipy.optimize import curve_fit
 import mask_functions as grm
-import matplotlib.patches as mpatches
-import matplotlib.lines as mlines
-import matplotlib.image as mpimg
-import matplotlib.gridspec as gridspec
-import matplotlib.colors as colors
-from mpl_toolkits.axes_grid1 import make_axes_locatable
 
 directory = 'D:/Research/Python Data/Spectral CT/'
 folders = ['Cu_0.5_Time_0.1_11-4-19', 'Frame2_Time_0.1', 'Frame3_Time_0.1', 'Frame4_Time_0.1', 'Frame5_Time_0.1',

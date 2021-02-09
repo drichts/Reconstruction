@@ -2,16 +2,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import glob
-from obsolete import general_OS_functions as gof
-import sct_analysis as sct
-
-
+from obsolete import general_OS_functions as gof, sct_analysis as sct
 
 
 def get_CNR_over_1s_sum_adj_bin(folder, bins, corr3x3=False, CC=False,
                                 directory='C:/Users/10376/Documents/Phantom Data/Uniformity/'):
 
-    num_bins = 6 - (bins[1] - bins[0])
+    num_bins = 6 - (bins[1] - bin1)
     if corr3x3:
         contrast_mask = np.load(directory + folder + '/3x3_a0_Mask.npy')
         bg_mask = np.load(directory + folder + '/3x3_a0_Background.npy')
@@ -216,7 +213,7 @@ def get_CNR_single_adj_bin(folder, bins, threshold, pxp=1, CC=True, one_frame=Tr
         add_data = add_data[0:6]  # Grab just sec bins
 
     add_data = add_adj_bins(add_data, bins)  # sum the desired bins together
-    add_data = add_data[bins[0]]  # Get just the new summed bin
+    add_data = add_data[bin1]  # Get just the new summed bin
 
     for j in np.arange(frames):
         single_frame = add_data[j]  # Get the next view data
