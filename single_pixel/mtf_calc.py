@@ -2,24 +2,77 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.fftpack import fft
+import seaborn as sns
 
-esf = np.load(r'D:\OneDrive - University of Victoria\Research\Single Pixel\esf_data.npy')
-der = np.array([-0.25, -0.5,  1, 0.5, 0.25])
-lsf = np.abs(np.convolve(esf[0], der))
+speed = 100
+v = 1
+num = 20
 
-M = len(lsf)
+folder = r'D:\OneDrive - University of Victoria\Research\Single Pixel\2021_02_03\Smooth Data'
+file = f'{speed}-smooth-v{v}-{num}.npy'
+# file = f'{speed}-smooth-v{v}.npy'
+
+esf = np.load(os.path.join(folder, file))
+der = np.array([-0.5,  0, 0.5])
+
+# plt.plot(esf[1])
+# plt.show()
+# plt.pause(7)
+# plt.close()
+#
+# low = int(input('Low number:'))
+# high = int(input('High number:'))
+low = 25
+high = 436
+
+plt.plot(esf[low:high])
+plt.show()
+plt.pause(1)
+plt.close()
+
+# lsf = np.abs(np.convolve(esf[low:high], der))
+lsf1 = np.diff(esf[low:high])
+
+# plt.plot(lsf[10:-10])
+# plt.show()
+# plt.pause(1)
+# plt.close()
+
+plt.plot(lsf1[10:-10])
+plt.show()
+plt.pause(1)
+plt.close()
+
+
+M = len(lsf1)
+
+x1 = low
+x2 = high
 
 # Get the frequencies to plot the MTF of the cathode edge over
-freq = np.linspace(0, M/2, int(M/2))
-freq = freq/(2*M*0.02)
+freq = 0.5*np.linspace(0, M/2, int(M/2))
+# freq = freq/(2*M)*(x2-x1)/(esf[0, x2]-esf[0, x1])
+
 
 # Calculate the MTF of the cathode side
-mtf = fft(lsf)
+mtf = fft(lsf1)
 mtf = np.absolute(mtf)
 mtf = mtf[0:int(M/2)]
 mtf = np.divide(mtf, np.max(mtf))
 
-plt.plot(freq, mtf)
+idx = (np.abs(mtf[0:5] - 0.1)).argmin()
+
+sns.set_style('whitegrid')
+fig = plt.figure(figsize=(7, 5))
+# plt.plot(freq[0:int(len(freq)/1.75)], mtf[0:int(len(freq)//1.75)])
+plt.plot(freq[0:10], mtf[0:10])
+plt.title(rf'MTF ({speed} $\mu$m/s speed)', fontsize=15)
+plt.xlabel(f'Spatial frequency (lp/mm)\nLimiting frequency = {freq[idx]:.2f} lp/mm', fontsize=14)
+plt.ylabel('MTF(f)', fontsize=14)
+plt.tick_params(labelsize=12)
+plt.xlim([0, 100])
+plt.subplots_adjust(bottom=0.2)
 plt.show()
 
-print(freq[2])
+plt.savefig(rf'D:\OneDrive - University of Victoria\Research\Single Pixel\2021_02_03\MTF\{speed}-v{v}.png', dpi=fig.dpi)
+

@@ -15,9 +15,9 @@ class AnalyzeLDA:
         self.correct_air_and_dark_scans()
 
         self.raw_data = os.path.join(self.folder, 'Data', 'data.npy')
-        self.air_data = np.load(os.path.join(self.air_folder, 'Data', 'data_corr.npy')) / (60/duration)
-        self.dark_data = np.load(os.path.join(self.dark_folder, 'Data', 'data_corr.npy')) / (60/duration)
-        print(60/duration)
+        self.air_data = np.load(os.path.join(self.air_folder, 'Data', 'data_corr.npy')) / (120/duration)
+        self.dark_data = np.load(os.path.join(self.dark_folder, 'Data', 'data_corr.npy')) / (120/duration)
+        print(120/duration)
 
         self.corr_data = os.path.join(self.folder, 'Data', 'data_corr.npy')
         self.corr_data_mat = os.path.join(self.folder, 'Data', 'data_corr.mat')
@@ -37,6 +37,7 @@ class AnalyzeLDA:
         """
         temp_data = gen.intensity_correction(data, self.air_data, self.dark_data)
         nan_coords = np.argwhere(np.isnan(temp_data))
+        print(len(nan_coords))
         for coords in nan_coords:
             coords = tuple(coords)
             frame = coords[0]
