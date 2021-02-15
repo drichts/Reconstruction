@@ -25,11 +25,12 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e941e18b-2940-48ac-a2bc-ba92ca5d083f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/lda/ring_artifact_corr.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lda/analysis_LDA.py" beforeDir="false" afterPath="$PROJECT_DIR$/lda/analysis_LDA.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lda/find_dead_pixels.py" beforeDir="false" afterPath="$PROJECT_DIR$/lda/find_dead_pixels.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lda/parameters.py" beforeDir="false" afterPath="$PROJECT_DIR$/lda/parameters.py" afterDir="false" />
+    <list default="true" id="e941e18b-2940-48ac-a2bc-ba92ca5d083f" name="Default Changelist" comment="Models for contrast (7/6/2020)">
+      <change beforePath="$PROJECT_DIR$/.idea/Reconstruction.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Reconstruction.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lda/get_pixel_corr.py" beforeDir="false" afterPath="$PROJECT_DIR$/lda/get_pixel_corr.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lda/ring_artifact_corr.py" beforeDir="false" afterPath="$PROJECT_DIR$/lda/ring_artifact_corr.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lda/view_CT.py" beforeDir="false" afterPath="$PROJECT_DIR$/lda/view_CT.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lda/view_images.py" beforeDir="false" afterPath="$PROJECT_DIR$/lda/view_images.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/single_pixel/esf_fast_graph.py" beforeDir="false" afterPath="$PROJECT_DIR$/single_pixel/esf_fast_graph.py" afterDir="false" />
@@ -51,7 +52,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="Home" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -68,7 +69,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="D:/OneDrive - University of Victoria/Research/Jupyter Notebook" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../lda" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -85,7 +86,6 @@
         <envs>
           <env key="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
         </envs>
-        <option name="useSoftWraps" value="true" />
         <option name="mySdkHome" value="C:\Users\drich\Anaconda3\python.exe" />
         <option name="myModuleName" value="Reconstruction" />
         <option name="myEnvs">
@@ -102,14 +102,14 @@
       <recent name="C:\Users\drich\OneDrive\Documents\GitHub\desktop-tutorial" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\drich\PycharmProjects\Reconstruction\obsolete" />
       <recent name="C:\Users\10376\PycharmProjects\Reconstruction\redlen\obsolete" />
       <recent name="C:\Users\drich\PycharmProjects\Reconstruction\redlen\obsolete" />
       <recent name="C:\Users\drich\PycharmProjects\Reconstruction\presentations" />
+      <recent name="C:\Users\drich\PycharmProjects\Reconstruction\obsolete" />
       <recent name="C:\Users\drich\PycharmProjects\Reconstruction\saarp_cbct" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.sum_projections">
+  <component name="RunManager" selected="Python.get_pixel_corr">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <module name="Reconstruction" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -125,29 +125,6 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="true" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="analysis_LDA" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="Reconstruction" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-        <env name="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
-      </envs>
-      <option name="SDK_HOME" value="C:\Users\drich\Anaconda3\python.exe" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/lda" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/lda/analysis_LDA.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -179,12 +156,11 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="sum_projections" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="get_pixel_corr" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Reconstruction" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
         <env name="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
       </envs>
       <option name="SDK_HOME" value="C:\Users\drich\Anaconda3\python.exe" />
@@ -193,7 +169,30 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/lda/sum_projections.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/lda/get_pixel_corr.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="mtf_calc" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Reconstruction" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\drich\Anaconda3\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/single_pixel" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/single_pixel/mtf_calc.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -230,7 +229,6 @@
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
         <env name="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
       </envs>
       <option name="SDK_HOME" value="C:\Users\drich\Anaconda3\python.exe" />
@@ -249,19 +247,19 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.view_images" />
-      <item itemvalue="Python.esf_fast_graph" />
-      <item itemvalue="Python.analysis_LDA" />
       <item itemvalue="Python.view_CT" />
-      <item itemvalue="Python.sum_projections" />
+      <item itemvalue="Python.mtf_calc" />
+      <item itemvalue="Python.esf_fast_graph" />
+      <item itemvalue="Python.view_images" />
+      <item itemvalue="Python.get_pixel_corr" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.sum_projections" />
-        <item itemvalue="Python.view_CT" />
-        <item itemvalue="Python.analysis_LDA" />
+        <item itemvalue="Python.get_pixel_corr" />
         <item itemvalue="Python.view_images" />
         <item itemvalue="Python.esf_fast_graph" />
+        <item itemvalue="Python.mtf_calc" />
+        <item itemvalue="Python.view_CT" />
       </list>
     </recent_temporary>
   </component>
@@ -480,102 +478,78 @@
       <workItem from="1593798147533" duration="15797000" />
       <workItem from="1594075913609" duration="7069000" />
       <workItem from="1594143681453" duration="4362000" />
-      <workItem from="1594227821221" duration="7584000" />
-      <workItem from="1594679068010" duration="6141000" />
-      <workItem from="1594750630384" duration="5373000" />
-      <workItem from="1594850764942" duration="8658000" />
-      <workItem from="1595012494464" duration="13435000" />
-      <workItem from="1595100162297" duration="594000" />
-      <workItem from="1595348760988" duration="28444000" />
-      <workItem from="1595520946445" duration="1834000" />
-      <workItem from="1595522808275" duration="13020000" />
-      <workItem from="1595604268498" duration="16057000" />
-      <workItem from="1595865682811" duration="10331000" />
-      <workItem from="1595952509323" duration="11229000" />
-      <workItem from="1596060170474" duration="6178000" />
-      <workItem from="1596150533883" duration="3851000" />
-      <workItem from="1597163308511" duration="7055000" />
-      <workItem from="1597252110444" duration="3620000" />
-      <workItem from="1597689169834" duration="2780000" />
-      <workItem from="1597700667627" duration="10828000" />
-      <workItem from="1597771607164" duration="4057000" />
-      <workItem from="1597853308152" duration="5498000" />
-      <workItem from="1597866160613" duration="7988000" />
-      <workItem from="1597939376283" duration="1514000" />
-      <workItem from="1598546831930" duration="2845000" />
-      <workItem from="1598656720010" duration="2011000" />
-      <workItem from="1598912105781" duration="4145000" />
-      <workItem from="1599603387711" duration="8639000" />
-      <workItem from="1599671334068" duration="2828000" />
-      <workItem from="1599757226791" duration="9794000" />
-      <workItem from="1599767396566" duration="13605000" />
-      <workItem from="1599845196972" duration="3739000" />
-      <workItem from="1600118513439" duration="827000" />
-      <workItem from="1600127844439" duration="6981000" />
-      <workItem from="1600146004299" duration="31000" />
-      <workItem from="1600193090960" duration="13814000" />
-      <workItem from="1600212825912" duration="1748000" />
-      <workItem from="1600216163240" duration="5425000" />
-      <workItem from="1600273030345" duration="11752000" />
-      <workItem from="1600302056715" duration="906000" />
-      <workItem from="1600358065240" duration="3192000" />
-      <workItem from="1600798582025" duration="11000" />
-      <workItem from="1600883553562" duration="6000" />
-      <workItem from="1602615116463" duration="3660000" />
-      <workItem from="1602619726397" duration="2433000" />
-      <workItem from="1602695472522" duration="1195000" />
-      <workItem from="1602702561936" duration="6198000" />
-      <workItem from="1602713934353" duration="585000" />
-      <workItem from="1602714535910" duration="45000" />
-      <workItem from="1603217393841" duration="1226000" />
-      <workItem from="1603294356142" duration="5754000" />
-      <workItem from="1603488177327" duration="35000" />
-      <workItem from="1603814203378" duration="6946000" />
-      <workItem from="1603859194373" duration="513000" />
-      <workItem from="1604344652393" duration="536000" />
-      <workItem from="1604433153262" duration="3294000" />
-      <workItem from="1604445556738" duration="934000" />
-      <workItem from="1604553874094" duration="2960000" />
-      <workItem from="1604711802620" duration="687000" />
-      <workItem from="1604715533243" duration="85000" />
-      <workItem from="1604967756784" duration="1018000" />
-      <workItem from="1605030234121" duration="9639000" />
-      <workItem from="1605214359789" duration="422000" />
-      <workItem from="1605227132837" duration="2000000" />
-      <workItem from="1605288533286" duration="1233000" />
-      <workItem from="1605317492121" duration="2487000" />
-      <workItem from="1605566644558" duration="7274000" />
-      <workItem from="1605633856185" duration="14707000" />
-      <workItem from="1605729791101" duration="609000" />
-      <workItem from="1605743601724" duration="4158000" />
-      <workItem from="1605811948048" duration="4229000" />
-      <workItem from="1605827481689" duration="3008000" />
-      <workItem from="1605895263049" duration="11625000" />
-      <workItem from="1606157883903" duration="15074000" />
-      <workItem from="1606242219760" duration="9619000" />
-      <workItem from="1606843809052" duration="36000" />
-      <workItem from="1606928219900" duration="203000" />
-      <workItem from="1607123898659" duration="1673000" />
-      <workItem from="1607455127880" duration="772000" />
-      <workItem from="1607635519711" duration="603000" />
-      <workItem from="1608164775925" duration="663000" />
-      <workItem from="1608240817795" duration="606000" />
-      <workItem from="1608244857257" duration="1191000" />
-      <workItem from="1610129312770" duration="28014000" />
-      <workItem from="1610589188797" duration="597000" />
-      <workItem from="1610645866143" duration="8728000" />
-      <workItem from="1610735695089" duration="3726000" />
-      <workItem from="1610752447053" duration="7436000" />
-      <workItem from="1610770336977" duration="619000" />
-      <workItem from="1611015777723" duration="6232000" />
-      <workItem from="1611024577398" duration="2321000" />
-      <workItem from="1611078121287" duration="8470000" />
-      <workItem from="1611273718415" duration="2347000" />
-      <workItem from="1611354000607" duration="2153000" />
-      <workItem from="1611620235041" duration="3232000" />
-      <workItem from="1611684359135" duration="14313000" />
-      <workItem from="1611788986888" duration="24504000" />
-      <workItem from="1612892762141" duration="2229000" />
+      <workItem from="1613110832252" duration="831000" />
+      <workItem from="1613165936165" duration="4385000" />
+    </task>
+    <task id="LOCAL-00001" summary="Paper Edits">
+      <created>1582153406007</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1582153406007</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Changed First Paper Figures slightly for WesCan talk">
+      <created>1584474541637</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1584474541637</updated>
+    </task>
+    <task id="LOCAL-00003" summary="AAPM-COMP data for figures abstract/extra file">
+      <created>1584474856837</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1584474856837</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Slight revisions for WesCan talk figures">
+      <created>1584474885061</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1584474885061</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Updates since last push (Date: 4/22/20)">
+      <created>1587582093140</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1587582093140</updated>
+    </task>
+    <task id="LOCAL-00006" summary="redlen-analysis.py update (4/29/2020)">
+      <created>1588198294531</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1588198294531</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Redlen IEEE Data">
+      <created>1588294360405</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1588294360405</updated>
+    </task>
+    <task id="LOCAL-00008" summary="IEEE Abstract Update (5/1/2020)">
+      <created>1588374400371</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1588374400371</updated>
+    </task>
+    <task id="LOCAL-00009" summary="IEEE Abstract Update (5/2/2020)">
+      <created>1588477980446</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1588477980446</updated>
+    </task>
+    <task id="LOCAL-00010" summary="IEEE Abstract Update (5/4/2020)">
+      <created>1588632547912</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1588632547912</updated>
     </task>
     <task id="LOCAL-00011" summary="IEEE Abstract Update (5/4/2020)">
       <created>1588812318335</created>
@@ -752,181 +726,8 @@
       <option name="project" value="LOCAL" />
       <updated>1594083066155</updated>
     </task>
-    <task id="LOCAL-00036" summary="Report updates (7/10/2020)">
-      <created>1594428222765</created>
-      <option name="number" value="00036" />
-      <option name="presentableId" value="LOCAL-00036" />
-      <option name="project" value="LOCAL" />
-      <updated>1594428222765</updated>
-    </task>
-    <task id="LOCAL-00037" summary="Report updates CC window (7/13/2020)">
-      <created>1594685808395</created>
-      <option name="number" value="00037" />
-      <option name="presentableId" value="LOCAL-00037" />
-      <option name="project" value="LOCAL" />
-      <updated>1594685808395</updated>
-    </task>
-    <task id="LOCAL-00038" summary="Report updates CC window (7/15/2020)">
-      <created>1594861965560</created>
-      <option name="number" value="00038" />
-      <option name="presentableId" value="LOCAL-00038" />
-      <option name="project" value="LOCAL" />
-      <updated>1594861965560</updated>
-    </task>
-    <task id="LOCAL-00039" summary="Report updates add bins (7/17/2020)">
-      <created>1595031720592</created>
-      <option name="number" value="00039" />
-      <option name="presentableId" value="LOCAL-00039" />
-      <option name="project" value="LOCAL" />
-      <updated>1595031720592</updated>
-    </task>
-    <task id="LOCAL-00040" summary="New Analysis (7/22/2020)">
-      <created>1595481484426</created>
-      <option name="number" value="00040" />
-      <option name="presentableId" value="LOCAL-00040" />
-      <option name="project" value="LOCAL" />
-      <updated>1595481484426</updated>
-    </task>
-    <task id="LOCAL-00041" summary="Pixel Analysis (7/23/2020)">
-      <created>1595551164821</created>
-      <option name="number" value="00041" />
-      <option name="presentableId" value="LOCAL-00041" />
-      <option name="project" value="LOCAL" />
-      <updated>1595551164821</updated>
-    </task>
-    <task id="LOCAL-00042" summary="Report updates (7/24/2020)">
-      <created>1595637097025</created>
-      <option name="number" value="00042" />
-      <option name="presentableId" value="LOCAL-00042" />
-      <option name="project" value="LOCAL" />
-      <updated>1595637097025</updated>
-    </task>
-    <task id="LOCAL-00043" summary="Report updates (7/27/2020)">
-      <created>1595898356973</created>
-      <option name="number" value="00043" />
-      <option name="presentableId" value="LOCAL-00043" />
-      <option name="project" value="LOCAL" />
-      <updated>1595898356973</updated>
-    </task>
-    <task id="LOCAL-00044" summary="Report updates (7/28/2020)">
-      <created>1595984504004</created>
-      <option name="number" value="00044" />
-      <option name="presentableId" value="LOCAL-00044" />
-      <option name="project" value="LOCAL" />
-      <updated>1595984504004</updated>
-    </task>
-    <task id="LOCAL-00045" summary="Report updates (7/29/2020)">
-      <created>1596067291053</created>
-      <option name="number" value="00045" />
-      <option name="presentableId" value="LOCAL-00045" />
-      <option name="project" value="LOCAL" />
-      <updated>1596067291053</updated>
-    </task>
-    <task id="LOCAL-00046" summary="Report updates (8/17/2020)">
-      <created>1597716015975</created>
-      <option name="number" value="00046" />
-      <option name="presentableId" value="LOCAL-00046" />
-      <option name="project" value="LOCAL" />
-      <updated>1597716015975</updated>
-    </task>
-    <task id="LOCAL-00047" summary="Report updates (8/18/2020)">
-      <created>1597793923108</created>
-      <option name="number" value="00047" />
-      <option name="presentableId" value="LOCAL-00047" />
-      <option name="project" value="LOCAL" />
-      <updated>1597793923108</updated>
-    </task>
-    <task id="LOCAL-00048" summary="NDT paper updates (9/10/2020)">
-      <created>1599758663092</created>
-      <option name="number" value="00048" />
-      <option name="presentableId" value="LOCAL-00048" />
-      <option name="project" value="LOCAL" />
-      <updated>1599758663092</updated>
-    </task>
-    <task id="LOCAL-00049" summary="NDT paper updates (9/11/2020)">
-      <created>1599863263477</created>
-      <option name="number" value="00049" />
-      <option name="presentableId" value="LOCAL-00049" />
-      <option name="project" value="LOCAL" />
-      <updated>1599863263477</updated>
-    </task>
-    <task id="LOCAL-00050" summary="NDT paper updates (9/14/2020)">
-      <created>1600146024706</created>
-      <option name="number" value="00050" />
-      <option name="presentableId" value="LOCAL-00050" />
-      <option name="project" value="LOCAL" />
-      <updated>1600146024706</updated>
-    </task>
-    <task id="LOCAL-00051" summary="NDT paper updates (9/15/2020)">
-      <created>1600230472515</created>
-      <option name="number" value="00051" />
-      <option name="presentableId" value="LOCAL-00051" />
-      <option name="project" value="LOCAL" />
-      <updated>1600230472515</updated>
-    </task>
-    <task id="LOCAL-00052" summary="NDT paper updates (9/16/2020)">
-      <created>1600285243869</created>
-      <option name="number" value="00052" />
-      <option name="presentableId" value="LOCAL-00052" />
-      <option name="project" value="LOCAL" />
-      <updated>1600285243869</updated>
-    </task>
-    <task id="LOCAL-00053" summary="Curve fits for Adriaan (10/14/20)">
-      <created>1602714559872</created>
-      <option name="number" value="00053" />
-      <option name="presentableId" value="LOCAL-00053" />
-      <option name="project" value="LOCAL" />
-      <updated>1602714559873</updated>
-    </task>
-    <task id="LOCAL-00054" summary="Saving">
-      <created>1605338812027</created>
-      <option name="number" value="00054" />
-      <option name="presentableId" value="LOCAL-00054" />
-      <option name="project" value="LOCAL" />
-      <updated>1605338812027</updated>
-    </task>
-    <task id="LOCAL-00055" summary="running save">
-      <created>1605578504602</created>
-      <option name="number" value="00055" />
-      <option name="presentableId" value="LOCAL-00055" />
-      <option name="project" value="LOCAL" />
-      <updated>1605578504603</updated>
-    </task>
-    <task id="LOCAL-00056" summary="running save">
-      <created>1605940382917</created>
-      <option name="number" value="00056" />
-      <option name="presentableId" value="LOCAL-00056" />
-      <option name="project" value="LOCAL" />
-      <updated>1605940382933</updated>
-    </task>
-    <task id="LOCAL-00057" summary="running save">
-      <created>1610129420157</created>
-      <option name="number" value="00057" />
-      <option name="presentableId" value="LOCAL-00057" />
-      <option name="project" value="LOCAL" />
-      <updated>1610129420158</updated>
-    </task>
-    <task id="LOCAL-00058" summary="running save">
-      <created>1610571035885</created>
-      <option name="number" value="00058" />
-      <option name="presentableId" value="LOCAL-00058" />
-      <option name="project" value="LOCAL" />
-      <updated>1610571035885</updated>
-    </task>
-    <task id="LOCAL-00059" summary="running save">
-      <created>1610770389476</created>
-      <option name="number" value="00059" />
-      <option name="presentableId" value="LOCAL-00059" />
-      <option name="project" value="LOCAL" />
-      <updated>1610770389476</updated>
-    </task>
-    <option name="localTasksCounter" value="60" />
+    <option name="localTasksCounter" value="36" />
     <servers />
-  </component>
-  <component name="TerminalProjectNonSharedOptionsProvider">
-    <envs>
-      <env key="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
-    </envs>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
@@ -937,6 +738,11 @@
         <entry key="MAIN">
           <value>
             <State>
+              <option name="CUSTOM_BOOLEAN_PROPERTIES">
+                <map>
+                  <entry key="Show.Git.Branches" value="true" />
+                </map>
+              </option>
               <option name="FILTERS">
                 <map>
                   <entry key="branch">
@@ -956,32 +762,32 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
+    <MESSAGE value="IEEE Abstract Update (5/4/2020)" />
+    <MESSAGE value="Analysis update for Redlen (5/7/2020)" />
+    <MESSAGE value="Analysis update for Redlen (5/11/2020)&#10;Changed the location of the Redlen files to their own directory" />
+    <MESSAGE value="Analysis update for Redlen (5/12/2020)" />
+    <MESSAGE value="Analysis update for Redlen (5/13/2020)" />
+    <MESSAGE value="Phantom analysis update for CNR over 1 second acquisitions (5/14/2020)" />
+    <MESSAGE value="3x3 pixel analysis update (5/20/2020)" />
+    <MESSAGE value="Add adj bins (5/27/2020)" />
+    <MESSAGE value="Add multiple thresholds (5/29/2020)" />
+    <MESSAGE value="Mult. Thresh. Analysis (6/2/2020)" />
+    <MESSAGE value="Mult. Thresh. Analysis (6/4/2020)" />
+    <MESSAGE value="Mult. Thresh. Analysis (6/5/2020)" />
+    <MESSAGE value="Mult. Thresh. Analysis (6/8/2020)" />
+    <MESSAGE value="Any num pixel aggregate (6/8/2020)" />
+    <MESSAGE value="More pixel x pixel (6/9/2020)" />
+    <MESSAGE value="More pixel x pixel (6/10/2020)" />
+    <MESSAGE value="Noise analysis (6/11/2020)" />
+    <MESSAGE value="Major update for non-specific analysis (6/12/2020)" />
+    <MESSAGE value="Major update for non-specific analysis (6/15/2020)" />
+    <MESSAGE value="Major update for organization (6/24/2020)" />
     <MESSAGE value="Start on class implementation (6/25/2020)" />
     <MESSAGE value="Class implem. Re-analysis (6/30/2020)" />
     <MESSAGE value="Models for noise (7/2/2020)" />
     <MESSAGE value="Models for noise (7/3/2020)" />
     <MESSAGE value="Models for contrast (7/6/2020)" />
-    <MESSAGE value="Report updates (7/10/2020)" />
-    <MESSAGE value="Report updates CC window (7/13/2020)" />
-    <MESSAGE value="Report updates CC window (7/15/2020)" />
-    <MESSAGE value="Report updates add bins (7/17/2020)" />
-    <MESSAGE value="New Analysis (7/22/2020)" />
-    <MESSAGE value="Pixel Analysis (7/23/2020)" />
-    <MESSAGE value="Report updates (7/24/2020)" />
-    <MESSAGE value="Report updates (7/27/2020)" />
-    <MESSAGE value="Report updates (7/28/2020)" />
-    <MESSAGE value="Report updates (7/29/2020)" />
-    <MESSAGE value="Report updates (8/17/2020)" />
-    <MESSAGE value="Report updates (8/18/2020)" />
-    <MESSAGE value="NDT paper updates (9/10/2020)" />
-    <MESSAGE value="NDT paper updates (9/11/2020)" />
-    <MESSAGE value="NDT paper updates (9/14/2020)" />
-    <MESSAGE value="NDT paper updates (9/15/2020)" />
-    <MESSAGE value="NDT paper updates (9/16/2020)" />
-    <MESSAGE value="Curve fits for Adriaan (10/14/20)" />
-    <MESSAGE value="Saving" />
-    <MESSAGE value="running save" />
-    <option name="LAST_COMMIT_MESSAGE" value="running save" />
+    <option name="LAST_COMMIT_MESSAGE" value="Models for contrast (7/6/2020)" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Reconstruction$analysis_script_uniformity.coverage" NAME="analysis_script_uniformity Coverage Results" MODIFIED="1600216169865" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/redlen" />

@@ -2,8 +2,8 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 
-speed = 200
-v = 3
+speed = 100
+v = 1
 folder = r'D:\OneDrive - University of Victoria\Research\Single Pixel\2021_02_03'
 file = f'{speed} um.s v{v}.txt'
 
@@ -21,7 +21,7 @@ temp_data[0] = times
 temp_data[1] = data
 
 if conv:
-    num = 20
+    num = 50
     average = np.ones(num)/num
     data = np.convolve(data, average)
     # save_data = np.zeros((2, len(data[0:-52])))

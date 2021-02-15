@@ -1,25 +1,30 @@
 import numpy as np
 from scipy import signal
 
-spectral_data = np.load('data_corr.npy')
+spectral_data = np.load(r'D:\OneDrive - University of Victoria\Research\LDA Data\CT_02-03-21\phantom_scan\Data\data_corr.npy')
 
-# crop the data
+print(np.shape(spectral_data))
+
+# Crop away the top of the image with only air
 good_data = np.mean(spectral_data[:, 9:, :, 6], 0)
+
+print(np.shape(good_data))
 
 outliers = []
 
-ref = np.mean(good_data, 0)
+# Find the mean of the data along the angle direction
+ref = np.mean(good_data, axis=0)
 
-# Now I'll discard the three bigest outliers and take that average.
-mins = np.argmax(np.abs(good_data - ref), 0)
+# Now I'll discard the three biggest outliers and take that average.
+mins = np.argmax(np.abs(good_data - ref), axis=0)
 nn = 14
 
 for jj in range(nn):
-    ref = np.nanmean(good_data,0)
-    mins = np.argmax(np.abs(good_data - ref),0)
+    ref = np.nanmean(good_data, 0)
+    mins = np.argmax(np.abs(good_data - ref), 0)
     outliers.append(mins)
     for ii in range(len(mins)):
-        good_data[mins[ii],ii] = ref[ii]
+        good_data[mins[ii], ii] = ref[ii]
 
 for jj in range(nn):
     for ii in range(len(mins)):
@@ -33,7 +38,7 @@ def smooth(x, window_len=11, window='hanning'):
     This method is based on the convolution of a scaled window with the signal.
     The signal is prepared by introducing reflected copies of the signal
     (with the window size) in both ends so that transient parts are minimized
-    in the begining and end part of the output signal.
+    in the beginning and end part of the output signal.
     input:
         x: the input signal
         window_len: the dimension of the smoothing window; should be an odd integer
@@ -64,22 +69,24 @@ def smooth(x, window_len=11, window='hanning'):
     if window == 'flat':  # moving average
         w = np.ones(window_len, 'd')
     else:
-        w = eval('numpy.'+window+'(window_len)')
+        w = eval('np.'+window+'(window_len)')
 
     y = np.convolve(w/w.sum(), s, mode='valid')
     return y
 
-smoothed = smooth(real_refs,10,'blackman')
+
+smoothed = smooth(real_refs, 10, 'blackman')
 
 smoothed3 = smoothed[4:-5]
 
 w = 0.1  # Cut-off frequency of the filter
-b, a = signal.butter(5, w, 'low')
-output = signal.filtfilt(b, a, real_refs)
-smoothed3[25:-25] = output[25:-25]
+b, a = signal.butter(5, w, 'low')   # Numerator (b) and denominator (a) for Butterworth filter
+output = signal.filtfilt(b, a, real_refs)  # Apply the filter to the data
+
+smoothed3[25:-25] = output[25:-25]  # Replace filtered data in the
 correction_array3 = np.mean(spectral_data[:, 10:, :, 6], 0)/smoothed3
 X2 = (spectral_data[:, 10:, :, 6]/correction_array3).transpose(1, 2, 0)
-# X = np.rot90(spectral_data[:,:,:,6]).T
+
 X2[X2 < -0.5] = 0
 image_result2 = X2.copy()
 angles = np.linspace(0, np.pi*2, 720)

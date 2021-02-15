@@ -4,9 +4,9 @@ import matplotlib.pyplot as plt
 from scipy.fftpack import fft
 import seaborn as sns
 
-speed = 100
-v = 1
-num = 20
+speed = 200
+v = 3
+num = 50
 
 folder = r'D:\OneDrive - University of Victoria\Research\Single Pixel\2021_02_03\Smooth Data'
 file = f'{speed}-smooth-v{v}-{num}.npy'
@@ -22,8 +22,8 @@ der = np.array([-0.5,  0, 0.5])
 #
 # low = int(input('Low number:'))
 # high = int(input('High number:'))
-low = 25
-high = 436
+low = 60
+high = 178
 
 plt.plot(esf[low:high])
 plt.show()
@@ -60,19 +60,19 @@ mtf = np.absolute(mtf)
 mtf = mtf[0:int(M/2)]
 mtf = np.divide(mtf, np.max(mtf))
 
-idx = (np.abs(mtf[0:5] - 0.1)).argmin()
+idx = (np.abs(mtf[0:3] - 0.1)).argmin()
 
 sns.set_style('whitegrid')
 fig = plt.figure(figsize=(7, 5))
 # plt.plot(freq[0:int(len(freq)/1.75)], mtf[0:int(len(freq)//1.75)])
 plt.plot(freq[0:10], mtf[0:10])
-plt.title(rf'MTF ({speed} $\mu$m/s speed)', fontsize=15)
+plt.title(rf'MTF ({speed} $\mu$m/s speed, {num} points averaged)', fontsize=15)
 plt.xlabel(f'Spatial frequency (lp/mm)\nLimiting frequency = {freq[idx]:.2f} lp/mm', fontsize=14)
 plt.ylabel('MTF(f)', fontsize=14)
 plt.tick_params(labelsize=12)
-plt.xlim([0, 100])
+plt.xlim([0, 4])
 plt.subplots_adjust(bottom=0.2)
 plt.show()
 
-plt.savefig(rf'D:\OneDrive - University of Victoria\Research\Single Pixel\2021_02_03\MTF\{speed}-v{v}.png', dpi=fig.dpi)
+plt.savefig(rf'D:\OneDrive - University of Victoria\Research\Single Pixel\2021_02_03\MTF\{speed}-v{v}-{num}.png', dpi=fig.dpi)
 
