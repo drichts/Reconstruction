@@ -1,37 +1,6 @@
 import numpy as np
 from scipy import signal
 
-spectral_data = np.load(r'D:\OneDrive - University of Victoria\Research\LDA Data\CT_02-03-21\phantom_scan\Data\data_corr.npy')
-
-print(np.shape(spectral_data))
-
-# Crop away the top of the image with only air
-good_data = np.mean(spectral_data[:, 9:, :, 6], 0)
-
-print(np.shape(good_data))
-
-outliers = []
-
-# Find the mean of the data along the angle direction
-ref = np.mean(good_data, axis=0)
-
-# Now I'll discard the three biggest outliers and take that average.
-mins = np.argmax(np.abs(good_data - ref), axis=0)
-nn = 14
-
-for jj in range(nn):
-    ref = np.nanmean(good_data, 0)
-    mins = np.argmax(np.abs(good_data - ref), 0)
-    outliers.append(mins)
-    for ii in range(len(mins)):
-        good_data[mins[ii], ii] = ref[ii]
-
-for jj in range(nn):
-    for ii in range(len(mins)):
-        good_data[outliers[jj][ii], ii] = np.NaN
-
-real_refs = np.nanmean(good_data, 0)
-
 
 def smooth(x, window_len=11, window='hanning'):
     """smooth the data using a window with requested size.
@@ -65,7 +34,7 @@ def smooth(x, window_len=11, window='hanning'):
     if not window in ['flat', 'hanning', 'hamming', 'bartlett', 'blackman']:
         raise(ValueError, "Window is on of 'flat', 'hanning', 'hamming', 'bartlett', 'blackman'")
     s = np.r_[x[window_len-1:0:-1], x, x[-2:-window_len-1:-1]]
-    #print(len(s))
+
     if window == 'flat':  # moving average
         w = np.ones(window_len, 'd')
     else:
@@ -75,23 +44,58 @@ def smooth(x, window_len=11, window='hanning'):
     return y
 
 
-smoothed = smooth(real_refs, 10, 'blackman')
+def pixel_corr(data, window='blackman'):
+    """
+    Jericho's correction method for correcting the variable pixel response of the detector
+    :param data:
+    :param window:
+    :return:
+    """
 
-smoothed3 = smoothed[4:-5]
+    # Crop away the top of the image with only air
+    good_data = np.mean(data[:, 9:, :, 6], 0)
 
-w = 0.1  # Cut-off frequency of the filter
-b, a = signal.butter(5, w, 'low')   # Numerator (b) and denominator (a) for Butterworth filter
-output = signal.filtfilt(b, a, real_refs)  # Apply the filter to the data
+    outliers = []
 
-smoothed3[25:-25] = output[25:-25]  # Replace filtered data in the
-correction_array3 = np.mean(spectral_data[:, 10:, :, 6], 0)/smoothed3
-X2 = (spectral_data[:, 10:, :, 6]/correction_array3).transpose(1, 2, 0)
+    # Find the mean of the data along the angle direction
+    ref = np.mean(good_data, axis=0)
 
-X2[X2 < -0.5] = 0
-image_result2 = X2.copy()
-angles = np.linspace(0, np.pi*2, 720)
-float_array = np.float32(10*image_result2.transpose(2, 0, 1))
-one_slice = float_array
-tiled = np.pad(one_slice, [(0, 0), (25, 25), (0, 0)])
-tiled[:, :, :26] = 0
-tiled[:, :, -26:] = 0
+    # Now I'll discard the three biggest outliers and take that average.
+    mins = np.argmax(np.abs(good_data - ref), axis=0)
+    nn = 14
+
+    for jj in range(nn):
+        ref = np.nanmean(good_data, 0)
+        mins = np.argmax(np.abs(good_data - ref), 0)
+        outliers.append(mins)
+        for ii in range(len(mins)):
+            good_data[mins[ii], ii] = ref[ii]
+
+    for jj in range(nn):
+        for ii in range(len(mins)):
+            good_data[outliers[jj][ii], ii] = np.NaN
+
+    real_refs = np.nanmean(good_data, 0)
+
+    smoothed = smooth(real_refs, window_len=10, window=window)
+
+    smoothed3 = smoothed[4:-5]
+
+    w = 0.1  # Cut-off frequency of the filter
+    b, a = signal.butter(5, w, 'low')   # Numerator (b) and denominator (a) for Butterworth filter
+    output = signal.filtfilt(b, a, real_refs)  # Apply the filter to the data
+
+    smoothed3[25:-25] = output[25:-25]  # Replace filtered data in the
+    correction_array3 = np.mean(data[:, 10:, :, 6], 0)/smoothed3
+    X2 = (data[:, 10:, :, 6]/correction_array3).transpose(1, 2, 0)
+
+    X2[X2 < -0.5] = 0
+    image_result2 = X2.copy()
+
+    float_array = np.float32(10*image_result2.transpose(2, 0, 1))
+    one_slice = float_array
+    tiled = np.pad(one_slice, [(0, 0), (25, 25), (0, 0)])
+    tiled[:, :, :26] = 0
+    tiled[:, :, -26:] = 0
+
+    return tiled

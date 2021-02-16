@@ -62,15 +62,6 @@ class AnalyzeLDA:
         :return: The data array corrected for the dead pixels
         """
         temp_data = gen.correct_dead_pixels(np.load(self.raw_data), DEAD_PIXEL_MASK)
-        # if len(np.shape(temp_data)) == 3:
-        #     temp_data = np.expand_dims(temp_data, axis=0)
-        # data_nan = np.argwhere(np.isnan(temp_data))
-        # for nan_coords in data_nan:
-        #     nan_coords = tuple(nan_coords)
-        #     frame = nan_coords[0]
-        #     img_bin = nan_coords[-1]
-        #     pixel = nan_coords[-3:-1]
-        #     temp_data[nan_coords] = gen.get_average_pixel_value(temp_data[frame, :, :, img_bin], pixel, np.ones((24, 576)))
         return temp_data
 
     def correct_air_and_dark_scans(self):
@@ -85,22 +76,10 @@ class AnalyzeLDA:
 
         if not os.path.exists(airpath) or self.reanalyze:
             temp_air = gen.correct_dead_pixels(raw_air, dead_pixel_mask=DEAD_PIXEL_MASK)
-            air_nan = np.argwhere(np.isnan(temp_air))
-            # for nan_coords in air_nan:
-            #     nan_coords = tuple(nan_coords)
-            #     img_bin = nan_coords[-1]
-            #     pixel = nan_coords[0:-1]
-            #     temp_air[nan_coords] = gen.get_average_pixel_value(temp_air[:, :, img_bin], pixel, np.ones((24, 576)))
             np.save(airpath, temp_air)
 
         if not os.path.exists(darkpath) or self.reanalyze:
             temp_dark = gen.correct_dead_pixels(raw_dark, dead_pixel_mask=DEAD_PIXEL_MASK)
-            dark_nan = np.argwhere(np.isnan(temp_dark))
-            # for nan_coords in dark_nan:
-            #     nan_coords = tuple(nan_coords)
-            #     img_bin = nan_coords[-1]
-            #     pixel = nan_coords[0:-1]
-            #     temp_dark[nan_coords] = gen.get_average_pixel_value(temp_dark[:, :, img_bin], pixel, np.ones((24, 576)))
             np.save(darkpath, temp_dark)
 
     @staticmethod

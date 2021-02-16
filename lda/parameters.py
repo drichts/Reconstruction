@@ -3,8 +3,8 @@ import numpy as np
 
 DIRECTORY = r'D:\OneDrive - University of Victoria\Research\LDA Data'
 
-AIR_FOLDER = r'CT_02-03-21\airscan_120s_nthresh'
-DARK_FOLDER = r'CT_02-03-21\darkscan_120s_nthresh'
+AIR_FOLDER = r'CT_02-03-21_v3\airscan_120s_nthresh'
+DARK_FOLDER = r'CT_02-03-21_v3\darkscan_120s_nthresh'
 
 # Dead pixel mask <row, column>
 # Set: dead_pixel_mask[r, c] = np.nan

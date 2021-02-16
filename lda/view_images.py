@@ -7,11 +7,23 @@ import mask_functions as msk
 
 file = r'D:\OneDrive - University of Victoria\Research\LDA Data'
 
-folder1 = 'CT_26-01-21_1800'
-folder2 = '10-cm_25-01-21_2'
+# folder1 = 'CT_26-01-21_1800'
+# folder2 = '10-cm_25-01-21_2'
+#
+# data1 = np.load(os.path.join(file, folder1, 'airscan_60s', 'Data', 'data_corr.npy'))
+# data2 = np.load(os.path.join(file, folder2, 'airscan_60s', 'Data', 'data.npy'))
 
-data1 = np.load(os.path.join(file, folder1, 'airscan_60s', 'Data', 'data_corr.npy'))
-data2 = np.load(os.path.join(file, folder2, 'airscan_60s', 'Data', 'data.npy'))
+folder = r'D:\OneDrive - University of Victoria\Research\LDA Data\CT_02-03-21-v2'
+data1 = np.load(os.path.join(folder, 'recon_CGLS.npy'))
+data2 = np.load(os.path.join(folder, 'recon_SIRT.npy'))
+
+for i in range(len(data2)):
+    fig = plt.figure(figsize=(5, 5))
+    plt.imshow(data2[i])
+    plt.title(f'{(i+1)*10} iterations')
+    plt.show()
+    plt.pause(1)
+    plt.close()
 
 # data = data2 - data1
 # data_other = data1 - data2
