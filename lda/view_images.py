@@ -19,10 +19,11 @@ data2 = np.load(os.path.join(folder, 'recon_SIRT.npy'))
 
 for i in range(len(data2)):
     fig = plt.figure(figsize=(5, 5))
-    plt.imshow(data2[i])
+    plt.imshow(data2[i], cmap='gray', vmin=0.002, vmax=0.008)
     plt.title(f'{(i+1)*10} iterations')
     plt.show()
-    plt.pause(1)
+    plt.savefig(os.path.join(folder, f'SIRT_{(i+1)*10}.png'), dpi=fig.dpi)
+    # plt.pause(10)
     plt.close()
 
 # data = data2 - data1
