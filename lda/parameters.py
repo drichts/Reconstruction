@@ -3,12 +3,12 @@ import numpy as np
 
 DIRECTORY = '/home/knoll/LDAData'
 
-AIR_FOLDER = '21-02-19_CT_min_Gd/airscan_60s_Gd'
-DARK_FOLDER = '21-02-19_CT_min_Gd/darkscan_60s_Gd'
+AIR_FOLDER = '21-02-18_CT_water_only/airscan_60s_gold'
+DARK_FOLDER = '21-02-18_CT_water_only/darkscan_60s_gold'
 
 # Dead pixel mask <row, column>
 # Set: dead_pixel_mask[r, c] = np.nan
-DEAD_PIXEL_MASK = np.load(os.path.join(DIRECTORY, 'dead_pixel_mask.npy'))
+DEAD_PIXEL_MASK = np.load(os.path.join(DIRECTORY, 'dead_pixel_mask_2.npy'))
 
 """
 CT Reconstruction Parameters

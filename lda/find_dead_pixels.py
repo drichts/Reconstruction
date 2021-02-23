@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib
 matplotlib.use('TKAgg')
 import matplotlib.pyplot as plt
+import general_functions as gen
 
 directory = '/home/knoll/LDAData/21-02-18_CT_water_only'
 
@@ -24,17 +25,37 @@ dark = np.load(os.path.join(directory, 'darkscan_60s_gold/Data/data.npy'))
 air1 = np.load(os.path.join(directory, folder1, 'Data', 'data.npy'))
 air2 = np.load(os.path.join(directory, folder2, 'Data', 'data.npy'))
 
+dpm = np.load('/home/knoll/LDAData/dead_pixel_mask_2.npy')
+
+air1 = gen.correct_dead_pixels(air1, dpm)
+air2 = gen.correct_dead_pixels(air2, dpm)
+dark = gen.correct_dead_pixels(dark, dpm)
+
 air1 = air1 - dark
 air2 = air2 - dark
 num = 2
 corr = np.abs(np.log(air1) - np.log(air2)) * 100
-fig = plt.figure(figsize=(12, 4))
-plt.imshow(corr[:, :, num], vmin=1, vmax=2)
-plt.show()
+# fig = plt.figure(figsize=(12, 4))
+# plt.imshow(corr[:, :, num], vmin=1, vmax=2)
+# plt.show()
 
-print(len(np.argwhere(corr[:, :, num] > 2)))
-print(len(np.argwhere(np.isnan(corr[:, :, num]))))
-print(len(np.argwhere(corr[:, :, num] > 2)) / (24*576) * 100)
+# base = np.array(np.argwhere(corr > 2), dtype='int')
+# base_nan = np.array(np.argwhere(np.isnan(corr)), dtype='int')
+#
+# dpm = np.ones((24, 576, 7))
+#
+# for pixel in base:
+#     pixel = tuple(pixel)
+#     dpm[pixel] = np.nan
+# for pixel in base_nan:
+#     pixel = tuple(pixel)
+#     dpm[pixel] = np.nan
+#
+# np.save('/home/knoll/LDAData/dead_pixel_mask_2.npy', dpm)
+for i in range(7):
+    print(len(np.argwhere(corr[:, :, i] > 2)))
+    print(len(np.argwhere(np.isnan(corr[:, :, i]))))
+    print((len(np.argwhere(corr[:, :, i] > 2)) + len(np.argwhere(np.isnan(corr[:, :, i])))) / (24*576) * 100)
 #
 # coords = np.argwhere(corr[:, :, 6] > 2)
 # nancoord = np.argwhere(np.isnan(corr[:, :, 6]))

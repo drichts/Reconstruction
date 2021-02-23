@@ -124,10 +124,8 @@ class AnalyzeCT(AnalyzeLDA):
 
         self.num_proj = num_proj
 
-        self.filt_data = os.path.join(self.folder, 'Data', 'proj_filt.npy')
-        # self.filt_data_mat = os.path.join(self.folder, 'Data', 'proj_filt.mat')
-
         temp_data = np.load(self.corr_data)
+        # np.save(os.path.join(DIRECTORY, folder, 'Data', 'data_corr_before.npy'), temp_data)
         print(np.nanmedian(np.sum(temp_data, axis=0), axis=(0, 1)))
         # Correct for pixel non-uniformities
         temp_data = pixel_corr(temp_data)

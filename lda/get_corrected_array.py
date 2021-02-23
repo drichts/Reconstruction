@@ -1,6 +1,8 @@
 import numpy as np
 from scipy import signal
-
+import matplotlib
+matplotlib.use('TKAgg')
+import matplotlib.pyplot as plt
 
 def smooth(x, window_len=11, window='hanning'):
     """smooth the data using a window with requested size.
@@ -57,9 +59,9 @@ def pixel_corr(data, num_bins=7, type='middle' ,window='blackman'):
     :return: ndarray
             The correction matrix to multiply the data by. Shape: (rows, columns, bins)
     """
-
     # Go through each of the bins
     for bin_num in np.arange(num_bins):
+
         # Crop away the top of the image with only air
         good_data = np.nanmean(data[:, :, :, bin_num], axis=0)
 
@@ -83,7 +85,9 @@ def pixel_corr(data, num_bins=7, type='middle' ,window='blackman'):
             for ii in range(len(mins)):
                 good_data[outliers[jj][ii], ii] = np.nan
 
-        real_refs = np.nanmean(good_data, axis=0)
+        # Mask invalid data, i.e. inf, nan, -inf, etc when taking the mean
+        good_data = np.ma.masked_invalid(good_data)
+        real_refs = np.mean(good_data, axis=0)
 
         smoothed = smooth(real_refs, window_len=10, window=window)
 
@@ -95,7 +99,7 @@ def pixel_corr(data, num_bins=7, type='middle' ,window='blackman'):
 
         smoothed3[25:-25] = output[25:-25]  # Replace filtered data in the
         correction_array = np.nanmean(data[:, :, :, bin_num], axis=0)/smoothed3
-        new_data = (data[:, :, :, 6] / correction_array).transpose(1, 2, 0)
+        new_data = (data[:, :, :, bin_num] / correction_array).transpose(1, 2, 0)
 
         new_data[new_data < -0.5] = 0
         image = new_data.copy()
@@ -104,7 +108,11 @@ def pixel_corr(data, num_bins=7, type='middle' ,window='blackman'):
 
         data[:, :, :, bin_num] = float_array
 
+        data[:, :, :25, bin_num] = 0
+        data[:, :, -25:, bin_num] = 0
+
     return data
 
-
+# x = np.load('/home/knoll/LDAData/21-02-19_CT_min_Gd/phantom_scan/Data/data_corr_before.npy')
+# y = pixel_corr(x[:, :, :, :2], num_bins=2)
 
