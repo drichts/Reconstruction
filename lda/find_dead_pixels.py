@@ -1,31 +1,40 @@
 import os
 import numpy as np
+import matplotlib
+matplotlib.use('TKAgg')
 import matplotlib.pyplot as plt
 
-directory = r'D:\OneDrive - University of Victoria\Research\LDA Data'
+directory = '/home/knoll/LDAData/21-02-18_CT_water_only'
 
-d1 = np.load(os.path.join(directory, 'dead_pixel_mask.npy'))
-d2 = np.load(os.path.join(directory, 'dead_pixel_mask_2.npy'))
-d3 = np.load(os.path.join(directory, 'dead_pixel_mask_greater1per.npy'))
+d1 = np.load(os.path.join('/home/knoll/LDAData', 'dead_pixel_mask.npy'))
+# d2 = np.load(os.path.join(directory, 'dead_pixel_mask_2.npy'))
+# d3 = np.load(os.path.join(directory, 'dead_pixel_mask_greater1per.npy'))
 
-fig, ax = plt.subplots(3, 1, figsize=(10, 8))
-ax[0].imshow(d1)
-ax[1].imshow(d2)
-ax[2].imshow(d3)
+# fig, ax = plt.subplots(3, 1, figsize=(10, 8))
+# ax[0].imshow(d1)
+# ax[1].imshow(d2)
+# ax[2].imshow(d3)
+# plt.show()
+
+
+folder1 = 'airscan_60s_gold'
+folder2 = 'airscan_60s_gold_1'
+dark = np.load(os.path.join(directory, 'darkscan_60s_gold/Data/data.npy'))
+
+air1 = np.load(os.path.join(directory, folder1, 'Data', 'data.npy'))
+air2 = np.load(os.path.join(directory, folder2, 'Data', 'data.npy'))
+
+air1 = air1 - dark
+air2 = air2 - dark
+num = 2
+corr = np.abs(np.log(air1) - np.log(air2)) * 100
+fig = plt.figure(figsize=(12, 4))
+plt.imshow(corr[:, :, num], vmin=1, vmax=2)
 plt.show()
 
-
-# folder1 = 'airscan_60s_1'
-# folder2 = 'airscan_60s_2'
-# dark = np.load(r'D:\OneDrive - University of Victoria\Research\LDA Data\darkscan_60s\Data\data.npy')
-#
-# air1 = np.load(os.path.join(directory, folder1, 'Data', 'data.npy'))
-# air2 = np.load(os.path.join(directory, folder2, 'Data', 'data.npy'))
-#
-# air1 = air1 - dark
-# air2 = air2 - dark
-#
-# corr = np.abs(np.log(air1) - np.log(air2)) * 100
+print(len(np.argwhere(corr[:, :, num] > 2)))
+print(len(np.argwhere(np.isnan(corr[:, :, num]))))
+print(len(np.argwhere(corr[:, :, num] > 2)) / (24*576) * 100)
 #
 # coords = np.argwhere(corr[:, :, 6] > 2)
 # nancoord = np.argwhere(np.isnan(corr[:, :, 6]))

@@ -2,6 +2,8 @@ import _pickle as pickle
 import numpy as np
 from scipy.io import savemat, loadmat
 import os
+import matplotlib
+matplotlib.use('TKAgg')
 import matplotlib.pyplot as plt
 
 

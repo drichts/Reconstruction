@@ -53,7 +53,7 @@ def pixel_corr(data, window='blackman'):
     """
 
     # Crop away the top of the image with only air
-    good_data = np.mean(data[:, 9:, :, 6], 0)
+    good_data = np.mean(data[:, :, :, 5], 0)
 
     outliers = []
 
@@ -86,16 +86,16 @@ def pixel_corr(data, window='blackman'):
     output = signal.filtfilt(b, a, real_refs)  # Apply the filter to the data
 
     smoothed3[25:-25] = output[25:-25]  # Replace filtered data in the
-    correction_array3 = np.mean(data[:, 10:, :, 6], 0)/smoothed3
-    X2 = (data[:, 10:, :, 6]/correction_array3).transpose(1, 2, 0)
+    correction_array3 = np.mean(data[:, :, :, 6], axis=0)/smoothed3
+    X2 = (data[:, :, :, 6]/correction_array3).transpose(1, 2, 0)
 
     X2[X2 < -0.5] = 0
     image_result2 = X2.copy()
 
     float_array = np.float32(10*image_result2.transpose(2, 0, 1))
-    one_slice = float_array
-    tiled = np.pad(one_slice, [(0, 0), (25, 25), (0, 0)])
-    tiled[:, :, :26] = 0
-    tiled[:, :, -26:] = 0
-
-    return tiled
+    # one_slice = float_array
+    # tiled = np.pad(one_slice, [(0, 0), (25, 25), (0, 0)])
+    # tiled[:, :, :26] = 0
+    # tiled[:, :, -26:] = 0
+    print(np.nanmedian(np.sum(float_array, axis=0)))
+    return float_array
