@@ -13,18 +13,27 @@ file = r'D:\OneDrive - University of Victoria\Research\LDA Data'
 # data1 = np.load(os.path.join(file, folder1, 'airscan_60s', 'Data', 'data_corr.npy'))
 # data2 = np.load(os.path.join(file, folder2, 'airscan_60s', 'Data', 'data.npy'))
 
-folder = r'D:\OneDrive - University of Victoria\Research\LDA Data\CT_02-03-21-v2'
-data1 = np.load(os.path.join(folder, 'recon_CGLS.npy'))
-data2 = np.load(os.path.join(folder, 'recon_SIRT.npy'))
+folder = r'D:\OneDrive - University of Victoria\Research\LDA Data\Stationary_kV'
+data1 = np.load(os.path.join(folder, 'kV_QC3_40kVp_5mA_stationary', 'Data', 'data.npy'))
+air = np.load(os.path.join(folder, 'airscan_40kVp_5mA_60s', 'Data', 'data.npy')) / 30
+dark = np.load(os.path.join(folder, 'darkscan_60s_40kVp', 'Data', 'data.npy')) / 30
 
-for i in range(len(data2)):
-    fig = plt.figure(figsize=(5, 5))
-    plt.imshow(data2[i], cmap='gray', vmin=0.002, vmax=0.008)
-    plt.title(f'{(i+1)*10} iterations')
-    plt.show()
-    plt.savefig(os.path.join(folder, f'SIRT_{(i+1)*10}.png'), dpi=fig.dpi)
-    # plt.pause(10)
-    plt.close()
+data = np.sum(data1, axis=0)
+proj = np.log(air-dark) - np.log(data-dark)
+
+fig = plt.figure(figsize=(12, 4))
+plt.imshow(proj[:, :, 6], vmin=0, vmax=1.5)
+plt.title('kV stationary')
+plt.show()
+
+# for i in range(len(data2)):
+#     fig = plt.figure(figsize=(5, 5))
+#     plt.imshow(data2[i], cmap='gray', vmin=0.002, vmax=0.008)
+#     plt.title(f'{(i+1)*10} iterations')
+#     plt.show()
+#     plt.savefig(os.path.join(folder, f'SIRT_{(i+1)*10}.png'), dpi=fig.dpi)
+#     # plt.pause(10)
+#     plt.close()
 
 # data = data2 - data1
 # data_other = data1 - data2

@@ -2,6 +2,7 @@ import general_functions as gen
 import lda.ct_functions as ct
 from scipy.io import savemat, loadmat
 from lda.parameters import *
+from lda.pixel_corr import pixel_corr
 
 
 class AnalyzeLDA:
@@ -15,9 +16,9 @@ class AnalyzeLDA:
         self.correct_air_and_dark_scans()
 
         self.raw_data = os.path.join(self.folder, 'Data', 'data.npy')
-        self.air_data = np.load(os.path.join(self.air_folder, 'Data', 'data_corr.npy')) / (120/duration)
-        self.dark_data = np.load(os.path.join(self.dark_folder, 'Data', 'data_corr.npy')) / (120/duration)
-        print(120/duration)
+        self.air_data = np.load(os.path.join(self.air_folder, 'Data', 'data_corr.npy')) / (60/duration)
+        self.dark_data = np.load(os.path.join(self.dark_folder, 'Data', 'data_corr.npy')) / (60/duration)
+        print(60/duration)
 
         self.corr_data = os.path.join(self.folder, 'Data', 'data_corr.npy')
         self.corr_data_mat = os.path.join(self.folder, 'Data', 'data_corr.mat')
@@ -131,6 +132,9 @@ class AnalyzeCT(AnalyzeLDA):
         if num_proj != len(temp_data):
             diff = abs(num_proj - len(temp_data))
             new_data = temp_data[int(np.ceil(diff / 2)):len(temp_data) - diff // 2]
+
+            # new_data = pixel_corr(new_data)
+
             np.save(self.corr_data, new_data)
             savemat(self.corr_data_mat, {'data': new_data, 'label': 'data_corr'})
 
