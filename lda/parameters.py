@@ -3,12 +3,12 @@ import numpy as np
 
 DIRECTORY = r'D:\OneDrive - University of Victoria\Research\LDA Data'
 
-AIR_FOLDER = r'21-02-19_CT_min_vol_pos_2\airscan_60s_gold_2'
-DARK_FOLDER = r'21-02-19_CT_min_vol_pos_2\darkscan_60s_gold_2'
+AIR_FOLDER = r'21-02-19_CT_min_Gd\airscan_60s_Gd'
+DARK_FOLDER = r'21-02-19_CT_min_Gd\darkscan_60s_Gd'
 
 # Dead pixel mask <row, column>
 # Set: dead_pixel_mask[r, c] = np.nan
-DEAD_PIXEL_MASK = np.load(os.path.join(DIRECTORY, 'dead_pixel_mask.npy'))
+DEAD_PIXEL_MASK = np.load(os.path.join(DIRECTORY, 'dead_pixel_mask_2.npy'))
 
 """
 CT Reconstruction Parameters

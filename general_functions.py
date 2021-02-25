@@ -77,13 +77,11 @@ def correct_dead_pixels(data, dead_pixel_mask):
     """
     This is to correct for known dead pixels. Takes the average of the eight surrounding pixels.
     Could implement a more sophisticated algorithm here if needed.
-
     :param data: 4D ndarray
                 The data array in which to correct the pixels <captures, rows, columns, counter>
     :param dead_pixel_mask: 2D ndarray
                 A data array with the same number of rows and columns as 'data'. Contains np.nan everywhere there
                 is a known non-responsive pixel
-
     :return: The data array corrected for the dead pixels
     """
     # Find the dead pixels (i.e pixels = to nan in the DEAD_PIXEL_MASK)
@@ -99,10 +97,9 @@ def correct_dead_pixels(data, dead_pixel_mask):
 
     for pixel in dead_pixels:
         for i in np.arange(data_shape[0]):
-            for j in np.arange(data_shape[-1]):
-                # Pixel is corrected in every counter and capture
-                avg_val = get_average_pixel_value(data[i, :, :, j], pixel, dead_pixel_mask)
-                data[i, pixel[0], pixel[1], j] = avg_val  # Set the new value in the 4D array
+            # Pixel is corrected in every counter and capture
+            avg_val = get_average_pixel_value(data[i, :, :, pixel[-1]], pixel[:-1], dead_pixel_mask[:, :, pixel[-1]])
+            data[i, pixel[0], pixel[1], pixel[-1]] = avg_val  # Set the new value in the 4D array
 
     return np.squeeze(data)
 

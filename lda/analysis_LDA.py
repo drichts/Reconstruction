@@ -2,12 +2,12 @@ import general_functions as gen
 import lda.ct_functions as ct
 from scipy.io import savemat, loadmat
 from lda.parameters import *
-from lda.pixel_corr import pixel_corr
+from lda.get_corrected_array import pixel_corr
 
 
 class AnalyzeLDA:
 
-    def __init__(self, folder, duration, reanalyze=False, directory=DIRECTORY):
+    def __init__(self, folder, duration, airscan_time=60, reanalyze=False, directory=DIRECTORY):
         self.folder = os.path.join(directory, folder)
         self.air_folder = os.path.join(directory, AIR_FOLDER)
         self.dark_folder = os.path.join(directory, DARK_FOLDER)
@@ -16,18 +16,18 @@ class AnalyzeLDA:
         self.correct_air_and_dark_scans()
 
         self.raw_data = os.path.join(self.folder, 'Data', 'data.npy')
-        self.air_data = np.load(os.path.join(self.air_folder, 'Data', 'data_corr.npy')) / (60/duration)
-        self.dark_data = np.load(os.path.join(self.dark_folder, 'Data', 'data_corr.npy')) / (60/duration)
-        print(60/duration)
+        self.air_data = np.load(os.path.join(self.air_folder, 'Data', 'data_corr.npy')) / (airscan_time/duration)
+        self.dark_data = np.load(os.path.join(self.dark_folder, 'Data', 'data_corr.npy')) / (airscan_time/duration)
+        print(airscan_time/duration)
 
         self.corr_data = os.path.join(self.folder, 'Data', 'data_corr.npy')
-        self.corr_data_mat = os.path.join(self.folder, 'Data', 'data_corr.mat')
+        # self.corr_data_mat = os.path.join(self.folder, 'Data', 'data_corr.mat')
 
         if not os.path.exists(self.corr_data) or reanalyze:
             temp_data = self.intensity_correction(self.correct_dead_pixels())
             print(len(np.argwhere(np.isnan(temp_data))))
             np.save(self.corr_data, temp_data)
-            savemat(self.corr_data_mat, {'data': temp_data, 'label': 'corrected_data'})
+            # savemat(self.corr_data_mat, {'data': temp_data, 'label': 'corrected_data'})
 
         self.bg_mask = None
 
@@ -119,22 +119,22 @@ class AnalyzeLDA:
 
 class AnalyzeCT(AnalyzeLDA):
 
-    def __init__(self, folder, num_proj, duration=180, reanalyze=True, directory=DIRECTORY):
-        super().__init__(folder, duration/num_proj, reanalyze=reanalyze, directory=directory)
+    def __init__(self, folder, num_proj, duration=180, airscan_time=60, reanalyze=True, directory=DIRECTORY):
+        super().__init__(folder, duration/num_proj, airscan_time=airscan_time, reanalyze=reanalyze, directory=directory)
 
         self.num_proj = num_proj
 
-        self.filt_data = os.path.join(self.folder, 'Data', 'proj_filt.npy')
-        self.filt_data_mat = os.path.join(self.folder, 'Data', 'proj_filt.mat')
-
         temp_data = np.load(self.corr_data)
+        # np.save(os.path.join(DIRECTORY, folder, 'Data', 'data_corr_before.npy'), temp_data)
+        print(np.nanmedian(np.sum(temp_data, axis=0), axis=(0, 1)))
+        # Correct for pixel non-uniformities
+        temp_data = pixel_corr(temp_data)
+        print(np.nanmedian(np.sum(temp_data, axis=0), axis=(0, 1)))
+
         # This will cut the projection down to the correct number if there are more than necessary
         if num_proj != len(temp_data):
             diff = abs(num_proj - len(temp_data))
             new_data = temp_data[int(np.ceil(diff / 2)):len(temp_data) - diff // 2]
 
-            # new_data = pixel_corr(new_data)
-
             np.save(self.corr_data, new_data)
             savemat(self.corr_data_mat, {'data': new_data, 'label': 'data_corr'})
-
