@@ -1,11 +1,11 @@
 import general_functions as gen
-import lda.ct_functions as ct
+import mask_functions as msk
 from scipy.io import savemat, loadmat
 from lda.parameters import *
 from lda.get_corrected_array import pixel_corr
 
 
-class AnalyzeLDA:
+class ReconLDA:
 
     def __init__(self, folder, duration, airscan_time=60, reanalyze=False, directory=DIRECTORY):
         self.folder = os.path.join(directory, folder)
@@ -21,7 +21,7 @@ class AnalyzeLDA:
         print(airscan_time/duration)
 
         self.corr_data = os.path.join(self.folder, 'Data', 'data_corr.npy')
-        # self.corr_data_mat = os.path.join(self.folder, 'Data', 'data_corr.mat')
+        self.corr_data_mat = os.path.join(self.folder, 'Data', 'data_corr.mat')
 
         if not os.path.exists(self.corr_data) or reanalyze:
             temp_data = self.intensity_correction(self.correct_dead_pixels())
@@ -117,7 +117,7 @@ class AnalyzeLDA:
         return np.transpose(data, axes=ax)
 
 
-class AnalyzeCT(AnalyzeLDA):
+class ReconCT(ReconLDA):
 
     def __init__(self, folder, num_proj, duration=180, airscan_time=60, reanalyze=True, directory=DIRECTORY):
         super().__init__(folder, duration/num_proj, airscan_time=airscan_time, reanalyze=reanalyze, directory=directory)
@@ -138,3 +138,61 @@ class AnalyzeCT(AnalyzeLDA):
 
             np.save(self.corr_data, new_data)
             savemat(self.corr_data_mat, {'data': new_data, 'label': 'data_corr'})
+
+
+class AnalyzeCT:
+
+    def __init__(self, folder, thresholds, contrast, water_slice=13, algorithm=None):
+        self.folder = os.path.join(DIRECTORY, folder, 'phantom_scan', 'CT')
+        self.thresholds = thresholds
+        self.contrast = contrast
+        self.water_slice = water_slice
+
+        if algorithm:
+            self.data = os.path.join(self.folder, f'{algorithm}CT.npy')
+        else:
+            self.data = os.path.join(self.folder, 'CT.npy')
+
+            if not os.path.exists(self.data):
+                mat_data = loadmat(os.path.join(self.folder, 'CT.mat'))['ct_img']
+                np.save(self.data, mat_data)
+
+        self.data_shape = np.array(np.shape(np.load(self.data)))
+
+        if self.data_shape != [7, 24, 576, 576]:
+            np.save(self.data, np.transpose(np.load(self.data), axes=(0, 3, 1, 2)))
+            self.data_shape = np.array([7, 24, 576, 576])
+
+        self.mask_water = self.get_water_masks()
+
+
+    def get_water_masks(self):
+        img = np.load(self.data)[6, self.water_slice]
+
+        # Get the large vials filled with water
+        masks = msk.phantom_ROIs(img, radius=8)
+
+        # Sum all the inidivual vial masks together into one mask that grabs all water vials
+        masks = np.nansum(masks, axis=0)
+        masks[masks == 0] = np.nan
+
+        return masks
+
+    def get_contrast_masks(self):
+
+
+
+    @staticmethod
+    def norm_individual(image, water_value):
+        """
+        Normalize an individual slice
+        :param image: The image to normalize
+        :param water_value: The water value to normalize to 0 HU
+        :return:
+        """
+        # Normalize to HU
+        image = 1000 * np.divide((np.subtract(image, water_value)), water_value)
+        # Get rid of any nan values
+        image[np.isnan(image)] = -1000
+
+        return image

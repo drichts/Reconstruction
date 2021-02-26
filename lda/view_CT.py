@@ -8,7 +8,7 @@ angles = 900
 
 directory = r'D:\OneDrive - University of Victoria\Research\LDA Data'
 # folder1 = f'CT_02-03-21-v2'
-folder1 = r'21-02-24_CT_min_Au\phantom_scan'
+folder1 = r'21-02-24_CT_min_Au_4.5mA\phantom_scan'
 # folder2 = 'CT_26-01-21_600\phantom_scan'
 file = 'CT'
 # data1 = np.load(os.path.join(directory, folder1, 'recon_SIRT.npy'))
@@ -29,9 +29,9 @@ fig = plt.figure(figsize=(7, 7))
 
 # data_sub = data1[1] - data1[0]
 # plt.imshow(data_sub[110:470, 110:470, 15])
-data = data1[3] - data1[2]
+data = data1[2] - data1[1]
 
-plt.imshow(data[110:470, 110:470, 12], vmin=-0.01, vmax=0.01, cmap='gray')
+plt.imshow(data1[6, 110:470, 110:470, 13], vmin=0, vmax=0.3, cmap='gray')
 # plt.title('SIRT with ring correction')
 plt.show()
 # plt.savefig(os.path.join(directory, folder1, 'fig', file + '.png'), dpi=fig.dpi)
