@@ -1,11 +1,11 @@
 import general_functions as gen
-import lda.ct_functions as ct
+import mask_functions as msk
 from scipy.io import savemat, loadmat
 from lda.parameters import *
 from lda.get_corrected_array import pixel_corr
 
 
-class AnalyzeLDA:
+class ReconLDA:
 
     def __init__(self, folder, duration, airscan_time=60, reanalyze=False, directory=DIRECTORY):
         self.folder = os.path.join(directory, folder)
@@ -21,7 +21,7 @@ class AnalyzeLDA:
         print(airscan_time/duration)
 
         self.corr_data = os.path.join(self.folder, 'Data', 'data_corr.npy')
-        # self.corr_data_mat = os.path.join(self.folder, 'Data', 'data_corr.mat')
+        self.corr_data_mat = os.path.join(self.folder, 'Data', 'data_corr.mat')
 
         if not os.path.exists(self.corr_data) or reanalyze:
             temp_data = self.intensity_correction(self.correct_dead_pixels())
@@ -117,7 +117,7 @@ class AnalyzeLDA:
         return np.transpose(data, axes=ax)
 
 
-class AnalyzeCT(AnalyzeLDA):
+class ReconCT(ReconLDA):
 
     def __init__(self, folder, num_proj, duration=180, airscan_time=60, reanalyze=True, directory=DIRECTORY):
         super().__init__(folder, duration/num_proj, airscan_time=airscan_time, reanalyze=reanalyze, directory=directory)
@@ -137,5 +137,144 @@ class AnalyzeCT(AnalyzeLDA):
             new_data = temp_data[int(np.ceil(diff / 2)):len(temp_data) - diff // 2]
 
             np.save(self.corr_data, new_data)
-            # savemat(self.corr_data_mat, {'data': new_data, 'label': 'data_corr'})
+            savemat(self.corr_data_mat, {'data': new_data, 'label': 'data_corr'})
+
+
+class AnalyzeCT:
+
+    def __init__(self, folder, thresholds, contrast, water_slice=13, kedge_bins=None, high_conc=None, algorithm=None):
+        self.folder = os.path.join(DIRECTORY, folder, 'phantom_scan')
+        self.thresholds = thresholds
+        self.contrast = contrast
+        self.water_slice = water_slice
+        self.kedge_bins = kedge_bins
+        self.high_concentration = high_conc
+
+        # Create the folder to house the normalized data, if necessary
+        os.makedirs(os.path.join(folder, 'Norm CT'), exist_ok=True)
+
+        # Assess where the raw CT data is, and set the path to the data
+        if algorithm:
+            self.data = os.path.join(self.folder, f'{algorithm}CT.npy')
+        else:
+            self.data = os.path.join(self.folder, 'CT', 'CT.npy')
+
+            if not os.path.exists(self.data):
+                mat_data = loadmat(os.path.join(self.folder, 'CT', 'CT.mat'))['ct_img']
+                np.save(self.data, mat_data)
+                del mat_data
+
+        # Get the shape of the raw data
+        self.data_shape = np.array(np.shape(np.load(self.data)))
+
+        # Transpose the data to the right shape if necessary
+        if self.data_shape != [7, 24, 576, 576]:
+            np.save(self.data, np.transpose(np.load(self.data), axes=(0, 3, 1, 2)))
+            self.data_shape = np.array([7, 24, 576, 576])
+
+        # Save only the regular CT data in the Norm CT folder, if not already there
+        self.ct_path = os.path.join(folder, 'Norm CT', 'CT_norm.npy')
+        if os.path.exists(self.ct_path):
+            self.norm_data = np.load(self.ct_path)
+        else:
+            raw_data = np.load(self.data)
+            self.norm_data = raw_data[6]
+            del raw_data
+            np.save(self.ct_path, self.norm_data)
+
+        # Get the mask for the water vials, or load it if already assessed
+        self.water_path = os.path.join(self.folder, 'water_mask.npy')
+        if os.path.exists(self.water_path):
+            self.water_mask = np.load(self.water_path)
+        else:
+            self.water_mask = self.get_water_masks()
+            np.save(self.water_path, self.water_mask)
+
+        # Get the mask for the air value, or load if already assessed
+        self.air_path = os.path.join(self.folder, 'air_mask.npy')
+        if os.path.exists(self.air_path):
+            self.air_mask = np.load(self.air_path)
+        else:
+            self.air_mask = msk.square_ROI(self.norm_data[self.water_slice])
+            np.save(self.air_path, self.air_mask)
+
+        # Get the masks for the contrast vials, or load them if already assessed
+        self.contrast_path = os.path.join(self.folder, 'contrast_masks.npy')
+        if os.path.exists(self.contrast_path):
+            self.contrast_masks = np.load(self.contrast_path)
+        else:
+            self.contrast_masks = self.get_contrast_masks()
+            np.save(self.contrast_path, self.contrast_masks)
+
+        # Save only the K-edge subtracted data in the Norm CT folder, if not already there, or not done
+        if self.kedge_bins:
+            self.kedge_path = os.path.join(self.folder, 'Norm CT', 'K-edge.npy')
+            if os.path.exists(self.kedge_path):
+                self.kedge_data = np.load(self.kedge_path)
+            else:
+                raw_data = np.load(self.data)
+                self.kedge_data = raw_data[kedge_bins[1]] - raw_data[kedge_bins[0]]
+                del raw_data
+                np.save(self.kedge_path, self.kedge_data)
+
+        self.water_value = np.nanmean(self.norm_data[self.water_slice] * self.water_mask)
+        self.air_value = np.nanmean(self.norm_data[self.water_slice] * self.air_mask)
+
+        self.k_water_value = np.nanmean(self.kedge_data[self.water_slice] * self.water_mask)
+        self.k_edge_high = np.nanmean(self.kedge_data[self.water_slice] * self.contrast_masks[0])
+
+        # Create a file to see if data has been normalized already
+        self.norm_check = os.path.join(self.folder, 'Norm CT', 'norm_check.npy')
+        if not os.path.exists(self.norm_check):
+            np.save(self.norm_check, np.array([]))
+
+            self.normalize_HU()
+            self.normalize_kedge()
+
+    def get_water_masks(self):
+        """
+
+        :return:
+        """
+        img = self.norm_data[self.water_slice]
+
+        # Get the large vials filled with water
+        masks = msk.phantom_ROIs(img, radius=8)
+
+        # Sum all the individual vial masks together into one mask that grabs all water vials
+        masks = np.nansum(masks, axis=0)
+        masks[masks == 0] = np.nan
+
+        return masks
+
+    def get_contrast_masks(self):
+        """
+
+        :return:
+        """
+        img = self.norm_data[self.water_slice]
+
+        # Get the vials filled with contrast from highest to lowest concentration
+        masks = msk.phantom_ROIs(img, radius=6)
+
+        return masks
+
+    def normalize_HU(self):
+        """
+        Normalize the EC bin to HU
+        """
+        # Normalize to HU
+        self.norm_data = 1000/(self.water_value - self.air_value) * np.subtract(self.norm_data, self.water_value)
+
+        # Get rid of any nan values
+        self.norm_data[np.isnan(self.norm_data)] = -1000
+
+    def normalize_kedge(self):
+        """
+        Normalize the K-edge subtraction image linearly with concentration
+        """
+
+        # Normalize the K-edge data
+        self.kedge_data = (self.kedge_data - self.k_water_value) * self.high_concentration / (self.k_edge_high -
+                                                                                              self.k_water_value)
 
