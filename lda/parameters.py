@@ -3,8 +3,8 @@ import numpy as np
 
 DIRECTORY = '/home/knoll/LDAData'
 
-AIR_FOLDER = '21-02-18_CT_water_only/airscan_60s_gold'
-DARK_FOLDER = '21-02-18_CT_water_only/darkscan_60s_gold'
+AIR_FOLDER = '21-02-26_CT_min_Gd_3862_2mA_SEC/airscan_60s'
+DARK_FOLDER = '21-02-26_CT_min_Gd_3862_2mA_SEC/darkscan_60s'
 
 # Dead pixel mask <row, column>
 # Set: dead_pixel_mask[r, c] = np.nan

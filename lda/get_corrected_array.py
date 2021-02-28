@@ -1,7 +1,7 @@
 import numpy as np
 from scipy import signal
 import matplotlib
-matplotlib.use('TKAgg')
+# matplotlib.use('TKAgg')
 import matplotlib.pyplot as plt
 
 def smooth(x, window_len=11, window='hanning'):
