@@ -38,7 +38,7 @@ def square_ROI(image):
     ax.add_artist(sq)
 
     plt.show()
-    plt.pause(2)
+    plt.pause(5)
     plt.close()
 
     return mask
@@ -78,7 +78,7 @@ def phantom_ROIs(image, radius=6):
         ax.add_artist(circ)
 
     plt.show()
-    plt.pause(2)
+    plt.pause(5)
     plt.close()
 
     return masks
@@ -119,7 +119,7 @@ def single_circular_ROI(image):
     ax.add_artist(circ)
 
     plt.show()
-    plt.pause(2)
+    plt.pause(5)
     plt.close()
 
     return mask

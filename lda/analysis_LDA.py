@@ -142,20 +142,18 @@ class ReconCT(ReconLDA):
 
 class AnalyzeCT:
 
-    def __init__(self, folder, thresholds, contrast, water_slice=13, kedge_bins=None, high_conc=None, algorithm=None):
+    def __init__(self, folder, water_slice=12, kedge_bins=None, high_conc=None, algorithm=None):
         self.folder = os.path.join(DIRECTORY, folder, 'phantom_scan')
-        self.thresholds = thresholds
-        self.contrast = contrast
         self.water_slice = water_slice
         self.kedge_bins = kedge_bins
         self.high_concentration = high_conc
 
         # Create the folder to house the normalized data, if necessary
-        os.makedirs(os.path.join(folder, 'Norm CT'), exist_ok=True)
+        os.makedirs(os.path.join(self.folder, 'Norm CT'), exist_ok=True)
 
         # Assess where the raw CT data is, and set the path to the data
         if algorithm:
-            self.data = os.path.join(self.folder, f'{algorithm}CT.npy')
+            self.data = os.path.join(self.folder, 'CT', f'{algorithm}_CT.npy')
         else:
             self.data = os.path.join(self.folder, 'CT', 'CT.npy')
 
@@ -164,21 +162,13 @@ class AnalyzeCT:
                 np.save(self.data, mat_data)
                 del mat_data
 
-        # Get the shape of the raw data
-        self.data_shape = np.array(np.shape(np.load(self.data)))
-
-        # Transpose the data to the right shape if necessary
-        if self.data_shape != [7, 24, 576, 576]:
-            np.save(self.data, np.transpose(np.load(self.data), axes=(0, 3, 1, 2)))
-            self.data_shape = np.array([7, 24, 576, 576])
-
         # Save only the regular CT data in the Norm CT folder, if not already there
-        self.ct_path = os.path.join(folder, 'Norm CT', 'CT_norm.npy')
+        self.ct_path = os.path.join(self.folder, 'Norm CT', 'CT_norm.npy')
         if os.path.exists(self.ct_path):
             self.norm_data = np.load(self.ct_path)
         else:
             raw_data = np.load(self.data)
-            self.norm_data = raw_data[6]
+            self.norm_data = raw_data[-1]
             del raw_data
             np.save(self.ct_path, self.norm_data)
 
@@ -268,6 +258,7 @@ class AnalyzeCT:
 
         # Get rid of any nan values
         self.norm_data[np.isnan(self.norm_data)] = -1000
+        np.save(self.ct_path, self.norm_data)
 
     def normalize_kedge(self):
         """
@@ -277,4 +268,4 @@ class AnalyzeCT:
         # Normalize the K-edge data
         self.kedge_data = (self.kedge_data - self.k_water_value) * self.high_concentration / (self.k_edge_high -
                                                                                               self.k_water_value)
-
+        np.save(self.kedge_path, self.kedge_data)
