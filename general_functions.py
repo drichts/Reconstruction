@@ -65,11 +65,11 @@ def cnr(image, contrast_mask, background_mask):
     std_roi = np.nanstd(image * contrast_mask)
 
     # Mean and std. dev. of the background
-    bg = np.multiply(image, background_mask)
+    bg = image * background_mask
     mean_bg = np.nanmean(bg)
     std_bg = np.nanstd(bg)
 
-    cnr_val = abs(mean_roi - mean_bg) / std_bg
+    cnr_val = np.abs(mean_roi - mean_bg) / std_bg
     cnr_err = np.sqrt(std_roi ** 2 + std_bg ** 2) / std_bg
 
     return cnr_val, cnr_err

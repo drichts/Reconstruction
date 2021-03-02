@@ -39,14 +39,14 @@ class ReconLDA:
         intensity in an airscan
         """
         temp_data = gen.intensity_correction(data, self.air_data, self.dark_data)
-        # nan_coords = np.argwhere(np.isnan(temp_data))
-        # print(len(nan_coords))
-        # for coords in nan_coords:
-        #     coords = tuple(coords)
-        #     frame = coords[0]
-        #     img_bin = coords[-1]
-        #     pixel = coords[-3:-1]
-        #     temp_data[coords] = gen.get_average_pixel_value(temp_data[frame, :, :, img_bin], pixel, np.ones((24, 576, 7)))
+        nan_coords = np.argwhere(np.isnan(temp_data))
+        print(len(nan_coords))
+        for coords in nan_coords:
+            coords = tuple(coords)
+            frame = coords[0]
+            img_bin = coords[-1]
+            pixel = coords[-3:-1]
+            temp_data[coords] = gen.get_average_pixel_value(temp_data[frame, :, :, img_bin], pixel, np.ones((24, 576)))
         return np.squeeze(temp_data)
 
     def cnr(self, image, contrast_mask):
@@ -121,8 +121,10 @@ class ReconLDA:
 
 class ReconCT(ReconLDA):
 
-    def __init__(self, folder, num_proj, duration=180, airscan_time=60, reanalyze=True, directory=DIRECTORY):
-        super().__init__(folder, duration/num_proj, airscan_time=airscan_time, reanalyze=reanalyze, directory=directory)
+    def __init__(self, folder, num_proj, duration=180, airscan_time=60, reanalyze=True, directory=DIRECTORY,
+                 sub_folder='phantom_scan', air_folder='airscan_60s', dark_folder='darkscan_60s'):
+        super().__init__(folder, duration/num_proj, airscan_time=airscan_time, reanalyze=reanalyze, directory=directory,
+                         sub_folder=sub_folder, air_folder=air_folder, dark_folder=dark_folder)
 
         self.num_proj = num_proj
 
@@ -192,28 +194,29 @@ class AnalyzeCT:
 
         # Get the masks for the contrast vials, or load them if already assessed
         self.contrast_path = os.path.join(self.folder, 'contrast_masks.npy')
-        if os.path.exists(self.contrast_path):
-            self.contrast_masks = np.load(self.contrast_path)
-        else:
-            self.contrast_masks = self.get_contrast_masks()
-            np.save(self.contrast_path, self.contrast_masks)
-
-        # Save only the K-edge subtracted data in the Norm CT folder, if not already there, or not done
-        if self.kedge_bins:
-            self.kedge_path = os.path.join(self.folder, 'Norm CT', 'K-edge.npy')
-            if os.path.exists(self.kedge_path):
-                self.kedge_data = np.load(self.kedge_path)
+        if kedge_bins:
+            if os.path.exists(self.contrast_path):
+                self.contrast_masks = np.load(self.contrast_path)
             else:
-                raw_data = np.load(self.data)
-                self.kedge_data = raw_data[kedge_bins[1]] - raw_data[kedge_bins[0]]
-                del raw_data
-                np.save(self.kedge_path, self.kedge_data)
+                self.contrast_masks = self.get_contrast_masks()
+                np.save(self.contrast_path, self.contrast_masks)
+
+            # Save only the K-edge subtracted data in the Norm CT folder, if not already there, or not done
+            if self.kedge_bins:
+                self.kedge_path = os.path.join(self.folder, 'Norm CT', 'K-edge.npy')
+                if os.path.exists(self.kedge_path):
+                    self.kedge_data = np.load(self.kedge_path)
+                else:
+                    raw_data = np.load(self.data)
+                    self.kedge_data = raw_data[kedge_bins[1]] - raw_data[kedge_bins[0]]
+                    del raw_data
+                    np.save(self.kedge_path, self.kedge_data)
 
         self.water_value = np.nanmean(self.norm_data[self.water_slice] * self.water_mask)
         self.air_value = np.nanmean(self.norm_data[self.water_slice] * self.air_mask)
-
-        self.k_water_value = np.nanmean(self.kedge_data[self.water_slice] * self.water_mask)
-        self.k_edge_high = np.nanmean(self.kedge_data[self.water_slice] * self.contrast_masks[0])
+        if kedge_bins:
+            self.k_water_value = np.nanmean(self.kedge_data[self.water_slice] * self.water_mask)
+            self.k_edge_high = np.nanmean(self.kedge_data[self.water_slice] * self.contrast_masks[0])
 
         # Create a file to see if data has been normalized already
         self.norm_check = os.path.join(self.folder, 'Norm CT', 'norm_check.npy')
@@ -221,7 +224,8 @@ class AnalyzeCT:
             np.save(self.norm_check, np.array([]))
 
             self.normalize_HU()
-            self.normalize_kedge()
+            if kedge_bins:
+                self.normalize_kedge()
 
     def get_water_masks(self):
         """
