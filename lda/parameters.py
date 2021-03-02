@@ -3,9 +3,6 @@ import numpy as np
 
 DIRECTORY = '/home/knoll/LDAData'
 
-AIR_FOLDER = '21-02-26_CT_min_Gd_3862_2mA_SEC/airscan_60s'
-DARK_FOLDER = '21-02-26_CT_min_Gd_3862_2mA_SEC/darkscan_60s'
-
 # Dead pixel mask <row, column>
 # Set: dead_pixel_mask[r, c] = np.nan
 DEAD_PIXEL_MASK = np.load(os.path.join(DIRECTORY, 'dead_pixel_mask_2.npy'))

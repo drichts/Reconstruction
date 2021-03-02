@@ -7,10 +7,12 @@ from lda.get_corrected_array import pixel_corr
 
 class ReconLDA:
 
-    def __init__(self, folder, duration, airscan_time=60, reanalyze=False, directory=DIRECTORY):
-        self.folder = os.path.join(directory, folder)
-        self.air_folder = os.path.join(directory, AIR_FOLDER)
-        self.dark_folder = os.path.join(directory, DARK_FOLDER)
+    def __init__(self, folder, duration, airscan_time=60, reanalyze=False, directory=DIRECTORY,
+                 sub_folder='phantom_scan', air_folder='airscan_60s', dark_folder='darkscan_60s'):
+
+        self.folder = os.path.join(directory, folder, sub_folder)
+        self.air_folder = os.path.join(directory, folder, air_folder)
+        self.dark_folder = os.path.join(directory, folder, dark_folder)
 
         self.reanalyze = reanalyze
         self.correct_air_and_dark_scans()
@@ -37,15 +39,15 @@ class ReconLDA:
         intensity in an airscan
         """
         temp_data = gen.intensity_correction(data, self.air_data, self.dark_data)
-        nan_coords = np.argwhere(np.isnan(temp_data))
-        print(len(nan_coords))
-        for coords in nan_coords:
-            coords = tuple(coords)
-            frame = coords[0]
-            img_bin = coords[-1]
-            pixel = coords[-3:-1]
-            temp_data[coords] = gen.get_average_pixel_value(temp_data[frame, :, :, img_bin], pixel, np.ones((24, 576)))
-        return temp_data
+        # nan_coords = np.argwhere(np.isnan(temp_data))
+        # print(len(nan_coords))
+        # for coords in nan_coords:
+        #     coords = tuple(coords)
+        #     frame = coords[0]
+        #     img_bin = coords[-1]
+        #     pixel = coords[-3:-1]
+        #     temp_data[coords] = gen.get_average_pixel_value(temp_data[frame, :, :, img_bin], pixel, np.ones((24, 576, 7)))
+        return np.squeeze(temp_data)
 
     def cnr(self, image, contrast_mask):
         """

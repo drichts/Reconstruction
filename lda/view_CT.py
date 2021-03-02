@@ -6,8 +6,8 @@ import mask_functions as msk
 
 
 directory = '/home/knoll/LDAData'
-folder1 = '21-02-24_CT_min_Au_2'
-folder2 = '21-02-24_CT_min_Au_2_FDK'
+folder1 = '21-02-26_CT_min_Gd_3862_2mA'
+folder2 = '21-02-26_CT_min_Gd_3862_2mA_SEC'
 
 data1_ct = np.load(os.path.join(directory, folder1, 'phantom_scan', 'Norm CT', 'CT_norm.npy'))[12]
 data1_k = np.load(os.path.join(directory, folder1, 'phantom_scan', 'Norm CT', 'K-edge.npy'))[12]
@@ -23,20 +23,20 @@ water2 = np.load(os.path.join(directory, folder2, 'phantom_scan', 'water_mask.np
 air2 = np.load(os.path.join(directory, folder2, 'phantom_scan', 'air_mask.npy'))
 contrast2 = np.load(os.path.join(directory, folder2, 'phantom_scan', 'contrast_masks.npy'))
 
-print(f'Mean water reg: {np.nanmean(data1_ct*water1)}, {np.nanstd(data1_ct*water1)}')
-print(f'Mean water FDK: {np.nanmean(data2_ct*water2)}, {np.nanstd(data2_ct*water2)}')
+print(f'Mean water CC: {np.nanmean(data1_ct*water1)}, {np.nanstd(data1_ct*water1)}')
+print(f'Mean water SEC: {np.nanmean(data2_ct*water2)}, {np.nanstd(data2_ct*water2)}')
 print()
-print(f'Mean air reg: {np.nanmean(data1_ct*air1)}, {np.nanstd(data1_ct*air1)}')
-print(f'Mean air FDK: {np.nanmean(data2_ct*air2)}, {np.nanstd(data2_ct*air2)}')
+print(f'Mean air CC: {np.nanmean(data1_ct*air1)}, {np.nanstd(data1_ct*air1)}')
+print(f'Mean air SEC: {np.nanmean(data2_ct*air2)}, {np.nanstd(data2_ct*air2)}')
 print()
 
-for i in range(6):
-    print(f'Mean contrast {i} reg: {np.nanmean(data1_k * contrast1[i])}, {np.nanstd(data1_k * contrast1[i])}')
-    print(f'Mean constrast {i} FDK: {np.nanmean(data2_k * contrast2[i])}, {np.nanstd(data2_k * contrast2[i])}')
+for i in range(8):
+    print(f'Mean contrast {i} CC: {np.nanmean(data1_k * contrast1[i])}, CNR: {(np.nanmean(data1_k * contrast1[i]) - np.nanmean(data1_k*water1))/np.nanstd(data1_k* water1)}')
+    print(f'Mean constrast {i} SEC: {np.nanmean(data2_k * contrast2[i])}, CNR: {(np.nanmean(data2_k * contrast2[i]) - np.nanmean(data2_k*water2))/np.nanstd(data2_k* water2)}')
     print()
 
-print(f'Mean contrast {i} reg: {np.nanmean(data1_k * water1)}, {np.nanstd(data1_k * water1)}')
-print(f'Mean constrast {i} FDK: {np.nanmean(data2_k * water2)}, {np.nanstd(data2_k * water2)}')
+print(f'Mean contrast water CC: {np.nanmean(data1_k*water1)}')
+print(f'Mean constrast water SEC: {np.nanmean(data2_k*water2)}')
 
 fig, ax = plt.subplots(2, 2, figsize=(10, 10))
 ax[0, 0].imshow(data1_ct)

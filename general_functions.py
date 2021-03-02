@@ -98,14 +98,13 @@ def correct_dead_pixels(data, dead_pixel_mask):
         else:
             data = np.expand_dims(data, axis=3)
         data_shape = np.shape(data)
-
     for pixel in dead_pixels:
         for i in np.arange(data_shape[0]):
             # Pixel is corrected in every counter and capture
             avg_val = get_average_pixel_value(data[i, :, :, pixel[-1]], pixel[:-1], dead_pixel_mask[:, :, pixel[-1]])
             data[i, pixel[0], pixel[1], pixel[-1]] = avg_val  # Set the new value in the 4D array
 
-    return np.squeeze(data)
+    return data
 
 
 def get_average_pixel_value(img, pixel, dead_pixel_mask):

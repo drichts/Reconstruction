@@ -27,7 +27,7 @@ for i, file in enumerate(files):
     esf[0, i] = np.mean(data)
     esf[1, i] = np.std(data)
 
-# np.save(r'D:\OneDrive - University of Victoria\Research\Single Pixel\ESF_renamed\esf_data.npy', esf)
+# np.save(r'D:\OneDrive - University of Victoria\Research\Single Pixel\ESF_renamed\esf_data.npy', spatial_resolution)
 #
 fig = plt.figure(figsize=(8, 6))
 plt.plot(np.arange(len(files))*0.02, esf[0]*1E9)

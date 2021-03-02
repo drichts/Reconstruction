@@ -15,7 +15,7 @@ file = f'{speed}-smooth-v{v}-{num}.npy'
 esf = np.load(os.path.join(folder, file))
 der = np.array([-0.5,  0, 0.5])
 
-# plt.plot(esf[1])
+# plt.plot(spatial_resolution[1])
 # plt.show()
 # plt.pause(7)
 # plt.close()
@@ -30,7 +30,7 @@ plt.show()
 plt.pause(1)
 plt.close()
 
-# lsf = np.abs(np.convolve(esf[low:high], der))
+# lsf = np.abs(np.convolve(spatial_resolution[low:high], der))
 lsf1 = np.diff(esf[low:high])
 
 # plt.plot(lsf[10:-10])
@@ -51,7 +51,7 @@ x2 = high
 
 # Get the frequencies to plot the MTF of the cathode edge over
 freq = 0.5*np.linspace(0, M/2, int(M/2))
-# freq = freq/(2*M)*(x2-x1)/(esf[0, x2]-esf[0, x1])
+# freq = freq/(2*M)*(x2-x1)/(spatial_resolution[0, x2]-spatial_resolution[0, x1])
 
 
 # Calculate the MTF of the cathode side
