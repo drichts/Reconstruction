@@ -6,7 +6,7 @@ from lda.analysis_LDA import ReconLDA
 
 
 directory = '/home/knoll/LDAData'
-folder = '/home/knoll/LDAData/Stationary_kV/kV_QC3_40kVp_5mA_stationary/Data/data.npy'
+# folder = '/home/knoll/LDAData/Stationary_kV/kV_QC3_40kVp_5mA_stationary/Data/data.npy'
 
 
 class MTFVals(ReconLDA):
@@ -31,20 +31,23 @@ class MTFVals(ReconLDA):
 
         # Get the phantom material
         phantom = msk.square_ROI(self.mtf_data)
+        np.save(os.path.join(self.folder, 'bar.npy'), phantom)
 
         # Get the background material
         background = msk.square_ROI(self.mtf_data)
+        np.save(os.path.join(self.folder, 'background.npy'), background)
 
         # Get the pattern rois
         std_patt = np.zeros(self.num_patterns)
+        masks = np.zeros((self.num_patterns, *np.shape(self.mtf_data)))
         for i in range(self.num_patterns):
-            mask = msk.square_ROI(self.mtf_data)
-            std_patt[i] = np.nanstd(mask*self.mtf_data)
+            masks[i] = msk.square_ROI(self.mtf_data)
+            std_patt[i] = np.nanstd(masks[i]*self.mtf_data)
+        np.save(os.path.join(self.folder, 'mtf_masks.npy'), masks)
 
         contrast = np.abs(np.nanmean(self.mtf_data*phantom) - np.nanmean(self.mtf_data*background))
         p_noise = np.nanstd(self.mtf_data*phantom)
         b_noise = np.nanstd(self.mtf_data*background)
 
-        np.savez(os.path.join(self.folder, 'mtf_contrast_vals.npz'), {'contrast': contrast, 'std_1': p_noise,
-                                                                      'std_2': b_noise})
+        np.savez(os.path.join(self.folder, 'mtf_contrast_vals.npz'), contrast=contrast, std_1=p_noise, std_2=b_noise)
         np.save(os.path.join(self.folder, 'mtf_pattern_std.npy'), std_patt)
