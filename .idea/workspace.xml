@@ -26,14 +26,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e941e18b-2940-48ac-a2bc-ba92ca5d083f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/presentations/AAPM21/figures.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lda/analysis_LDA.py" beforeDir="false" afterPath="$PROJECT_DIR$/lda/analysis_LDA.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lda/parameters.py" beforeDir="false" afterPath="$PROJECT_DIR$/lda/parameters.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/presentations/AAPM21/contrast_plots.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/presentations/AAPM21/contrast_plots.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/presentations/AAPM21/get_CNR.py" beforeDir="false" afterPath="$PROJECT_DIR$/presentations/AAPM21/get_CNR.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/presentations/AAPM21/mtf_ct.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/presentations/AAPM21/mtf_ct.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spatial_resolution/esf_czt_2d.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/spatial_resolution/esf_czt_2d.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/presentations/AAPM21/figures.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/presentations/AAPM21/figures.ipynb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -503,7 +497,7 @@
       <workItem from="1614706989724" duration="15078000" />
       <workItem from="1614755639096" duration="1835000" />
       <workItem from="1614802290797" duration="18350000" />
-      <workItem from="1614846605623" duration="3956000" />
+      <workItem from="1614846605623" duration="15475000" />
     </task>
     <task id="LOCAL-00001" summary="Paper Edits">
       <created>1582153406007</created>
@@ -813,7 +807,14 @@
       <option name="project" value="LOCAL" />
       <updated>1614817469757</updated>
     </task>
-    <option name="localTasksCounter" value="45" />
+    <task id="LOCAL-00045" summary="AAPM21 figure save">
+      <created>1614850872732</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1614850872732</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -849,7 +850,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Mult. Thresh. Analysis (6/2/2020)" />
     <MESSAGE value="Mult. Thresh. Analysis (6/4/2020)" />
     <MESSAGE value="Mult. Thresh. Analysis (6/5/2020)" />
     <MESSAGE value="Mult. Thresh. Analysis (6/8/2020)" />
@@ -874,7 +874,8 @@
     <MESSAGE value="Started changes to analyze CT data after recon" />
     <MESSAGE value="AAPM21" />
     <MESSAGE value="AAPM21 round 2" />
-    <option name="LAST_COMMIT_MESSAGE" value="AAPM21 round 2" />
+    <MESSAGE value="AAPM21 figure save" />
+    <option name="LAST_COMMIT_MESSAGE" value="AAPM21 figure save" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Reconstruction$analysis_script_uniformity.coverage" NAME="analysis_script_uniformity Coverage Results" MODIFIED="1600216169865" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/redlen" />
