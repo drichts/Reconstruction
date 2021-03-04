@@ -46,7 +46,7 @@ def smooth(x, window_len=11, window='hanning'):
     return y
 
 
-def pixel_corr(data, num_bins=7, type='middle' ,window='blackman'):
+def pixel_corr(data, num_bins=7, top=False ,window='blackman'):
     """
     Jericho's correction method for correcting the variable pixel response of the detector
     :param data: ndarray
@@ -62,8 +62,11 @@ def pixel_corr(data, num_bins=7, type='middle' ,window='blackman'):
     # Go through each of the bins
     for bin_num in np.arange(num_bins):
 
-        # Crop away the top of the image with only air
-        good_data = np.nanmean(data[:, :, :, bin_num], axis=0)
+        # Crop away the top of the image with only air if imaging the top of the phantom
+        if top:
+            good_data = np.nanmean(data[:, 9:, :, bin_num], axis=0)
+        else:
+            good_data = np.nanmean(data[:, :, :, bin_num], axis=0)
 
         outliers = []
 
@@ -98,15 +101,22 @@ def pixel_corr(data, num_bins=7, type='middle' ,window='blackman'):
         output = signal.filtfilt(b, a, real_refs)  # Apply the filter to the data
 
         smoothed3[25:-25] = output[25:-25]  # Replace filtered data in the
-        correction_array = np.nanmean(data[:, :, :, bin_num], axis=0)/smoothed3
-        new_data = (data[:, :, :, bin_num] / correction_array).transpose(1, 2, 0)
+        if top:
+            correction_array = np.nanmean(data[:, 10:, :, bin_num], axis=0) / smoothed3
+            new_data = (data[:, 10:, :, bin_num] / correction_array).transpose(1, 2, 0)
+        else:
+            correction_array = np.nanmean(data[:, :, :, bin_num], axis=0)/smoothed3
+            new_data = (data[:, :, :, bin_num] / correction_array).transpose(1, 2, 0)
 
         new_data[new_data < -0.5] = 0
         image = new_data.copy()
 
         float_array = np.float32(10 * image.transpose(2, 0, 1))
 
-        data[:, :, :, bin_num] = float_array
+        if top:
+            data[:, 10:, :, bin_num] = float_array
+        else:
+            data[:, :, :, bin_num] = float_array
 
         data[:, :, :25, bin_num] = 0
         data[:, :, -25:, bin_num] = 0
