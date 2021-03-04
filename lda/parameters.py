@@ -1,7 +1,7 @@
 import os
 import numpy as np
 
-DIRECTORY = '/home/knoll/LDAData'
+DIRECTORY = r'D:\OneDrive - University of Victoria\Research\LDA Data'
 
 # Dead pixel mask <row, column>
 # Set: dead_pixel_mask[r, c] = np.nan
