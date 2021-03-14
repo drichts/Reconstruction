@@ -30,7 +30,7 @@ class ReconLDA:
             temp_data = self.intensity_correction(self.correct_dead_pixels())
             print(len(np.argwhere(np.isnan(temp_data))))
             np.save(self.corr_data, temp_data)
-            # savemat(self.corr_data_mat, {'data': temp_data, 'label': 'corrected_data'})
+            # savemat(self.corr_data_mat, {'data': temp_data, 'label': 'corrected_data'}, do_compression=True)
 
         self.bg_mask = None
 
@@ -122,19 +122,21 @@ class ReconLDA:
 
 class ReconCT(ReconLDA):
 
-    def __init__(self, folder, num_proj, duration=180, airscan_time=60, reanalyze=True, directory=DIRECTORY,
-                 sub_folder='phantom_scan', air_folder='airscan_60s', dark_folder='darkscan_60s'):
+    def __init__(self, folder, num_proj, duration=180, airscan_time=60, top=False, corr_rings=True, reanalyze=True,
+                 directory=DIRECTORY, sub_folder='phantom_scan', air_folder='airscan_60s', dark_folder='darkscan_60s'):
         super().__init__(folder, duration/num_proj, airscan_time=airscan_time, reanalyze=reanalyze, directory=directory,
                          sub_folder=sub_folder, air_folder=air_folder, dark_folder=dark_folder)
 
         self.num_proj = num_proj
 
         temp_data = np.load(self.corr_data)
-        # np.save(os.path.join(DIRECTORY, folder, 'Data', 'data_corr_before.npy'), temp_data)
+
         print(np.nanmedian(np.sum(temp_data, axis=0), axis=(0, 1)))
+
         # Correct for pixel non-uniformities
-        temp_data = pixel_corr(temp_data)
-        print(np.nanmedian(np.sum(temp_data, axis=0), axis=(0, 1)))
+        if corr_rings:
+            temp_data = pixel_corr(temp_data, top=top)
+            print(np.nanmedian(np.sum(temp_data, axis=0), axis=(0, 1)))
 
         # This will cut the projection down to the correct number if there are more than necessary
         if num_proj != len(temp_data):
@@ -142,13 +144,14 @@ class ReconCT(ReconLDA):
             new_data = temp_data[int(np.ceil(diff / 2)):len(temp_data) - diff // 2]
 
             np.save(self.corr_data, new_data)
-            savemat(self.corr_data_mat, {'data': new_data, 'label': 'data_corr'})
+            savemat(self.corr_data_mat, {'data': new_data, 'label': 'data_corr'}, do_compression=True)
 
 
 class AnalyzeCT:
 
-    def __init__(self, folder, water_slice=12, kedge_bins=None, high_conc=None, algorithm=None, reanalyze=True):
-        self.folder = os.path.join(DIRECTORY, folder, 'phantom_scan')
+    def __init__(self, folder, water_slice=12, kedge_bins=None, high_conc=None, high_conc_val=None, algorithm=None,
+                 reanalyze=True, sub_folder='phantom_scan'):
+        self.folder = os.path.join(DIRECTORY, folder, sub_folder)
         self.water_slice = water_slice
         self.kedge_bins = kedge_bins
         self.high_concentration = np.array(high_conc)
@@ -179,13 +182,13 @@ class AnalyzeCT:
         #     ax[0, 0].imshow(data1[0, i], cmap='gray', vmin=0, vmax=0.2)
         #     ax[0, 0].set_title(f'{i}')
         #     ax[0, 1].imshow(data1[1, i], cmap='gray', vmin=0, vmax=0.2)
-        #     ax[0, 2].imshow(data1[3, i], cmap='gray', vmin=0, vmax=0.2)
-        #     ax[1, 0].imshow(data1[4, i], cmap='gray', vmin=0, vmax=0.2)
+        #     ax[0, 2].imshow(data1[2, i], cmap='gray', vmin=0, vmax=0.2)
+        #     ax[1, 0].imshow(data1[3, i], cmap='gray', vmin=0, vmax=0.2)
         #     ax[1, 1].imshow(data1[6, i], cmap='gray', vmin=0, vmax=0.2)
         #     plt.show()
         #     plt.pause(1)
         #     plt.close()
-        #
+
         # self.water_slice = int(input("Enter the good slice: "))
 
         # Save only the regular CT data in the Norm CT folder, if not already there
@@ -240,7 +243,10 @@ class AnalyzeCT:
                 np.save(self.kedge_path_2, self.kedge_data_2)
 
                 self.k_water_value_2 = np.nanmean(self.kedge_data_2[self.water_slice] * self.water_mask)
-                self.k_edge_high_2 = np.nanmean(self.kedge_data_2[self.water_slice] * self.contrast_masks_2[0])
+                if high_conc_val:
+                    self.k_edge_high_2 = high_conc_val[1]
+                else:
+                    self.k_edge_high_2 = np.nanmean(self.kedge_data_2[self.water_slice] * self.contrast_masks_2[0])
 
             else:
                 self.contrast_path_1 = os.path.join(self.folder, f'contrast_masks{file_append}.npy')
@@ -260,7 +266,10 @@ class AnalyzeCT:
             np.save(self.kedge_path_1, self.kedge_data_1)
 
             self.k_water_value_1 = np.nanmean(self.kedge_data_1[self.water_slice] * self.water_mask)
-            self.k_edge_high_1 = np.nanmean(self.kedge_data_1[self.water_slice] * self.contrast_masks_1[0])
+            if high_conc_val:
+                self.k_edge_high_1 = high_conc_val[0]
+            else:
+                self.k_edge_high_1 = np.nanmean(self.kedge_data_1[self.water_slice] * self.contrast_masks_1[0])
 
         self.water_value = np.nanmean(self.norm_data[self.water_slice] * self.water_mask)
         self.air_value = np.nanmean(self.norm_data[self.water_slice] * self.air_mask)
