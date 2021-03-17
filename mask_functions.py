@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
 
 
-def square_ROI(image):
+def square_ROI(image, message_num=6):
     """
     This function will create a square mask based on the corners the user selects
     :param image: 2D ndarray
@@ -11,7 +11,7 @@ def square_ROI(image):
     :return: The image mask
     """
     # Open the image and click the 4 corners
-    coords = click_image(image, message_num=6)
+    coords = click_image(image, message_num=message_num)
 
     # Array to hold the saved mask
     num_rows, num_cols = np.shape(image)
@@ -44,7 +44,7 @@ def square_ROI(image):
     return mask
 
 
-def phantom_ROIs(image, radius=6):
+def phantom_ROIs(image, radius=6, message_num=3):
     """
     This function generates the number of circular ROIs corresponding to user input center points of each ROI
     It will output as many ROIs as coordinates clicked
@@ -289,7 +289,15 @@ def click_image(image, message_num=0):
                     6: 'Click four corner pixels that form a rectangle/square.'
                        '\n Left-click: add point, Right-click: remove point, Enter: stop collecting',
                     7: 'Click the desired pixels to obtain values from.'
-                       '\n Left-click: add point, Right-click: remove point, Enter: stop collecting'
+                       '\n Left-click: add point, Right-click: remove point, Enter: stop collecting',
+                    8: 'AIR ROI: Click four corner pixels that form a rectangle/square.'
+                       '\n Left-click: add point, Right-click: remove point, Enter: stop collecting',
+                    9: 'WATER ROIs: Click the center of each water vial.'
+                       '\n Left-click: add point, Right-click: remove point, Enter: stop collecting',
+                    10: 'PHANTOM ROIs: Click the a bunch around the phantom body.'
+                        '\n Left-click: add point, Right-click: remove point, Enter: stop collecting',
+                    11: 'CONTRAST ROIs: click the contrast vials, starting from highest to lowest concentration.'
+                        '\n Left-click: add point, Right-click: remove point, Enter: stop collecting'
                     }
 
     fig = plt.figure(figsize=(7, 7))

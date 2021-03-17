@@ -26,12 +26,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e941e18b-2940-48ac-a2bc-ba92ca5d083f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/presentations/WIMP21/wimp_figures.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lda/analysis_LDA.py" beforeDir="false" afterPath="$PROJECT_DIR$/lda/analysis_LDA.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lda/get_corrected_array.py" beforeDir="false" afterPath="$PROJECT_DIR$/lda/get_corrected_array.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/presentations/AAPM21/figures.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/presentations/AAPM21/figures.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/single_pixel/mtf_calc.py" beforeDir="false" afterPath="$PROJECT_DIR$/single_pixel/mtf_calc.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lda/view_CT.py" beforeDir="false" afterPath="$PROJECT_DIR$/lda/view_CT.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mask_functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/mask_functions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/presentations/WIMP21/wimp_figures.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/presentations/WIMP21/wimp_figures.ipynb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,7 +73,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../DetectorCode" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -114,7 +113,7 @@
       <recent name="C:\Users\drich\PycharmProjects\Reconstruction\presentations" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.analysis_LDA">
+  <component name="RunManager" selected="Python.view_CT">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <module name="Reconstruction" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -207,21 +206,20 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="t1_t2_fits" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="view_CT" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Reconstruction" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
         <env name="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
       </envs>
       <option name="SDK_HOME" value="C:\Users\drich\Anaconda3\python.exe" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Collaborations/Adriaan" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/lda" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Collaborations/Adriaan/t1_t2_fits.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/lda/view_CT.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -256,17 +254,17 @@
     <list>
       <item itemvalue="Python.analysis_LDA" />
       <item itemvalue="Python.view_images (1)" />
-      <item itemvalue="Python.t1_t2_fits" />
       <item itemvalue="Python.get_CNR" />
       <item itemvalue="Python.mtf_calc" />
+      <item itemvalue="Python.view_CT" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.view_CT" />
         <item itemvalue="Python.analysis_LDA" />
         <item itemvalue="Python.mtf_calc" />
         <item itemvalue="Python.get_CNR" />
         <item itemvalue="Python.view_images (1)" />
-        <item itemvalue="Python.t1_t2_fits" />
       </list>
     </recent_temporary>
   </component>
@@ -507,7 +505,13 @@
       <workItem from="1615497899300" duration="5829000" />
       <workItem from="1615572437355" duration="6127000" />
       <workItem from="1615670776072" duration="7745000" />
-      <workItem from="1615692567051" duration="4732000" />
+      <workItem from="1615692567051" duration="5350000" />
+      <workItem from="1615748702395" duration="2373000" />
+      <workItem from="1615783273432" duration="670000" />
+      <workItem from="1615788831179" duration="450000" />
+      <workItem from="1615789885640" duration="657000" />
+      <workItem from="1615916420482" duration="1297000" />
+      <workItem from="1615923565662" duration="5764000" />
     </task>
     <task id="LOCAL-00001" summary="Paper Edits">
       <created>1582153406007</created>
@@ -831,7 +835,14 @@
       <option name="project" value="LOCAL" />
       <updated>1614865607571</updated>
     </task>
-    <option name="localTasksCounter" value="47" />
+    <task id="LOCAL-00047" summary="WIMP and other updates">
+      <created>1615704529461</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1615704529461</updated>
+    </task>
+    <option name="localTasksCounter" value="48" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -867,7 +878,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Mult. Thresh. Analysis (6/5/2020)" />
     <MESSAGE value="Mult. Thresh. Analysis (6/8/2020)" />
     <MESSAGE value="Any num pixel aggregate (6/8/2020)" />
     <MESSAGE value="More pixel x pixel (6/9/2020)" />
@@ -892,7 +902,8 @@
     <MESSAGE value="AAPM21 round 2" />
     <MESSAGE value="AAPM21 figure save" />
     <MESSAGE value="AAPM21 figure v2 save" />
-    <option name="LAST_COMMIT_MESSAGE" value="AAPM21 figure v2 save" />
+    <MESSAGE value="WIMP and other updates" />
+    <option name="LAST_COMMIT_MESSAGE" value="WIMP and other updates" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Reconstruction$analysis_script_uniformity.coverage" NAME="analysis_script_uniformity Coverage Results" MODIFIED="1600216169865" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/redlen" />
