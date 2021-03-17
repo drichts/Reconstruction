@@ -7,14 +7,15 @@ import mask_functions as msk
 directory = '/home/knoll/LDAData'
 folder = '21-02-26_CT_resolution'
 
-data = loadmat(r'D:\OneDrive - University of Victoria\Research\LDA Data\21-03-11_CT_AuNPs\phantom_scan_4\CT\CT.mat')['ct_img']
+data = np.load(r'D:\OneDrive - University of Victoria\Research\LDA Data\21-03-11_CT_AuNPs\phantom_scan_2\Norm CT\K-edge_Au.npy')
 
-# for i in range(10, 18):
-fig = plt.figure(figsize=(6, 6))
-plt.imshow(data[2, 9], cmap='gray')
-plt.show()
-    # plt.pause(1)
-    # plt.close()
+for i in range(11, 15):
+    fig = plt.figure(figsize=(6, 6))
+    plt.imshow(data[i], cmap='gray')
+    plt.title(f'{i}')
+    plt.show()
+    plt.pause(1)
+    plt.close()
 
 
 #

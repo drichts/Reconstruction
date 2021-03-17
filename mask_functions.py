@@ -56,7 +56,7 @@ def phantom_ROIs(image, radius=6, message_num=3):
     """
 
     # Open the image and click the 6 ROIs
-    coords = click_image(image, message_num=3)
+    coords = click_image(image, message_num=message_num)
 
     # Array to hold the saved masks
     num_rows, num_cols = np.shape(image)
