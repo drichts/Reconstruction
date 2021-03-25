@@ -181,20 +181,19 @@ class AnalyzeCT:
                     raise Exception(f'Data file does not exist: {self.data} \nand MAT data file does not exist.')
 
         # # Check for the right water slice
-        # data1 = np.load(self.data)
-        # for i in range(8, 18):
-        #     fig, ax = plt.subplots(2, 3, figsize=(12, 6))
-        #     ax[0, 0].imshow(data1[0, i], cmap='gray', vmin=0, vmax=0.2)
-        #     ax[0, 0].set_title(f'{i}')
-        #     ax[0, 1].imshow(data1[1, i], cmap='gray', vmin=0, vmax=0.2)
-        #     ax[0, 2].imshow(data1[2, i], cmap='gray', vmin=0, vmax=0.2)
-        #     ax[1, 0].imshow(data1[3, i], cmap='gray', vmin=0, vmax=0.2)
-        #     ax[1, 1].imshow(data1[6, i], cmap='gray', vmin=0, vmax=0.2)
-        #     plt.show()
-        #     plt.pause(1)
-        #     plt.close()
+        # if not water_slice:
+        #     data1 = np.load(self.data)
+        #     for i in range(9, 14):
+        #         fig, ax = plt.subplots(1, 3, figsize=(12, 6))
+        #         ax[0].imshow(data1[0, i], cmap='gray', vmin=0, vmax=0.1)
+        #         ax[0].set_title(f'{i}')
+        #         ax[1].imshow(data1[1, i], cmap='gray', vmin=0, vmax=0.1)
+        #         ax[2].imshow(data1[2, i], cmap='gray', vmin=0, vmax=0.1)
+        #         plt.show()
+        #         plt.pause(0.5)
+        #         plt.close()
         #
-        # self.water_slice = int(input("Enter the good slice: "))
+        #     self.water_slice = int(input("Enter the good slice: "))
 
         # Save only the regular CT data in the Norm CT folder, if not already there
         self.ct_path = os.path.join(self.folder, 'Norm CT', f'CT_norm{self.file_append}.npy')
@@ -300,7 +299,7 @@ class AnalyzeOneKedge(AnalyzeCT):
         # Save only the K-edge subtracted data in the Norm CT folder, if not already there, or not done
         self.kedge_path = os.path.join(self.folder, 'Norm CT', f'K-edge{self.file_append}_{contrast}.npy')
         raw_data = np.load(self.data)
-        print(np.shape(raw_data))
+
         self.kedge_data = raw_data[kedge_bins[1]] - raw_data[kedge_bins[0]]
         del raw_data
         np.save(self.kedge_path, self.kedge_data)
@@ -312,7 +311,7 @@ class AnalyzeOneKedge(AnalyzeCT):
             self.k_high_conc_val = conc_vals[0]
         else:
             # self.k_water_val = np.nanmean(self.kedge_data[self.water_slice] * self.water_mask)
-            self.k_water_val = np.nanmean(self.kedge_data[self.water_slice] * self.contrast_masks[-1])  # This is for when the medium isn't water
+            self.k_water_val = np.nanmean(self.kedge_data[self.water_slice] * self.water_mask)  # This is for when the medium isn't water
             self.k_high_conc_val = np.nanmean(self.kedge_data[self.water_slice] * self.contrast_masks[0])
 
         # Normalize

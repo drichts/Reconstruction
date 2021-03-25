@@ -26,13 +26,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e941e18b-2940-48ac-a2bc-ba92ca5d083f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Collaborations/Toronto/contrast_masks_solution_vials.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Collaborations/Toronto/get_normalization_values.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Collaborations/Toronto/toronto_plots.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Collaborations/Toronto/contrast_masks_solution_vials.py" beforeDir="false" afterPath="$PROJECT_DIR$/Collaborations/Toronto/contrast_masks_solution_vials.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Collaborations/Toronto/get_normalization_values.py" beforeDir="false" afterPath="$PROJECT_DIR$/Collaborations/Toronto/get_normalization_values.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Collaborations/Toronto/toronto_plots.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Collaborations/Toronto/toronto_plots.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lda/analysis_LDA.py" beforeDir="false" afterPath="$PROJECT_DIR$/lda/analysis_LDA.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lda/view_CT.py" beforeDir="false" afterPath="$PROJECT_DIR$/lda/view_CT.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mask_functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/mask_functions.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -75,7 +74,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../DetectorCode" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -115,7 +114,7 @@
       <recent name="C:\Users\drich\PycharmProjects\Reconstruction\presentations" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.contrast_masks_solution_vials">
+  <component name="RunManager" selected="Python.get_normalization_values">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <module name="Reconstruction" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -166,6 +165,7 @@
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
         <env name="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
       </envs>
       <option name="SDK_HOME" value="C:\Users\drich\Anaconda3\python.exe" />
@@ -259,10 +259,10 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.contrast_masks_solution_vials" />
         <item itemvalue="Python.get_normalization_values" />
-        <item itemvalue="Python.analysis_LDA" />
         <item itemvalue="Python.view_CT" />
+        <item itemvalue="Python.analysis_LDA" />
+        <item itemvalue="Python.contrast_masks_solution_vials" />
         <item itemvalue="Python.mtf_calc" />
       </list>
     </recent_temporary>
@@ -510,7 +510,11 @@
       <workItem from="1615788831179" duration="450000" />
       <workItem from="1615789885640" duration="657000" />
       <workItem from="1615916420482" duration="1297000" />
-      <workItem from="1615923565662" duration="27792000" />
+      <workItem from="1615923565662" duration="27830000" />
+      <workItem from="1616089646456" duration="1789000" />
+      <workItem from="1616521285458" duration="6561000" />
+      <workItem from="1616534593456" duration="3964000" />
+      <workItem from="1616625906410" duration="6885000" />
     </task>
     <task id="LOCAL-00001" summary="Paper Edits">
       <created>1582153406007</created>
@@ -848,7 +852,14 @@
       <option name="project" value="LOCAL" />
       <updated>1615959783792</updated>
     </task>
-    <option name="localTasksCounter" value="49" />
+    <task id="LOCAL-00049" summary="Toronto analysis started">
+      <created>1616024131757</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1616024131757</updated>
+    </task>
+    <option name="localTasksCounter" value="50" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -884,7 +895,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Any num pixel aggregate (6/8/2020)" />
     <MESSAGE value="More pixel x pixel (6/9/2020)" />
     <MESSAGE value="More pixel x pixel (6/10/2020)" />
     <MESSAGE value="Noise analysis (6/11/2020)" />
@@ -909,7 +919,8 @@
     <MESSAGE value="AAPM21 figure v2 save" />
     <MESSAGE value="WIMP and other updates" />
     <MESSAGE value="update - 21/03/16" />
-    <option name="LAST_COMMIT_MESSAGE" value="update - 21/03/16" />
+    <MESSAGE value="Toronto analysis started" />
+    <option name="LAST_COMMIT_MESSAGE" value="Toronto analysis started" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Reconstruction$analysis_script_uniformity.coverage" NAME="analysis_script_uniformity Coverage Results" MODIFIED="1600216169865" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/redlen" />

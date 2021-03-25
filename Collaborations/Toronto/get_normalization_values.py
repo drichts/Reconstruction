@@ -2,9 +2,9 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 
-directory = r'D:\OneDrive - University of Victoria\Research\LDA Data\21-03-11_CT_AuNPs'
+directory = r'D:\OneDrive - University of Victoria\Research\LDA Data\21-03-24_CT_NP_nophantom_normalization_ring_corr'
 
-folder = 'phantom_scan_15'
+folder = 'phantom_scan'
 # Get air and water values from raw CT data images
 data = np.load(os.path.join(directory, folder, 'CT', 'CT.npy'))
 water_mask = np.load(os.path.join(directory, folder, 'water_mask.npy'))
