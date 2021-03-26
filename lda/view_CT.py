@@ -7,18 +7,19 @@ import mask_functions as msk
 directory = '/home/knoll/LDAData'
 folder = '21-02-26_CT_resolution'
 
-data = np.load(r'D:\OneDrive - University of Victoria\Research\LDA Data\21-03-24_CT_NP_nophantom_normalization\phantom_scan\Norm CT\K-edge_Au.npy')
+data = np.load(r'D:\OneDrive - University of Victoria\Research\LDA Data\21-03-11_CT_AuNPs\phantom_scan_5\Norm CT\CT_norm.npy')[2]
+# data = np.load(r'D:\OneDrive - University of Victoria\Research\LDA Data\21-03-11_CT_AuNPs\phantom_scan_12\Norm CT\K-edge_Au.npy')
 
-for i in range(6, 17):
-    fig = plt.figure(figsize=(6, 6))
-    plt.imshow(data[i], cmap='gray', vmin=0, vmax=20)
+for i in range(11, 15):
+    fig = plt.figure(figsize=(10, 10))
+    plt.imshow(data[i], cmap='gray', vmin=-400, vmax=400)
     plt.title(f'{i}')
     plt.show()
-    plt.pause(0.5)
+    plt.pause(1)
     plt.close()
     # fig.savefig(fr'D:\OneDrive - University of Victoria\Research\LDA Data\21-03-11_CT_AuNPs\phantom_scan_12\fig\K_slice{i}.png', dpi=fig.dpi)
 
-# plt.imshow(data[12], cmap='gray')
+# plt.imshow(data[10], cmap='gray', vmin=-400, vmax=400)
 # plt.show()
 
 

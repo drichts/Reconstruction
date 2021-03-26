@@ -172,7 +172,7 @@ class AnalyzeCT:
             self.data = os.path.join(self.folder, 'CT', 'CT.npy')
             self.file_append = ''
 
-            if not os.path.exists(self.data):
+            if not os.path.exists(self.data) or self.reanalyze:
                 if os.path.exists(os.path.join(self.folder, 'CT', 'CT.mat')):
                     mat_data = loadmat(os.path.join(self.folder, 'CT', 'CT.mat'))['ct_img']
                     np.save(self.data, mat_data)
