@@ -7,15 +7,25 @@ import mask_functions as msk
 directory = '/home/knoll/LDAData'
 folder = '21-02-26_CT_resolution'
 
-data = np.load(r'D:\OneDrive - University of Victoria\Research\LDA Data\21-03-11_CT_AuNPs\phantom_scan_5\Norm CT\CT_norm.npy')[2]
-# data = np.load(r'D:\OneDrive - University of Victoria\Research\LDA Data\21-03-11_CT_AuNPs\phantom_scan_12\Norm CT\K-edge_Au.npy')
+# data = np.load(r'D:\OneDrive - University of Victoria\Research\LDA Data\21-03-11_CT_AuNPs\phantom_scan_1\Norm CT\CT_norm.npy')[2]
+# data2 = np.load(r'D:\OneDrive - University of Victoria\Research\LDA Data\21-03-11_CT_AuNPs\phantom_scan_2\Norm CT\CT_norm.npy')[2]
+# data3 = np.load(r'D:\OneDrive - University of Victoria\Research\LDA Data\21-03-11_CT_AuNPs\phantom_scan_3\Norm CT\CT_norm.npy')[2]
+# data5 = np.load(r'D:\OneDrive - University of Victoria\Research\LDA Data\21-03-11_CT_AuNPs\phantom_scan_5\Norm CT\CT_norm.npy')[2]
+data = np.load(r'D:\OneDrive - University of Victoria\Research\LDA Data\21-03-11_CT_AuNPs\phantom_scan_12\Norm CT\K-edge_Au.npy')
 
-for i in range(11, 15):
-    fig = plt.figure(figsize=(10, 10))
-    plt.imshow(data[i], cmap='gray', vmin=-400, vmax=400)
+# fig, ax = plt.subplots(1, 4, figsize=(12, 4))
+# ax[0].imshow(data[12], cmap='gray', vmin=-400, vmax=400)
+# ax[1].imshow(data2[12], cmap='gray', vmin=-400, vmax=400)
+# ax[2].imshow(data3[12], cmap='gray', vmin=-400, vmax=400)
+# ax[3].imshow(data5[12], cmap='gray', vmin=-400, vmax=400)
+# fig.show()
+
+for i in range(9, 15):
+    fig = plt.figure(figsize=(8, 8))
+    plt.imshow(data[i], cmap='gray', vmin=0, vmax=24)
     plt.title(f'{i}')
     plt.show()
-    plt.pause(1)
+    plt.pause(5)
     plt.close()
     # fig.savefig(fr'D:\OneDrive - University of Victoria\Research\LDA Data\21-03-11_CT_AuNPs\phantom_scan_12\fig\K_slice{i}.png', dpi=fig.dpi)
 

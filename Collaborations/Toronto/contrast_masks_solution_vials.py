@@ -7,7 +7,7 @@ import mask_functions as msk
 
 directory = r'D:\OneDrive - University of Victoria\Research\LDA Data\21-03-11_CT_AuNPs'
 
-folder = 'phantom_scan_12'
+folder = 'phantom_scan_5'
 num_vials = 6
 num_slices = 4
 zs = [11, 15]
@@ -19,6 +19,7 @@ masks = np.zeros((num_vials, num_slices, 576, 576))
 # Order is Vial 1, then go through all slices, then go to vial 2
 for i in range(num_vials):
     for j, z in enumerate(np.arange(zs[0], zs[1])):
+        print(f'Vial {i} Slice ind {j} slice {z}')
         masks[i, j] = msk.single_pixels_mask(data[z])
 
 # # This is for same size ROIs

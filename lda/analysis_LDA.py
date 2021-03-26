@@ -310,8 +310,8 @@ class AnalyzeOneKedge(AnalyzeCT):
             self.k_water_val = conc_vals[1]
             self.k_high_conc_val = conc_vals[0]
         else:
-            # self.k_water_val = np.nanmean(self.kedge_data[self.water_slice] * self.water_mask)
-            self.k_water_val = np.nanmean(self.kedge_data[self.water_slice] * self.water_mask)  # This is for when the medium isn't water
+            self.k_water_val = np.nanmean(self.kedge_data[self.water_slice] * self.water_mask)
+            # self.k_water_val = np.nanmean(self.kedge_data[self.water_slice] * self.contrast_masks[-1])  # This is for when the medium isn't water
             self.k_high_conc_val = np.nanmean(self.kedge_data[self.water_slice] * self.contrast_masks[0])
 
         # Normalize
