@@ -181,19 +181,19 @@ class AnalyzeCT:
                     raise Exception(f'Data file does not exist: {self.data} \nand MAT data file does not exist.')
 
         # # Check for the right water slice
-        # if not water_slice:
-        #     data1 = np.load(self.data)
-        #     for i in range(9, 14):
-        #         fig, ax = plt.subplots(1, 3, figsize=(12, 6))
-        #         ax[0].imshow(data1[0, i], cmap='gray', vmin=0, vmax=0.1)
-        #         ax[0].set_title(f'{i}')
-        #         ax[1].imshow(data1[1, i], cmap='gray', vmin=0, vmax=0.1)
-        #         ax[2].imshow(data1[2, i], cmap='gray', vmin=0, vmax=0.1)
-        #         plt.show()
-        #         plt.pause(0.5)
-        #         plt.close()
-        #
-        #     self.water_slice = int(input("Enter the good slice: "))
+        if not water_slice:
+            data1 = np.load(self.data)
+            for i in range(9, 14):
+                fig, ax = plt.subplots(1, 3, figsize=(12, 6))
+                ax[0].imshow(data1[0, i], cmap='gray', vmin=0, vmax=0.1)
+                ax[0].set_title(f'{i}')
+                ax[1].imshow(data1[1, i], cmap='gray', vmin=0, vmax=0.1)
+                ax[2].imshow(data1[2, i], cmap='gray', vmin=0, vmax=0.1)
+                plt.show()
+                plt.pause(0.5)
+                plt.close()
+
+            self.water_slice = int(input("Enter the good slice: "))
 
         # Save only the regular CT data in the Norm CT folder, if not already there
         self.ct_path = os.path.join(self.folder, 'Norm CT', f'CT_norm{self.file_append}.npy')
@@ -210,8 +210,8 @@ class AnalyzeCT:
         self.air_mask = self.get_masks(mask_type=1, path=self.air_path, message_num=8)
 
         # Get the background mask for the phantom ROIs
-        self.back_path = os.path.join(self.folder, f'back_mask{self.file_append}.npy')
-        self.back_mask = self.get_masks(mask_type=0, path=self.back_path, message_num=10)
+        # self.back_path = os.path.join(self.folder, f'back_mask{self.file_append}.npy')
+        # self.back_mask = self.get_masks(mask_type=0, path=self.back_path, message_num=10)
 
         # Find the water and air values for each of the bins
         self.water_value = np.zeros(self.num_bins)
