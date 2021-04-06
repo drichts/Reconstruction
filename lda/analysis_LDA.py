@@ -30,7 +30,7 @@ class ReconLDA:
             temp_data = self.intensity_correction(self.correct_dead_pixels())
             print(len(np.argwhere(np.isnan(temp_data))))
             np.save(self.corr_data, temp_data)
-            # savemat(self.corr_data_mat, {'data': temp_data, 'label': 'corrected_data'}, do_compression=True)
+            savemat(self.corr_data_mat, {'data': temp_data, 'label': 'corrected_data'}, do_compression=True)
 
         self.bg_mask = None
 

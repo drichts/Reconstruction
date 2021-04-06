@@ -13,7 +13,9 @@ folder = '21-02-26_CT_resolution'
 # data5 = np.load(r'D:\OneDrive - University of Victoria\Research\LDA Data\21-03-11_CT_AuNPs\phantom_scan_5\Norm CT\CT_norm.npy')[2]
 # data = np.load(r'D:\OneDrive - University of Victoria\Research\LDA Data\21-03-11_CT_AuNPs\phantom_scan_12\Norm CT\K-edge_Au.npy')
 
-data = loadmat(r'D:\OneDrive - University of Victoria\Research\LDA Data\21-03-31_CT_AuNPs_2\phantom_scan_3\CT\CT.mat')['ct_img'][2]
+data = np.load(r'D:\OneDrive - University of Victoria\Research\LDA Data\21-03-31_CT_AuNPs_2\phantom_scan_1\Norm CT\CT_norm.npy')[2]
+mask = np.load(r'D:\OneDrive - University of Victoria\Research\LDA Data\21-03-31_CT_AuNPs_2\phantom_scan_1\contrast_masks_Au_control.npy')
+
 
 # fig, ax = plt.subplots(1, 4, figsize=(12, 4))
 # ax[0].imshow(data[12], cmap='gray', vmin=-400, vmax=400)
@@ -22,9 +24,11 @@ data = loadmat(r'D:\OneDrive - University of Victoria\Research\LDA Data\21-03-31
 # ax[3].imshow(data5[12], cmap='gray', vmin=-400, vmax=400)
 # fig.show()
 
-for i in range(7, 16):
+for i in range(8, 15):
     fig = plt.figure(figsize=(8, 8))
-    plt.imshow(data[i], cmap='gray', vmin=0, vmax=0.3)
+    plt.imshow(data[i, 138:440, 138:440], cmap='gray', vmin=-400, vmax=400)
+    plt.imshow(mask[0, i-8, 138:440, 138:440], alpha=0.5)
+    print(np.nanmean(data[i]*mask[0, i-8]))
     plt.title(f'{i}')
     plt.show()
     plt.pause(1)
