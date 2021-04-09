@@ -7,7 +7,7 @@ import mask_functions as msk
 
 directory = r'D:\OneDrive - University of Victoria\Research\LDA Data\21-03-31_CT_AuNPs_2'
 
-folder = 'phantom_scan_6'
+folder = 'phantom_scan_3'
 # num_vials = 2
 # num_slices = 6
 # zs = [8, 14]
@@ -29,10 +29,11 @@ data = np.load(os.path.join(directory, folder, 'Norm CT', 'CT_norm.npy'))[2]
 # np.save(os.path.join(directory, folder, 'contrast_masks_Au_control.npy'), masks_control)
 
 num_vials = 5
-num_slices = 7
-zs = [8, 15]
+num_slices = 4
+zs = [11, 15]
 
 masks = np.zeros((num_vials, num_slices, 576, 576))
+# masks = np.load(os.path.join(directory, folder, 'contrast_masks_Au.npy'))
 for i in range(num_vials):
     print('AUNPS NOW')
     for j, z in enumerate(np.arange(zs[0], zs[1])):

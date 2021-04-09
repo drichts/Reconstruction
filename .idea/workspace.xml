@@ -26,15 +26,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e941e18b-2940-48ac-a2bc-ba92ca5d083f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Collaborations/Toronto/check_norm_values.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Collaborations/Toronto/check_plots.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Collaborations/Toronto/toronto_plots_2.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lda/check_gold_solutions.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lda/non_uniformity_corr.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Collaborations/Toronto/contrast_masks_solution_vials.py" beforeDir="false" afterPath="$PROJECT_DIR$/Collaborations/Toronto/contrast_masks_solution_vials.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Collaborations/Toronto/toronto_plots.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Collaborations/Toronto/toronto_plots.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lda/analysis_LDA.py" beforeDir="false" afterPath="$PROJECT_DIR$/lda/analysis_LDA.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Collaborations/Toronto/toronto_plots_2.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Collaborations/Toronto/toronto_plots_2.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lda/view_CT.py" beforeDir="false" afterPath="$PROJECT_DIR$/lda/view_CT.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mask_functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/mask_functions.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -118,7 +115,7 @@
       <recent name="C:\Users\drich\PycharmProjects\Reconstruction\presentations" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.analysis_LDA">
+  <component name="RunManager" selected="Python.contrast_masks_solution_vials">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <module name="Reconstruction" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -266,11 +263,11 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.analysis_LDA" />
+        <item itemvalue="Python.contrast_masks_solution_vials" />
         <item itemvalue="Python.view_CT" />
         <item itemvalue="Python.check_plots" />
+        <item itemvalue="Python.analysis_LDA" />
         <item itemvalue="Python.check_norm_values" />
-        <item itemvalue="Python.contrast_masks_solution_vials" />
       </list>
     </recent_temporary>
   </component>
@@ -532,14 +529,9 @@
       <workItem from="1617303322564" duration="10691000" />
       <workItem from="1617590663244" duration="2361000" />
       <workItem from="1617643425064" duration="17484000" />
-      <workItem from="1617676637951" duration="1201000" />
-    </task>
-    <task id="LOCAL-00006" summary="redlen-analysis.py update (4/29/2020)">
-      <created>1588198294531</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1588198294531</updated>
+      <workItem from="1617676637951" duration="1235000" />
+      <workItem from="1617726925656" duration="9550000" />
+      <workItem from="1617909312563" duration="8160000" />
     </task>
     <task id="LOCAL-00007" summary="Redlen IEEE Data">
       <created>1588294360405</created>
@@ -877,7 +869,14 @@
       <option name="project" value="LOCAL" />
       <updated>1617337951893</updated>
     </task>
-    <option name="localTasksCounter" value="55" />
+    <task id="LOCAL-00055" summary="2nd run Toronto - v2">
+      <created>1617688185850</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1617688185850</updated>
+    </task>
+    <option name="localTasksCounter" value="56" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -913,7 +912,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Major update for organization (6/24/2020)" />
     <MESSAGE value="Start on class implementation (6/25/2020)" />
     <MESSAGE value="Class implem. Re-analysis (6/30/2020)" />
     <MESSAGE value="Models for noise (7/2/2020)" />
@@ -938,7 +936,8 @@
     <MESSAGE value="Toronto analysis continued 3" />
     <MESSAGE value="Finish up toronto_plots.ipynb" />
     <MESSAGE value="2nd run Toronto" />
-    <option name="LAST_COMMIT_MESSAGE" value="2nd run Toronto" />
+    <MESSAGE value="2nd run Toronto - v2" />
+    <option name="LAST_COMMIT_MESSAGE" value="2nd run Toronto - v2" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
