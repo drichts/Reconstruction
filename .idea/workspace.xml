@@ -26,12 +26,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e941e18b-2940-48ac-a2bc-ba92ca5d083f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/lda/check_gold_solutions.ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lda/non_uniformity_corr.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixel_correction/check_correction.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixel_correction/check_linearity.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixel_correction/dead_pixel_corr.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixel_correction/non_linear_lookup_table.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Collaborations/Toronto/contrast_masks_solution_vials.py" beforeDir="false" afterPath="$PROJECT_DIR$/Collaborations/Toronto/contrast_masks_solution_vials.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Collaborations/Toronto/toronto_plots_2.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Collaborations/Toronto/toronto_plots_2.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lda/view_CT.py" beforeDir="false" afterPath="$PROJECT_DIR$/lda/view_CT.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/general_functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/general_functions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lda/non_uniformity_corr.py" beforeDir="false" afterPath="$PROJECT_DIR$/pixel_correction/non_uniformity_corr.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lda/parameters.py" beforeDir="false" afterPath="$PROJECT_DIR$/lda/parameters.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -108,14 +111,14 @@
       <recent name="C:\Users\drich\OneDrive\Documents\GitHub\desktop-tutorial" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\drich\PycharmProjects\Reconstruction\pixel_correction" />
       <recent name="C:\Users\drich\PycharmProjects\Reconstruction\presentations\old_stuff" />
       <recent name="C:\Users\drich\PycharmProjects\Reconstruction\esf" />
       <recent name="C:\Users\10376\PycharmProjects\Reconstruction\redlen\obsolete" />
       <recent name="C:\Users\drich\PycharmProjects\Reconstruction\redlen\obsolete" />
-      <recent name="C:\Users\drich\PycharmProjects\Reconstruction\presentations" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.contrast_masks_solution_vials">
+  <component name="RunManager" selected="Python.general_functions">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <module name="Reconstruction" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -162,7 +165,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="check_norm_values" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="check_correction" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Reconstruction" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -171,12 +174,12 @@
         <env name="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
       </envs>
       <option name="SDK_HOME" value="C:\Users\drich\Anaconda3\python.exe" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Collaborations/Toronto" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/pixel_correction" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Collaborations/Toronto/check_norm_values.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/pixel_correction/check_correction.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -185,7 +188,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="check_plots" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="check_linearity" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Reconstruction" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -194,12 +197,12 @@
         <env name="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
       </envs>
       <option name="SDK_HOME" value="C:\Users\drich\Anaconda3\python.exe" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Collaborations/Toronto" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/pixel_correction" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Collaborations/Toronto/check_plots.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/pixel_correction/check_linearity.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -231,7 +234,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="view_CT" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="general_functions" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Reconstruction" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -240,12 +243,12 @@
         <env name="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
       </envs>
       <option name="SDK_HOME" value="C:\Users\drich\Anaconda3\python.exe" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/lda" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/lda/view_CT.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/general_functions.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -256,18 +259,18 @@
     </configuration>
     <list>
       <item itemvalue="Python.contrast_masks_solution_vials" />
-      <item itemvalue="Python.view_CT" />
+      <item itemvalue="Python.check_linearity" />
+      <item itemvalue="Python.check_correction" />
       <item itemvalue="Python.analysis_LDA" />
-      <item itemvalue="Python.check_norm_values" />
-      <item itemvalue="Python.check_plots" />
+      <item itemvalue="Python.general_functions" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.contrast_masks_solution_vials" />
-        <item itemvalue="Python.view_CT" />
-        <item itemvalue="Python.check_plots" />
+        <item itemvalue="Python.general_functions" />
         <item itemvalue="Python.analysis_LDA" />
-        <item itemvalue="Python.check_norm_values" />
+        <item itemvalue="Python.check_correction" />
+        <item itemvalue="Python.check_linearity" />
+        <item itemvalue="Python.contrast_masks_solution_vials" />
       </list>
     </recent_temporary>
   </component>
@@ -532,13 +535,15 @@
       <workItem from="1617676637951" duration="1235000" />
       <workItem from="1617726925656" duration="9550000" />
       <workItem from="1617909312563" duration="8160000" />
-    </task>
-    <task id="LOCAL-00007" summary="Redlen IEEE Data">
-      <created>1588294360405</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1588294360405</updated>
+      <workItem from="1617942696467" duration="60000" />
+      <workItem from="1617991555059" duration="11453000" />
+      <workItem from="1618247690922" duration="6173000" />
+      <workItem from="1618260543355" duration="2490000" />
+      <workItem from="1618340726787" duration="4759000" />
+      <workItem from="1618367039024" duration="1688000" />
+      <workItem from="1618515402724" duration="12346000" />
+      <workItem from="1618610819836" duration="3239000" />
+      <workItem from="1618618213216" duration="672000" />
     </task>
     <task id="LOCAL-00008" summary="IEEE Abstract Update (5/1/2020)">
       <created>1588374400371</created>
@@ -876,7 +881,14 @@
       <option name="project" value="LOCAL" />
       <updated>1617688185850</updated>
     </task>
-    <option name="localTasksCounter" value="56" />
+    <task id="LOCAL-00056" summary="Non-uniformity pixel correction">
+      <created>1617942741183</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1617942741183</updated>
+    </task>
+    <option name="localTasksCounter" value="57" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -912,7 +924,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Start on class implementation (6/25/2020)" />
     <MESSAGE value="Class implem. Re-analysis (6/30/2020)" />
     <MESSAGE value="Models for noise (7/2/2020)" />
     <MESSAGE value="Models for noise (7/3/2020)" />
@@ -937,7 +948,8 @@
     <MESSAGE value="Finish up toronto_plots.ipynb" />
     <MESSAGE value="2nd run Toronto" />
     <MESSAGE value="2nd run Toronto - v2" />
-    <option name="LAST_COMMIT_MESSAGE" value="2nd run Toronto - v2" />
+    <MESSAGE value="Non-uniformity pixel correction" />
+    <option name="LAST_COMMIT_MESSAGE" value="Non-uniformity pixel correction" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
