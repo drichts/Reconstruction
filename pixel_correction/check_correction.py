@@ -22,7 +22,7 @@ corr2_folder = glob(os.path.join(directory, corr_folder, f'*{fluxes[1]}mA*'))[0]
 # corr2 = np.load(os.path.join(corr2_folder, 'Data', 'data.npy'))
 
 # Get the actual data
-data_folder = r'21-04-14_CT_bin_width_10\water_resolution_CT_Thresholds_70_80_90_100_110_120_EC_CC'
+data_folder = r'21-04-14_CT_bin_width_10\water_phantom'
 # data = np.load(os.path.join(directory, data_folder, 'Data', 'data.npy'))[10:730]
 
 # Get the air data as well

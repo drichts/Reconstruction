@@ -95,7 +95,7 @@ def get_average_pixel_value(img, pixel, dead_pixel_mask):
     return avg
 
 if __name__ == "__main__":
-    data = np.load(r'D:\OneDrive - University of Victoria\Research\LDA Data\21-04-14_CT_bin_width_5\darkscan_60s\Data\data.npy')[:, :, 6]
+    data = np.load(r'D:\OneDrive - University of Victoria\Research\LDA Data\21-04-14_CT_bin_width_5\metal_phantom\Data\data.npy')[:, :, :, 6]
     dpm = np.load(r'D:\OneDrive - University of Victoria\Research\LDA Data\dead_pixel_mask_4.npy')
 
     data_shape = np.array(np.shape(data))
@@ -103,21 +103,37 @@ if __name__ == "__main__":
 
     data1 = np.copy(data)
     data2 = np.copy(data)
+    data2 *= dpm
+    data2 = np.pad(data2, 2)
 
     start = datetime.now().timestamp()
     for pixel in dead_pixels:
-        # Pixel is corrected in every counter and capture
-        avg_val = get_average_pixel_value(data1, pixel, dpm)
-        data[pixel[0], pixel[1]] = avg_val  # Set the new value in the 4D array
-    print(datetime.now().timestamp())
+        for z in range(len(data)):
+            # Pixel is corrected in every counter and capture
+            avg_val = get_average_pixel_value(data1[z], pixel, dpm)
+            data1[z, pixel[0], pixel[1]] = avg_val  # Set the new value in the 4D array
+    print(datetime.now().timestamp()-start)
     print()
 
-    for pixel in dead_pixels:
-        row = pixel[0]
-        col = pixel[1]
-        data[row, col] = np.nanmean()
 
-    data1 = correct_dead_pixels(data, )
+    start = datetime.now().timestamp()
+    for pixel in dead_pixels:
+        for z in range(len(data)):
+            row = pixel[0]+2
+            col = pixel[1]+2
+            if row >= 24 and col >= 24:
+                data2[row, col] = np.nanmean(data2[z+2, row-1:, col-1:])
+            elif row >= 24:
+                data2[row, col] = np.nanmean(data2[z+2, row-1:, col-1:col+3])
+            elif col >= 24:
+                data2[row, col] = np.nanmean(data2[z+2, row-1:row+3, col-1:])
+            else:
+                data2[row, col] = np.nanmean(data2[z + 2, row - 1:row+3, col - 1:col + 3])
+
+    data2 = data2[2:-2, 2:-2, 2:-2]
+    print(datetime.now().timestamp() - start)
+    print()
+
 
 
 
