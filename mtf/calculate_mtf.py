@@ -5,15 +5,15 @@ import mask_functions as msk
 directory = r'D:\OneDrive - University of Victoria\Research\LDA Data'
 folder = '21-04-14_CT_bin_width_10'
 
-sub = 'water_phantom'
-# sub = 'metal_phantom'
+# sub = 'water_phantom'
+sub = 'metal_phantom'
 
 data = np.load(os.path.join(directory, folder, sub, 'Norm CT', 'CT_norm.npy'))[:, 11:14]
 
 
 air_mask = np.load(os.path.join(directory, folder, sub, 'air_mask.npy'))
-phantom_mask = np.load(os.path.join(directory, folder, 'phantom_mask_mtf.npy'))
-roi_masks = np.load(os.path.join(directory, folder, 'masks_mtf.npy'))
+phantom_mask = np.load(os.path.join(directory, folder, 'phantom_mask_mtf_metal.npy'))
+roi_masks = np.load(os.path.join(directory, folder, 'masks_mtf_metal.npy'))
 
 bar_size = np.array([1, 0.75, 0.66, 0.5, 0.33, 0.25])
 freq = 1 / (2 * bar_size)

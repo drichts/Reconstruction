@@ -26,18 +26,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e941e18b-2940-48ac-a2bc-ba92ca5d083f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/lda/view_CT.ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mtf/calculate_mtf.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mtf/get_masks.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mtf/plot_mtf.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Collaborations/Toronto/toronto_plots.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Collaborations/Toronto/toronto_plots.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Collaborations/Toronto/toronto_plots_2.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Collaborations/Toronto/toronto_plots_2.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lda/find_dead_pixels.py" beforeDir="false" afterPath="$PROJECT_DIR$/lda/find_dead_pixels.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lda/parameters.py" beforeDir="false" afterPath="$PROJECT_DIR$/lda/parameters.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lda/view_CT.py" beforeDir="false" afterPath="$PROJECT_DIR$/lda/view_CT.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pixel_correction/check_correction.py" beforeDir="false" afterPath="$PROJECT_DIR$/pixel_correction/check_correction.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pixel_correction/dead_pixel_corr.py" beforeDir="false" afterPath="$PROJECT_DIR$/pixel_correction/dead_pixel_corr.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mask_functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/mask_functions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material_decomp/Backwards_MatDecomp.py" beforeDir="false" afterPath="$PROJECT_DIR$/obsolete/material_decomp/Backwards_MatDecomp.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material_decomp/CBCT_MatDecomp_Graph.py" beforeDir="false" afterPath="$PROJECT_DIR$/obsolete/material_decomp/CBCT_MatDecomp_Graph.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material_decomp/CBCT_MaterialDecomp.py" beforeDir="false" afterPath="$PROJECT_DIR$/obsolete/material_decomp/CBCT_MaterialDecomp.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material_decomp/Dual_Energy_MatDecomp.py" beforeDir="false" afterPath="$PROJECT_DIR$/obsolete/material_decomp/Dual_Energy_MatDecomp.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material_decomp/F_G_equations_graphs.py" beforeDir="false" afterPath="$PROJECT_DIR$/obsolete/material_decomp/F_G_equations_graphs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material_decomp/Image_Noise.py" beforeDir="false" afterPath="$PROJECT_DIR$/obsolete/material_decomp/Image_Noise.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material_decomp/MatDeComp_Retry.py" beforeDir="false" afterPath="$PROJECT_DIR$/obsolete/material_decomp/MatDeComp_Retry.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material_decomp/Test_MatDecomp.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/obsolete/material_decomp/Test_MatDecomp.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mtf/calculate_mtf.py" beforeDir="false" afterPath="$PROJECT_DIR$/mtf/calculate_mtf.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mtf/get_masks.py" beforeDir="false" afterPath="$PROJECT_DIR$/mtf/get_masks.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mtf/plot_mtf.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/mtf/plot_mtf.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/presentations/AAPM21/figures.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/presentations/AAPM21/figures.ipynb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -114,14 +117,14 @@
       <recent name="C:\Users\drich\OneDrive\Documents\GitHub\desktop-tutorial" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\drich\PycharmProjects\Reconstruction\obsolete" />
+      <recent name="C:\Users\drich\PycharmProjects\Reconstruction\Collaborations" />
       <recent name="C:\Users\drich\PycharmProjects\Reconstruction\pixel_correction" />
       <recent name="C:\Users\drich\PycharmProjects\Reconstruction\presentations\old_stuff" />
       <recent name="C:\Users\drich\PycharmProjects\Reconstruction\esf" />
-      <recent name="C:\Users\10376\PycharmProjects\Reconstruction\redlen\obsolete" />
-      <recent name="C:\Users\drich\PycharmProjects\Reconstruction\redlen\obsolete" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.check_linearity">
+  <component name="RunManager" selected="Python.calculate_mtf">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <module name="Reconstruction" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -150,7 +153,6 @@
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
         <env name="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
       </envs>
       <option name="SDK_HOME" value="C:\Users\drich\Anaconda3\python.exe" />
@@ -219,7 +221,6 @@
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
         <env name="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
       </envs>
       <option name="SDK_HOME" value="C:\Users\drich\Anaconda3\python.exe" />
@@ -242,7 +243,6 @@
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
         <env name="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
       </envs>
       <option name="SDK_HOME" value="C:\Users\drich\Anaconda3\python.exe" />
@@ -269,11 +269,11 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.check_linearity" />
-        <item itemvalue="Python.check_correction" />
         <item itemvalue="Python.calculate_mtf" />
         <item itemvalue="Python.get_masks" />
         <item itemvalue="Python.view_CT" />
+        <item itemvalue="Python.check_linearity" />
+        <item itemvalue="Python.check_correction" />
       </list>
     </recent_temporary>
   </component>
@@ -551,20 +551,9 @@
       <workItem from="1618850346721" duration="7280000" />
       <workItem from="1618932292016" duration="10828000" />
       <workItem from="1619110755434" duration="4457000" />
-    </task>
-    <task id="LOCAL-00009" summary="IEEE Abstract Update (5/2/2020)">
-      <created>1588477980446</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1588477980446</updated>
-    </task>
-    <task id="LOCAL-00010" summary="IEEE Abstract Update (5/4/2020)">
-      <created>1588632547912</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1588632547912</updated>
+      <workItem from="1619308017903" duration="1357000" />
+      <workItem from="1619384250519" duration="631000" />
+      <workItem from="1619386099423" duration="6072000" />
     </task>
     <task id="LOCAL-00011" summary="IEEE Abstract Update (5/4/2020)">
       <created>1588812318335</created>
@@ -895,7 +884,21 @@
       <option name="project" value="LOCAL" />
       <updated>1618619765192</updated>
     </task>
-    <option name="localTasksCounter" value="58" />
+    <task id="LOCAL-00058" summary="Working-update">
+      <created>1619308055010</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1619308055011</updated>
+    </task>
+    <task id="LOCAL-00059" summary="Working-update">
+      <created>1619308132111</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1619308132111</updated>
+    </task>
+    <option name="localTasksCounter" value="60" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -931,7 +934,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Models for noise (7/2/2020)" />
     <MESSAGE value="Models for noise (7/3/2020)" />
     <MESSAGE value="Models for contrast (7/6/2020)" />
     <MESSAGE value="Update" />
@@ -956,7 +958,8 @@
     <MESSAGE value="2nd run Toronto - v2" />
     <MESSAGE value="Non-uniformity pixel correction" />
     <MESSAGE value="Non-uniformity pixel correction updates, may not be working" />
-    <option name="LAST_COMMIT_MESSAGE" value="Non-uniformity pixel correction updates, may not be working" />
+    <MESSAGE value="Working-update" />
+    <option name="LAST_COMMIT_MESSAGE" value="Working-update" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
