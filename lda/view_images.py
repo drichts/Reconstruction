@@ -5,52 +5,26 @@ import matplotlib.pyplot as plt
 import general_functions as gen
 import mask_functions as msk
 
-file = r'D:\OneDrive - University of Victoria\Research\LDA Data'
+directory = r'D:\OneDrive - University of Victoria\Research\LDA Data\21-04_15_Probes'
 
-# folder1 = 'CT_26-01-21_1800'
-# folder2 = '10-cm_25-01-21_2'
-#
-# data1 = np.load(os.path.join(file, folder1, 'airscan_60s', 'Data', 'data_corr.npy'))
-# data2 = np.load(os.path.join(file, folder2, 'airscan_60s', 'Data', 'data.npy'))
+folder = 'BCF_60_Thresholds_25_30_35_40_45_50_EC_CC'
+data = np.load(os.path.join(directory, folder, 'Data', 'data.npy'))
+air = np.load(os.path.join(directory, 'airscan_60s_50kVp_5mA_Thresholds_25_30_35_40_45_50_EC_CC', 'Data', 'data.npy')) / 6
+dark = np.load(os.path.join(directory, 'darkscan_60s_50kVp_5mA_Thresholds_25_30_35_40_45_50_EC_CC', 'Data', 'data.npy')) / 6
 
-folder = r'D:\OneDrive - University of Victoria\Research\LDA Data\Stationary_kV'
-data1 = np.load(os.path.join(folder, 'kV_QC3_40kVp_5mA_stationary', 'Data', 'data.npy'))
-air = np.load(os.path.join(folder, 'airscan_40kVp_5mA_60s', 'Data', 'data.npy')) / 30
-dark = np.load(os.path.join(folder, 'darkscan_60s_40kVp', 'Data', 'data.npy')) / 30
+air = np.sum(air[:, :, 0:2], axis=2)
+dark = np.sum(dark[:, :, 0:2], axis=2)
+data = np.sum(data[:, :, 0:2], axis=2)
 
-data = np.sum(data1, axis=0)
+# air = air[:, :, 0]
+# dark = dark[:, :, 0]
+# data = data[:, :, 0]
+
+# data = np.sum(data1, axis=0)
 proj = np.log(air-dark) - np.log(data-dark)
 
+
 fig = plt.figure(figsize=(12, 4))
-plt.imshow(proj[:, :, 6], vmin=0, vmax=1.5)
+plt.imshow(proj, vmin=0.09, vmax=0.105)
 plt.title('kV stationary')
 plt.show()
-
-# for i in range(len(data2)):
-#     fig = plt.figure(figsize=(5, 5))
-#     plt.imshow(data2[i], cmap='gray', vmin=0.002, vmax=0.008)
-#     plt.title(f'{(i+1)*10} iterations')
-#     plt.show()
-#     plt.savefig(os.path.join(folder, f'SIRT_{(i+1)*10}.png'), dpi=fig.dpi)
-#     # plt.pause(10)
-#     plt.close()
-
-# data = data2 - data1
-# data_other = data1 - data2
-
-# corr = np.log(data1) - np.log(data2)
-# dpm = np.load(os.path.join(file, 'dead_pixel_mask.npy'))
-# dpm[9, 75] = np.nan
-# np.save(os.path.join(file, 'dead_pixel_mask.npy'), dpm)
-# data2 = gen.correct_dead_pixels(data2, dpm)
-
-# np.save(os.path.join(file, folder2, 'airscan_60s', 'Data', 'data_corr.npy'), data2)
-
-# plt.imshow(data2[:, :, 6], vmin=1E8, vmax=4E8)
-# fig, ax = plt.subplots(5, 1, figsize=(12, 12))
-# ax[0].imshow(data[4, :, :, 6], vmin=0, vmax=0.09)
-# ax[1].imshow(data[40, :, :, 6], vmin=0, vmax=0.09)
-# ax[2].imshow(data[80, :, :, 6], vmin=0, vmax=0.09)
-# ax[3].imshow(data[120, :, :, 6], vmin=0, vmax=0.09)
-# ax[4].imshow(data[160, :, :, 6], vmin=0, vmax=0.09)
-# plt.show()

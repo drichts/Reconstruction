@@ -4,8 +4,8 @@ import matplotlib.pyplot as plt
 
 speed = 100
 v = 1
-folder = r'D:\OneDrive - University of Victoria\Research\Single Pixel\2021_02_03'
-file = f'{speed} um.s v{v}.txt'
+folder = r'D:\OneDrive - University of Victoria\Research\Single Pixel'
+file = 'keithley_laser_mtf_405nm_75mA_100microns_per_s_edge.txt'
 
 # conv = False
 conv = True
