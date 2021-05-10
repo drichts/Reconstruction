@@ -23,6 +23,8 @@ class ReconLDA:
         self.dark_data = np.load(os.path.join(self.dark_folder, 'Data', 'data_corr.npy')) / (airscan_time/duration)
         print(airscan_time/duration)
 
+        self.num_bins = np.shape(np.load(self.raw_data))[-1]
+
         self.corr_data = os.path.join(self.folder, 'Data', 'data_corr.npy')
         self.corr_data_mat = os.path.join(self.folder, 'Data', 'data_corr.mat')
 
@@ -122,7 +124,7 @@ class ReconLDA:
 
 class ReconCT(ReconLDA):
 
-    def __init__(self, folder, num_proj, duration=180, airscan_time=60, top=False, corr_rings=True, reanalyze=True,
+    def __init__(self, folder, num_proj=720, duration=180, airscan_time=60, top=False, corr_rings=True, reanalyze=True,
                  directory=DIRECTORY, sub_folder='phantom_scan', air_folder='airscan_60s', dark_folder='darkscan_60s'):
         super().__init__(folder, duration/num_proj, airscan_time=airscan_time, reanalyze=reanalyze, directory=directory,
                          sub_folder=sub_folder, air_folder=air_folder, dark_folder=dark_folder)
@@ -135,7 +137,7 @@ class ReconCT(ReconLDA):
 
         # Correct for pixel non-uniformities
         if corr_rings:
-            temp_data = pixel_corr(temp_data, top=top)
+            temp_data = pixel_corr(temp_data, num_bins=self.num_bins, top=top)
             print(np.nanmedian(np.sum(temp_data, axis=0), axis=(0, 1)))
 
         # This will cut the projection down to the correct number if there are more than necessary
