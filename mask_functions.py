@@ -303,8 +303,8 @@ def click_image(image, message_num=0):
 
     fig = plt.figure(figsize=(7, 7))
     ax = fig.add_subplot(111)
-    ax.imshow(image, vmin=0.1, vmax=0.2)
-    # ax.imshow(image, vmin=-400, vmax=300)
+    # ax.imshow(image)
+    ax.imshow(image, vmin=-400, vmax=300)
     ax.set_title(instructions[message_num])
 
     # Array to hold the coordinates of the center of the ROI and its radius
