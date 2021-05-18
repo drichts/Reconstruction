@@ -174,13 +174,12 @@ class AnalyzeCT:
             self.data = os.path.join(self.folder, 'CT', 'CT.npy')
             self.file_append = ''
 
-            if not os.path.exists(self.data) or self.reanalyze:
-                if os.path.exists(os.path.join(self.folder, 'CT', 'CT.mat')):
-                    mat_data = loadmat(os.path.join(self.folder, 'CT', 'CT.mat'))['ct_img']
-                    np.save(self.data, mat_data)
-                    del mat_data
-                else:
-                    raise Exception(f'Data file does not exist: {self.data} \nand MAT data file does not exist.')
+            if os.path.exists(os.path.join(self.folder, 'CT', 'CT.mat')):
+                mat_data = loadmat(os.path.join(self.folder, 'CT', 'CT.mat'))['ct_img']
+                np.save(self.data, mat_data)
+                del mat_data
+            else:
+                raise Exception(f'Data file does not exist: {self.data} \nand MAT data file does not exist.')
 
         # # Check for the right water slice
         if not water_slice:

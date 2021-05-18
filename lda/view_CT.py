@@ -3,9 +3,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 directory = r'D:\OneDrive - University of Victoria\Research\LDA Data'
-folder = '21-05-05_CT_metal_artifact'
+folder = '21-05-12_CT_metal'
 # folder = '21-05-05_CT_metal_20keV_bins'
-sub_folders = ['water_only', '2_metal_1and2', '2_metal_3and4', '3_metal']
+sub_folders = ['resolution']
 phantom_masks = np.load(r'D:\OneDrive - University of Victoria\Research\LDA Data\21-05-05_CT_metal_artifact\2_metal_1and2\phantom_mask_mtf.npy')
 masks = np.load(r'D:\OneDrive - University of Victoria\Research\LDA Data\21-05-05_CT_metal_artifact\2_metal_1and2\masks_mtf.npy')
 
@@ -13,7 +13,7 @@ masks = np.load(r'D:\OneDrive - University of Victoria\Research\LDA Data\21-05-0
 bin_width = 1  # Multiples of 10
 thresholds = [70, 80, 90, 100, 110, 120]
 bin_num = 0  # 0, 1, 2, 3, 4, 5  (There is no pile-up bin)
-z_slice = 12  # The slice number
+z_slice = 13  # The slice number
 low = -400  # Low window level
 high = 200  # High window level
 
@@ -25,10 +25,10 @@ for sub_folder in sub_folders:
         # Plot the desired data
         fig = plt.figure(figsize=(7, 7))
         plt.axis('off')
-        if i == 3:
-            plt.imshow(data[i, 11, 138:440, 138:440], vmin=low, vmax=high, cmap='gray')
-        else:
-            plt.imshow(data[i, z_slice, 138:440, 138:440], vmin=low, vmax=high, cmap='gray')
+        # if i == 3:
+        #     plt.imshow(data[i, 13, 138:440, 138:440], vmin=low, vmax=high, cmap='gray')
+        # else:
+        plt.imshow(data[i, z_slice, 138:440, 138:440], vmin=low, vmax=high, cmap='gray')
     # for i in range(6):
     #     plt.imshow(masks[i], alpha=0.8)
 
