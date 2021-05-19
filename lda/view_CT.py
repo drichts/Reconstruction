@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 directory = r'D:\OneDrive - University of Victoria\Research\LDA Data'
 folder = '21-05-12_CT_metal'
 # folder = '21-05-05_CT_metal_20keV_bins'
-sub_folders = ['resolution']
+sub_folders = ['metal_in']
 phantom_masks = np.load(r'D:\OneDrive - University of Victoria\Research\LDA Data\21-05-05_CT_metal_artifact\2_metal_1and2\phantom_mask_mtf.npy')
 masks = np.load(r'D:\OneDrive - University of Victoria\Research\LDA Data\21-05-05_CT_metal_artifact\2_metal_1and2\masks_mtf.npy')
 

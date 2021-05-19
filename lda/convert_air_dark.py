@@ -2,7 +2,7 @@ import os
 import numpy as np
 
 directory = r'D:\OneDrive - University of Victoria\Research\LDA Data'
-folder = '21-05-12_CT_metal'
+folder = '21-05-17_CT_metal'
 
 air_folder = 'airscan_65s'
 dark_folder = 'darkscan_65s'
