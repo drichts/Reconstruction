@@ -25,14 +25,18 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e941e18b-2940-48ac-a2bc-ba92ca5d083f" name="Default Changelist" comment="metal_artifact_update">
-      <change afterPath="$PROJECT_DIR$/lda/view_CT_slices.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/metal_artifact/artifact_values.ipynb" afterDir="false" />
+    <list default="true" id="e941e18b-2940-48ac-a2bc-ba92ca5d083f" name="Default Changelist" comment="Cleaned up MTF code.&#10;Quantification of metal artifact CT numbers">
+      <change afterPath="$PROJECT_DIR$/metal_artifact/sinogram_subtraction.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/presentations/AAPM21/presentation_figures.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lda/convert_air_dark.py" beforeDir="false" afterPath="$PROJECT_DIR$/lda/convert_air_dark.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lda/view_CT.py" beforeDir="false" afterPath="$PROJECT_DIR$/lda/view_CT.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mtf/calculate_mtf.py" beforeDir="false" afterPath="$PROJECT_DIR$/mtf/calculate_mtf.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mtf/get_masks.py" beforeDir="false" afterPath="$PROJECT_DIR$/metal_artifact/get_masks.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Collaborations/makhsud/calc_mtf_from_esf.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Collaborations/makhsud/calc_mtf_from_esf.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lda/view_CT_slices.py" beforeDir="false" afterPath="$PROJECT_DIR$/lda/view_CT_slices.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mask_functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/mask_functions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/metal_artifact/get_masks.py" beforeDir="false" afterPath="$PROJECT_DIR$/metal_artifact/get_masks.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mtf/plot_mtf.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/mtf/find_and_plot_mtf.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/presentations/AAPM21/mtf_ct.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/presentations/AAPM21/mtf_ct.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/presentations/AAPM21/mtf_radiograph.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/presentations/AAPM21/mtf_radiograph.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spatial_resolution/esf_czt_2d.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/presentations/AAPM21/esf_czt_2d.ipynb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,14 +114,14 @@
       <recent name="C:\Users\drich\OneDrive\Documents\GitHub\desktop-tutorial" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\drich\PycharmProjects\Reconstruction\presentations\AAPM21" />
       <recent name="C:\Users\drich\PycharmProjects\Reconstruction\metal_artifact" />
       <recent name="C:\Users\drich\PycharmProjects\Reconstruction\obsolete" />
       <recent name="C:\Users\drich\PycharmProjects\Reconstruction\Collaborations" />
       <recent name="C:\Users\drich\PycharmProjects\Reconstruction\pixel_correction" />
-      <recent name="C:\Users\drich\PycharmProjects\Reconstruction\presentations\old_stuff" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.view_CT_slices">
+  <component name="RunManager" selected="Python.sinogram_subtraction">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <module name="Reconstruction" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -146,7 +150,6 @@
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
         <env name="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
       </envs>
       <option name="SDK_HOME" value="C:\Users\drich\Anaconda3\python.exe" />
@@ -192,6 +195,7 @@
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
         <env name="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
       </envs>
       <option name="SDK_HOME" value="C:\Users\drich\Anaconda3\python.exe" />
@@ -209,21 +213,20 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="view_CT" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="sinogram_subtraction" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Reconstruction" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
         <env name="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
       </envs>
       <option name="SDK_HOME" value="C:\Users\drich\Anaconda3\python.exe" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/lda" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/metal_artifact" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/lda/view_CT.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/metal_artifact/sinogram_subtraction.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -256,18 +259,18 @@
     </configuration>
     <list>
       <item itemvalue="Python.analysis_LDA" />
-      <item itemvalue="Python.view_CT" />
       <item itemvalue="Python.convert_air_dark" />
       <item itemvalue="Python.get_masks (1)" />
       <item itemvalue="Python.view_CT_slices" />
+      <item itemvalue="Python.sinogram_subtraction" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.sinogram_subtraction" />
         <item itemvalue="Python.view_CT_slices" />
-        <item itemvalue="Python.get_masks (1)" />
         <item itemvalue="Python.analysis_LDA" />
+        <item itemvalue="Python.get_masks (1)" />
         <item itemvalue="Python.convert_air_dark" />
-        <item itemvalue="Python.view_CT" />
       </list>
     </recent_temporary>
   </component>
@@ -568,14 +571,11 @@
       <workItem from="1621012049133" duration="9426000" />
       <workItem from="1621300759696" duration="2309000" />
       <workItem from="1621354675470" duration="6845000" />
-      <workItem from="1621363899323" duration="8053000" />
-    </task>
-    <task id="LOCAL-00015" summary="Analysis update for Redlen (5/13/2020)">
-      <created>1589409936550</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1589409936550</updated>
+      <workItem from="1621363899323" duration="8099000" />
+      <workItem from="1621441585431" duration="14334000" />
+      <workItem from="1621465957719" duration="4111000" />
+      <workItem from="1621491108205" duration="797000" />
+      <workItem from="1621533210095" duration="13691000" />
     </task>
     <task id="LOCAL-00016" summary="Phantom analysis update for CNR over 1 second acquisitions (5/14/2020)">
       <created>1589488672265</created>
@@ -913,7 +913,14 @@
       <option name="project" value="LOCAL" />
       <updated>1621300837870</updated>
     </task>
-    <option name="localTasksCounter" value="64" />
+    <task id="LOCAL-00064" summary="Cleaned up MTF code.&#10;Quantification of metal artifact CT numbers">
+      <created>1621384686976</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1621384686976</updated>
+    </task>
+    <option name="localTasksCounter" value="65" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -949,7 +956,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Oversampled ESF" />
     <MESSAGE value="Update (21-02-24)" />
     <MESSAGE value="New branch" />
     <MESSAGE value="Updates from home-ubuntu" />
@@ -974,7 +980,8 @@
     <MESSAGE value="MTF changes for single pixel" />
     <MESSAGE value="combine_bins.ipynb to look at metal artifacts in wider bins" />
     <MESSAGE value="metal_artifact_update" />
-    <option name="LAST_COMMIT_MESSAGE" value="metal_artifact_update" />
+    <MESSAGE value="Cleaned up MTF code.&#10;Quantification of metal artifact CT numbers" />
+    <option name="LAST_COMMIT_MESSAGE" value="Cleaned up MTF code.&#10;Quantification of metal artifact CT numbers" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
