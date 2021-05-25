@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.signal import medfilt
-import mask_functions as msk
+from scipy.io import savemat
 from skimage.feature import canny
 
 
@@ -97,7 +97,7 @@ def find_metal_traces(sinogram):
             #     print(edge1, edge2)
             j += 1
 
-    return edge_data
+    return edge_data, edge_copy
 
 
 def correct_sino(low_sino, high_sino):
@@ -133,23 +133,25 @@ def correct_sino(low_sino, high_sino):
     return final_sino
 
 
-data_tot = np.load(r'D:\OneDrive - University of Victoria\Research\LDA Data\21-05-12_CT_metal\metal_out\Data\data_corr.npy')
+data_tot = np.load(r'D:\OneDrive - University of Victoria\Research\LDA Data\21-05-12_CT_metal\metal_in\Data\data_corr.npy')
 
-data = correct_sino(data_tot[:, :, :, 0], data_tot[:, :, :, 3])
+# data = correct_sino(data_tot[:, :, :, 6], data_tot[:, :, :, 3])
 
-fig = plt.figure(figsize=(10, 5))
-plt.imshow(data[:, 12, :])
-plt.show()
-
-# for i in range(10, 11):
-#     data = data_tot[:, i, :, 6]
+# fig = plt.figure(figsize=(10, 5))
+# plt.imshow(data[:, 12, :])
+# plt.show()
 #
-#     datax, data2 = find_metal_traces(data)
-#
-#     fig, ax = plt.subplots(1, 3, figsize=(12, 5))
-#     ax[0].imshow(data)
-#     ax[1].imshow(data2)
-#     ax[2].imshow(datax)
-#     plt.show()
-#     # plt.pause(1)
-#     # plt.close()
+# np.save(r'D:\OneDrive - University of Victoria\Research\LDA Data\21-05-12_CT_metal_subtract_fullbin\metal_in\Data\data_corr_sub.npy', data)
+# savemat(r'D:\OneDrive - University of Victoria\Research\LDA Data\21-05-12_CT_metal_subtract_fullbin\metal_in\Data\data_corr_sub.mat', {'data': data, 'label': 'metal_corr'}, do_compression=True)
+
+for i in range(11, 12):
+    data = data_tot[:, i, :, 0]
+
+    datax, data2 = find_metal_traces(data)
+
+    fig, ax = plt.subplots(1, 3, figsize=(12, 5))
+    ax[0].imshow(data)
+    ax[1].imshow(data2)
+    ax[2].imshow(datax)
+    plt.show()
+    plt.savefig(r'D:\OneDrive - University of Victoria\Research\LDA Data\21-05-12_CT_metal_subtract_fullbin\metal_in\edge.png', dpi=500)

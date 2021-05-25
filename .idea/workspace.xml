@@ -25,8 +25,14 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e941e18b-2940-48ac-a2bc-ba92ca5d083f" name="Default Changelist" comment="Presentation AAPM 21 - finished&#10;Working on metal artifact sinogram subtraction">
+    <list default="true" id="e941e18b-2940-48ac-a2bc-ba92ca5d083f" name="Default Changelist" comment="sinogram_subtraction.py running">
+      <change afterPath="$PROJECT_DIR$/astra_recon/astra_recon.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/Reconstruction.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Reconstruction.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lda/analysis_LDA.py" beforeDir="false" afterPath="$PROJECT_DIR$/lda/analysis_LDA.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lda/parameters.py" beforeDir="false" afterPath="$PROJECT_DIR$/lda/parameters.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lda/view_CT_slices.py" beforeDir="false" afterPath="$PROJECT_DIR$/lda/view_CT_slices.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/metal_artifact/sinogram_subtraction.py" beforeDir="false" afterPath="$PROJECT_DIR$/metal_artifact/sinogram_subtraction.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -141,7 +147,6 @@
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
         <env name="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
       </envs>
       <option name="SDK_HOME" value="C:\Users\drich\Anaconda3\python.exe" />
@@ -232,7 +237,6 @@
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
         <env name="PATH" value="C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27;C:\Users\drich\Anaconda3\envs\py27\Library\mingw-w64\bin;C:\Users\drich\Anaconda3\envs\py27\Library\usr\bin;C:\Users\drich\Anaconda3\envs\py27\Library\bin;C:\Users\drich\Anaconda3\envs\py27\Scripts;C:\Users\drich\Anaconda3\envs\py27\bin;C:\Users\drich\Anaconda3\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MATLAB\R2019a\runtime\win64;C:\Program Files\MATLAB\R2019a\bin;C:\Program Files\Git\cmd;C:\Users\drich\Anaconda3;C:\Users\drich\Anaconda3\Scripts;C:\Users\drich\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm 2019.1.2\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2019.1.2\bin;C:\Users\drich\AppData\Local\GitHubDesktop\bin " />
       </envs>
       <option name="SDK_HOME" value="C:\Users\drich\Anaconda3\python.exe" />
@@ -569,14 +573,9 @@
       <workItem from="1621465957719" duration="4111000" />
       <workItem from="1621491108205" duration="797000" />
       <workItem from="1621533210095" duration="13955000" />
-      <workItem from="1621619813802" duration="17060000" />
-    </task>
-    <task id="LOCAL-00017" summary="3x3 pixel analysis update (5/20/2020)">
-      <created>1590012895731</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1590012895731</updated>
+      <workItem from="1621619813802" duration="17940000" />
+      <workItem from="1621886418462" duration="2103000" />
+      <workItem from="1621958260153" duration="9368000" />
     </task>
     <task id="LOCAL-00018" summary="Add adj bins (5/27/2020)">
       <created>1590621123750</created>
@@ -914,7 +913,14 @@
       <option name="project" value="LOCAL" />
       <updated>1621559842518</updated>
     </task>
-    <option name="localTasksCounter" value="66" />
+    <task id="LOCAL-00066" summary="sinogram_subtraction.py running">
+      <created>1621643928831</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1621643928831</updated>
+    </task>
+    <option name="localTasksCounter" value="67" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -950,7 +956,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="New branch" />
     <MESSAGE value="Updates from home-ubuntu" />
     <MESSAGE value="Started changes to analyze CT data after recon" />
     <MESSAGE value="AAPM21" />
@@ -975,7 +980,8 @@
     <MESSAGE value="metal_artifact_update" />
     <MESSAGE value="Cleaned up MTF code.&#10;Quantification of metal artifact CT numbers" />
     <MESSAGE value="Presentation AAPM 21 - finished&#10;Working on metal artifact sinogram subtraction" />
-    <option name="LAST_COMMIT_MESSAGE" value="Presentation AAPM 21 - finished&#10;Working on metal artifact sinogram subtraction" />
+    <MESSAGE value="sinogram_subtraction.py running" />
+    <option name="LAST_COMMIT_MESSAGE" value="sinogram_subtraction.py running" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

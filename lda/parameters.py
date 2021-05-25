@@ -5,7 +5,7 @@ DIRECTORY = r'D:\OneDrive - University of Victoria\Research\LDA Data'
 
 # Dead pixel mask <row, column>
 # Set: dead_pixel_mask[r, c] = np.nan
-DEAD_PIXEL_MASK = np.load(os.path.join(DIRECTORY, 'dead_pixel_mask_width10.npy'))
+DEAD_PIXEL_MASK = np.load(os.path.join(DIRECTORY, 'dead_pixel_mask_4.npy'))
 
 """
 CT Reconstruction Parameters

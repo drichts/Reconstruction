@@ -23,7 +23,11 @@ class ReconLDA:
         self.dark_data = np.load(os.path.join(self.dark_folder, 'Data', 'data_corr.npy')) / (airscan_time/duration)
         print(airscan_time/duration)
 
-        self.num_bins = np.shape(np.load(self.raw_data))[-1]
+        self.num_bins = np.shape(np.load(self.raw_data))
+        if len(self.num_bins) == 3:
+            self.num_bins = 1
+        else:
+            self.num_bins = self.num_bins[-1]
 
         self.corr_data = os.path.join(self.folder, 'Data', 'data_corr.npy')
         self.corr_data_mat = os.path.join(self.folder, 'Data', 'data_corr.mat')
@@ -181,7 +185,7 @@ class AnalyzeCT:
             else:
                 raise Exception(f'Data file does not exist: {self.data} \nand MAT data file does not exist.')
 
-        # # Check for the right water slice
+        # Check for the right water slice
         if not water_slice:
             data1 = np.load(self.data)
             for i in range(9, 14):
@@ -200,6 +204,7 @@ class AnalyzeCT:
         self.ct_path = os.path.join(self.folder, 'Norm CT', f'CT_norm{self.file_append}.npy')
         self.norm_data = np.load(self.data)
         self.num_bins = len(self.norm_data)
+        print(self.num_bins)
         np.save(self.ct_path, self.norm_data)
 
         # Get the mask for the water vials
