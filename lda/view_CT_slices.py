@@ -18,7 +18,7 @@ data = np.load(os.path.join(directory, folder, sub, 'Norm CT', 'CT_norm.npy'))
 
 fig = plt.figure(figsize=(5, 5))
 plt.imshow(data[bin_num, 14, 138:440, 138:440], vmin=-400, vmax=300, cmap='gray')
-plt.savefig(os.path.join(directory, folder, sub, f'Bin{bin_num}.png'), dpi=500)
+# plt.savefig(os.path.join(directory, folder, sub, f'Bin{bin_num}.png'), dpi=500)
 
 
 

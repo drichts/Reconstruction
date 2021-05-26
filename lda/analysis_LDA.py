@@ -1,9 +1,10 @@
-import general_functions as gen
-import mask_functions as msk
+import numpy as np
 from scipy.io import savemat, loadmat
 import matplotlib.pyplot as plt
 from lda.parameters import *
 from lda.get_corrected_array import pixel_corr
+import general_functions as gen
+import mask_functions as msk
 
 
 class ReconLDA:

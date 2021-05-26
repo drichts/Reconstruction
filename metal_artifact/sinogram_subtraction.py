@@ -1,6 +1,7 @@
+from scipy.signal import medfilt
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy.signal import medfilt
+
 from scipy.io import savemat
 from skimage.feature import canny
 

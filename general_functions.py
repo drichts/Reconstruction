@@ -174,19 +174,3 @@ def reshape(data):
 
 def save_mat(path, data):
     savemat(path, {'data': data, 'label': 'central-ish sinogram'})
-
-
-
-
-# air = np.load(r'D:\OneDrive - University of Victoria\Research\LDA Data\airscan_120kVP_1mA_1mmAl_3x8coll_360s_6frames\Data\data.npy')
-# dark = np.load(r'D:\OneDrive - University of Victoria\Research\LDA Data\darkscan_360s_6frames\Data\data.npy')
-# dpm = np.load(r'D:\OneDrive - University of Victoria\Research\LDA Data\mod1_deadpixelmask.npy')
-# air = correct_dead_pixels(air, dpm)
-# dark = np.sum(dark[1:], axis=0)
-# dark = correct_dead_pixels(dark, dpm)
-#
-# plt.imshow(air[4, :, :, 6], vmin=1E5, vmax=1E9)
-# plt.show()
-
-# np.save(r'D:\OneDrive - University of Victoria\Research\LDA Data\airscan_120kVP_1mA_1mmAl_3x8coll_360s_6frames\Data\data_corr.npy', air)
-# np.save(r'D:\OneDrive - University of Victoria\Research\LDA Data\darkscan_360s_6frames\Data\data_corr_300s.npy', dark)
