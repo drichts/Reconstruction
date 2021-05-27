@@ -131,6 +131,7 @@ class ReconCT(ReconLDA):
 
     def __init__(self, folder, num_proj=720, duration=180, airscan_time=60, top=False, corr_rings=True, reanalyze=True,
                  directory=DIRECTORY, sub_folder='phantom_scan', air_folder='airscan_60s', dark_folder='darkscan_60s'):
+        
         super().__init__(folder, duration/num_proj, airscan_time=airscan_time, reanalyze=reanalyze, directory=directory,
                          sub_folder=sub_folder, air_folder=air_folder, dark_folder=dark_folder)
 

@@ -3,6 +3,8 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 from datetime import datetime
+from lda.analysis_LDA import ReconCT
+from lda.convert_air_dark import convert
 
 pixel_pitch = 1  # [mm]
 source_origin = 322.0 * 3  # [mm]
@@ -13,10 +15,29 @@ det_row_count = 24
 num_angles = 720
 angles = np.linspace(0, 2 * np.pi, num_angles, False)
 
+
+directory = r'D:\OneDrive - University of Victoria\Research\LDA Data'
+main_folder = '21-05-26_CT_metal_contrast'
+sub_folder = 'contrast_only'
+duration = 360
+
+
+algorithm = 'FDK_CUDA'  # Algorithms: SIRT3D_CUDA, CGLS3D_CUDA, FDK_CUDA
+iterations = 0
+roll = 0
+show = False
+
 bins = [0, 1, 2, 3, 4, 5, 6]
 
 
-def run_full_recon(folder, alg, iterations, bins=bins):
+def run_full_recon(folder=os.path.join(main_folder, sub_folder), alg=algorithm, iterations=iterations, bins=bins, roll=roll, show=show):
+    
+    # Create save folder if necessary
+    save_folder = os.path.join(directory, folder, 'CT')
+    fig_folder = os.path.join(directory, folder, 'fig')
+    os.makedirs(save_folder, exist_ok=True)
+    os.makedirs(fig_folder, exist_ok=True)
+    
     # Array for the reconstructed data
     ct_img = np.zeros([len(bins), det_row_count, det_col_count, det_col_count])
 
@@ -24,27 +45,25 @@ def run_full_recon(folder, alg, iterations, bins=bins):
     start = datetime.now().timestamp()
 
     if alg != 'FDK_CUDA':
-        ct_data = np.load(os.path.join(directory, folder, 'CT', 'FDK_CT.npy'))
+        ct_data = np.load(os.path.join(directory, folder, 'CT', 'CT.npy'))
 
     raw_data_full = np.load(os.path.join(directory, folder, 'Data', 'data_corr.npy'))
     raw_data_full = np.transpose(raw_data_full, axes=(3, 1, 0, 2))  # Transpose to (bins, rows, angles, columns)
-    print(np.shape(raw_data_full))
-    # Change if isocentre is not directly in the center of the detector
-    # raw_data_full = np.roll(raw_data_full, -2, axis=3)
 
-    for bin_num in bins:
+    # Change if isocentre is not directly in the center of the detector
+    raw_data_full = np.roll(raw_data_full, roll, axis=3)
+
+    for bin_idx, bin_num in enumerate(bins):
 
         # Get the right bin number
         raw_data = raw_data_full[bin_num]
-        # raw_data = np.load(os.path.join(directory, folder, 'Data', 'data_corr.npy'))[:, :, :, bin_num]
-        # raw_data = np.transpose(raw_data, axes=(1, 0, 2))
 
         # Create a 3D projection geometry with our cone-beam data
         # Parameters: 'acquisition type', number of detector rows, number of detector columns, data ndarray
         proj_geom = astra.create_proj_geom('cone', pixel_pitch, pixel_pitch, det_row_count, det_col_count, angles,
                                            source_origin, origin_det)
         proj_id = astra.data3d.create('-proj3d', proj_geom, raw_data)
-        astra.data2d
+        
         # Create a 3D volume geometry.
         # Parameter order: rows, columns, slices (y, x, z)
         vol_geom = astra.create_vol_geom(det_col_count, det_col_count, det_row_count)
@@ -71,7 +90,7 @@ def run_full_recon(folder, alg, iterations, bins=bins):
 
         # Get the result
         rec = astra.data3d.get(recon_id)
-        ct_img[bin_num] = rec
+        ct_img[bin_idx] = rec
 
         # Clean up. Note that GPU memory is tied up in the algorithm object,
         # and main RAM in the data objects.
@@ -80,14 +99,23 @@ def run_full_recon(folder, alg, iterations, bins=bins):
         astra.data3d.delete(proj_id)
 
         # Show the resulting image
-        # plt.figure(figsize=(8, 8))
-        # plt.imshow(rec[14], vmin=0, vmax=0.08)
-        # plt.show()
-        # plt.savefig(os.path.join(directory, folder, 'fig', f'{alg[0:4]}_bin{bin_num}_test.png'))
-        # plt.close()
+        if show:
+            fig = plt.figure(figsize=(8, 8))
+            plt.imshow(rec[14], vmin=0, vmax=0.08)
+            plt.show()
+            fig.savefig(os.path.join(fig_folder, f'{alg[0:4]}_bin{bin_num}_test.png'))
+            plt.close()
+
     stop = datetime.now().timestamp()
-    print(f'Recon time: {stop - start:.2f} s')
-    np.save(os.path.join(directory, folder, 'CT', alg[0:4] + 'CT.npy'), ct_img)
+    print(f'Recon time: {stop - start:.3f} s')
+
+
+    # Where to save the data
+    if alg == 'FDK_CUDA':
+        np.save(os.path.join(save_folder, 'CT.npy'), ct_img)
+    else:
+        np.save(os.path.join(save_folder, f'CT_{alg[0:4]}.npy'), ct_img)
+    
 
 
 def check_recon(folder, alg, iterations, bin_num):
@@ -142,19 +170,15 @@ def check_recon(folder, alg, iterations, bin_num):
 
 
 if __name__ == '__main__':
-    directory = '/home/knoll/LDAData/'
-    folder = '21-02-26_CT_min_Gd_3862_2mA_SEC/phantom_scan'
-    alg = 'FDK_CUDA'  # Algorithms: SIRT3D_CUDA, CGLS3D_CUDA, FDK_CUDA
-    iterations = 100
 
-    # Create save folder if necessary
-    save_folder = os.path.join(directory, folder, 'CT')
-    fig_folder = os.path.join(directory, folder, 'fig')
-    os.makedirs(save_folder, exist_ok=True)
-    os.makedirs(fig_folder, exist_ok=True)
+    # Correct the air and darkscans if necessary
+    convert(main_folder)
 
+    # Create the sinogram
+    sino = ReconCT(main_folder, num_proj=num_angles, duration=duration, sub_folder=sub_folder)
+
+    print('Starting recon')
+    
     # Run the full recon
-    run_full_recon(folder, alg, iterations)
+    run_full_recon()
 
-    # Run a recon to check the right number of iterations
-    # check_recon(folder, alg, iterations)

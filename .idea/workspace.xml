@@ -25,13 +25,14 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e941e18b-2940-48ac-a2bc-ba92ca5d083f" name="Default Changelist" comment="adding astra_recon.py">
+    <list default="true" id="e941e18b-2940-48ac-a2bc-ba92ca5d083f" name="Default Changelist" comment="potentially switching to VSCode">
+      <change beforePath="$PROJECT_DIR$/.idea/Reconstruction.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Reconstruction.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/astra_recon/astra_recon.py" beforeDir="false" afterPath="$PROJECT_DIR$/astra_recon/astra_recon.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/general_functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/general_functions.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lda/analysis_LDA.py" beforeDir="false" afterPath="$PROJECT_DIR$/lda/analysis_LDA.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lda/view_CT_slices.py" beforeDir="false" afterPath="$PROJECT_DIR$/lda/view_CT_slices.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/metal_artifact/sinogram_subtraction.py" beforeDir="false" afterPath="$PROJECT_DIR$/metal_artifact/sinogram_subtraction.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lda/convert_air_dark.py" beforeDir="false" afterPath="$PROJECT_DIR$/lda/convert_air_dark.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lda/parameters.py" beforeDir="false" afterPath="$PROJECT_DIR$/lda/parameters.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -584,13 +585,9 @@
       <workItem from="1621985972143" duration="745000" />
       <workItem from="1621986734017" duration="102000" />
       <workItem from="1621986846706" duration="19000" />
-    </task>
-    <task id="LOCAL-00019" summary="Add multiple thresholds (5/29/2020)">
-      <created>1590797920875</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1590797920876</updated>
+      <workItem from="1621988243825" duration="26000" />
+      <workItem from="1622078221736" duration="61000" />
+      <workItem from="1622155769256" duration="892000" />
     </task>
     <task id="LOCAL-00020" summary="Mult. Thresh. Analysis (6/2/2020)">
       <created>1591143019177</created>
@@ -928,7 +925,14 @@
       <option name="project" value="LOCAL" />
       <updated>1621981773566</updated>
     </task>
-    <option name="localTasksCounter" value="68" />
+    <task id="LOCAL-00068" summary="potentially switching to VSCode">
+      <created>1621988258990</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1621988258990</updated>
+    </task>
+    <option name="localTasksCounter" value="69" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -964,7 +968,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Started changes to analyze CT data after recon" />
     <MESSAGE value="AAPM21" />
     <MESSAGE value="AAPM21 round 2" />
     <MESSAGE value="AAPM21 figure save" />
@@ -989,7 +992,8 @@
     <MESSAGE value="Presentation AAPM 21 - finished&#10;Working on metal artifact sinogram subtraction" />
     <MESSAGE value="sinogram_subtraction.py running" />
     <MESSAGE value="adding astra_recon.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="adding astra_recon.py" />
+    <MESSAGE value="potentially switching to VSCode" />
+    <option name="LAST_COMMIT_MESSAGE" value="potentially switching to VSCode" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
