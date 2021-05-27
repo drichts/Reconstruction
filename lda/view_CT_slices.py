@@ -3,10 +3,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 directory = r'D:\OneDrive - University of Victoria\Research\LDA Data'
-folder = '21-05-12_CT_metal_no_ring_corr'
+folder = '21-05-12_CT_metal_subtract_forward'
 sub = 'metal_in'
-bin_num = 5
-slices = [10, 15]
+bin_num = 0
+slices = [8, 20]
 
 data = np.load(os.path.join(directory, folder, sub, 'Norm CT', 'CT_norm.npy'))
 for z in np.arange(slices[0], slices[1]):

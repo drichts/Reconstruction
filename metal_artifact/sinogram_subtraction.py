@@ -1,8 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.signal import medfilt
-import mask_functions as msk
 from skimage.feature import canny
+from skimage.transform import radon
 
 
 def find_metal_traces(sinogram):
@@ -100,31 +100,67 @@ def find_metal_traces(sinogram):
     return edge_data
 
 
-def correct_sino(low_sino, high_sino):
+def find_metal_CT(ct_img):
+    """
+    This function will find the metal pieces within a CT image (specifically the 100-110 keV bin)
+    :param ct_img: ndarray
+            The 3D numpy array of the 100-110 keV bin slice. Shape: <slices, rows, columns>
+    :return: ndarray
+            The same image with only the metal left, everything else set to 0
+    """
+    for i, slice in enumerate(ct_img):
+        ct_img[i] = medfilt(slice, 3)
+
+    ct_img[ct_img < 1000] = 0
+
+    return ct_img
+
+
+def forward_project(ct_metal, num_angles=720):
+    """
+    This function will take the full CT image (24 x 576 x 576) and forward project the data to create an artificial
+    sinogram
+    :param ct_metal: ndarray
+            The full CT image containing the metal pieces. Shape <bins, slices, rows, columns>
+    :param num_angles: int
+            The number of angles between 0 and 360 degrees at which to project the image
+    :return: ndarray
+            The sinogram of the metal is returned. Shape: <bins, columns, angles>
+    """
+    pixels = np.shape(ct_metal)[-1]
+    num_slices = np.shape(ct_metal)[0]
+
+    angles = np.linspace(0, 360, num_angles, False)
+
+    sinogram = np.zeros((num_slices, pixels, num_angles))
+    for i, z in enumerate(ct_metal):
+        sinogram[i] = radon(z, theta=angles)
+
+    sinogram[sinogram > 0] = 1
+
+    return sinogram
+
+
+def correct_sino(low_sino, high_sino, metal_trace):
     """
     This function subtracts the metal traces out of the low energy sinogram and replaces it with the high energy metal
     traces
     :param low_sino: ndarray
-            The low energy sinogram of the data (lower energy bin)
+            The low energy sinogram of the data (lower energy bin). Shape <angles, rows, columns>
     :param high_sino: ndarray
-            The high energy sinogram to extract the metal artifact curves from
+            The high energy sinogram to extract the metal artifact curves from. Shape <angles, rows, columns>
+    :param metal_trace: ndarray
+            The traces of the metal in the sinogram. Shape <rows, columns, angles>
     :return: A (hopefully) metal artifact corrected sinogram
     """
 
-    # Extract the metal curve's pixels from the sinogram
-    shp = np.shape(high_sino)
-    metal_only = np.zeros(shp)
-
-    # Go through all of the slices and find the traces of the metal
-    for i in range(24):
-        metal_only[:, i] = find_metal_traces(low_sino[:, i])
-
+    metal_trace = np.transpose(metal_trace, axes=(2, 0, 1))
     # Invert the metal_only array to get an array of the rest of the phantom without the metal
-    exclude_metal = np.array(np.invert(np.array(metal_only, dtype='bool')), dtype='int')
+    exclude_metal = np.array(np.invert(np.array(metal_trace, dtype='bool')), dtype='int')
 
     # Get only the metal from the high sinogram, set everything else to 0
     # Set the metal to zero in the low sinogram
-    high_sino = np.multiply(high_sino, metal_only)
+    high_sino = np.multiply(high_sino, metal_trace)
     low_sino = np.multiply(low_sino, exclude_metal)
 
     # Add the two sinograms together
@@ -132,14 +168,21 @@ def correct_sino(low_sino, high_sino):
 
     return final_sino
 
+ct = np.load(r'D:\OneDrive - University of Victoria\Research\LDA Data\21-05-12_CT_metal\metal_in\Norm CT\CT_norm.npy')[3]
+data_tot = np.load(r'D:\OneDrive - University of Victoria\Research\LDA Data\21-05-12_CT_metal_subtract_forward\metal_in\Data\data_corr.npy')[:, 11:14, :, 3]
 
-data_tot = np.load(r'D:\OneDrive - University of Victoria\Research\LDA Data\21-05-12_CT_metal\metal_out\Data\data_corr.npy')
+ct = find_metal_CT(ct[11:14])
+metal = forward_project(ct)
+metal = np.transpose(metal, axes=(2, 0, 1))
+# data = correct_sino(data_tot[:, :, :, 0], data_tot[:, :, :, 3], metal)
 
-data = correct_sino(data_tot[:, :, :, 0], data_tot[:, :, :, 3])
+fig, ax = plt.subplots(1, 2, figsize=(10, 5))
 
-fig = plt.figure(figsize=(10, 5))
-plt.imshow(data[:, 12, :])
+ax[0].imshow(metal[:, 0], cmap='gray')
+ax[1].imshow(data_tot[:, 0], cmap='gray')
 plt.show()
+
+# np.save(r'D:\OneDrive - University of Victoria\Research\LDA Data\21-05-12_CT_metal_subtract_forward\metal_in\Data\data_corr_sub.npy', data)
 
 # for i in range(10, 11):
 #     data = data_tot[:, i, :, 6]
